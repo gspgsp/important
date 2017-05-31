@@ -5,9 +5,9 @@ webpackJsonp([38],{
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(67),
+  __webpack_require__(72),
   /* template */
-  __webpack_require__(122),
+  __webpack_require__(140),
   /* scopeId */
   null,
   /* cssModules */
@@ -35,7 +35,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 122:
+/***/ 140:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -150,7 +150,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 67:
+/***/ 72:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

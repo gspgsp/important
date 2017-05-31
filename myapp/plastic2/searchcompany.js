@@ -1,6 +1,68 @@
 webpackJsonp([19],{
 
-/***/ 130:
+/***/ 104:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			fname: "",
+			creditli: []
+		};
+	},
+	methods: {
+		search: function search() {
+			var _this = this;
+			$.ajax({
+				type: "post",
+				url: version + '/credit/creditCertificate',
+				data: {
+					token: window.localStorage.getItem("token"),
+					type: 2,
+					page: 1,
+					fname: _this.fname
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				if (res.err == 0) {
+					_this.creditli = res.data;
+				} else {
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
+					});
+				}
+			}, function () {});
+		}
+	},
+	mounted: function mounted() {
+		this.creditli = [];
+		this.fname = "";
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+});
+
+/***/ }),
+
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -119,9 +181,9 @@ if (false) {
 
 var Component = __webpack_require__(46)(
   /* script */
-  __webpack_require__(99),
+  __webpack_require__(104),
   /* template */
-  __webpack_require__(130),
+  __webpack_require__(148),
   /* scopeId */
   null,
   /* cssModules */
@@ -204,68 +266,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			fname: "",
-			creditli: []
-		};
-	},
-	methods: {
-		search: function search() {
-			var _this = this;
-			$.ajax({
-				type: "post",
-				url: version + '/credit/creditCertificate',
-				data: {
-					token: window.localStorage.getItem("token"),
-					type: 2,
-					page: 1,
-					fname: _this.fname
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				if (res.err == 0) {
-					_this.creditli = res.data;
-				} else {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
-						}]
-					});
-				}
-			}, function () {});
-		}
-	},
-	mounted: function mounted() {
-		this.creditli = [];
-		this.fname = "";
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-	}
-});
 
 /***/ })
 

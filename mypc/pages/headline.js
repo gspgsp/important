@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,43 +141,129 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 105:
+/***/ 102:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     attrs: {
       "id": "app"
     }
-  }, [_vm._v("\n\t我是发现\n")])
-},staticRenderFns: []}
+  }, [_c('div', {
+    staticClass: "headline-head"
+  }, [_c('h3', [_vm._v("塑料头条")]), _vm._v(" "), _c('div', {
+    staticClass: "search"
+  }, [_c('div', {
+    staticClass: "inner"
+  }, [_c('form', {
+    attrs: {
+      "name": "",
+      "action": "",
+      "method": "post"
+    }
+  }, [_c('input', {
+    staticClass: "import",
+    attrs: {
+      "type": "text",
+      "placeholder": "搜你想搜的"
+    }
+  }), _vm._v(" "), _c('input', {
+    staticClass: "submit",
+    attrs: {
+      "type": "submit",
+      "value": "搜索"
+    }
+  })])])])]), _vm._v(" "), _c('div', {
+    staticClass: "headline-tab"
+  }, [_c('ul', [_c('li', [_vm._v("推荐")]), _vm._v(" "), _c('li', [_vm._v("塑料上游")]), _vm._v(" "), _c('li', [_vm._v("早盘预报")]), _vm._v(" "), _c('li', [_vm._v("企业动态")]), _vm._v(" "), _c('li', [_vm._v("中晨塑说")]), _vm._v(" "), _c('li', [_c('select', [_c('option', [_vm._v("美金市场")]), _vm._v(" "), _c('option', [_vm._v("期货资讯")]), _vm._v(" "), _c('option', [_vm._v("装置动态")]), _vm._v(" "), _c('option', [_vm._v("期刊报告")]), _vm._v(" "), _c('option', [_vm._v("独家解读")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "headline-list"
+  }, [_c('ul', [_c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])]), _vm._v(" "), _c('li', [_c('h4', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("【PP】11月3聚丙烯PP早提示")])]), _vm._v(" "), _c('p', [_c('a', {
+    attrs: {
+      "href": "javascript:;"
+    }
+  }, [_vm._v("昨日PP市场价格高位盘整，个别小幅涨跌50元/吨，拉丝主流价格在8560-8800元/吨。石化出厂价格上涨，加...")])]), _vm._v(" "), _c('span', [_vm._v("09:22")])])])])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3681e0e6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-2f578ced", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 110:
+/***/ 108:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(98);
+var content = __webpack_require__(96);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("1c5c6b1a", content, false);
+var update = __webpack_require__(3)("4d58a3d0", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-3681e0e6\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./find.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-3681e0e6\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./find.vue");
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2f578ced\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./headline.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2f578ced\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./headline.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -527,45 +613,6 @@ module.exports = function listToStyles (parentId, list) {
 
 /***/ }),
 
-/***/ 49:
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(110)
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(55),
-  /* template */
-  __webpack_require__(105),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\mypczone\\src\\views\\find\\find.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] find.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3681e0e6", Component.options)
-  } else {
-    hotAPI.reload("data-v-3681e0e6", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 5:
 /***/ (function(module, exports) {
 
@@ -594,7 +641,46 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 55:
+/***/ 50:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(108)
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(56),
+  /* template */
+  __webpack_require__(102),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\mypczone\\src\\views\\headline\\headline.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] headline.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2f578ced", Component.options)
+  } else {
+    hotAPI.reload("data-v-2f578ced", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 56:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -602,32 +688,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'app'
+    data: function data() {
+        return {
+            cate: "",
+            items: [],
+            mySubscribe: [],
+            subscribeshow: false,
+            subchecked: [],
+            keywords: "",
+            loadingShow: "",
+            loadingHide: "",
+            plasticlevel: false,
+            plasticdefine: false,
+            plasticrate: false
+        };
+    },
+    methods: {},
+    mounted: function mounted() {
+        alert(1);
+        $.ajax({
+            type: "post",
+            url: '/qapi_3/toutiao/getSelectCate',
+            data: {
+                token: window.localStorage.getItem("token"),
+                type: 2
+            },
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            dataType: 'JSON'
+        }).done(function (res) {
+            if (res.err == 0) {
+                console.log(res);
+            } else {}
+        }).fail(function () {}).always(function () {});
+    }
+
 });
 
 /***/ }),
 
-/***/ 60:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__find_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__headline_vue__);
 
 
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   el: '#app',
-  template: '<Index/>',
-  components: { Index: __WEBPACK_IMPORTED_MODULE_1__find_vue___default.a }
+  template: '<Headline/>',
+  components: { Headline: __WEBPACK_IMPORTED_MODULE_1__headline_vue___default.a }
+
 });
 
 /***/ }),
 
-/***/ 98:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)(undefined);

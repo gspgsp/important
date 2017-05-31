@@ -85,7 +85,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"release","1":"index","2":"headlinelist","3":"headlinedetail","4":"headline","5":"mypay","6":"personinfo","7":"myzone","8":"myinfo","9":"supplybuydetail","10":"releasesupply","11":"releasebuy","12":"mysupply","13":"mymsg","14":"myinvite","15":"myfans","16":"mybuy","17":"credit2","18":"supplybuy","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"mypoints","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"supplybuy","1":"release","2":"index","3":"headlinelist","4":"headlinedetail","5":"headline","6":"mypay","7":"personinfo","8":"myzone","9":"myinfo","10":"supplybuydetail","11":"releasesupply","12":"releasebuy","13":"mysupply","14":"mymsg","15":"myinvite","16":"myfans","17":"mybuy","18":"credit2","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"mypoints","36":"mymsg2","37":"login","38":"help","39":"error","40":"creditintro","41":"credit"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -138,7 +138,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "http://statics.online.com/myapp/plastic2/";
+/******/ 	__webpack_require__.p = "http://pic.myplas.com/myapp/plastic2/";
 /******/
 /******/ 	// on error function for async loading
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router___default.a);
 var Index = function Index(r) {
-	return __webpack_require__.e/* require.ensure */(1).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(11));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -212,12 +212,12 @@ var Resetpwd = function Resetpwd(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headline = function Headline(r) {
-	return __webpack_require__.e/* require.ensure */(4).then((function () {
+	return __webpack_require__.e/* require.ensure */(5).then((function () {
 		return r(__webpack_require__(7));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Release = function Release(r) {
-	return __webpack_require__.e/* require.ensure */(0).then((function () {
+	return __webpack_require__.e/* require.ensure */(1).then((function () {
 		return r(__webpack_require__(35));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -227,12 +227,12 @@ var Releasedetail = function Releasedetail(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myzone = function Myzone(r) {
-	return __webpack_require__.e/* require.ensure */(7).then((function () {
+	return __webpack_require__.e/* require.ensure */(8).then((function () {
 		return r(__webpack_require__(22));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myinfo = function Myinfo(r) {
-	return __webpack_require__.e/* require.ensure */(8).then((function () {
+	return __webpack_require__.e/* require.ensure */(9).then((function () {
 		return r(__webpack_require__(15));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -267,12 +267,12 @@ var Quickrelease = function Quickrelease(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasesupply = function Releasesupply(r) {
-	return __webpack_require__.e/* require.ensure */(10).then((function () {
+	return __webpack_require__.e/* require.ensure */(11).then((function () {
 		return r(__webpack_require__(40));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Releasebuy = function Releasebuy(r) {
-	return __webpack_require__.e/* require.ensure */(11).then((function () {
+	return __webpack_require__.e/* require.ensure */(12).then((function () {
 		return r(__webpack_require__(38));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -287,32 +287,32 @@ var Releasebssupply = function Releasebssupply(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myinvite = function Myinvite(r) {
-	return __webpack_require__.e/* require.ensure */(14).then((function () {
+	return __webpack_require__.e/* require.ensure */(15).then((function () {
 		return r(__webpack_require__(16));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myfans = function Myfans(r) {
-	return __webpack_require__.e/* require.ensure */(15).then((function () {
+	return __webpack_require__.e/* require.ensure */(16).then((function () {
 		return r(__webpack_require__(14));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mypay = function Mypay(r) {
-	return __webpack_require__.e/* require.ensure */(5).then((function () {
+	return __webpack_require__.e/* require.ensure */(6).then((function () {
 		return r(__webpack_require__(19));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mysupply = function Mysupply(r) {
-	return __webpack_require__.e/* require.ensure */(12).then((function () {
+	return __webpack_require__.e/* require.ensure */(13).then((function () {
 		return r(__webpack_require__(21));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mybuy = function Mybuy(r) {
-	return __webpack_require__.e/* require.ensure */(16).then((function () {
+	return __webpack_require__.e/* require.ensure */(17).then((function () {
 		return r(__webpack_require__(13));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Mymsg = function Mymsg(r) {
-	return __webpack_require__.e/* require.ensure */(13).then((function () {
+	return __webpack_require__.e/* require.ensure */(14).then((function () {
 		return r(__webpack_require__(17));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -322,27 +322,27 @@ var Mymsg2 = function Mymsg2(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinelist = function Headlinelist(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(9));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Personinfo = function Personinfo(r) {
-	return __webpack_require__.e/* require.ensure */(6).then((function () {
+	return __webpack_require__.e/* require.ensure */(7).then((function () {
 		return r(__webpack_require__(23));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Supplybuy = function Supplybuy(r) {
-	return __webpack_require__.e/* require.ensure */(18).then((function () {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
 		return r(__webpack_require__(43));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinedetail = function Headlinedetail(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(4).then((function () {
 		return r(__webpack_require__(8));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Supplybuydetail = function Supplybuydetail(r) {
-	return __webpack_require__.e/* require.ensure */(9).then((function () {
+	return __webpack_require__.e/* require.ensure */(10).then((function () {
 		return r(__webpack_require__(44));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -372,7 +372,7 @@ var Creditintro = function Creditintro(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Credit2 = function Credit2(r) {
-	return __webpack_require__.e/* require.ensure */(17).then((function () {
+	return __webpack_require__.e/* require.ensure */(18).then((function () {
 		return r(__webpack_require__(4));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
