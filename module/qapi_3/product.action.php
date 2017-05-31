@@ -646,9 +646,9 @@ class productAction extends baseAction
 
     /**
      * 塑料圈app之兑换记录
-     * @api {post} /qapi_3/product/exchangeList   塑料圈app之兑换记录
+     * @api {post} /qapi_3/product/getPurchaseRecord   塑料圈app之兑换记录
      * @apiVersion 3.1.0
-     * @apiName  exchangeList
+     * @apiName  getPurchaseRecord
      * @apiGroup product
      * @apiUse UAHeader
      *
@@ -872,7 +872,7 @@ class productAction extends baseAction
      *       "msg": "没有相关数据"
      *      }
      */
-    public function exchangeList ()
+    public function getPurchaseRecord ()
     {
         $this->is_ajax = true;
 
