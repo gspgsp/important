@@ -314,7 +314,7 @@ class interfaceAction extends adminBaseAction {
 			$reason = $_POST['reason'];
 			//只有自己的可客户才能放入到公害
 			$customer_manager = $this->db->model('customer')->select('customer_manager')->where("c_id = $id")->getOne();
-			if($customer_manager != $_SESSION['adminid']  &&   $_SESSION['adminid'] != 1){
+			if($customer_manager != $_SESSION['adminid']){
 				$this->error('您只能操作自己的客户到公海');
 			}
 			if(empty($reason)) $this->error('释放公海原因不能为空的哦');
