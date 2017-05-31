@@ -174,7 +174,7 @@ export default{
 				if(_this.type==1){
 					_this.name="求购";
 				}else{
-					_this.name="供给";
+					_this.name="供给"; 
 				}
 				_this.input_time=res.data.input_time;
 				_this.contents=res.data.contents || res.data.content;
