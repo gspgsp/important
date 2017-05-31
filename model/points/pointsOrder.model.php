@@ -134,42 +134,55 @@ class pointsOrderModel extends Model
 
         }
         $data0['count'] = $data1['count']+$data2['count'];
-            foreach($data2['data'] as $key=> &$value)
-            {
-                $value['type'] = 2;
+        if(!empty($data2['data'])) {
+            foreach ($data2['data'] as $key => &$value) {
+                $value['type']     = 2;
                 $value['contents'] = '';
-                $value['image'] = FILE_URL.$goods2['image'];
-                $value['thumb'] = FILE_URL.$goods2['thumb'];
+                $value['image']    = FILE_URL.$goods2['image'];
+                $value['thumb']    = FILE_URL.$goods2['thumb'];
             }
-
-        foreach ($data1['data'] as $key=> &$value) {
-            $value['type'] = 1;
-            $value['name'] = '';
-            $value['image'] = FILE_URL.$goods1['image'];
-            $value['thumb'] = FILE_URL.$goods1['thumb'];
-            if (empty($value['content'])) {
-                if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['fname']) && empty($value['store_house'])) {
-                    $value['contents'] = '';
-                } else {
-                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
-                }
-            } elseif (!empty($value['content'])) {
-                if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['fname']) && empty($value['store_house'])) {
-                    $value['contents']   = $value['content'];
-                    $value['b_and_s']    = '';
-                    $value['deal_price'] = '';
-                } else {
-                    $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['fname'].'/'.$value['store_house'].'/'.$value['content'];
-                }
-            }
-            unset($value['unit_price']);
-            unset($value['model']);
-            unset($value['fname']);;
-            unset($value['store_house']);
-            unset($value['content']);
         }
-        $data0['data'] = arraySort(array_merge($data1['data'],$data2['data']),'create_time','desc');
-
+        if(!empty($data1['data'])) {
+            foreach ($data1['data'] as $key => &$value) {
+                $value['type']  = 1;
+                $value['name']  = '';
+                $value['image'] = FILE_URL.$goods1['image'];
+                $value['thumb'] = FILE_URL.$goods1['thumb'];
+                if (empty($value['content'])) {
+                    if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['fname']) && empty($value['store_house'])) {
+                        $value['contents'] = '';
+                    } else {
+                        $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
+                    }
+                } elseif (!empty($value['content'])) {
+                    if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['fname']) && empty($value['store_house'])) {
+                        $value['contents']   = $value['content'];
+                        $value['b_and_s']    = '';
+                        $value['deal_price'] = '';
+                    } else {
+                        $value['contents'] = '价格'.$value['unit_price'].'元左右/'.$value['model'].'/'.$value['fname'].'/'.$value['store_house'].'/'.$value['content'];
+                    }
+                }
+                unset($value['unit_price']);
+                unset($value['model']);
+                unset($value['fname']);;
+                unset($value['store_house']);
+                unset($value['content']);
+            }
+        }
+        if(empty($data1['data'])&&empty($data2['data']))
+        {
+            $data0['data'] =  array();
+        }elseif(!empty($data1['data'])&&empty($data2['data']))
+        {
+            $data0['data'] =  $data1['data'];
+        }elseif(empty($data1['data'])&&!empty($data2['data']))
+        {
+            $data0['data'] =  $data2['data'];
+        }else
+        {
+            $data0['data'] = arraySort (array_merge ($data1['data'], $data2['data']), 'create_time', 'desc');
+        }
         return $data0;
     }
     //$data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
