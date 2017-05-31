@@ -54,8 +54,19 @@ class dailyAction extends adminBaseAction {
 				$list['data'][$k]['admin_name']=$this->db->model('admin')->select('name')->where("admin_id = {$val['customer_manager']}")->getOne();
 				$team=M('rbac:adm')->getPartByID($val['customer_manager']);
 				$list['data'][$k]['team_name']=$team['name'];
-				$list['data'][$k]['zb1']='24.75';
-				$list['data'][$k]['zb2']='50';
+				$dayc=floor($val['call_time']/86400);
+                $hourc=floor($val['call_time']/60/60%24);
+                $minc=floor($val['call_time']/60%60);
+                $sc=floor($val['call_time']%60);
+                $str='';
+                $str.=empty($dayc)?'':$dayc.'天';
+                $str.=empty($hourc)?'':$hourc.'时';
+                $str.=empty($minc)?'':$minc.'分钟';
+                $str.=empty($sc)?'':$sc.'秒';
+                if(empty($str)){
+                    $str="-";
+                }
+               $list['data'][$k]['call_time']=$str;     
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);

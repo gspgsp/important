@@ -27,10 +27,10 @@
 		 	<div name="team_id" field="team_id" width="20" headerAlign="center" allowSort="false" align="center">团队id</div>   
 			<div class="myrow" field="admin_name" width="30" headerAlign="center" allowSort="false" align="center">交易员</div>
 		 	<div field="team_name" width="50" headerAlign="center" allowSort="false" align="center">团队</div>   
-			<div field="total_num" width="35" headerAlign="center" allowSort="true" align="center" >吨数</div>
-			<div field="zb1" width="55" headerAlign="center" align="center" >吨数指标</div>
-			<div field="call_num" width="35" headerAlign="center" allowSort="true" align="center" >电话</div>
-			<div field="zb2" width="55" headerAlign="center" align="center" >电话指标</div>
+            <div field="sale" width="35" headerAlign="center" allowSort="true" align="center" >销售吨数</div>
+			<div field="buy" width="35" headerAlign="center" allowSort="true" align="center" >采购吨数</div>
+            <div field="call_num" width="35" headerAlign="center" allowSort="true" align="center" >去重电话</div>
+            <div field="call_time" width="35" headerAlign="center" allowSort="true" align="center" >通话时长</div>
 			<div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
 		</div>
 	</div>
@@ -76,7 +76,7 @@ grid.on("drawcell", function (e) {
     		e.cellStyle = "background:#00CED1";
     	}
     }
-    if (column.field == "total_num") {
+    if (column.field == "sale") {
     	//console.log(record);
         if (e.value<24.75) {
             //e.rowStyle = "background:#FF00BA";
@@ -87,7 +87,16 @@ grid.on("drawcell", function (e) {
     }
     if (column.field == "call_num") {
     	//console.log(record);
-        if (e.value<50) {
+        if (e.value<40) {
+            //e.rowStyle = "background:#FF00BA";
+            e.cellStyle = "background:#FF00BA"
+        } else {
+            e.rowStyle = "";
+        }
+    }
+    if (column.field == "call_time") {
+        //console.log(record);
+        if (e.value<2400) {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {
