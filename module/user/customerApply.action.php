@@ -35,7 +35,7 @@ class customerApplyAction extends adminBaseAction
 		//搜索条件
 		$where ="  1 ";
 		//交易日期
-		$sTime = sget("sTime",'s','`input_time`'); //搜索时间类型
+		$sTime = sget("sTime",'s','a.`input_time`'); //搜索时间类型
 		$where.= getTimeFilter($sTime); //时间筛选
 
 		//关键词搜索
@@ -61,7 +61,7 @@ class customerApplyAction extends adminBaseAction
 					->from('customer_share_apply a')
 					->leftjoin('customer c','c.c_id = a.c_id')
 					->page($page+1,$size)
-					->order("input_time desc,status asc")
+					->order("a.input_time desc,status asc")
 					->getPage();
 					// showtrace();
 		foreach($list['data'] as $k=>$v){
