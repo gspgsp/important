@@ -138,11 +138,15 @@ class pointsOrderModel extends Model
             {
                 $value['type'] = 2;
                 $value['contents'] = '';
+                $value['image'] = FILE_URL.$goods2['image'];
+                $value['thumb'] = FILE_URL.$goods2['thumb'];
             }
 
         foreach ($data1['data'] as $key=> &$value) {
             $value['type'] = 1;
             $value['name'] = '';
+            $value['image'] = FILE_URL.$goods1['image'];
+            $value['thumb'] = FILE_URL.$goods1['thumb'];
             if (empty($value['content'])) {
                 if ($value['unit_price'] == 0.00 && empty($value['model']) && empty($value['fname']) && empty($value['store_house'])) {
                     $value['contents'] = '';
