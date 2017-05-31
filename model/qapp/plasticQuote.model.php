@@ -35,7 +35,7 @@ class plasticQuoteModel extends model
             } else {
                 $value['input_time'] = $timeSub . '秒前';
             }
-            $data = $this->select ('con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
+            $data = $this->select ('con.user_id,con.name,con.c_id,con.is_pass,con.mobile,con.sex,con.sex,info.thumb,info.thumbqq,info.thumbcard,cus.c_name,cus.need_product,cus.address')
                 ->from ('customer_contact con')
                 ->leftjoin ('contact_info info', 'con.user_id=info.user_id')
                 ->leftjoin ('customer cus', 'con.c_id=cus.c_id')
@@ -44,12 +44,31 @@ class plasticQuoteModel extends model
             if (!A ("api:qapi1")->checkPhoneShow ($data['user_id'])) {
                 $data['mobile'] = substr ($data['mobile'], 0, 7) . "****";
             }
-            if (empty($data['thumbqq'])) {
+            /*if (empty($data['thumbqq'])) {
                 if (strstr ($data['thumb'], 'http')) {
                     $data['thumb'] = $data['thumb'];
                 } else {
                     if (empty($data['thumb'])) {
                         $data['thumb'] = "http://statics.myplas.com/upload/16/09/02/logos.jpg";
+                    } else {
+                        $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
+                    }
+                }
+            } else {
+                $data['thumb'] = $data['thumbqq'];
+            }*/
+            if (empty($data['thumbqq'])) {
+                if (strstr ($data['thumb'], 'http')) {
+                    $data['thumb'] = $data['thumb'];
+                } else {
+                    if (empty($data['thumb'])||$data['thumb']=="16/09/02/logos.jpg")
+                    {
+                        if(empty($data['sex']))
+                        {
+                            $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        }else{
+                            $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        }
                     } else {
                         $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
                     }
