@@ -88,7 +88,7 @@ class storeRiskAction extends adminBaseAction
 				FROM p2p_sale_log AS `s`
 				LEFT JOIN `p2p_order` `o` ON `o`.o_id = `s`.o_id 
 				WHERE `s`.p_id = `il`.p_id AND `o`.order_status = 2 AND `o`.transport_status = 2
-				ORDER BY `s`.`o_id` DESC LIMIT 1) AS sale
+				ORDER BY `s`.`input_time` DESC LIMIT 1) AS sale
 				FROM p2p_in_log AS `il`
 				LEFT JOIN `p2p_order` `o` ON `o`.o_id=`il`.o_id
 				LEFT JOIN `p2p_customer` `c` ON c.c_id=o.c_id 
@@ -103,7 +103,7 @@ class storeRiskAction extends adminBaseAction
 				FROM p2p_sale_log AS `s`
 				LEFT JOIN `p2p_order` `o` ON `o`.o_id = `s`.o_id 
 				WHERE `s`.p_id = `il`.p_id AND `o`.order_status = 2 AND `o`.transport_status = 2
-				ORDER BY `s`.`o_id` DESC LIMIT 1) AS sale
+				ORDER BY `s`.`input_time` DESC LIMIT 1) AS sale
 				FROM p2p_in_log AS `il`
 				LEFT JOIN `p2p_order` `o` ON `o`.o_id=`il`.o_id
 				LEFT JOIN `p2p_customer` `c` ON c.c_id=o.c_id 
