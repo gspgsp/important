@@ -162,7 +162,6 @@ class pointsOrderModel extends Model
             unset($value['model']);
             unset($value['fname']);;
             unset($value['store_house']);
-            unset($value['contents']);
             unset($value['content']);
         }
         $data0['data'] = arraySort(array_merge($data1['data'],$data2['data']),'create_time','desc');
