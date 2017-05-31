@@ -831,18 +831,245 @@ class productAction extends baseAction
         $this->_errCode (6);
     }
 
-    /*
-     * 兑换记录
-    */
+    /**
+     * 塑料圈app之兑换记录
+     * @api {post} /qapi_3/product/exchangeList   塑料圈app之兑换记录
+     * @apiVersion 3.1.0
+     * @apiName  exchangeList
+     * @apiGroup product
+     * @apiUse UAHeader
+     *
+     * @apiParam   {int} page   页码
+     * @apiParam   {int} size   每页大小
+     *
+     * @apiSuccess {int}  err   错误码
+     * @apiSuccess {String}   msg   描述
+     * @apiSuccess {array}   data   描述
+     *
+     * @apiSuccessExample {json} Success-Response:
+             *     {
+            "err": 0,
+            "data": [
+            {
+            "id": "169",
+            "status": "订单完成",
+            "create_time": "2017-05-25 17:27",
+            "order_id": "2017052510255101",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "2017-06-05",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495704479",
+            "num": "1",
+            "pur_id": "41438",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "165",
+            "status": "订单完成",
+            "create_time": "2017-05-25 09:25",
+            "order_id": "2017052548575155",
+            "goods_id": "11",
+            "receiver": "",
+            "phone": "",
+            "address": "2017-05-25,2017-05-26,2017-05-29,2017-05-30,2017-05-31,2017-06-01,2017-06-02,2017-06-05,2017-06-06,2017-06-07,2017-06-08,2017-06-09,2017-06-16,2017-06-15,2017-06-14,2017-06-13,2017-06-12,2017-06-19,2017-06-20,2017-06-21,2017-06-22,2017-06-23",
+            "uid": "40418",
+            "update_time": "1495675604",
+            "remark": "供求消息置顶卡",
+            "usepoints": "2200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495675504",
+            "num": "22",
+            "pur_id": "85958",
+            "content": "7000f",
+            "model": "",
+            "fname": "",
+            "store_house": "",
+            "contents": "7000f",
+            "b_and_s": "",
+            "deal_price": "",
+            "goods_name": "供求消息置顶卡"
+            },
+            {
+            "id": "163",
+            "status": "订单完成",
+            "create_time": "2017-05-24 16:32",
+            "order_id": "2017052457514899",
+            "goods_id": "11",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "1495614788",
+            "remark": "供求消息置顶卡",
+            "usepoints": "3100",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495614745",
+            "num": "31",
+            "pur_id": "85959",
+            "content": "pe",
+            "model": "",
+            "fname": "",
+            "store_house": "",
+            "contents": "pe",
+            "b_and_s": "",
+            "deal_price": "",
+            "goods_name": "供求消息置顶卡"
+            },
+            {
+            "id": "125",
+            "status": "订单完成",
+            "create_time": "2017-05-23 11:40",
+            "order_id": "2017052399985453",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495510844",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "123",
+            "status": "订单完成",
+            "create_time": "2017-05-23 10:37",
+            "order_id": "2017052310155501",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495507020",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "80",
+            "status": "订单完成",
+            "create_time": "2017-05-18 16:07",
+            "order_id": "2017051848979853",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495094832",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "79",
+            "status": "订单完成",
+            "create_time": "2017-05-18 16:05",
+            "order_id": "2017051850515510",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495094737",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "78",
+            "status": "订单完成",
+            "create_time": "2017-05-18 16:05",
+            "order_id": "2017051898545654",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495094731",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            },
+            {
+            "id": "77",
+            "status": "订单完成",
+            "create_time": "2017-05-18 15:59",
+            "order_id": "2017051853975750",
+            "goods_id": "12",
+            "receiver": "",
+            "phone": "",
+            "address": "",
+            "uid": "40418",
+            "update_time": "0",
+            "remark": "通讯录置顶卡",
+            "usepoints": "200",
+            "company": "",
+            "ship_sn": "",
+            "outpu_time": "1495094373",
+            "num": "2",
+            "pur_id": "40418",
+            "name": "谢磊",
+            "goods_name": "通讯录置顶卡"
+            }
+            ]
+            }
+     * @apiErrorExample {json} Error-Response:
+     *      {
+     *       "err": 2,
+     *       "msg": "没有相关数据"
+     *      }
+     */
     public function exchangeList ()
     {
         $this->is_ajax = true;
-        if ($_POST) {
+
             $user_id    = $this->checkAccount ();
             $page       = sget ('page', 'i', 1);
             $size       = sget ('size', 'i', 10);
             $orderModel = M ('points:pointsOrder');
-            $data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
+
+            $data       = $orderModel->getExchangeList($user_id,$page,$size);
+            //$data       = $orderModel->where ("uid = $user_id")->order ("id desc")->page ($page, $size)->getPage ();
             if (empty($data['data']) && $page == 1) {
                 $this->json_output (array(
                     'err' => 2,
@@ -851,16 +1078,15 @@ class productAction extends baseAction
             }
             $this->_checkLastPage ($data['count'], $size, $page);
             foreach ($data['data'] as $k => &$v) {
-                $v['name']        = M ("points:pointsGoods")->where ("id =".$v['goods_id'])->select ('name')->getOne ();
+                $v['goods_name']        = M ("points:pointsGoods")->where ("id =".$v['goods_id'])->select ('name')->getOne ();
                 $v['create_time'] = date ("Y-m-d H:i", $v['create_time']);
                 $v['status']      = $this->orderStatus[$v['status']];
             }
             $this->json_output (array(
                 'err'  => 0,
-                'info' => $data['data'],
+                'data' => array_values($data['data']),
             ));
-        }
-        $this->_errCode (6);
+
     }
 
 }
