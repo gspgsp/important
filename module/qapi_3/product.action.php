@@ -188,6 +188,19 @@ class productAction extends baseAction
 
             $start_date=date('Y-m-d',time());
             $end_date=date('Y-m-d',strtotime('+1 month'));
+
+            $start_time = getdate(time());
+            if($start_time['mday']>30&&in_array($start_time['mon'],array(3,5,7,8,10)))
+            {
+                $month = $start_time['mon'] + 1;
+                $str = $start_time['year']."-".$month."-30";
+                $end_date=date('Y-m-d',strtotime($str));
+            }
+            if($start_time['mday']>28&&in_array($start_time['mon'],array(1)))
+            {
+                $str = $start_time['year']."-2-28";
+                $end_date=date('Y-m-d',strtotime($str));
+            }
             $this->json_output (array(
                 'err'  => 0,
                 'took_date' => $took_date,
