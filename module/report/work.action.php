@@ -3,7 +3,7 @@
  * 每日任务消息提醒
  *
  */
-class alertAction extends adminBaseAction {
+class workAction extends adminBaseAction {
 	// private $title='后台用户信息列表'; //
 	public function __init(){
 		$this->debug = false;
