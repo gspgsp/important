@@ -1,6 +1,6 @@
 {layout file="public:mini_layout"}
 <div style="padding:5px;">
-<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
 		<div title="订单详细信息">
 			<div style="height:100%">
 				<table width="100%">
@@ -11,7 +11,7 @@
 							{$info.order_name}
 						</td>
 						<td>订单编号：</td>
-						<td>{$info.order_sn}</td>			
+						<td>{$info.order_sn}</td>
 					</tr>
 					<tr>
 						<td>订单来源：</td>
@@ -28,13 +28,13 @@
 					<tr>
 						<td><font style="color:red;">审备注[销]：</font></td>
 						<td><font style="color:blue;">{$info.order_remark}</font></td>
-						<td><font style="color:red;">审备注[物]：</font></td>  
+						<td><font style="color:red;">审备注[物]：</font></td>
 						<td><font style="color:blue;">{$info.transport_remark}</font></td>
 					</tr>
 					<tr>
 						<td><font style="color:red;">销售审核：</font></td>
 						<td><font style="color:blue;">{$order_status.$info.order_status}</font></td>
-						<td><font style="color:red;">物流审核：</font></td>  
+						<td><font style="color:red;">物流审核：</font></td>
 						<td><font style="color:blue;">{$transport_status.$info.transport_status}</font></td>
 					</tr>
 					<tr>
@@ -42,7 +42,6 @@
 						<td>{$info.sign_place}</td>
 						<td>签订日期：</td>
 						<td>{$info.sign_time}</td>
-						
 					</tr>
 
 					<tr>
@@ -52,14 +51,14 @@
 						<td>{$invoice_status.$info.invoice_status}</td>
 					</tr>
 					<tr>
-						<td>运费：</td>  
+						<td>运费：</td>
 						<td>{$info.freight_price}</td>
 						<td>业务模式 : </td>
 						<td>{$business_model.$info.business_model}</td>
 					</tr>
 					{if $info.transport_type eq 2}
 					<tr>
-						<td>提货日期：</td>  
+						<td>提货日期：</td>
 						<td>{$info.pickup_time}</td>
 						<td>提货地址：</td>
 						<td>{$info.pickup_location}</td>
@@ -70,11 +69,11 @@
 						<td>{$info.delivery_location}</td>
 						<td>送货日期 : </td>
 						<td>{$info.delivery_time}</td>
-						
+
 					</tr>
 					{/if}
 					<tr>
-						<td>付款日期：</td>  
+						<td>付款日期：</td>
 						<td>{$info.payment_time}</td>
 						<td>财务记录 : </td>
 						<td>{$financial_records.$info.financial_records}</td>
@@ -84,21 +83,21 @@
 						<td>出库状态 : </td>
 						<td>{$out_storage_status.$info.out_storage_status}</td>
 					{else}
-					
+
 						<td>入库状态 : </td>
-						<td>{$in_storage_status.$info.in_storage_status}</td>	
+						<td>{$in_storage_status.$info.in_storage_status}</td>
 					{/if}
 						<td>结算方式 : </td>
 						<td>{$info.payment_way}</td>
 					</tr>
 					<tr>
-						<td>创建者：</td>  
+						<td>创建者：</td>
 						<td>{$info.creater}</td>
 						<td>备注 : </td>
 						<td>{$info.remark}</td>
 					</tr>
 					<tr>
-						<td>协助者：</td>  
+						<td>协助者：</td>
 						<td>{$info.partner}</td>
 						<td>&nbsp;</td>
 						<td>&nbsp;</td>
@@ -123,7 +122,7 @@
 				<div field="order_name" width="60" headerAlign="center" align="center">订单名</div>
 				<div field="f_name" width="60" headerAlign="center" align="center">厂家</div>
 				<div field="model" width="90" headerAlign="center" align="center">牌号</div>
-				<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>                
+				<div field="number" width="80" headerAlign="center" allowSort="true" align="center">数量</div>
 				<div field="unit_price" width="50" headerAlign="center" allowSort="true" align="center">单价</div>
 				<div field="sum" width="50" headerAlign="center" allowSort="true" align="center">小计</div>
 				<div field="invoice_status" width="50" headerAlign="center" allowSort="true" align="center">开票状态</div>
@@ -152,9 +151,9 @@
 	{/if}
 		<div class="mini-toolbar"  style="margin:3px 3px 0;">
 			<table style="width:100%;">
-				<tr>	
+				<tr>
 					<td style="float:right;">
-					    <form id="soform1">				
+					    <form id="soform1">
 						<select name="pay_method" id="pay_method">
 							<option value="" selected="selected">=交易方式=</option>
 							{html_options options=$pay_method}
@@ -163,7 +162,7 @@
 							<option value="" selected="selected">={if $type eq '1'}收款状态{else}付款状态{/if}=</option>
 								{html_options options=$collection_status}
 						</select>
-						
+
 						<select name="invoice_status" id="invoice_status">
 							<option value="" selected="selected">=开票状态=</option>
 							{html_options options=$invoice_status}
@@ -194,7 +193,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 
 
@@ -202,7 +201,7 @@
 	<div title="开票列表">
 		<div class="mini-toolbar"  style="margin:3px 3px 0;">
 			<table style="width:100%;">
-				<tr>	
+				<tr>
 					<td style="float:right;">
 					    <form id="soform2">
 						<select name="bile_type" id="bile_type">
@@ -242,7 +241,7 @@
 					<div field="bile_type" renderer="setBile" width="45" headerAlign="center" allowSort="true" align="center">票据类型</div>
 					<div field="invoice_status" renderer="setInvone" width="40" headerAlign="center" align="center" allowSort="true">开票状态</div>
 					<div field="payment_time" width="50" headerAlign="center" align="center" allowSort="true" dateFormat="yyyy-MM-dd HH:mm" >开票日期</div>
-					
+
 				</div>
 		 	 </div>
 		</div>
@@ -290,9 +289,9 @@
 		mini.open({
 			url: "/product/saleLog/info?id="+id,
 			showMaxButton:true,
-			title: "查看明细相关信息", 
+			title: "查看明细相关信息",
 			width: 700, height:450
-		});		
+		});
 	}
 	//设置收付款状态
 
@@ -301,7 +300,7 @@
 		var inv= e.record.invoice_status;
 		return $("#invoice_status").find("option[value="+inv+"]").text();
 	}
-	
+
 	function setInvone(e){
 		//单笔订单开票状态
 		var inv= e.record.invoice_status;
