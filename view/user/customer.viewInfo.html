@@ -297,7 +297,7 @@
 				</div>
 			</div>
 		</div>
-			<div title="报价推送">
+		<div title="报价推送">
 			<div class="mini-toolbar" style="margin:3px 3px 0;">
 				<table style="width:100%;">
 					<tr>
@@ -331,12 +331,32 @@
 				</div>
 			</div>
 		</div>
+		<div title="电话记录">
+			<div id="callOut" class="mini-datagrid" style="width:auto;height:540px;"  sizeList="[10,20,50,100]" pageSize="20"
+				 url="/report/callReport/callOut?action=callOut&c_id={$c_id}&startTime=2016-01-01&endTime=2018-09-09" idField="id"  allowCellEdit="true">
+				<div property="columns">
+					<!--<div type="checkcolumn"></div>-->
+					<div field="id" width="30" headerAlign="center" align="center">ID</div>
+					<div field="remark" width="70" headerAlign="center" align="center">被叫号码</div>
+					<div field="c_id" width="0" headerAlign="center" align="center">公司id</div>
+					<div field="c_name" width="70" headerAlign="center" align="center">公司名</div>
+					<div field="start" width="80" dateFormat="yyyy-MM-dd HH:mm" headerAlign="center" align="center" >开始时间</div>
+					<div field="time" width="40" headerAlign="center" align="center">呼叫时间</div>
+					<div field="ending" width="60" headerAlign="center" align="center">呼叫结果</div>
+					<div field="cname" width="70" headerAlign="center"  align="center">所属部门</div>
+					<div field="aname" width="60" headerAlign="center"  align="center">拨号坐席人员</div>
+					<div field="phone" width="60" headerAlign="center"  align="center">拨号坐席电话</div>
+					<div field="files" width="60" headerAlign="center"  align="center" renderer="onLoadSome">录音文件</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 	<script type="text/javascript">
 		mini.parse();
 		var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
 		var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log"), c_follow  =mini.get("c_follow"), sms_log  =mini.get("sms_log");
+		var callOut=mini.get("callOut");
 		function changeTab(e){
 			var tab=e.tab;
 			if(tab.title=='联系人列表'){
@@ -375,6 +395,13 @@
 					sms_log.load();
 				}
 			}
+			if(tab.title=='电话记录'){
+				var data=callOut.getData();
+				console.log(data);
+				if(data.length<1){
+					callOut.load();
+				}
+			}
 		}
 		//编辑联系人
 		function onLoadHandle(e) {
@@ -392,6 +419,28 @@
 				return '否';
 			}
 		}
+
+		function onLoadSome(e){
+			var record = e.record;
+			console.log(e);
+			console.log(record);
+			var s='';
+			s += '<a href="javascript:showInfo(record.files)">查看</a>';
+			return s;
+		}
+
+		function showInfo(record){
+			mini.open({
+				url: "/report/callReport/showInfo?info="+record,
+				showMaxButton:true,
+				title: "录音文件详细",
+				width: 600, height:230
+			});
+
+		}
+
+
+
 		//追加关联
 		function onJoin(e) {
 			var record = e.record,s='',o_id = record.o_id,s='',join_id = record.join_id,store_o_id=record.store_o_id,sales_type=record.sales_type;
