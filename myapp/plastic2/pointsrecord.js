@@ -17,7 +17,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }), _vm._v(" "), _c('div', {
       staticClass: "recordinfo"
-    }, [_c('p', [_vm._v(_vm._s(r.remark))]), _vm._v(" "), _c('p', {
+    }, [_c('p', [_vm._v(_vm._s(r.remark) + " " + _vm._s(r.num) + "张")]), _vm._v(" "), _c('p', {
       staticStyle: {
         "font-size": "12px",
         "color": "#999999"
@@ -45,7 +45,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("置顶供求信息：" + _vm._s(r.contents))]) : _vm._e()])]), _vm._v(" "), _c('div', {
       staticClass: "recordstatus"
-    }, [_c('span', [_vm._v("总计：" + _vm._s(r.usepoints) + "塑豆")])])])
+    }, [_c('span', [_vm._v("总计："), _c('b', {
+      staticStyle: {
+        "font-weight": "normal",
+        "font-size": "12px",
+        "color": "#ff5000"
+      }
+    }, [_vm._v(_vm._s(r.usepoints) + "塑豆")])])])])
   }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('header', {

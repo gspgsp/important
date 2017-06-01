@@ -66,7 +66,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v("\n\t\t\t帮助\n\t\t\t"), _c('a', {
     staticClass: "headerMenu3",
     attrs: {
-      "href": "tel:4006129965"
+      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "help"

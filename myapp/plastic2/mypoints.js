@@ -88,7 +88,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "overflow": "hidden"
     }
   }, [_c('div', {
-    staticClass: "calendarRange",
+    staticClass: "calendarRange2",
     staticStyle: {
       "width": "100%"
     }
@@ -161,7 +161,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "overflow": "hidden"
     }
   }, [_c('div', {
-    staticClass: "calendarRange",
+    staticClass: "calendarRange2",
     staticStyle: {
       "width": "100%"
     }
@@ -328,7 +328,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))])])]) : _vm._e(), _vm._v(" "), (_vm.releaseShow) ? _c('div', {
     staticClass: "calendarLayer"
   }, [_c('div', {
-    staticClass: "calendarWrap"
+    staticClass: "calendarWrap2"
   }, [_c('div', {
     staticClass: "calendarNav"
   }, [_vm._v("供求信息一天置顶卡"), _c('span', {
