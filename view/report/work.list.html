@@ -7,7 +7,7 @@
 			<a class="mini-button" iconCls="icon-search" plain="true" onclick="treeFilter()">查找</a>
 		</div>
 		<div class="mini-fit">
-			<div id="cCellList" class="mini-datagrid" style="width:100%;height:100%; display:none;" pageSize=10000
+			<div class="mini-datagrid" style="width:100%;height:100%;" pageSize=10000
 				borderStyle="border:0;"  url="/rbac/node/init?action=grid" showFooter=false
 				showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
 			>
@@ -43,12 +43,8 @@
 						<a class="mini-button" iconCls="icon-node" plain="true" onclick="switchChild()" id="iconSwitch">【查看】子级</a>
 						<span class="separator"></span>
 						<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a>
-						  <span class="separator"></span>
-						  <a class="mini-button" iconCls="icon-add" plain="true" onclick="addChk()">新增该节点审核流</a>
 					</td>
 					<td style="float:right;">
-						<a class="mini-button" iconCls="icon-reload" plain="true" onclick="updateAccess()">更新栏目权限</a>
-						<span class="separator"></span>
 						<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnterGridSearch"/>
 						<a class="mini-button" iconCls="icon-search" onclick="gridFilter()">查询</a>
 						<span id="searchMsg"></span>
