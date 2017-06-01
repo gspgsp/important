@@ -8,11 +8,14 @@ class wechatPay{
         'appid' => "wxc0eb2ef58d5df955",
         'mch_id' => "1473441002",
         'api_key' => "807066fb67e13b985b591f32d54219b9",
-        'notify_url' => 'http://test.myplas.com/api/wechatPay/notifySome'
+        'notify_url' => APP_URL.'/api/wechatPay/notifySome'
     );
 
     public function  __construct() {
 
+        if(!empty(C('wechatPay'))) {
+            $this->config = C ('wechatPay');
+        }
     }
 
     public function getPrePayOrder($body, $out_trade_no, $total_fee){
