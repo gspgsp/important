@@ -66,7 +66,7 @@ class dailyAction extends adminBaseAction {
                 if(empty($str)){
                     $str="-";
                 }
-               $list['data'][$k]['call_time']=$str;     
+               $list['data'][$k]['call_time_str']=$str;     
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
