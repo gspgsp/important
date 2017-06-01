@@ -9,7 +9,7 @@
 		<div class="recordwrap">
 			<img v-bind:src="r.thumb">
 			<div class="recordinfo">
-				<p>{{r.remark}}</p>
+				<p>{{r.remark}} {{r.num}}张</p>
 				<p style="font-size: 12px; color: #999999;">购买日期:{{r.create_time}}</p>
 				<p style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">使用日期:{{r.address}}</p>
 				<p v-if="r.type==2" style=" height:19px; font-size: 12px; color: #999999; overflow: hidden;">置顶人：{{r.name}}</p>
@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="recordstatus">
-			<span>总计：{{r.usepoints}}塑豆</span>
+			<span>总计：<b style="font-weight: normal; font-size: 12px; color: #ff5000;">{{r.usepoints}}塑豆</b></span>
 		</div>
 	</li>
 </ul>

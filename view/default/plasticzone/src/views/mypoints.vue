@@ -27,7 +27,7 @@
 			<div v-else class="calendarSelected">
 				<span>已选择：</span>
 				<div style="width: auto; margin: 0 25px 0 0; overflow: hidden;">
-					<div class="calendarRange" style="width: 100%;">
+					<div class="calendarRange2" style="width: 100%;">
 						<span v-for="d in daySelected">{{new Date(d).getMonth()+1}}月{{new Date(d).getDate()}}日</span>
 					</div>
 				</div>
@@ -59,7 +59,7 @@
 			<div v-else class="calendarSelected" style="border-top: 1px solid #D9D9D9;">
 				<span>已选择：</span>
 				<div style="width: auto; margin: 0 25px 0 0; overflow: hidden;">
-					<div class="calendarRange" style="width: 100%;">
+					<div class="calendarRange2" style="width: 100%;">
 						<span v-for="d in daySelected2">{{new Date(d).getMonth()+1}}月{{new Date(d).getDate()}}日</span>
 					</div>
 				</div>
@@ -176,7 +176,7 @@
 </div>
 
 <div class="calendarLayer" v-if="releaseShow">
-	<div class="calendarWrap">
+	<div class="calendarWrap2">
 		<div class="calendarNav">供求信息一天置顶卡<span v-on:click="releaseWrapHide">X</span></div>
 		<div class="calendarTitle">供求信息选择(限选一条)：</div>
 		<div class="proMsgLi">

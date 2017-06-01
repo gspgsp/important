@@ -4,7 +4,7 @@
 		<header id="bigCustomerHeader">
 			<a class="back" href="javascript:window.history.back();"></a>
 			帮助
-			<a class="headerMenu3" href="tel:4006129965"></a>
+			<a class="headerMenu3" href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"></a>
 		</header>
 	</div>
 	<div class="help">
