@@ -15,7 +15,7 @@ class onlineOrderModel extends model{
     }
 
 
-    public function addOrder($order_id,$type,$partner_order_sn,$amount,$goods_id,$goods_num,$user_id,$uuid,$partner_app_id,$platform,$status,$remark)
+    public function addOrder($order_id,$type,$partner_prepay_sn,$total_fee,$goods_id,$goods_num,$user_id,$uuid,$partner_app_id,$platform,$status,$remark)
     {
 
         $goods_info = M('points:pointsGoods')->getGoodsInfo($goods_id);
@@ -23,8 +23,8 @@ class onlineOrderModel extends model{
         $data= array(
             'order_id'=>$order_id,
             'type'=>$type,
-            'partner_order_sn'=>$partner_order_sn,
-            'amount'=>$amount,
+            'partner_prepay_sn'=>$partner_prepay_sn,
+            'total_fee'=>$total_fee,
             'goods_id'=>$goods_id,
             'goods_num'=>$goods_num,
             'goods_name'=>$goods_info['name'],
