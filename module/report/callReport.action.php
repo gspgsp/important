@@ -372,6 +372,7 @@ class callReportAction extends adminBaseAction
          $action = sget('action', 's');
          $name = sget('key_name', 's', '');
          $dpt = sget('key_dpt', 's', '');
+         $c_id = sget("c_id",'s');
          $startDate=strtotime(date("Y-m-d"))+21600;
          $startTime=sget("startTime",'s','');
          $this->assign('startTime',$startTime);
@@ -417,6 +418,11 @@ class callReportAction extends adminBaseAction
                      $where .= " and a.remark like '%$keyword%'";
                  }
              }
+
+             //加上c_id  的选项
+
+             if($c_id >0) $where.=" and cus.c_id =$c_id ";
+
              $adminid = $_SESSION['adminid'];
              $pid = $this->db->model('admin')->select('pid')->where("admin_id=$adminid")->getOne();
              $adminlist = $this->db->model('admin')->select('admin_id,name,pid')->getAll();
@@ -446,7 +452,7 @@ class callReportAction extends adminBaseAction
                      ->leftjoin('customer_contact con','con.mobile=a.remark')
                      ->leftjoin('customer as cus','cus.c_id=con.c_id')
                      ->where($where)
-                     ->select("distinct(a.id) as wss,a.*,c.aname,c.admin_id,c.cname,cus.c_name")
+                     ->select("distinct(a.id) as wss,a.*,c.aname,c.admin_id,c.cname,cus.c_id,cus.c_name")
                      ->page($page + 1, $size)
                      ->order("$sortField $sortOrder")
                      ->getPage();
