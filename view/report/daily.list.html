@@ -30,7 +30,7 @@
             <div field="sale" width="35" headerAlign="center" allowSort="true" align="center" >销售吨数</div>
             <div field="buy" width="35" headerAlign="center" allowSort="true" align="center" >采购吨数</div>
             <div field="call_num" width="35" headerAlign="center" allowSort="true" align="center" >去重电话</div>
-            <div field="call_time_str" width="35" headerAlign="center" allowSort="true" align="center" >通话时长</div>
+            <div field="call_time_str" width="35" headerAlign="center" align="center" >通话时长</div>
             <div field="call_time" name="call_time" width="35" headerAlign="center" allowSort="true" align="center" >通话时长</div>
             <div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
         </div>
@@ -107,7 +107,7 @@ grid.on("drawcell", function (e) {
     }
     if (column.field == "call_num") {
         //console.log(record);
-        if (e.row.sale==0 && e.row.buy == 0 && (e.value < 40 || e.row.call_time < 2400) ) {
+        if (e.row.sale==0 && e.row.buy == 0 && e.value < 40)  {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {
@@ -115,42 +115,14 @@ grid.on("drawcell", function (e) {
         }
     }
     if (column.field == "call_time_str") {
-        console.log(e.row);return;
-        if (e.row.sale==0 && e.row.buy == 0 && (e.row.call_num < 40 || e.row.call_time < 2400) ) {
+        console.log(e.row);
+        if (e.row.sale==0 && e.row.buy == 0 && e.row.call_time < 2400 ) {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {
             e.rowStyle = "";
         }
     }
-    // if (column.field == "buy") {
-    //     //console.log(record);
-    //     if (e.value==0 && e.row.sale == 0 ) {
-    //         //e.rowStyle = "background:#FF00BA";
-    //         e.cellStyle = "background:#FF00BA"
-    //     } else {
-    //         e.rowStyle = "";
-    //     }
-    // }
-    // if (column.field == "call_num") {
-    //     //console.log(record);
-    //     if (e.value<40) {
-    //         //e.rowStyle = "background:#FF00BA";
-    //         e.cellStyle = "background:#FF00BA"
-    //     } else {
-    //         e.rowStyle = "";
-    //     }
-    // }
-    // if (column.field == "call_time") {
-    //     //console.log(record);
-    //     if (e.value<2400) {
-    //         //e.rowStyle = "background:#FF00BA";
-    //         e.cellStyle = "background:#FF00BA"
-    //     } else {
-    //         e.rowStyle = "";
-    //     }
-    // }
-    
  });
 grid.load();
 //查询
