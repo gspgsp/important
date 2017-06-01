@@ -56,12 +56,16 @@ class contractAction extends adminBaseAction {
 			    $where.=" and second_part_company_id in ($id_l) ";
 			}elseif(!empty($keyword)&&$key_type=='first_name'){
 			    $where.=" and order_name like '%$keyword%' ";
-			}
-			elseif(!empty($keyword)&&$key_type=='create'){
+			}elseif(!empty($keyword)&&$key_type=='create'){
 			    $a_id=M('public:common')->model('admin')->where(" name like '%$keyword%'" )->select('admin_id')->getCol();
 			    $a_l=implode(',',$a_id);
 			    $where.=" and created_by in ($a_l) ";
+			}elseif(!empty($keyword)&&$key_type=='start_place'){
+			    $where.=" and start_place like '%$keyword%' ";
+			}elseif(!empty($keyword)&&$key_type=='end_place'){
+			    $where.=" and end_place like '%$keyword%' ";
 			}
+			
 			//时间搜索
 			$sTime = sget('sTime','s','');
 			if($sTime=='create_time'){
