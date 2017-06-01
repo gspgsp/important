@@ -335,6 +335,11 @@ class interfaceAction extends adminBaseAction {
 		if($_POST){
 			$id = $_POST['cid'];
 			$reason = $_POST['reason'];
+			//只有自己的可客户才能放入到公害
+			$customer_manager = $this->db->model('customer')->select('customer_manager')->where("c_id = $id")->getOne();
+			if($customer_manager != $_SESSION['adminid']  &&   $_SESSION['adminid'] != 1){
+				$this->error('您只能操作自己的客户');
+			}
 			if(empty($reason)) $this->error('作废原因不能为空的哦');
 			//新增客户流转记录日志----S
 			$remarks = "对客户操作：设置为作废客户,作废原因：".$reason;// 审核用户
