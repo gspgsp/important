@@ -110,14 +110,14 @@ class cronDaily{
                             'customer_manager'=>$row['admin_id'],
                             'seat_phone'=>$row['seat_phone'],
                             'out_match_num'=>$rs6[0]['sum'],//客户匹配数量
-                            'out_eff_match_num' => $rs6[0]['out_eff_match_num'],
+                            'out_match_time' => $rs6[0]['out_match_time'],
                     );
          }
          foreach ($res as $key => $value) {
 			foreach ($tmp as $k => $v) {
 				if($value['customer_manager'] == $v['customer_manager']){
 					$res[$key]['call_num']=$v['out_match_num'];
-					$res[$key]['call_time']=$v['out_eff_match_num'];
+					$res[$key]['call_time']=$v['out_match_time'];
 				}
 			}
 		}
