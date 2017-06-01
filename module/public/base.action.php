@@ -719,6 +719,12 @@ class baseAction extends null2Action
                     'msg' => '订单信息生成有误',
                 ));
                 break;
+            case 1002:
+                $this->json_output (array(
+                    'err' => 1002,
+                    'msg' => '订单生成失败',
+                ));
+                break;
             default:
                 $this->json_output (array(
                     'err' => 999,
