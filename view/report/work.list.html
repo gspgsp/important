@@ -7,10 +7,6 @@
 		<tr>
 			<td style="white-space:nowrap;">
 			<form id="soform">
-				{if $helper eq 1}
-				<a class="mini-button" iconCls="icon-add" plain="true" onclick="send()">发送短信</a>
-				<span class="separator"></span>
-				{/if}
 				添加时间
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
@@ -19,13 +15,16 @@
 					{html_options options=$type}
 				</select>
 				<select name="company_chanel">
-					<option value="" selected="selected">=来源渠道=</option>
+					<option value="" selected="selected">=区域=</option>
+					{html_options options=$company_chanel}
+				</select>
+				<select name="status">
+					<option value="" selected="selected">=客户状态=</option>
 					{html_options options=$company_chanel}
 				</select>
 				<select name="key_type">
 					<option value="c_name" selected="selected">客户名称</option>
 					<option value="need_product" >所需牌号</option>
-					<option value="customer_manager">交易员</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -37,14 +36,12 @@
 		</div>
 		<div class="mini-fit">
 			<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
-				borderStyle="border:0;"  url="/user/customer/init?action=grid"
-				showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
+				borderStyle="border:0;"  url="/user/customer/init?action=grid" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
 			>
 			<div property="columns">
 				<div type="checkcolumn"></div>
 				<div field="c_name" width="70" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
-				<div field="drive_end_place" width="70" headerAlign="center" allowSort="true" align="center" >送货地点</div>
-				<div field="chanel" width="35" headerAlign="center" align="center">渠道</div>
+				<div field="action" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
 				<div field="type" width="35" headerAlign="center" align="center">客户类型</div>
 				<div field="need_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">所需牌号
 					<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
@@ -55,18 +52,9 @@
 				<div field="month_consum" width="50" headerAlign="center" allowSort="true" align="center" align="center">月用量
 					<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
 				</div>
-				<div field="msg" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">短信
-					<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id" data='{:setMiniConfig|$send_msg}' />
-				</div>
-				<div field="name" width="30" headerAlign="center" align="center" >联系人姓名</div>
-				<div field="tel" width="60" headerAlign="center"  align="center">联系人电话</div>
-				<div field="mobile" width="60" headerAlign="center"  align="center">联系人手机</div>
-				<div field="remark" width="60" headerAlign="center"  align="center">最新跟进</div>
-				<div field="credit_limit" width="50" headerAlign="center"  align="center">信用额度</div>
-				<div field="available_credit_limit" width="50" headerAlign="center"  align="center">可用额度</div>
-				<div field="input_time" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
-				<div field="update_time" width="50" headerAlign="center"  allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
-				<div field="customer_manager" width="30" headerAlign="center"  align="center">交易员</div>
+				<div field="name" width="30" headerAlign="center" align="center" >客户联系</div>
+				<div field="mobile" width="60" headerAlign="center"  align="center">强开</div>
+				<div field="remark" width="60" headerAlign="center"  align="center">匹配</div>
 			</div>
 			</div>
 		</div>
