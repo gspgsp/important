@@ -309,7 +309,7 @@ class customerAction extends adminBaseAction {
 				$chanel = L('company_chanel');
 				unset($chanel[1]);
 				unset($chanel[2]);
-				unset($chanel[6]);
+				// unset($chanel[6]);
 				$this->assign('chanel',$chanel);//客户渠道
 				$this->assign('credit_level',L('credit_level'));//信用等级
 				$this->assign('page_title','新增企业用户');
