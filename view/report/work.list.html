@@ -64,6 +64,27 @@
 		<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
 
 			<div title="联系人列表">
+				<div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+					<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+					<table style="width:100%;">
+						<tr>
+							<td style="white-space:nowrap;">
+							<form id="soform">
+								添加时间
+								<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+								<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+								<select name="key_type">
+									<option value="c_name" selected="selected">客户名称</option>
+									<option value="need_product" >所需牌号</option>
+								</select>
+								<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+								<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+											<span id="searchMsg"></span>
+							</form>
+							</td>
+						</tr>
+					</table>
+				</div>
 				<div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}&filte=1" sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
@@ -85,6 +106,27 @@
 				</div>
 			</div>
 			<div title="跟进列表">
+				<div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+						<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+						<table style="width:100%;">
+							<tr>
+								<td style="white-space:nowrap;">
+								<form id="soform">
+									添加时间
+									<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+									<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+									<select name="key_type">
+										<option value="c_name" selected="selected">客户名称</option>
+										<option value="need_product" >所需牌号</option>
+									</select>
+									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+									<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+												<span id="searchMsg"></span>
+								</form>
+								</td>
+							</tr>
+						</table>
+					</div>
 				<div id="gridCell" class="mini-datagrid" style="width:auto;height:540px;" url="/user/follow/init?action=grid&c_id={$c_id}"  idField="id"
 					 sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
