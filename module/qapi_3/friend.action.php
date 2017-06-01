@@ -392,66 +392,25 @@ class friendAction extends baseAction
                 if ($user_id > 0) {
 
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-                        if(empty($c_type))
-                        {
 
-                            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
 
-                        }elseif($c_type==1)
-                        {
-                            $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                        }elseif($c_type==2)
-                        {
-                            $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                        }else {
-                            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-                        }
-                        $cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
+                        //$cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-                        if(empty($c_type))
-                        {
-                            $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
-                        }elseif($c_type==1)
-                        {
-                            $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                        }elseif($c_type==2)
-                        {
-                            $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                        }else {
-                            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-                        }
-                        $cache->set ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.":".$size.":".$region, $data['data'], 60);//1分钟缓存
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+
+                        //$cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {
-                if(empty($c_type))
-                {
-                    $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
-                }elseif($c_type==1)
-                {
-                    $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                }elseif($c_type==2)
-                {
-                    $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
-                }else {
-                    $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-                }
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+
             }
         } else {
-            if(empty($c_type))
-            {
-                $data = M ('qapp:plasticPerson')->getAllPlasticPerson ($user_id, $keywords, $page, $size, $region);
-            }elseif($c_type==1)
-            {
-                $data = M ('qapp:plasticPerson')->get1PlasticPerson ($user_id, $keywords, $page, $size, $region);
-            }elseif($c_type==2)
-            {
-                $data = M ('qapp:plasticPerson')->get2PlasticPerson ($user_id, $keywords, $page, $size, $region);
-            }else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $letter, $keywords, $page, $size, $sortField, $sortOrder, $region, $c_type);
-            }
+            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+
         }
         if (empty($data['data']) && $page == 1) {
             $this->json_output (array(
