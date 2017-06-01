@@ -32,25 +32,11 @@
 							<span id="searchMsg"></span>
 			   </form>
 			</td>
-			{if $doact neq 'search'}
-			<td style="float:right;">
-			{if $isPublic neq '1' && $helper neq 1}
-				<a class="mini-button" iconCls="icon-user" onclick="exchange()">批量替换交易员</a>
-				<a class="mini-button" iconCls="icon-addnew" onclick="share()">共享</a>
-				<a class="mini-button" iconCls="icon-add" onclick="add(0,1)">新增客户联系人</a>
-				<a class="mini-button" iconCls="icon-save" plain="true" onclick="saveTags()">保存更改</a>
-				{if $cooperation neq 1}
-				<a class="mini-button" iconCls="icon-add" onclick="add(0,3)">新增客户</a>
-				{/if}
-			{/if}
-			 </p>
-			</td>
-			{/if}
 		</tr>
 	</table>
 		</div>
 		<div class="mini-fit">
-			<div class="mini-datagrid" style="width:100%;height:100%;" pageSize=100
+			<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" pageSize=100
 				borderStyle="border:0;"  url="/user/customer/init?action=grid&do={$doact}" showFooter=false
 				showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
 			>
@@ -60,7 +46,6 @@
 			<div field="drive_end_place" width="70" headerAlign="center" allowSort="true" align="center" >送货地点</div>
 			<div field="chanel" width="35" headerAlign="center" align="center">渠道</div>
 			<div field="type" width="35" headerAlign="center" align="center">客户类型</div>
-<!-- 			<div field="level" width="40" headerAlign="center" align="center">级别</div> -->
 			<div field="need_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">所需牌号
 				<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
 			</div>
@@ -73,31 +58,15 @@
 			<div field="msg" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">短信
 				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id" data='{:setMiniConfig|$send_msg}' />
 			</div>
-			<!-- <div field="legal_person" width="30" headerAlign="center" align="center" >法人姓名</div> -->
-			<div field="reason" width="60" headerAlign="center"  align="center">释放原因</div>
-			<div field="invoice" width="30" headerAlign="center"  align="center">开票资料</div>
 			<div field="name" width="30" headerAlign="center" align="center" >联系人姓名</div>
 			<div field="tel" width="60" headerAlign="center"  align="center">联系人电话</div>
 			<div field="mobile" width="60" headerAlign="center"  align="center">联系人手机</div>
 			<div field="remark" width="60" headerAlign="center"  align="center">最新跟进</div>
 			<div field="credit_limit" width="50" headerAlign="center"  align="center">信用额度</div>
 			<div field="available_credit_limit" width="50" headerAlign="center"  align="center">可用额度</div>
-
 			<div field="input_time" width="50" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">添加时间</div>
 			<div field="update_time" width="50" headerAlign="center"  allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">更新时间</div>
 			<div field="customer_manager" width="30" headerAlign="center"  align="center">交易员</div>
-			<div field="depart" width="30" headerAlign="center"  align="center">部门</div>
-			{if $isPublic eq '1'}
-			<div field="identification" width="40" headerAlign="center" align="center" renderer="identificationStatus">认证</div>
-			<div field="status" width="40" headerAlign="center"  align="center" renderer="LoadStatus" >状态</div>
-			{else}
-			<div field="identification" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">认证
-				<input property="editor" class="mini-combobox" style="width:100%;" textfield="name" valuefield="id"  data='{:setMiniConfig|$identification}' />
-			</div>
-			{/if}
-			{if $helper neq 1}
-			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
-			{/if}
 		</div>
 			</div>
 		</div>
@@ -175,7 +144,8 @@
 </div>
 <script type="text/javascript">
 mini.parse();
-
+var grid = mini.get("gridCell");
+grid.load();
 var tree = mini.get("nodeTree");
 var pGrid = mini.get("pCellList");
 var cGrid = mini.get("cCellList");
