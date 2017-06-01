@@ -61,48 +61,48 @@
 		</div>
 	</div>
 	<div showCollapseButton="true">
+		<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
 
-
-		<div title="联系人列表">
-			<div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}&filte=1" sizeList="[10,20,50,100]" pageSize="20">
-				<div property="columns">
-					<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
-					<div field="name" width="50" headerAlign="center" align="center">联系人</div>
-					<div field="is_default" width="50" headerAlign="center" align="center" renderer="defu">默认联系人</div>
-					<div field="c_id" width="80" headerAlign="center" align="center">公司</div>
-					<div field="sex" width="60" headerAlign="center"  align="center">性别</div>
-					<div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
-					<div field="tel" width="80" headerAlign="center" align="center">联系电话</div>
-					<div field="qq" width="80" headerAlign="center" align="center">qq号</div>
-					<div field="email" width="80" headerAlign="center" align="center">邮箱</div>
-					<div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
-					<div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
-					<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
-					<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
-						<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />
+			<div title="联系人列表">
+				<div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" idField="id"  url="/user/contact/init?action=grid&c_id={$c_id}&filte=1" sizeList="[10,20,50,100]" pageSize="20">
+					<div property="columns">
+						<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">联系人ID</div>
+						<div field="name" width="50" headerAlign="center" align="center">联系人</div>
+						<div field="is_default" width="50" headerAlign="center" align="center" renderer="defu">默认联系人</div>
+						<div field="c_id" width="80" headerAlign="center" align="center">公司</div>
+						<div field="sex" width="60" headerAlign="center"  align="center">性别</div>
+						<div field="mobile" width="80" headerAlign="center" align="center">手机号</div>
+						<div field="tel" width="80" headerAlign="center" align="center">联系电话</div>
+						<div field="qq" width="80" headerAlign="center" align="center">qq号</div>
+						<div field="email" width="80" headerAlign="center" align="center">邮箱</div>
+						<div field="customer_manager" width="80" headerAlign="center" align="center">交易员</div>
+						<div field="depart" width="80" headerAlign="center" align="center">所属部门</div>
+						<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" align="center">创建时间</div>
+						<div field="status" width="40" headerAlign="center" type="comboboxcolumn" autoShowPopup="true" align="center">状态
+							<input property="editor" class="mini-combobox" style="width:100%;" data="dStatus" />
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div title="跟进列表">
-			<div id="gridCell" class="mini-datagrid" style="width:auto;height:540px;" url="/user/follow/init?action=grid&c_id={$c_id}"  idField="id"
-				 sizeList="[10,20,50,100]" pageSize="20">
-				<div property="columns">
-					<div field="name" width="30" headerAlign="center" allowSort="true" align="center">联系人</div>
-					<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">跟进内容</div>
-					<div field="follow_up_way" width="30" headerAlign="center" allowSort="true" align="center">跟进方式</div>
-					<div field="follow_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
-					<div field="input_admin" width="55" headerAlign="center" align="center" >添加人</div>
+			<div title="跟进列表">
+				<div id="gridCell" class="mini-datagrid" style="width:auto;height:540px;" url="/user/follow/init?action=grid&c_id={$c_id}"  idField="id"
+					 sizeList="[10,20,50,100]" pageSize="20">
+					<div property="columns">
+						<div field="name" width="30" headerAlign="center" allowSort="true" align="center">联系人</div>
+						<div field="remark" width="120" headerAlign="center" allowSort="true" align="center">跟进内容</div>
+						<div field="follow_up_way" width="30" headerAlign="center" allowSort="true" align="center">跟进方式</div>
+						<div field="follow_time" width="40" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm" allowSort="true" align="center">跟进时间</div>
+						<div field="input_admin" width="55" headerAlign="center" align="center" >添加人</div>
+					</div>
 				</div>
 			</div>
+
+
+
+
+
+
 		</div>
-
-
-
-
-
-
-
 	</div>
 </div>
 <script type="text/javascript">
