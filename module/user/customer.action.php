@@ -203,7 +203,11 @@ class customerAction extends adminBaseAction {
 				$where .= " and `customer_manager` in ($sons) ";
 				if(!empty($keyword) && $cidshare){
 					//我用这个用户的id去共享表查询下看有没有这个id
-					if(M('user:customer')->judgeShare($cidshare)) $where .= " or `c_id` in ($cidshare)";
+					//为了修补客户拉黑后依然可以查询到的问题
+					$stat = $this->db->select('status')->where("c_id = $cidshare")->getOne();
+					if($stat != 9){
+						if(M('user:customer')->judgeShare($cidshare)) $where .= " or `c_id` in ($cidshare)";
+					}
 				}else{
 					// 默认列表显示全部的共享客户
 					if(!empty($pools) && $key_type != 'need_product'){
@@ -212,7 +216,6 @@ class customerAction extends adminBaseAction {
 				}
 			}
 		}
-		// p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
