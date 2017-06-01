@@ -63,10 +63,69 @@ class cronDaily{
 		$t2 = microtime(true);
 		echo round($t2-$t1,3);
 	}
-
-	public function get_calld_saled_buyd($start,$end,$now){
-		$res= M('product:order')->getAllCustomerManagerTodayNum($start,$end);
+	public function getRes($startTime,$endTime){
+		$res= M('product:order')->getAllCustomerManagerTodayNum($startTime,$endTime);
 		// showtrace();
+		$phonelist=$this->db->model('phone_name')
+                           ->getAll("SELECT p.* FROM p2p_phone_name AS p
+							LEFT JOIN p2p_admin AS admin ON admin.`admin_id` = p.admin_id
+							LEFT JOIN p2p_adm_role AS role ON role.`id` = p.role_id
+							WHERE role.`pid` = 22 AND admin.`status` = 1 AND p.seat_phone <> '' ");
+        // p($phonelist);die;
+         foreach($phonelist as $row){
+         	//呼出匹配数量和匹配时间
+            $sql6="SELECT count(distinct a.id) as sum,sum(a.time) as out_match_time,(select count(distinct c_id) from (select cus.c_id FROM `p2p_api` `a`
+                    JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                    JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                    JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                    WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null group by a.id) adfs) out_eff_match_num
+                    FROM `p2p_api` `a`
+                    JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                    JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                    JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                    WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
+            $rs6=$this->db->model('api')->getAll($sql6);
+            //匹配时间
+            $sql7="SELECT a.id,a.time,a.phone
+                    FROM `p2p_api` `a`
+                    JOIN `p2p_phone_name` `c` ON a.phone=c.seat_phone
+                    JOIN `p2p_customer_contact` `con` ON con.mobile=a.remark
+                    JOIN `p2p_customer` `cus` ON cus.c_id=con.c_id
+                    WHERE phone='{$row['seat_phone']}' and callstatus='ou' and a.ctime>{$startTime} and a.ctime<{$endTime} and cus.c_name is not null";
+
+            $rs7=$this->db->model('api')->getAll($sql7);
+            $rs6[0]['out_match_time']= 0;
+            $ids2=array();
+            $newArr2=array();
+            foreach($rs7 as $row7){
+                if(!isset($ids2[$row7['id']])){
+                    $ids2[$row7['id']]=$row7['id'];
+                    $newArr2[]=$row7;
+                }
+            }
+            foreach($newArr2 as $ese){
+                $rs6[0]['out_match_time'] += $ese['time'];
+            }
+             $tmp[]=array(
+                            'customer_manager'=>$row['admin_id'],
+                            'seat_phone'=>$row['seat_phone'],
+                            'out_match_num'=>$rs6[0]['sum'],//客户匹配数量
+                            'out_eff_match_num' => $rs6[0]['out_eff_match_num'],
+                    );
+         }
+         foreach ($res as $key => $value) {
+			foreach ($tmp as $k => $v) {
+				if($value['customer_manager'] == $v['customer_manager']){
+					$res[$key]['call_num']=$v['out_match_num'];
+					$res[$key]['call_time']=$v['out_eff_match_num'];
+				}
+			}
+		}
+		return $res;
+
+	}
+	public function get_calld_saled_buyd($start,$end,$now){
+		$res = $this->getRes($start,$end);
 		// p($res);die;
 		foreach ($res as $key => $value) {
 			if(($value['sale']+$value['buy']) == '0' && ($value['call_num'] < '40' or $value['call_time'] < '2400')){
