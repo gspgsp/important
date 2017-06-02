@@ -4,7 +4,7 @@
 	<a class="back" href="javascript:window.history.back();"></a>
 	购买记录
 </header>
-<ul id="pointsrecord">
+<ul v-if="condition" id="pointsrecord">
 	<li v-for="r in record">
 		<div class="recordwrap">
 			<img v-bind:src="r.thumb">
@@ -21,13 +21,18 @@
 		</div>
 	</li>
 </ul>
+<div v-else class="releaseMsg">
+	<div class="releaseMsgHead2"></div>
+	<div class="releaseTxt">没有相关数据</div>
+</div>
 </div>
 </template>
 <script>
 export default{
 	data: function() {
 		return {
-			record:[]
+			record:[],
+			condition:true
 		}
 	},
 	activated: function() {
@@ -53,7 +58,10 @@ export default{
     	}).then(function(res){
     		console.log(res);
 		    if(res.err==0){
+		    	_this.condition=true;
 		    	_this.record=res.data;
+			}else if(res.err==2){
+				_this.condition=false;
 			}
     	},function(){
     		
