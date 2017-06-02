@@ -395,13 +395,11 @@ class friendAction extends baseAction
 
                         $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
 
-                        //$cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
                         $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
 
-                        //$cache->set ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region, $data['data'], 60);//1分钟缓存
                     }
                 }
             } else {

@@ -88,7 +88,7 @@ class baseAction extends null2Action
 
         $this->randomTime   = mt_rand (10, 20) * 180; // 1-2 h
         $this->randomMdTime = mt_rand (40, 60) * 120; // 4-6 h
-        $this->checkUA();
+        $this->check_ua();
         M("qapp:pointsBill")->setMoblie(true);
     }
     //http-->curl
@@ -119,7 +119,7 @@ class baseAction extends null2Action
         return $output;
     }
 
-     public function checkUA()
+     public function check_ua()
      {
          //$headers=getallheaders();
          $ua = $_SERVER['HTTP_X_UA'];
