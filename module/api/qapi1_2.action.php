@@ -2643,10 +2643,10 @@ class qapi1_2Action extends null2Action
                     $v['myMsg'] = array();
                 }
                 if ($v['thumb']) {
-                    $v['thumb'] = FILE_URL.'/upload/'.$v['thumb'];
+                    $v['thumb'] = FILE_URL.$v['thumb'];
                 }
                 if ($v['image']) {
-                    $v['image'] = FILE_URL.'/upload/'.$v['image'];
+                    $v['image'] = FILE_URL.$v['image'];
                 }
             }
             $ret = array(
