@@ -225,7 +225,7 @@ class plasticPersonModel extends model
         $cache->expire($key0,600);
         //缓存5分钟
         $list  = $cache->setnx("AllPlasticPersonList".'-'.md5($keywords)."-".$region,1,300);
-        if (!empty($list)||1) {
+        if (!empty($list)) {
             $operMobi = array(
                 '13900000001',
                 '13900000002',
