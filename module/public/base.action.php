@@ -148,13 +148,13 @@ class baseAction extends null2Action
          $this->navigator_version =$_ua[10];
          $this->manufacturer= $_ua[11];
          $this->device_model= $_ua[12];
-         if(!empty($this->user_id)||!empty($this->token)) {
+         /*if(!empty($this->user_id)||!empty($this->token)) {
              $_userid = M ('qapp:appToken')->deUserId ($this->token);
              if($_userid != $this->user_id)
              {
                  $this->_errCode(998);
              }
-         }
+         }*/
 
      }
 
