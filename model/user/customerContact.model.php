@@ -141,7 +141,6 @@ class customerContactModel extends model{
 		if($info['is_credit']>0){
 			$data['credit_time'] =  CORE_TIME ;
 		}
-
 		if($info['ctype']==1 && $info['user_id']>0){
 			$yanshi = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->getRow();
 			//更新联系人
@@ -186,7 +185,14 @@ class customerContactModel extends model{
 			}else{
 				$this->startTrans();
 					if(empty($info['type'])) return array('err'=>1,'msg'=>'客户类型为必填选项');
-					$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
+					//处理后台添加时选择客户渠道是塑料圈（chanel=6）时，在customer和customer_contact中，将交易员改为0，渠道是6，
+					if($info['chanel'] == 6){
+						$_data['depart'] = 0;
+						$_data['customer_manager'] = 0;
+						$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>6,));
+					}else{
+						$this->model('customer_contact')->add($info_ext+$_data+array('chanel'=>5,));
+					}
 					$contact_id = $this->getLastID();
 					$this->model('customer')->add($info+$_data+array('contact_id'=>$contact_id,));
 					$customer_id = $this->getLastID();
