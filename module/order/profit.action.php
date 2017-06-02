@@ -53,9 +53,15 @@ class profitAction extends adminBaseAction {
 		$sTime = sget("sTime",'s'); //搜索时间类型
 		if($sTime == 'sale_time'){
 			$where.=getTimeFilter('s_input_time'); //时间筛选
-		}else{
+		}elseif($sTime == 'pur_time'){
 			$where.=getTimeFilter('p_input_time'); //时间筛选
 			$sortField = sget("sortField",'s','p_input_time'); //排序字段
+		}elseif($sTime == 's_time'){
+			$where.=getTimeFilter('sale_input_time'); //时间筛选
+			$sortField = sget("sortField",'s','sale_input_time'); //排序字段
+		}elseif($sTime == 'p_time'){
+			$where.=getTimeFilter('buy_input_time'); //时间筛选
+			$sortField = sget("sortField",'s','buy_input_time'); //排序字段
 		}
 		//抬头
 		$company_account=sget('company_account','i');
@@ -110,6 +116,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -126,6 +133,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
@@ -149,6 +157,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -165,6 +174,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
@@ -247,9 +257,15 @@ class profitAction extends adminBaseAction {
 		$sTime = sget("sTime",'s'); //搜索时间类型
 		if($sTime == 'sale_time'){
 			$where.=getTimeFilter('s_input_time'); //时间筛选
-		}else{
+		}elseif($sTime == 'pur_time'){
 			$where.=getTimeFilter('p_input_time'); //时间筛选
 			$sortField = sget("sortField",'s','p_input_time'); //排序字段
+		}elseif($sTime == 's_time'){
+			$where.=getTimeFilter('sale_input_time'); //时间筛选
+			$sortField = sget("sortField",'s','sale_input_time'); //排序字段
+		}elseif($sTime == 'p_time'){
+			$where.=getTimeFilter('buy_input_time'); //时间筛选
+			$sortField = sget("sortField",'s','buy_input_time'); //排序字段
 		}
 		//关键词搜索
 		$skey_type=sget('skey_type','s','s_uname');
@@ -300,6 +316,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -316,6 +333,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
@@ -339,6 +357,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -355,6 +374,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
@@ -378,6 +398,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -394,6 +415,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
@@ -417,6 +439,7 @@ class profitAction extends adminBaseAction {
 			sale.unit_price AS s_price,
 			(sale.number * sale.unit_price) AS s_xj,
 			o.`payd_time` AS s_input_time,
+			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
@@ -433,6 +456,7 @@ class profitAction extends adminBaseAction {
 			pu.unit_price AS p_price,
 			(pu.number * pu.unit_price) AS p_xj,
 			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
+			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
 			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
