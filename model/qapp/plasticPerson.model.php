@@ -332,7 +332,6 @@ class plasticPersonModel extends model
         $key = $cache->lindex($key0,0);
         //file_put_contents('/tmp/xielei.txt',print_r('11111111111',true)."qweeqweqw\n".FILE_APPEND);
         $arr = $cache->lrange($key0,0,-1);
-        file_put_contents('/tmp/xielei.txt',print_r($arr,true)."qweeqweqw\n".FILE_APPEND);
         $len = $cache->llen($key);
         if($len>$page * $size) {
 
