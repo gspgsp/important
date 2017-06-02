@@ -706,9 +706,9 @@ class plasticPersonModel extends model
             if (!empty($keywords)) {
                 $lower_keywords = strtolower($keywords);
                 $upper_keywords = strtoupper($keywords);
-                $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
-                $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
-                $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
+//                $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
+//                $value['c_name']       = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['c_name']);
+//                $value['need_product'] = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['need_product']);
                 if (strpos ($value['name'], $lower_keywords) !== false || strpos ($value['c_name'], $lower_keywords) !== false || strpos ($value['need_product'], $lower_keywords) !== false) {
                     $keywords              = $lower_keywords;
                     $value['name']         = str_replace ($keywords, "<strong style='color: #ff5000;'>{$keywords}</strong>", $value['name']);
