@@ -80,6 +80,11 @@ class userAction extends baseAction
                 $this->error ('令牌已过期，请重新注册');
             }
             $name = sget ('name', 's');
+            if(!eregi("[^\x80-\xff]","$name")){
+
+            }else{
+                $this->error ('请输入中文姓名');
+            }
             if (mb_strlen ($name, 'UTF8') < 2) {
                 $this->error ('请输入二位字以上的姓名');
             }
@@ -139,6 +144,7 @@ class userAction extends baseAction
                         'c_name'           => $c_name,
                         'chanel'           => $chanel,
                         'input_time'       => CORE_TIME,
+                        'input_admin' =>  $name,
                         'customer_manager' => 859,
                         //交易员
                         //'origin'=>implode('|',$origin),
@@ -199,6 +205,7 @@ class userAction extends baseAction
                         'sex'           => sget ('sex', 'i', 0),
                         'chanel'        => $chanel,
                         'update_time'   => CORE_TIME,
+                        'update_admin' => $name,
                         'is_trial'      => 0,
                         //公海状态清零
                         'quan_type'     => $quan_type,
@@ -242,6 +249,7 @@ class userAction extends baseAction
                         'customer_manager' => 859,
                         //交易员
                         'input_time'       => CORE_TIME,
+                        'input_admin' => $name,
                         'is_default'       => $is_default,
                         'parent_mobile'    => $parent_mobile,
                         'chanel'           => $chanel,
