@@ -2611,7 +2611,7 @@ class qapi1_2Action extends null2Action
             $page          = sget ('page', 'i', 1);
             $size          = sget ('size', 'i', 10);
             $data          = M ("points:pointsGoods")->select ('id,cate_id,thumb,name,points,type')
-                                                     ->where ("status = 1 and receive_num < num and is_mobile =1")
+                                                     ->where ("status = 1 and receive_num < num and is_mobile =1 and type in (1,2)")
                                                      ->order ('id desc')->page ($page, $size)->getPage ();
             //我的积分
             $points = M ('qapp:pointsBill')->getUerPoints ($user_id);
