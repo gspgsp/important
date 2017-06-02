@@ -26,8 +26,8 @@ class outStorageModel extends model{
 	/**
 	 * 更具字段取出对应的值
 	 */
-	public function getColByName($value=0,$col='o_id',$condition='plate_number'){
-		$result =  $this->model('transport_contract')->select("$col")->where("$condition like'%$value%'")->getCol();
+	public function getColByName($value=0,$col='o_id',$condition='plate_number',$table='transport_contract'){
+		$result =  $this->model("$table")->select("$col")->where("`$condition` like '%$value%'")->getCol();
 		return empty($result) ? '' : join(',',$result);
 	}
 	/**
