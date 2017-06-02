@@ -1,1 +1,981 @@
-webpackJsonp([4],{142:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticClass:"buyWrap",staticStyle:{padding:"45px 0 60px 0"}},[a("header",{staticStyle:{position:"fixed",top:"0",left:"0"},attrs:{id:"bigCustomerHeader"}},[a("a",{staticClass:"back",attrs:{href:"javascript:window.history.back();"}}),e._v("\n\t"+e._s(e.cate)+"\n\t"),a("a",{staticClass:"detailShare",attrs:{href:"javascript:;"},on:{click:function(t){e.shareshow()}}})]),e._v(" "),a("div",{staticClass:"headlinecontent",staticStyle:{overflow:"hidden",background:"#FFFFFF"}},[a("div",{staticClass:"headlinetitle"},[a("h3",[e._v(e._s(e.type)+" "+e._s(e.title))]),e._v(" "),a("p",[e._v("作者:"+e._s(e.author)+" 阅读数量:"),a("span",{staticStyle:{color:"#ff5000"}},[e._v(e._s(e.pv))]),e._v(" 发布时间："+e._s(e.time))])]),e._v(" "),a("div",{staticClass:"headlinetxt"},[a("div",{domProps:{innerHTML:e._s(e.content)}})]),e._v(" "),a("div",{staticStyle:{overflow:"hidden"}},[a("span",{staticClass:"pre",on:{click:function(t){e.toPage(e.lastOne)}}}),e._v(" "),a("span",{staticClass:"nex",on:{click:function(t){e.toPage(e.nextOne)}}})]),e._v(" "),a("div",{staticStyle:{width:"61px",height:"23px","text-align":"center","line-height":"23px",color:"#999",border:"1px solid #999","border-radius":"2px",clear:"both","font-size":"12px",margin:"10px 0"}},[e._v("\n\t\t热门追踪\n\t")]),e._v(" "),a("ul",{staticClass:"searchli",staticStyle:{padding:"0",color:"#999"},attrs:{id:"tj"}},e._l(e.subscribe,function(t){return a("li",[a("p",[a("a",{attrs:{href:"javascript:;"},on:{click:function(a){e.toPage(t.id)}}},[e._v("\n\t\t\t\t\t["+e._s(t.cate_name)+"] "+e._s(t.title)+"\n\t\t\t\t")])]),e._v(" "),a("span",[e._v(e._s(t.input_time))])])}))]),e._v(" "),e._m(0),e._v(" "),a("loadingPage",{attrs:{loading:e.loadingShow}}),e._v(" "),a("errorPage",{attrs:{loading:e.loadingHide}}),e._v(" "),a("footerbar"),e._v(" "),a("div",{directives:[{name:"show",rawName:"v-show",value:e.share,expression:"share"}],staticClass:"sharelayer",on:{click:e.sharehide}}),e._v(" "),a("div",{directives:[{name:"show",rawName:"v-show",value:e.share3,expression:"share3"}],staticClass:"tip"})],1)},staticRenderFns:[function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticStyle:{padding:"10px 0",background:"#FFFFFF"}},[a("a",{staticClass:"downloadApp",attrs:{href:"http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"}})])}]}},46:function(e,t){e.exports=function(e,t,a,i){var n,s=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(n=e,s=e.default);var r="function"==typeof s?s.options:s;if(t&&(r.render=t.render,r.staticRenderFns=t.staticRenderFns),a&&(r._scopeId=a),i){var c=Object.create(r.computed||null);Object.keys(i).forEach(function(e){var t=i[e];c[e]=function(){return t}}),r.computed=c}return{esModule:n,exports:s,options:r}}},47:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={data:function(){return{isIndex:!1,isRelease:!1,isMyzone:!1,isHeadline:!1}},methods:{toQuickRelease:function(){var e=this;window.localStorage.getItem("token")?e.$router.push({name:"quickrelease"}):weui.alert("您未登录塑料圈,无法查看企业及个人信息",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]})},toRelease:function(){var e=this;window.localStorage.getItem("token")?e.$router.push({name:"release"}):weui.alert("您未登录塑料圈,无法查看企业及个人信息",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]})},toMyzone:function(){var e=this;window.localStorage.getItem("token")?e.$router.push({name:"myzone"}):weui.alert("您未登录塑料圈,无法查看企业及个人信息",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]})},toHeadline:function(){var e=this;window.localStorage.getItem("token")?e.$router.push({name:"headline"}):weui.alert("您未登录塑料圈,无法查看企业及个人信息",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]})}},mounted:function(){switch(this.$route.name){case"index":this.isIndex=!0,this.isRelease=!1,this.isMyzone=!1,this.isHeadline=!1;break;case"release":this.isIndex=!1,this.isRelease=!0,this.isMyzone=!1,this.isHeadline=!1;break;case"myzone":case"mysupply":case"mybuy":case"myinvite":case"myfans":case"mypay":case"mymsg":case"mymsg2":case"myinfo":this.isIndex=!1,this.isRelease=!1,this.isMyzone=!0,this.isHeadline=!1;break;case"headline":case"headlinedetail":case"headlinelist":this.isIndex=!1,this.isRelease=!1,this.isMyzone=!1,this.isHeadline=!0}}}},48:function(e,t,a){var i=a(46)(a(47),a(49),null,null);e.exports=i.exports},49:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",[a("footer",{attrs:{id:"footer"}},[a("ul",[a("li",[a("a",{class:{footerOn:e.isRelease},attrs:{href:"javascript:;"},on:{click:e.toRelease}},[a("i",{staticClass:"foot3"}),a("br"),e._v("供求")])]),e._v(" "),a("li",[a("router-link",{class:{footerOn:e.isIndex},attrs:{to:{name:"index"}}},[a("i",{staticClass:"foot2"}),a("br"),e._v("通讯录")])],1),e._v(" "),a("li",[a("i",{staticClass:"releaseicon",on:{click:e.toQuickRelease}})]),e._v(" "),a("li",[a("a",{class:{footerOn:e.isHeadline},attrs:{href:"javascript:;"},on:{click:e.toHeadline}},[a("i",{staticClass:"foot5"}),a("br"),e._v("发现")])]),e._v(" "),a("li",[a("a",{class:{footerOn:e.isMyzone},attrs:{href:"javascript:;"},on:{click:e.toMyzone}},[a("i",{staticClass:"foot4"}),a("br"),e._v("我的")])])])])])},staticRenderFns:[]}},50:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={props:["loading"]}},51:function(e,t,a){var i=a(46)(a(50),a(52),null,null);e.exports=i.exports},52:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("div",{directives:[{name:"show",rawName:"v-show",value:e.loading,expression:"loading"}],staticClass:"loadingPage"},[e._m(0)])},staticRenderFns:[function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticClass:"loadingWrap"},[a("div",{staticClass:"slqLoading"}),e._v(" "),a("div",{staticClass:"slqLoadingTxt"},[e._v("数据加载中,请稍候...")])])}]}},54:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={props:["loading"]}},55:function(e,t,a){var i=a(46)(a(54),a(56),null,null);e.exports=i.exports},56:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{directives:[{name:"show",rawName:"v-show",value:e.loading,expression:"loading"}],staticClass:"errorPage"},[a("div",{staticClass:"errorWrap"}),e._v(" "),e._m(0)])},staticRenderFns:[function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticClass:"errorTxt"},[a("a",{staticClass:"blue",attrs:{href:"javascript:window.location.reload();"}},[e._v("重新刷新")]),e._v("    \n\t\t"),a("a",{staticClass:"orange",attrs:{href:"http://q.myplas.com/"}},[e._v("返回首页")])])}]}},70:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var i=a(48),n=a.n(i),s=a(51),o=a.n(s),r=a(55),c=a.n(r);t.default={components:{footerbar:n.a,loadingPage:o.a,errorPage:c.a},data:function(){return{title:"",content:"",cate:"",id:"",cate_id:"",author:"",time:"",pv:"",type:"",subscribe:[],share:!1,share3:!1,share4:!1,loadingShow:"",loadingHide:""}},beforeRouteEnter:function(e,t,a){a(function(e){e.loadingShow=!0})},beforeRouteLeave:function(e,t,a){a(function(){}),this.loadingHide=!1},watch:{title:function(){var e=this;"PUBLIC"==this.type?this.type="":this.type="["+this.type+"]",$.ajax({type:"post",url:"/mobi/wxShare/getSignPackage",data:{targetUrl:window.location.href},dataType:"JSON"}).then(function(t){wx.config({debug:!1,appId:t.signPackage.appId,timestamp:t.signPackage.timestamp,nonceStr:t.signPackage.noncestr,signature:t.signPackage.signature,jsApiList:["showOptionMenu","onMenuShareTimeline","onMenuShareAppMessage"]}),wx.ready(function(){wx.onMenuShareTimeline({title:e.type+e.title,link:"http://q.myplas.com/#/headlinedetail/"+e.id,imgUrl:"http://statics.myplas.com/myapp/img/shareLogo.png",success:function(){$.ajax({type:"post",url:version+"/wechat/saveShareLog",data:{token:window.localStorage.getItem("token"),type:3,id:e.id},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON"}).done(function(e){}).fail(function(){})},cancel:function(){}}),wx.onMenuShareAppMessage({title:e.type+e.title,desc:"我的塑料网-塑料圈通讯录",link:"http://q.myplas.com/#/headlinedetail/"+e.id,imgUrl:"http://statics.myplas.com/myapp/img/shareLogo.png",type:"",dataUrl:"",success:function(){$.ajax({type:"post",url:version+"/wechat/saveShareLog",data:{token:window.localStorage.getItem("token"),type:3,id:e.id},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON"}).done(function(e){}).fail(function(){})},cancel:function(){}})})},function(){})}},methods:{shareshow:function(){this.share=!0,this.share3=!0},sharehide:function(){this.share=!1,this.share3=!1,this.share4=!1},toPage:function(e){var t=this;if(window.scrollTo(0,0),e){var a=weui.loading("加载中",{className:"custom-classname"});$.ajax({type:"post",url:version+"/toutiao/getDetailInfo",timeout:15e3,data:{token:window.localStorage.getItem("token"),id:e},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON"}).done(function(e){switch(t.id=e.info.id,t.title=e.info.title,t.cate_id=e.info.cate_id,t.content=e.info.content,t.time=e.info.input_time,t.type=e.info.type,t.pv=e.info.pv,t.author=e.info.author,t.lastOne=e.info.lastOne,t.nextOne=e.info.nextOne,t.subscribe=e.info.subscribe?e.info.subscribe.slice(0,8):e.info.subscribe,t.cate_id){case"1":t.cate="早盘预测";break;case"2":t.cate="塑料上游";break;case"4":t.cate="中晨塑说";break;case"5":t.cate="美金市场";break;case"9":t.cate="企业动态";break;case"11":t.cate="装置动态";break;case"13":t.cate="期刊报告";break;case"21":t.cate="期货资讯";break;case"22":t.cate="独家解读";break;default:t.cate="塑料发现"}}).fail(function(){t.loadingHide=!0}).always(function(){a.hide(function(){})})}else weui.alert("没有相关文章",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]})}},activated:function(){var e=this;try{Piwik.getTracker("http://wa.myplas.com/piwik.php",2).trackPageView()}catch(e){}window.scrollTo(0,0),$.ajax({type:"post",url:version+"/toutiao/getDetailInfo",timeout:15e3,data:{id:e.$route.params.id,token:window.localStorage.getItem("token")},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON",async:!0}).done(function(t){if(0==t.err)switch(e.id=t.info.id,e.title=t.info.title,e.cate_id=t.info.cate_id,e.content=t.info.content,e.time=t.info.input_time,e.type=t.info.type,e.pv=t.info.pv,e.author=t.info.author,e.lastOne=t.info.lastOne,e.nextOne=t.info.nextOne,e.subscribe=t.info.subscribe?t.info.subscribe.slice(0,8):t.info.subscribe,e.$nextTick(function(){e.$el.getElementsByTagName("table").length&&(e.$el.getElementsByTagName("table")[0].style.width="100%")}),e.cate_id){case"1":e.cate="早盘预测";break;case"2":e.cate="塑料上游";break;case"4":e.cate="中晨塑说";break;case"5":e.cate="美金市场";break;case"9":e.cate="企业动态";break;case"11":e.cate="装置动态";break;case"13":e.cate="期刊报告";break;case"21":e.cate="期货资讯";break;case"22":e.cate="独家解读";break;default:e.cate="塑料发现"}else 1==t.err&&weui.alert(t.msg,{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]})}).fail(function(){e.loadingHide=!0}).always(function(){e.loadingShow=!1})}}},8:function(e,t,a){var i=a(46)(a(70),a(142),null,null);e.exports=i.exports}});
+webpackJsonp([4],{
+
+/***/ 142:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap",
+    staticStyle: {
+      "padding": "45px 0 60px 0"
+    }
+  }, [_c('header', {
+    staticStyle: {
+      "position": "fixed",
+      "top": "0",
+      "left": "0"
+    },
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t" + _vm._s(_vm.cate) + "\n\t"), _c('a', {
+    staticClass: "detailShare",
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": function($event) {
+        _vm.shareshow()
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "headlinecontent",
+    staticStyle: {
+      "overflow": "hidden",
+      "background": "#FFFFFF"
+    }
+  }, [_c('div', {
+    staticClass: "headlinetitle"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.type) + " " + _vm._s(_vm.title))]), _vm._v(" "), _c('p', [_vm._v("作者:" + _vm._s(_vm.author) + " 阅读数量:"), _c('span', {
+    staticStyle: {
+      "color": "#ff5000"
+    }
+  }, [_vm._v(_vm._s(_vm.pv))]), _vm._v(" 发布时间：" + _vm._s(_vm.time))])]), _vm._v(" "), _c('div', {
+    staticClass: "headlinetxt"
+  }, [_c('div', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.content)
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "overflow": "hidden"
+    }
+  }, [_c('span', {
+    staticClass: "pre",
+    on: {
+      "click": function($event) {
+        _vm.toPage(_vm.lastOne)
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "nex",
+    on: {
+      "click": function($event) {
+        _vm.toPage(_vm.nextOne)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "61px",
+      "height": "23px",
+      "text-align": "center",
+      "line-height": "23px",
+      "color": "#999",
+      "border": "1px solid #999",
+      "border-radius": "2px",
+      "clear": "both",
+      "font-size": "12px",
+      "margin": "10px 0"
+    }
+  }, [_vm._v("\n\t\t热门追踪\n\t")]), _vm._v(" "), _c('ul', {
+    staticClass: "searchli",
+    staticStyle: {
+      "padding": "0",
+      "color": "#999"
+    },
+    attrs: {
+      "id": "tj"
+    }
+  }, _vm._l((_vm.subscribe), function(s) {
+    return _c('li', [_c('p', [_c('a', {
+      attrs: {
+        "href": "javascript:;"
+      },
+      on: {
+        "click": function($event) {
+          _vm.toPage(s.id)
+        }
+      }
+    }, [_vm._v("\n\t\t\t\t\t[" + _vm._s(s.cate_name) + "] " + _vm._s(s.title) + "\n\t\t\t\t")])]), _vm._v(" "), _c('span', [_vm._v(_vm._s(s.input_time))])])
+  }))]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('loadingPage', {
+    attrs: {
+      "loading": _vm.loadingShow
+    }
+  }), _vm._v(" "), _c('errorPage', {
+    attrs: {
+      "loading": _vm.loadingHide
+    }
+  }), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.share),
+      expression: "share"
+    }],
+    staticClass: "sharelayer",
+    on: {
+      "click": _vm.sharehide
+    }
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.share3),
+      expression: "share3"
+    }],
+    staticClass: "tip"
+  })], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "padding": "10px 0",
+      "background": "#FFFFFF"
+    }
+  }, [_c('a', {
+    staticClass: "downloadApp",
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3ecd75bc", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			isIndex: false,
+			isRelease: false,
+			isMyzone: false,
+			isHeadline: false
+		};
+	},
+	methods: {
+		toQuickRelease: function toQuickRelease() {
+			var _this = this;
+			if (window.localStorage.getItem("token")) {
+				_this.$router.push({
+					name: 'quickrelease'
+				});
+			} else {
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		},
+		toRelease: function toRelease() {
+			var _this = this;
+			if (window.localStorage.getItem("token")) {
+				_this.$router.push({
+					name: 'release'
+				});
+			} else {
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		},
+		toMyzone: function toMyzone() {
+			var _this = this;
+			if (window.localStorage.getItem("token")) {
+				_this.$router.push({
+					name: 'myzone'
+				});
+			} else {
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		},
+		toHeadline: function toHeadline() {
+			var _this = this;
+			if (window.localStorage.getItem("token")) {
+				_this.$router.push({
+					name: 'headline'
+				});
+			} else {
+				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		}
+
+	},
+	mounted: function mounted() {
+		var _this = this;
+		var uri = this.$route.name;
+		switch (uri) {
+			case 'index':
+				this.isIndex = true;
+				this.isRelease = false;
+				this.isMyzone = false;
+				this.isHeadline = false;
+				break;
+			case 'release':
+				this.isIndex = false;
+				this.isRelease = true;
+				this.isMyzone = false;
+				this.isHeadline = false;
+				break;
+			case 'myzone':
+			case 'mysupply':
+			case 'mybuy':
+			case 'myinvite':
+			case 'myfans':
+			case 'mypay':
+			case 'mymsg':
+			case 'mymsg2':
+			case 'myinfo':
+				this.isIndex = false;
+				this.isRelease = false;
+				this.isMyzone = true;
+				this.isHeadline = false;
+				break;
+			case 'headline':
+			case 'headlinedetail':
+			case 'headlinelist':
+				this.isIndex = false;
+				this.isRelease = false;
+				this.isMyzone = false;
+				this.isHeadline = true;
+				break;
+		}
+	}
+});
+
+/***/ }),
+
+/***/ 48:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(47),
+  /* template */
+  __webpack_require__(49),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\components\\footer.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] footer.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3efe2928", Component.options)
+  } else {
+    hotAPI.reload("data-v-3efe2928", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 49:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('footer', {
+    attrs: {
+      "id": "footer"
+    }
+  }, [_c('ul', [_c('li', [_c('a', {
+    class: {
+      'footerOn': _vm.isRelease
+    },
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": _vm.toRelease
+    }
+  }, [_c('i', {
+    staticClass: "foot3"
+  }), _c('br'), _vm._v("供求")])]), _vm._v(" "), _c('li', [_c('router-link', {
+    class: {
+      'footerOn': _vm.isIndex
+    },
+    attrs: {
+      "to": {
+        name: 'index'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "foot2"
+  }), _c('br'), _vm._v("通讯录")])], 1), _vm._v(" "), _c('li', [_c('i', {
+    staticClass: "releaseicon",
+    on: {
+      "click": _vm.toQuickRelease
+    }
+  })]), _vm._v(" "), _c('li', [_c('a', {
+    class: {
+      'footerOn': _vm.isHeadline
+    },
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": _vm.toHeadline
+    }
+  }, [_c('i', {
+    staticClass: "foot5"
+  }), _c('br'), _vm._v("发现")])]), _vm._v(" "), _c('li', [_c('a', {
+    class: {
+      'footerOn': _vm.isMyzone
+    },
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": _vm.toMyzone
+    }
+  }, [_c('i', {
+    staticClass: "foot4"
+  }), _c('br'), _vm._v("我的")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3efe2928", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 50:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: ['loading']
+});
+
+/***/ }),
+
+/***/ 51:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(50),
+  /* template */
+  __webpack_require__(52),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\components\\loadingPage.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] loadingPage.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-40e539ae", Component.options)
+  } else {
+    hotAPI.reload("data-v-40e539ae", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 52:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticClass: "loadingPage"
+  }, [_vm._m(0)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "loadingWrap"
+  }, [_c('div', {
+    staticClass: "slqLoading"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "slqLoadingTxt"
+  }, [_vm._v("数据加载中,请稍候...")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-40e539ae", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 54:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: ['loading']
+});
+
+/***/ }),
+
+/***/ 55:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(54),
+  /* template */
+  __webpack_require__(56),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\components\\errorPage.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] errorPage.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-50b3658c", Component.options)
+  } else {
+    hotAPI.reload("data-v-50b3658c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticClass: "errorPage"
+  }, [_c('div', {
+    staticClass: "errorWrap"
+  }), _vm._v(" "), _vm._m(0)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "errorTxt"
+  }, [_c('a', {
+    staticClass: "blue",
+    attrs: {
+      "href": "javascript:window.location.reload();"
+    }
+  }, [_vm._v("重新刷新")]), _vm._v("    \n\t\t"), _c('a', {
+    staticClass: "orange",
+    attrs: {
+      "href": "http://q.myplas.com/"
+    }
+  }, [_vm._v("返回首页")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-50b3658c", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 70:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_errorPage__);
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a,
+		'errorPage': __WEBPACK_IMPORTED_MODULE_2__components_errorPage___default.a
+	},
+	data: function data() {
+		return {
+			title: "",
+			content: "",
+			cate: "",
+			id: "",
+			cate_id: "",
+			author: "",
+			time: "",
+			pv: "",
+			type: "",
+			subscribe: [],
+			share: false,
+			share3: false,
+			share4: false,
+			loadingShow: "",
+			loadingHide: ""
+		};
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			vm.loadingShow = true;
+		});
+	},
+	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+		next(function () {});
+		this.loadingHide = false;
+	},
+	watch: {
+		title: function title() {
+			var _this = this;
+			if (this.type == "PUBLIC") {
+				this.type = "";
+			} else {
+				this.type = '[' + this.type + ']';
+			}
+
+			$.ajax({
+				type: "post",
+				url: "/mobi/wxShare/getSignPackage",
+				data: {
+					targetUrl: window.location.href
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				wx.config({
+					debug: false,
+					appId: res.signPackage.appId,
+					timestamp: res.signPackage.timestamp,
+					nonceStr: res.signPackage.noncestr,
+					signature: res.signPackage.signature,
+					jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage']
+				});
+				wx.ready(function () {
+					wx.onMenuShareTimeline({
+						title: _this.type + _this.title,
+						link: "http://q.myplas.com/#/headlinedetail/" + _this.id,
+						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+						success: function success() {
+							$.ajax({
+								type: "post",
+								url: version + "/wechat/saveShareLog",
+								data: {
+									token: window.localStorage.getItem("token"),
+									type: 3,
+									id: _this.id
+								},
+								headers: {
+									'X-UA': window.localStorage.getItem("XUA")
+								},
+								dataType: 'JSON'
+							}).done(function (res) {}).fail(function () {});
+						},
+						cancel: function cancel() {}
+					});
+					wx.onMenuShareAppMessage({
+						title: _this.type + _this.title,
+						desc: "我的塑料网-塑料圈通讯录",
+						link: "http://q.myplas.com/#/headlinedetail/" + _this.id,
+						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
+						type: '',
+						dataUrl: '',
+						success: function success() {
+							$.ajax({
+								type: "post",
+								url: version + "/wechat/saveShareLog",
+								data: {
+									token: window.localStorage.getItem("token"),
+									type: 3,
+									id: _this.id
+								},
+								headers: {
+									'X-UA': window.localStorage.getItem("XUA")
+								},
+								dataType: 'JSON'
+							}).done(function (res) {}).fail(function () {});
+						},
+						cancel: function cancel() {}
+					});
+				});
+			}, function () {});
+		}
+	},
+	methods: {
+		shareshow: function shareshow() {
+			this.share = true;
+			this.share3 = true;
+		},
+		sharehide: function sharehide() {
+			this.share = false;
+			this.share3 = false;
+			this.share4 = false;
+		},
+		toPage: function toPage(id) {
+			var _this = this;
+			window.scrollTo(0, 0);
+			if (id) {
+				var loading = weui.loading('加载中', {
+					className: 'custom-classname'
+				});
+				$.ajax({
+					type: "post",
+					url: version + "/toutiao/getDetailInfo",
+					timeout: 15000,
+					data: {
+						token: window.localStorage.getItem("token"),
+						id: id
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					_this.id = res.info.id;
+					_this.title = res.info.title;
+					_this.cate_id = res.info.cate_id;
+					_this.content = res.info.content;
+					_this.time = res.info.input_time;
+					_this.type = res.info.type;
+					_this.pv = res.info.pv;
+					_this.author = res.info.author;
+					_this.lastOne = res.info.lastOne;
+					_this.nextOne = res.info.nextOne;
+					_this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
+					switch (_this.cate_id) {
+						case "1":
+							_this.cate = "早盘预测";
+							break;
+						case "2":
+							_this.cate = "塑料上游";
+							break;
+						case "4":
+							_this.cate = "中晨塑说";
+							break;
+						case "5":
+							_this.cate = "美金市场";
+							break;
+						case "9":
+							_this.cate = "企业动态";
+							break;
+						case "11":
+							_this.cate = "装置动态";
+							break;
+						case "13":
+							_this.cate = "期刊报告";
+							break;
+						case "21":
+							_this.cate = "期货资讯";
+							break;
+						case "22":
+							_this.cate = "独家解读";
+							break;
+						default:
+							_this.cate = "塑料发现";
+							break;
+					}
+				}).fail(function () {
+					_this.loadingHide = true;
+				}).always(function () {
+					loading.hide(function () {});
+				});
+			} else {
+				weui.alert("没有相关文章", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		window.scrollTo(0, 0);
+		$.ajax({
+			type: "post",
+			url: version + "/toutiao/getDetailInfo",
+			timeout: 15000,
+			data: {
+				id: _this.$route.params.id,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON',
+			async: true
+		}).done(function (res) {
+			if (res.err == 0) {
+				_this.id = res.info.id;
+				_this.title = res.info.title;
+				_this.cate_id = res.info.cate_id;
+				_this.content = res.info.content;
+				_this.time = res.info.input_time;
+				_this.type = res.info.type;
+				_this.pv = res.info.pv;
+				_this.author = res.info.author;
+				_this.lastOne = res.info.lastOne;
+				_this.nextOne = res.info.nextOne;
+				_this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
+				_this.$nextTick(function () {
+					if (_this.$el.getElementsByTagName('table').length) {
+						_this.$el.getElementsByTagName('table')[0].style.width = "100%";
+					}
+				});
+				switch (_this.cate_id) {
+					case "1":
+						_this.cate = "早盘预测";
+						break;
+					case "2":
+						_this.cate = "塑料上游";
+						break;
+					case "4":
+						_this.cate = "中晨塑说";
+						break;
+					case "5":
+						_this.cate = "美金市场";
+						break;
+					case "9":
+						_this.cate = "企业动态";
+						break;
+					case "11":
+						_this.cate = "装置动态";
+						break;
+					case "13":
+						_this.cate = "期刊报告";
+						break;
+					case "21":
+						_this.cate = "期货资讯";
+						break;
+					case "22":
+						_this.cate = "独家解读";
+						break;
+					default:
+						_this.cate = "塑料发现";
+						break;
+				}
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		}).fail(function () {
+			_this.loadingHide = true;
+		}).always(function () {
+			_this.loadingShow = false;
+		});
+	}
+});
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(70),
+  /* template */
+  __webpack_require__(142),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\headlinedetail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] headlinedetail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3ecd75bc", Component.options)
+  } else {
+    hotAPI.reload("data-v-3ecd75bc", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+});

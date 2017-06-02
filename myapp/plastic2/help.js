@@ -1,1 +1,174 @@
-webpackJsonp([38],{10:function(t,e,s){var a=s(46)(s(72),s(140),null,null);t.exports=a.exports},140:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement;t._self._c;return t._m(0)},staticRenderFns:[function(){var t=this,e=t.$createElement,s=t._self._c||e;return s("div",{staticClass:"buyWrap",staticStyle:{padding:"45px 0 0 0"}},[s("div",{staticStyle:{position:"fixed",top:"0",left:"0",width:"100%","z-index":"10"}},[s("header",{attrs:{id:"bigCustomerHeader"}},[s("a",{staticClass:"back",attrs:{href:"javascript:window.history.back();"}}),t._v("\n\t\t\t帮助\n\t\t\t"),s("a",{staticClass:"headerMenu3",attrs:{href:"https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"}})])]),t._v(" "),s("div",{staticClass:"help"},[s("div",{staticClass:"h1"}),t._v(" "),s("div",{staticClass:"h2"}),t._v(" "),s("div",{staticClass:"h3"}),t._v(" "),s("div",{staticClass:"h4"}),t._v(" "),s("div",{staticClass:"h5"})])])}]}},46:function(t,e){t.exports=function(t,e,s,a){var i,n=t=t||{},r=typeof t.default;"object"!==r&&"function"!==r||(i=t,n=t.default);var c="function"==typeof n?n.options:n;if(e&&(c.render=e.render,c.staticRenderFns=e.staticRenderFns),s&&(c._scopeId=s),a){var o=Object.create(c.computed||null);Object.keys(a).forEach(function(t){var e=a[t];o[t]=function(){return e}}),c.computed=o}return{esModule:i,exports:n,options:c}}},72:function(t,e,s){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={data:function(){return{}},mounted:function(){try{Piwik.getTracker("http://wa.myplas.com/piwik.php",2).trackPageView()}catch(t){}}}}});
+webpackJsonp([38],{
+
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(72),
+  /* template */
+  __webpack_require__(140),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\help.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] help.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3473d97e", Component.options)
+  } else {
+    hotAPI.reload("data-v-3473d97e", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 140:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap",
+    staticStyle: {
+      "padding": "45px 0 0 0"
+    }
+  }, [_c('div', {
+    staticStyle: {
+      "position": "fixed",
+      "top": "0",
+      "left": "0",
+      "width": "100%",
+      "z-index": "10"
+    }
+  }, [_c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t\t\t帮助\n\t\t\t"), _c('a', {
+    staticClass: "headerMenu3",
+    attrs: {
+      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "help"
+  }, [_c('div', {
+    staticClass: "h1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "h2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "h3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "h4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "h5"
+  })])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3473d97e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 72:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {};
+	},
+	mounted: function mounted() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+});
+
+/***/ })
+
+});

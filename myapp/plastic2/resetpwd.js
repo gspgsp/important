@@ -1,1 +1,362 @@
-webpackJsonp([20],{103:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={data:function(){return{mobile:"",password:"",code:"",times:60,validCode:"获取验证码"}},methods:{sendCode:function(){var e=this;this.mobile?$.ajax({url:version+"/user/sendMsg",type:"post",data:{mobile:e.mobile,type:1},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON"}).then(function(t){if(0==t.err){weui.alert(t.msg,{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]});var a=setInterval(function(){e.validCode=e.times--+"秒后重发",e.times<0&&(clearInterval(a),e.validCode="获取验证码")},1e3)}else 1==t.err&&weui.alert(t.msg,{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]})},function(){}):weui.alert("请填写手机号和密码",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]})},resetPwd:function(){var e=this;this.mobile&&this.password&&this.code?$.ajax({url:version+"/user/finfMyPwd",type:"post",data:{mobile:e.mobile,password:e.password,code:e.code},headers:{"X-UA":window.localStorage.getItem("XUA")},dataType:"JSON"}).then(function(t){0==t.err?weui.alert(t.msg,{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){e.$router.push({name:"login"})}}]}):1==t.err&&weui.alert(t.msg,{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]})},function(){}):weui.alert("请填写手机号、密码和验证码",{title:"塑料圈通讯录",buttons:[{label:"确定",type:"parimary",onClick:function(){}}]})}},mounted:function(){try{Piwik.getTracker("http://wa.myplas.com/piwik.php",2).trackPageView()}catch(e){}}}},163:function(e,t){e.exports={render:function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticClass:"buyWrap"},[e._m(0),e._v(" "),a("div",{staticClass:"registerWrap"},[e._m(1),e._v(" "),a("div",{staticClass:"registerInput2"},[a("div",{staticClass:"registerBox2"},[e._m(2),e._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:e.mobile,expression:"mobile"}],attrs:{type:"tel",maxlength:"11",placeholder:"请输入您的手机号码"},domProps:{value:e.mobile},on:{input:function(t){t.target.composing||(e.mobile=t.target.value)}}})]),e._v(" "),a("div",{staticClass:"registerBox2"},[e._m(3),e._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:e.password,expression:"password"}],attrs:{type:"password",maxlength:"20",placeholder:"请输入新密码"},domProps:{value:e.password},on:{input:function(t){t.target.composing||(e.password=t.target.value)}}})]),e._v(" "),a("div",{staticClass:"registerBox2"},[e._m(4),e._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:e.code,expression:"code"}],attrs:{maxlength:"6",type:"tel",placeholder:"请输入收到的验证码"},domProps:{value:e.code},on:{input:function(t){t.target.composing||(e.code=t.target.value)}}}),e._v(" "),a("button",{staticClass:"validCode",on:{click:e.sendCode}},[e._v(e._s(e.validCode))])])])]),e._v(" "),a("div",{staticClass:"registerBtn",staticStyle:{margin:"40px 0 0 0"}},[a("input",{attrs:{type:"button",value:"重置"},on:{click:e.resetPwd}})])])},staticRenderFns:[function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("header",{attrs:{id:"bigCustomerHeader"}},[a("a",{staticClass:"back",attrs:{href:"javascript:window.history.back();"}}),e._v("\n\t\t重置密码\n\t")])},function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{staticClass:"registerTitle"},[a("i",{staticClass:"arrowLeft"}),e._v("帐号信息\n\t\t")])},function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("strong",[a("span",[e._v("*")]),e._v("手机号码:")])},function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("strong",[a("span",[e._v("*")]),e._v("设置密码:")])},function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("strong",[a("span",[e._v("*")]),e._v("手机验证码:")])}]}},41:function(e,t,a){var r=a(46)(a(103),a(163),null,null);e.exports=r.exports},46:function(e,t){e.exports=function(e,t,a,r){var i,n=e=e||{},s=typeof e.default;"object"!==s&&"function"!==s||(i=e,n=e.default);var o="function"==typeof n?n.options:n;if(t&&(o.render=t.render,o.staticRenderFns=t.staticRenderFns),a&&(o._scopeId=a),r){var l=Object.create(o.computed||null);Object.keys(r).forEach(function(e){var t=r[e];l[e]=function(){return t}}),o.computed=l}return{esModule:i,exports:n,options:o}}}});
+webpackJsonp([20],{
+
+/***/ 103:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			mobile: "",
+			password: "",
+			code: "",
+			times: 60,
+			validCode: "获取验证码"
+		};
+	},
+	methods: {
+		sendCode: function sendCode() {
+			var _this = this;
+			if (this.mobile) {
+				$.ajax({
+					url: version + '/user/sendMsg',
+					type: 'post',
+					data: {
+						mobile: _this.mobile,
+						type: 1
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+						var countStart = setInterval(function () {
+							_this.validCode = _this.times-- + '秒后重发';
+							if (_this.times < 0) {
+								clearInterval(countStart);
+								_this.validCode = "获取验证码";
+							}
+						}, 1000);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}, function () {});
+			} else {
+				weui.alert("请填写手机号和密码", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		},
+		resetPwd: function resetPwd() {
+			var _this = this;
+			if (this.mobile && this.password && this.code) {
+				$.ajax({
+					url: version + '/user/finfMyPwd',
+					type: 'post',
+					data: {
+						mobile: _this.mobile,
+						password: _this.password,
+						code: _this.code
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {}
+							}]
+						});
+					}
+				}, function () {});
+			} else {
+				weui.alert("请填写手机号、密码和验证码", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {}
+					}]
+				});
+			}
+		}
+	},
+	mounted: function mounted() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+
+});
+
+/***/ }),
+
+/***/ 163:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "registerWrap"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "registerInput2"
+  }, [_c('div', {
+    staticClass: "registerBox2"
+  }, [_vm._m(2), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.mobile),
+      expression: "mobile"
+    }],
+    attrs: {
+      "type": "tel",
+      "maxlength": "11",
+      "placeholder": "请输入您的手机号码"
+    },
+    domProps: {
+      "value": (_vm.mobile)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.mobile = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "registerBox2"
+  }, [_vm._m(3), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.password),
+      expression: "password"
+    }],
+    attrs: {
+      "type": "password",
+      "maxlength": "20",
+      "placeholder": "请输入新密码"
+    },
+    domProps: {
+      "value": (_vm.password)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.password = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "registerBox2"
+  }, [_vm._m(4), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.code),
+      expression: "code"
+    }],
+    attrs: {
+      "maxlength": "6",
+      "type": "tel",
+      "placeholder": "请输入收到的验证码"
+    },
+    domProps: {
+      "value": (_vm.code)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.code = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "validCode",
+    on: {
+      "click": _vm.sendCode
+    }
+  }, [_vm._v(_vm._s(_vm.validCode))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "registerBtn",
+    staticStyle: {
+      "margin": "40px 0 0 0"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "button",
+      "value": "重置"
+    },
+    on: {
+      "click": _vm.resetPwd
+    }
+  })])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t\t重置密码\n\t")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "registerTitle"
+  }, [_c('i', {
+    staticClass: "arrowLeft"
+  }), _vm._v("帐号信息\n\t\t")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("手机号码:")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("设置密码:")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("手机验证码:")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-f5203e6a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(46)(
+  /* script */
+  __webpack_require__(103),
+  /* template */
+  __webpack_require__(163),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\resetpwd.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] resetpwd.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f5203e6a", Component.options)
+  } else {
+    hotAPI.reload("data-v-f5203e6a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 46:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ })
+
+});
