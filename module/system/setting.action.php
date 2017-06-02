@@ -169,6 +169,12 @@ class settingAction extends adminBaseAction {
 					'ios'=>$_POST['qapp_newest_tip_ios'],
 					'android'=>$_POST['qapp_newest_tip_android'],
 				)),
+				'qapp_newest_package'=>json_encode(array(
+					'ios_package'=>$_POST['qapp_newest_package_ios_package'],
+					'android_package'=>$_POST['qapp_newest_package_android_package'],
+					'ios_version'=>$_POST['qapp_newest_package_ios_version'],
+					'android_version'=>$_POST['qapp_newest_package_android_version'],
+				)),
 				'qapp_newest_version'=>$_POST['qapp_newest_version']
 			);
 		/*	$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
@@ -191,14 +197,17 @@ class settingAction extends adminBaseAction {
 			$qapp_newest_url=$setting['qapp_newest_url'];
 			$qapp_newest_tip=$setting['qapp_newest_tip'];
 			$qapp_newest_version=$setting['qapp_newest_version'];
+			$qapp_newest_package=$setting['qapp_newest_package'];
 		}else{
 			$qapp_newest_url=array();
 			$qapp_newest_tip=array();
 			$qapp_newest_version='';
+			$qapp_newest_package = '';
 		}
 		$this->assign('qapp_newest_url',$qapp_newest_url);
 		$this->assign('qapp_newest_tip',$qapp_newest_tip);
 		$this->assign('qapp_newest_version',$qapp_newest_version);
+		$this->assign('qapp_newest_package',$qapp_newest_package);
 		$this->assign('page_title','塑料圈更新');
 		$this->display('setting.qapp_update.html');
 	}
