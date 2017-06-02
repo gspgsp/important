@@ -2645,9 +2645,6 @@ class qapi1_2Action extends null2Action
                 if ($v['thumb']) {
                     $v['thumb'] = FILE_URL.$v['thumb'];
                 }
-                if ($v['image']) {
-                    $v['image'] = FILE_URL.$v['image'];
-                }
             }
             $ret = array(
                 'err'       => 0,
