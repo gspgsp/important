@@ -29,7 +29,8 @@ export default{
 			name:"供给",
 			share: false,
 			share3: false,
-			share4: false
+			share4: false,
+			typeName:"供给消息"
 		}
 	},
 	methods: {
@@ -72,7 +73,7 @@ export default{
 				});
 				wx.ready(function() {
 					wx.onMenuShareTimeline({
-						title: _this.contents,
+						title: _this.typeName+":"+_this.contents,
 						link: 'http://q.myplas.com/#/supplybuy/' + _this.id + '?invite=' + tel,
 						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 						success: function() {
@@ -173,8 +174,10 @@ export default{
 				_this.type=res.data.type;
 				if(_this.type==1){
 					_this.name="求购";
+					_this.typeName="求购消息";
 				}else{
-					_this.name="供给"; 
+					_this.name="供给";
+					_this.typeName="供给消息";
 				}
 				_this.input_time=res.data.input_time;
 				_this.contents=res.data.contents || res.data.content;
