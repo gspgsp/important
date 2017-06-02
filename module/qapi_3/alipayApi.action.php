@@ -46,7 +46,6 @@ class alipayApiAction extends null2Action{
             if($_POST['trade_status'] =='TRADE_SUCCESS'||$_POST['trade_status'] =='TRADE_FINISHED'){
                 $_tmp = 'sss'.CORE_TIME.'name';
                 $this->cache->set($_tmp,serialize($_POST));
-                file_put_contents(APP_LIB."extend/notifyurl_log/$_tmp.txt",serialize($_POST));
                 echo 'success';die();
             }
         }else{

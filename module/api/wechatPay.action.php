@@ -17,7 +17,6 @@ class wechatPayAction extends null2Action{
         $msg.=$orderBody."\n";
         $msg.=$tade_no."\n";
         $msg.=$total_fee."\n";
-        file_put_contents("./wechatPay.log", $msg, FILE_APPEND | LOCK_EX);
         $x = $wechatPay->getOrder($response['prepay_id']);
         $this->json_output(array('err'=>0,'data'=>$x));
 
