@@ -156,19 +156,16 @@ export default {
 		},
 		toLogin: function() {
 			if(window.localStorage.getItem("token")) {
-				weui.alert('带回调的alert', function(){ console.log('ok') });
-//				weui.alert("你已登录塑料圈", {
-//					title: '塑料圈通讯录',
-//					buttons: [{
-//						label: '确定',
-//						type: 'parimary',
-//						onClick: function() {
-//							_this.$router.push({
-//								name: 'login'
-//							});
-//						}
-//					}]
-//				});
+				weui.alert("你已登录塑料圈", {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							
+						}
+					}]
+				});
 			} else {
 				this.$router.push({
 					name: 'login'
