@@ -167,7 +167,7 @@ function onLoadFllow(e) {
 }
 function send(e){
 	var record = e.record,id=record.id,s='';
-	s += '<a href="javascript:sends('+id+')">发短信</a>|';
+	return s += '<a href="javascript:sends('+id+')">发短信</a>|';
 }
 //发送短信回调方法
 function sends(e){
