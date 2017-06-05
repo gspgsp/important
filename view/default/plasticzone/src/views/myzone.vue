@@ -193,7 +193,8 @@ export default{
 				jsApiList: [
 					'showOptionMenu',
 					'onMenuShareTimeline',
-					'onMenuShareAppMessage'
+					'onMenuShareAppMessage',
+					'chooseWXPay'
 				]
 			});
 			wx.ready(function() {
