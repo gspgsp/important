@@ -157,7 +157,7 @@ function conKeyEnter(e) {
 //客户的操作相关按钮
 function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
-	s += '<a href="javascript:new_useless('+cid+')">公开</a>|<a href="javascript:viewFinfo('+cid+')">跟</a>|</br><a href="javascript:contract('+cid+')">联系人</a>'
+	s += '<a href="javascript:new_useless('+cid+')">公开</a>|<a href="javascript:viewFinfo('+cid+')">跟</a>|</br><a href="javascript:contract('+cid+')">联系人</a>|<a href="javascript:removeRow('+cid+')">黑</a>|<a href="javascript:yellow('+cid+')">黄名单</a>'
 	return s;
 }
 //新版的作废客户
@@ -201,8 +201,45 @@ function onLoadHandle(e) {
 	s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
 	return s;
 }
+//标示黄名单
+function yellow(cid) {
+	mini.confirm("确定标记为黄名单？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			utils.ajax('/user/customer/yellow',{ids:cid},callback,"POST","json");
+		}
+	);
+}
+//删除数据
+function removeRow(cid) {
+	mini.confirm("确定加入黑名单？", "提示",	function(action){
+			if(action!='ok') return;
+			var callback=function(data){
+				if(data.err!='0'){
+					alert(data.msg);
+					return false;
+				}else{
+					grid.reload();
+				}
+			}
+			if(supplier == 1){
+				utils.ajax('/user/customer/remove_supplier',{ids:cid},callback,"POST","json");
+			}else if(cooperation == 1){
+				utils.ajax('/user/customer/remove_cooperation',{ids:cid},callback,"POST","json");
+			}else{
+				utils.ajax('/user/customer/remove',{ids:cid},callback,"POST","json");
+			}
 
-
+		}
+	);
+}
 
 
 
