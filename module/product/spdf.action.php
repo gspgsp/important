@@ -17,9 +17,16 @@ class spdfAction extends adminBaseAction {
 		}
 		$oid = intval($this->db->model('sale_log')->select('o_id')->where("`id` = {$data[0]['sale_id']}")->getOne());
 		$oinfo = $this->db->model('order')->where("`o_id` = $oid")->getRow();
+		//获取订单的关联信息
+		$content_id = M('product:order')->getAssociationID($oid);
+		if($content_id>0){
+			$rinfo = $this->db->model('order')->where("`o_id` = $content_id")->getRow();
+		}
 		$this->ship_adm = $ship['name'].'/'.$ship['tel'].'&nbsp;&nbsp;传真：'.L('c_fax')[$oinfo['c_fax']];
 		$this->company = L('companys')[$oinfo['order_name']];
 		$this->cname = M('user:customer')->getColByName($oinfo['c_id']);
+		//关联客户信息
+		$this->rcname = M('user:customer')->getColByName($rinfo['c_id']);
 		$this->out_no = $this->db->model('out_storage')->select('out_no')->where("id = {$data[0]['storage_id']}")->getOne();
 		$this->info = $data;
 	}
@@ -41,7 +48,7 @@ class spdfAction extends adminBaseAction {
 				</tr >';
 			}
 			$contract = $this->template['tihuo'];
-			$contract = sprintf($contract,$this->company,$this->cname,$this->out_no,$this->info[0]['fax'],$detail_info,$this->info[0]['remark'],$this->info[0]['store_address'],$this->ship_adm);
+			$contract = sprintf($contract,$this->company,$this->rcname,$this->out_no,$this->info[0]['fax'],$detail_info,$this->info[0]['remark'],$this->info[0]['store_address'],$this->ship_adm);
 			$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 			$pdf->SetTitle('上海中晨电商合同报表');
 			$pdf->SetHeaderData('config/pdflogo.jpg', 180, '','', array(0,33,43), array(0,64,128));
