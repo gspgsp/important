@@ -184,6 +184,13 @@ return array(
 		1=>'已授信',
 		3=>'拒绝',
 	),
+	//授信状态用于筛选
+	'is_credit_new'=>array(
+		1=>'未授信',
+		2=>'已授信',
+		3=>'预授信',
+		4=>'拒绝',
+	),
 	//战队配资操作类型
 	'team_capital_type'=>array(
 		'sale_come'=>'财务收款',
