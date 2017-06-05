@@ -77,6 +77,9 @@ class payAction extends baseAction
 
         $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['status'], $res['remark']);
 
+        file_put_contents('/tmp/xielei.txt',print_r($res,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
+
         if ($res['status'] == 0 && !empty($data)) {
             $x = $this->payment->getOrder ($res['prepay_id']);
             $this->json_output (array(
