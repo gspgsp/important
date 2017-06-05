@@ -13,7 +13,7 @@ class releaseMsgAction extends baseAction
     /**
      * (中间供求信息)获取供求发布和消息回复
      * @api {post} /qapi_3/releaseMsg/getReleaseMsg 获取通讯录首页数据
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getReleaseMsg
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -436,7 +436,7 @@ class releaseMsgAction extends baseAction
     /**
      * (中间供求信息)获取供求发布(详情)
      * @api {post} /qapi_3/releaseMsg/getReleaseMsgDetail (中间供求信息)获取供求发布(详情)
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getReleaseMsgDetail
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -505,7 +505,7 @@ class releaseMsgAction extends baseAction
     /**
      * (中间供求信息)获取供求发布(详情)的消息回复
      * @api {post} /qapi_3/releaseMsg/getReleaseMsgDetailReply (中间供求信息)获取供求发布(详情)的消息回复
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getReleaseMsgDetailReply
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -582,7 +582,7 @@ class releaseMsgAction extends baseAction
     /**
      * 供求消息中的出价
      * @api {post} /qapi_3/releaseMsg/deliverPrice 供求消息中的出价
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  deliverPrice
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -648,7 +648,7 @@ class releaseMsgAction extends baseAction
     /**
      * 获取供求消息的出价
      * @api {post} /qapi_3/releaseMsg/getDeliverPrice 获取供求消息的出价
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getDeliverPrice
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -697,7 +697,7 @@ class releaseMsgAction extends baseAction
     /**
      * 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
      * @api {post} /qapi_3/releaseMsg/pub 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  pub
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -957,7 +957,7 @@ class releaseMsgAction extends baseAction
     /**
      * 删除回复
      * @api {post} /qapi_3/releaseMsg/deleteRepeat 删除回复
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  pub
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -992,7 +992,7 @@ class releaseMsgAction extends baseAction
     /**
      * 回复供求消息
      * @api {post} /qapi_3/releaseMsg/saveMsg 回复供求消息
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  saveMsg
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -1072,7 +1072,7 @@ class releaseMsgAction extends baseAction
     /**
      * 获取我的供给或求购
      * @api {post} /qapi_3/releaseMsg/getMyMsg 获取我的供给或求购
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getMyMsg
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -1139,7 +1139,7 @@ class releaseMsgAction extends baseAction
     /**
      * 删除我的供给或求购
      * @api {post} /qapi_3/releaseMsg/deleteMyMsg 删除我的供给或求购
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  deleteMyMsg
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -1175,7 +1175,7 @@ class releaseMsgAction extends baseAction
     /**
      * 获取我的(留言)
      * @api {post} /qapi_3/releaseMsg/getMyComment 获取我的(留言)
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getMyComment
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -1226,7 +1226,7 @@ class releaseMsgAction extends baseAction
     /**
      * 二次发布
      * @api {post} /qapi_3/releaseMsg/secondPub 二次发布
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  secondPub
      * @apiGroup releaseMsg
      * @apiUse UAHeader
@@ -1297,7 +1297,7 @@ class releaseMsgAction extends baseAction
     /**
      * 供求信息置顶之供求信息列表
      * @api {post} /qapi_3/releaseMsg/supplyDemandList 供求信息置顶之供求信息列表
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  supplyDemandList
      * @apiGroup releaseMsg
      * @apiUse UAHeader

@@ -11,7 +11,7 @@ class productAction extends baseAction
     /**
      * 塑料圈app之积分商品列表
      * @api {post} /qapi_3/product/getProductList   塑料圈app之积分商品列表
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getProductList
      * @apiGroup product
      * @apiUse UAHeader
@@ -139,7 +139,7 @@ class productAction extends baseAction
     /**
      * 塑料圈app之积分商品可选日期
      * @api {post} /qapi_3/product/getValidDate   塑料圈app之积分商品可选日期
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getValidDate
      * @apiGroup product
      * @apiUse UAHeader
@@ -535,7 +535,7 @@ class productAction extends baseAction
     /**
      * 塑料圈app之兑换置顶信息
      * @api {post} /qapi_3/product/newExchangeSupplyOrDemand   塑料圈app之兑换置顶信息
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  newExchangeSupplyOrDemand
      * @apiGroup product
      * @apiUse UAHeader
@@ -660,7 +660,7 @@ class productAction extends baseAction
     /**
      * 塑料圈app之兑换记录
      * @api {post} /qapi_3/product/getPurchaseRecord   塑料圈app之兑换记录
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getPurchaseRecord
      * @apiGroup product
      * @apiUse UAHeader

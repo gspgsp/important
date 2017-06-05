@@ -11,7 +11,7 @@ class creditAction extends baseAction
     /**
      * 获取企查查的接口
      * @api {post} /qapi_3/credit/getQiChaCha 获取企查查的接口
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getQiChaCha
      * @apiGroup Credit
      * @apiUse UAHeader
@@ -51,7 +51,7 @@ class creditAction extends baseAction
     /**
      * 获取证书
      * @api {post} /qapi_3/credit/creditCertificate 获取证书
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  creditCertificate
      * @apiGroup Credit
      * @apiUse UAHeader

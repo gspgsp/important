@@ -10,7 +10,7 @@ class myInfoAction extends baseAction
     /**
      * 我的塑料圈
      * @api {post} /qapi_3/myInfo/myZone   我的塑料圈
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  myZone
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -139,7 +139,7 @@ class myInfoAction extends baseAction
     /**
      * 塑料圈联系人的-我的消息（yuepao）
      * @api {post} /qapi_3/myInfo/getZoneContactMsg   塑料圈联系人的-我的消息（yuepao）
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getZoneContactMsg
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -219,7 +219,7 @@ class myInfoAction extends baseAction
     /**
      *  关注/粉丝的头像
      * @api {post} /qapi_3/myInfo/headPicture   关注/粉丝的头像
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  headPicture
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -269,7 +269,7 @@ class myInfoAction extends baseAction
     /**
      * 保存我的资料
      * @api {post} /qapi_3/myInfo/saveSelfInfo   保存我的资料
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  saveSelfInfo
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -445,7 +445,7 @@ class myInfoAction extends baseAction
     /**
      * 查看我的资料
      * @api {post} /qapi_3/myInfo/saveSelfInfo   查看我的资料
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  saveSelfInfo
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -551,7 +551,7 @@ class myInfoAction extends baseAction
     /**
      * 偏好设置-发送短信
      * @api {post} /qapi_3/myInfo/favorateSet   偏好设置-发送短信
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  favorateSet
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -586,7 +586,7 @@ class myInfoAction extends baseAction
     /**
      * 获取我的粉丝和我的关注(数)
      * @api {post} /qapi_3/myInfo/getMyFuns   获取我的粉丝和我的关注(数)
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getMyFuns
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -685,7 +685,7 @@ class myInfoAction extends baseAction
     /**
      * 获取系统消息robot
      * @api {post} /qapi_3/myInfo/getRobotMsg   获取系统消息robot
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getRobotMsg
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -772,7 +772,7 @@ class myInfoAction extends baseAction
     /**
      * 保存头像到服务器
      * @api {post} /qapi_3/myInfo/savePicToServer   保存头像到服务器
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  savePicToServer
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -799,7 +799,7 @@ class myInfoAction extends baseAction
     /**
      * 保存名片到服务器
      * @api {post} /qapi_3/myInfo/saveCardImg   保存名片到服务器
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  saveCardImg
      * @apiGroup myInfo
      * @apiUse UAHeader
@@ -828,7 +828,7 @@ class myInfoAction extends baseAction
     /**
      *  获取我的引荐(引荐数)
      * @api {post} /qapi_3/myInfo/getMyIntroduction   获取我的引荐(引荐数)
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getMyIntroduction
      * @apiGroup myInfo
      * @apiUse UAHeader

@@ -17,7 +17,7 @@ class commonAction extends baseAction
     /**
      * ua检查更新接口
      * @api {GET} /qapi_3/common/checkUA 检查ua接口
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  checkUA
      * @apiGroup Common
      * @apiUse UAHeader
@@ -67,7 +67,7 @@ class commonAction extends baseAction
     /**
      * APP检查更新接口
      * @api {post} /qapi_3/common/checkVersion APP检查更新接口
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  checkVersion
      * @apiGroup Common
      * @apiUse UAHeader

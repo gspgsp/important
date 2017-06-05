@@ -10,7 +10,7 @@ class toutiaoAction extends baseAction
 
     /**
      * @api {post} /qapi_3/toutiao/topLine 塑料头条
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  topLine
      * @apiGroup toutiao
      * @apiUse UAHeader
@@ -73,7 +73,7 @@ class toutiaoAction extends baseAction
     /**
      * 塑料头条-分类列表
      * @api {post} /qapi_3/toutiao/getCateList 塑料头条-分类列表
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getCateList
      * @apiGroup toutiao
      * @apiUse UAHeader
@@ -298,7 +298,7 @@ class toutiaoAction extends baseAction
     /**
      * 塑料头条-详情列表
      * @api {post} /qapi_3/toutiao/getDetailInfo 塑料头条-详情列表
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getDetailInfo
      * @apiGroup toutiao
      * @apiUse UAHeader
@@ -411,7 +411,7 @@ class toutiaoAction extends baseAction
 
     /**
      * @api {post} /qapi_3/toutiao/getSelectCate 塑料头条-获取订阅频道
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getSelectCate
      * @apiGroup toutiao
      * @apiUse UAHeader
@@ -471,7 +471,7 @@ class toutiaoAction extends baseAction
     /**
      *
      * @api {post} /qapi_3/toutiao/getSubscribe 塑料头条-sss头条推荐
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getSubscribe
      * @apiGroup toutiao
      * @apiUse UAHeader

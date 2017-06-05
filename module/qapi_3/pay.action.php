@@ -15,13 +15,12 @@ class payAction extends baseAction
     {
         parent::__init ();
         $this->cache = E ('RedisClusterServer', APP_LIB.'class');
-        E ('multiPay', APP_LIB.'class');
     }
 
     /**
      * 网上支付-获取预定义订单
      * @api {post} /qapi_3/pay/getPrePayOrder 网上支付-获取预定义订单
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  getPrePayOrder
      * @apiGroup pay
      * @apiUse UAHeader
@@ -48,6 +47,7 @@ class payAction extends baseAction
 
     public function getPrePayOrder ()
     {
+        E ('multiPay', APP_LIB.'class');
 
         $user_id   = $this->checkAccount ();
         $type      = sget ('type', 'i', 1);   // 1 weixin   2  支付宝
@@ -92,7 +92,7 @@ class payAction extends baseAction
     /**
      * 网上支付-更新订单状态
      * @api {post} /qapi_3/pay/updateOrderStatus 网上支付-更新订单状态
-     * @apiVersion 3.1.0
+     * @apiVersion 3.2.0
      * @apiName  updateOrderStatus
      * @apiGroup pay
      * @apiUse UAHeader
@@ -115,6 +115,7 @@ class payAction extends baseAction
      */
     public function updateOrderStatus ()
     {
+
         $user_id    = $this->checkAccount ();
         $type       = sget ('type', 'i', 1);   // 1 weixin   2  支付宝
         $order_id   = sget ('order_id', 'i');
@@ -140,5 +141,136 @@ class payAction extends baseAction
         ));
     }
 
+
+    /**
+     * 获取金钱苏豆对应关系
+     * @api {post} /qapi_3/pay/getPayAmountConfig 网上支付-更新订单状态
+     * @apiVersion 3.2.0
+     * @apiName  getPayAmountConfig
+     * @apiGroup pay
+     * @apiUse UAHeader
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} data   信息
+     *
+     * @apiSuccessExample Success-Response:
+             *     {
+            "err": 0,
+            "data": [
+            {
+            "money": 10,
+            "plasticBean": 100
+            },
+            {
+            "money": 20,
+            "plasticBean": 200
+            },
+            {
+            "money": 30,
+            "plasticBean": 300
+            },
+            {
+            "money": 50,
+            "plasticBean": 500
+            },
+            {
+            "money": 100,
+            "plasticBean": 1000
+            },
+            {
+            "money": 200,
+            "plasticBean": 2000
+            },
+            {
+            "money": 300,
+            "plasticBean": 3000
+            },
+            {
+            "money": 500,
+            "plasticBean": 500
+            },
+            {
+            "money": 600,
+            "plasticBean": 600
+            }
+            ]
+            }
+     */
+
+    public function getPayAmountConfig()
+    {
+        $arr = array(
+            array(
+                'money'=>10,
+                'plasticBean'=>100
+            ),
+            array(
+                'money'=>20,
+                'plasticBean'=>200
+            ),
+            array(
+                'money'=>30,
+                'plasticBean'=>300
+            ),
+            array(
+                'money'=>50,
+                'plasticBean'=>500
+            ),
+            array(
+                'money'=>100,
+                'plasticBean'=>1000
+            ),
+            array(
+                'money'=>200,
+                'plasticBean'=>2000
+            ),
+            array(
+                'money'=>300,
+                'plasticBean'=>3000
+            ),
+            array(
+                'money'=>500,
+                'plasticBean'=>500
+            ),
+            array(
+                'money'=>600,
+                'plasticBean'=>600
+            )
+        );
+        $this->json_output (array(
+            'err'  => 0,
+            'data'  => $arr,
+        ));
+    }
+    /**
+     * 获取金钱苏豆对应关系
+     * @api {post} /qapi_3/pay/getPayAmountConfig 网上支付-更新订单状态
+     * @apiVersion 3.2.0
+     * @apiName  getPayAmountConfig
+     * @apiGroup pay
+     * @apiUse UAHeader
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {Boolean} err   错误码
+     * @apiSuccess {Array} data   信息
+     *
+     * @apiSuccessExample Success-Response:
+     * {"err":0,"plasticBean":1000}
+     */
+    public function getExactAmount()
+    {
+        $money = sget('money','i',1);
+        if($money>10000||$money<1||!is_integer($money))
+        {
+            $this->_errCode(6);
+        }
+
+        $bean = 10*$money;
+        $this->json_output (array(
+            'err'  => 0,
+            'plasticBean'  => $bean,
+        ));
+    }
 
 }
