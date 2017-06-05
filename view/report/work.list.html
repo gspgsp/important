@@ -36,27 +36,27 @@
 	</table>
 		</div>
 		<div class="mini-fit">
-			<div id="gridCells" class="mini-datagrid" style="width:100%;height:100%;" sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
-				borderStyle="border:0;"  url="/user/customer/init?action=grid" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
-			>
-			<div property="columns">
-				<div type="checkcolumn"></div>
-				<div field="c_name" width="70" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
-				<div field="action" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
-				<div field="type" width="35" headerAlign="center" align="center">客户类型</div>
-				<div field="need_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">所需牌号
-					<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
+				<div id="gridCells" class="mini-datagrid" style="width:100%;height:100%;" sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+					borderStyle="border:0;"  url="/user/customer/init?action=grid" showFilterRow="true" allowCellSelect="true" allowCellEdit="true"  multiSelect="true"
+				>
+				<div property="columns">
+					<div type="checkcolumn" width="20"></div>
+					<div field="c_name" width="70" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">客户名字</div>
+					<div field="action" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+					<div field="type" width="35" headerAlign="center" align="center">客户类型</div>
+					<div field="need_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">所需牌号
+						<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
+					</div>
+					<div field="main_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">主营产品
+						<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
+					</div>
+					<div field="month_consum" width="30" headerAlign="center" allowSort="true" align="center" align="center">月用量
+						<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
+					</div>
+					<div field="name" width="30" headerAlign="center" align="center" >客户联系</div>
+					<div field="mobile" width="60" headerAlign="center"  align="center">强开</div>
+					<div field="remark" width="60" headerAlign="center"  align="center">匹配</div>
 				</div>
-				<div field="main_product" width="50" headerAlign="center" allowSort="true" align="center" align="center">主营产品
-					<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
-				</div>
-				<div field="month_consum" width="30" headerAlign="center" allowSort="true" align="center" align="center">月用量
-					<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
-				</div>
-				<div field="name" width="30" headerAlign="center" align="center" >客户联系</div>
-				<div field="mobile" width="60" headerAlign="center"  align="center">强开</div>
-				<div field="remark" width="60" headerAlign="center"  align="center">匹配</div>
-			</div>
 			</div>
 		</div>
 	</div>
