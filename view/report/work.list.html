@@ -162,7 +162,7 @@ function conKeyEnter(e) {
 //客户的操作相关按钮
 function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
-	s += '<a href="javascript:new_useless('+cid+')">公开</a>|</br><a href="javascript:contract('+cid+')">联系人</a>|<a href="javascript:removeRow('+cid+')">黑</a>|<a href="javascript:yellow('+cid+')">黄</a>|<a href="javascript:viewFinfo('+cid+')">跟</a>'
+	s += '<a href="javascript:new_useless('+cid+')">公开</a>|<a href="javascript:contract('+cid+')">联系人</a></br><a href="javascript:removeRow('+cid+')">黑</a>|<a href="javascript:yellow('+cid+')">黄</a>|<a href="javascript:viewFinfo('+cid+')">跟</a>'
 	return s;
 }
 //新版的作废客户
