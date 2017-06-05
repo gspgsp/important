@@ -93,8 +93,8 @@
 						<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
 						<div field="customer_manager" width="35" headerAlign="center" align="center">采购人</div>
 						<div field="input_time" width="70" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
-						<div action="" width="50" headerAlign="center" align="center">操作</div>
-						<div field="remark" width="80" headerAlign="center" align="center">备注</div>
+						<div action="" width="50" headerAlign="center" align="center" renderer="send">操作</div>
+						<div field="remark" width="60" headerAlign="center" align="center">备注</div>
 					</div>
 				</div>
 			</div>
@@ -164,6 +164,14 @@ function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
 	s += '<a href="javascript:new_useless('+cid+')">公开</a>|<a href="javascript:contract('+cid+')">联系人</a></br><a href="javascript:removeRow('+cid+')">黑</a>|<a href="javascript:yellow('+cid+')">黄</a>|<a href="javascript:viewFinfo('+cid+')">跟</a>'
 	return s;
+}
+function send(e){
+	var record = e.record,id=record.id,s='';
+	s += '<a href="javascript:sends('+id+')">发短信</a>|';
+}
+//发送短信回调方法
+function sends(e){
+
 }
 //新版的作废客户
 function new_useless(cid){
@@ -259,6 +267,21 @@ function changeTab(e){
 			gridCell.load();
 		}
 	}
+}
+//追加查看产品按钮
+function onLoadProduct(e){
+	var record = e.record,s='',p_id = record.p_id,model=record.model;
+	s += '<a href="javascript:viewProInfo('+p_id+')">'+model+'</a> ';
+	return s;
+}
+//查看产品相关信息
+function viewProInfo(pid){
+	mini.open({
+		url: "/product/product/info?pid="+pid,
+		showMaxButton:true,
+		title: "产品相关信息",
+		width: 250, height:250
+	});
 }
 var Status = [{id:0, text: '禁用' }, { id: 1, text: '正常'}];
 
