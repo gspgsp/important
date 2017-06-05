@@ -6,7 +6,7 @@
 	<table style="width:100%;">
 		<tr>
 			<td style="white-space:nowrap;">
-			<form id="soform">
+			<form id="csoform">
 				添加时间
 				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
@@ -16,20 +16,20 @@
 				</select>
 				<select name="company_chanel">
 					<option value="" selected="selected">=区域=</option>
-					{html_options options=$company_chanel}
+					{html_options options=$belong_area}
 				</select>
 				<select name="status">
 					<option value="" selected="selected">=客户状态=</option>
-					{html_options options=$company_chanel}
+					{html_options options=$cus_status}
 				</select>
 				<select name="key_type">
 					<option value="c_name" selected="selected">客户名称</option>
 					<option value="need_product" >所需牌号</option>
 					<option value="customer_manager">交易员</option>
 				</select>
-				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
-				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-							<span id="searchMsg"></span>
+				<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="conKeyEnter"/>
+				<a class="mini-button" iconCls="icon-search" onclick="csearch()">查询</a>
+				<span id="csearchMsg"></span>
 			   </form>
 			</td>
 		</tr>
@@ -138,14 +138,26 @@
 </div>
 <script type="text/javascript">
 mini.parse();
-var grid = mini.get("gridCells");
-grid.load();
 //加载客户
 var grids = mini.get("gridCell");
 grids.load();
-var tree = mini.get("nodeTree");
-var pGrid = mini.get("pCellList");
-var cGrid = mini.get("cCellList");
+
+//加载左侧信息
+var grid = mini.get("gridCells");
+grid.load();
+//对客户进行搜索
+function csearch() {
+	grid.load($("#csoform").serializeObject(),function(e){
+		$("#csearchMsg").html(e.msg);
+	});
+}
+function conKeyEnter(e) {
+	csearch();
+}
+
+
+
+
 var Status = [{id:0, text: '禁用' }, { id: 1, text: '正常'}];
 //格式化状态
 function onStatusRenderer(e) {
