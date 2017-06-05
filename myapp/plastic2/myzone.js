@@ -834,7 +834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				timestamp: res.signPackage.timestamp,
 				nonceStr: res.signPackage.noncestr,
 				signature: res.signPackage.signature,
-				jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage']
+				jsApiList: ['showOptionMenu', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'chooseWXPay']
 			});
 			wx.ready(function () {
 				wx.onMenuShareTimeline({
