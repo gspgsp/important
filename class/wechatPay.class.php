@@ -39,7 +39,7 @@ class wechatPay{
         $data["sign"] = $s;
         if($this->is_sandbox) {
             $sandbox_key = $this->getSandboxSign ($data);
-            $data["sandbox_signkey"] = $sandbox_key;
+            $data["sign"] = $sandbox_key;
         }
         file_put_contents('/tmp/xielei.txt',print_r($sandbox_key,true)."\n",FILE_APPEND);
 
