@@ -187,16 +187,16 @@ class wechatPay{
     public function getSandboxSign($Obj)
     {
         //$data['mch_id'] = $config;
-        $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+        /*$url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
         $onoce_str = $this->getRandChar(32);
         $data["nonce_str"] = $config;
 
         $s = $this->getSign($data, false);
-        $data["sign"] = $s;
-
+        $data["sign"] = $s;*/
+        $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
         $xml = $this->arrayToXml($Obj);
         $response = $this->postXmlCurl($xml, $url);
-
+        file_put_contents('/tmp/xielei.txt',print_r($response,true)."\n",FILE_APPEND);
         return $response['sandbox_signkey'];
     }
 
