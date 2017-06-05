@@ -142,8 +142,13 @@ mini.parse();
 var grids = mini.get("gridCell");
 grids.load();
 
+
+
+
 //加载左侧信息
 var grid = mini.get("gridCells");
+var supplier = parseInt({$supplier});
+var cooperation = parseInt({$cooperation});
 grid.load();
 //对客户进行搜索
 function csearch() {
@@ -219,7 +224,7 @@ function yellow(cid) {
 }
 //删除数据
 function removeRow(cid) {
-	mini.confirm("确定加入黑名单？", "提示",	function(action){
+	mini.confirm("确定加入黑名单？", "提示",function(action){
 			if(action!='ok') return;
 			var callback=function(data){
 				if(data.err!='0'){
