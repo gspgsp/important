@@ -33,10 +33,12 @@ class wechatPay{
         $data["spbill_create_ip"] = $this->get_client_ip();
         $data["total_fee"] = $total_fee;
         $data["trade_type"] = "APP";
+
+        $s = $this->getSign ($data);
+
+        $data["sign"] = $s;
         if($this->is_sandbox) {
             $s = $this->getSandboxSign ($data);
-        }else{
-            $s = $this->getSign ($data);
         }
         $data["sign"] = $s;
 
