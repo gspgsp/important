@@ -244,7 +244,7 @@ export default{
 			wx.chooseWXPay({
 			    timestamp: res.timestamp,
 			    nonceStr: res.noncestr,
-			    package: res.prepayid,
+			    package: res.package,
 			    signType: 'MD5',
 			    paySign: res.sign,
 			    success: function (data) {
