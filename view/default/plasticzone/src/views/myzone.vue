@@ -246,8 +246,8 @@ export default{
 			    package: res.prepayid,
 			    signType: 'MD5',
 			    paySign: res.sign,
-			    success: function (res) {
-			        console.log(res);
+			    success: function (data) {
+			        console.log(">>>",data);
 			    }
 			});
 		}).fail(function(){
