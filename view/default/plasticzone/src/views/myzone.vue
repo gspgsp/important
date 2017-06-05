@@ -241,16 +241,18 @@ export default{
 			dataType: 'JSON'
 		}).done(function(res){
 			console.log(res);
-			wx.chooseWXPay({
-			    timestamp: res.timestamp,
-			    nonceStr: res.noncestr,
-			    package: "prepay_id="+res.prepayid,
-			    signType: 'MD5',
-			    paySign: res.sign,
-			    success: function (data) {
-			        console.log(">>>",data);
-			    }
-			});
+			if(res.err==0){
+				wx.chooseWXPay({
+				    timestamp: res.data.timestamp,
+				    nonceStr: res.data.noncestr,
+				    package: "prepay_id="+res.data.prepayid,
+				    signType: 'MD5',
+				    paySign: res.data.sign,
+				    success: function (data) {
+				        console.log(">>>",data);
+				    }
+				});			
+			}
 		}).fail(function(){
 			
 		});
