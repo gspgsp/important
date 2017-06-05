@@ -36,7 +36,7 @@ class multiPay
         switch ($this->type) {
             case 1:
                 if ($res['return_code'] == 'SUCCESS') {
-                    $res['status'] = 0;
+                    $res['status'] = 1;
                     $res['remark'] = '';
                 } else {
                     $res['status'] = -1;

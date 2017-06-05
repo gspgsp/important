@@ -43,6 +43,36 @@ class onlineOrderModel extends model{
     }
 
 
+    public function updatePlasticBean($order_id)
+    {
+        $order_info = $this->getPk($order_id);
+
+        $this->startTrans ();
+
+        $res =$this->where ("order_id=$order_id")->update (array('is_cashed' => 1));
+
+        $data = array(
+            'add_time'=>CORE_TIME,
+            'points'=>$order_info['goods_num'],
+            'type'=>16,
+            'is_mobile'=>1
+        );
+        $res1 =$this->model('points_bill')->update($data);
+
+
+        if ($res && $res1) {
+            $this->commit ();
+
+            return true;
+        } else {
+            $this->rollback ();
+
+            return false;
+        }
+
+    }
+
+
 
 
 
