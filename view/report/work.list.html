@@ -36,7 +36,7 @@
 	</table>
 		</div>
 		<div class="mini-fit">
-			<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;" sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+			<div id="gridCells" class="mini-datagrid" style="width:100%;height:100%;" sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
 				borderStyle="border:0;"  url="/user/customer/init?action=grid" showFilterRow="true" allowCellSelect="true" allowCellEdit="true" idField="id"  multiSelect="true"
 			>
 			<div property="columns">
@@ -143,21 +143,14 @@
 </div>
 <script type="text/javascript">
 mini.parse();
-var grid = mini.get("gridCell");
+var grid = mini.get("gridCells");
 grid.load();
+//加载客户
+var grids = mini.get("gridCell");
+grids.load();
 var tree = mini.get("nodeTree");
 var pGrid = mini.get("pCellList");
 var cGrid = mini.get("cCellList");
-var isChild=0; //是否操作的是子Grid
-//左侧树状
-tree.on("nodeselect", function (e) {
-	pGrid.show();
-	pGrid.load({pid:e.node.id});
-	cGrid.hide();
-	cGrid.setData([]); //清空数据
-	isChild=0;
-});
-
 var Status = [{id:0, text: '禁用' }, { id: 1, text: '正常'}];
 //格式化状态
 function onStatusRenderer(e) {
@@ -167,25 +160,7 @@ function onStatusRenderer(e) {
 	}
 	return "";
 }
-//显示下一级
-function switchChild() {
-	var record = pGrid.getSelected();
-	if(record.id<1) return false; //新增的排除
-	if (isChild==0 && record) {
-		isChild=1; //操作的是子类
-		cGrid.load({pid: record.id});
-		cGrid.show();
-		pGrid.hide();
-		$("#iconSwitch span").text('【返回】父级');
-	}else{
-		pGrid.show();
-		cGrid.hide();
-		cGrid.setData([]);
-		isChild=0;
-		$("#iconSwitch span").text('【查看】子级');
-	}
-	return;
-}
+
 //增加一行
 function addRow() {
 	var newRow = {name:"",title:"",remark:"",sort_order:0,status:1},obj=null,node=null;
@@ -203,22 +178,6 @@ function addRow() {
 		newRow.ntype = node.ntype;
 		obj.addRow(newRow,0);
 	}
-}
-
-//增加一行
-function addChk() {
-	var rows = pGrid.getSelecteds();
-	if(rows.length>1){
-		alert('审核流程每次只能选择一个节点进行设置');
-		return false;
-	}else{
-		mini.open({
-			url: '/rbac/node/admChk?id='+rows[0].id,
-			showMaxButton:true,
-			title: "设置节点审核流程", width: 215, height:210
-		});
-	}
-
 }
 
 
@@ -281,56 +240,5 @@ function removeRow() {
 			utils.ajax('/rbac/node/remove',{ids:ids},callback,"POST","json");
 		}
 	);
-}
-function onKeyEnterGridSearch(e) {
-	gridFilter();
-}
-function gridFilter(){
-	var key = mini.getbyName("keyword").getValue();
-	var obj=null,node=null;
-	if(isChild){
-		obj=cGrid;
-		node = pGrid.getSelected();
-	}else{
-		obj=pGrid;
-		node = tree.getSelectedNode();
-	}
-	obj.load({pid: node.id, key: key });
-}
-
-//
-function onKeyEnterFilter(e) {
-	treeFilter();
-}
-function treeFilter(){
-	var key = mini.getbyName("treekey").getValue();
-	if(key == "") {
-		tree.clearFilter();
-	} else {
-		key = key.toLowerCase();
-		tree.filter(function (node) {
-			var name = node.name ? node.name.toLowerCase() : "";
-			var title = node.title ? node.title.toLowerCase() : "";
-			if (name.indexOf(key) != -1 || title.indexOf(key) != -1) {
-				return true;
-			}
-		});
-	}
-}
-function updateAccess(){
-	isChild=0; //强制为父类
-	pGrid.show();
-	cGrid.hide();
-	pGrid.loading("保存中，请稍后......");
-	var callback=function(data){
-		pGrid.unmask();
-		if(data.err!='0'){
-			alert(data.msg);
-			return false;
-		}else{
-			pGrid.reload();
-		}
-	}
-	utils.ajax('/rbac/node/updateMenuAccess',{data:''},callback,"POST","json");
 }
 </script>
