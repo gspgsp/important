@@ -100,6 +100,9 @@ class contractAction extends adminBaseAction {
 				$company1=M('public:common')->model('logistics_contact')->where("id in ($map1)")->select("contact_name")->getAll();
 				$name1=M('public:common')->model('admin')->where('admin_id='.$list['data'][$k]['created_by'])->select('name')->getAll();
 				$name2=M('public:common')->model('admin')->where('admin_id='.$list['data'][$k]['last_edited_by'])->select('name')->getAll();
+				$manager_id=M('public:common')->model('order')->where('o_id='.$list['data'][$k]['o_id'])->select('customer_manager')->getOne();	
+				$list['data'][$k]['c_name']= M("user:customer")->getColByName($list['data'][$k]['c_id'],"c_name");//客户名称
+				$list['data'][$k]['manager']=M('rbac:adm')->getUserByCol($manager_id);//业务员名称
 				$list['data'][$k]['second_part_company_name']=$company['0']['supplier_name'];
 				$list['data'][$k]['second_part_contact_name']=$company1['0']['contact_name'];
 				$list['data'][$k]['create_time']=!empty($v['create_time'])?date("Y-m-d H:i:s",$v['create_time']):'-';
@@ -425,6 +428,10 @@ class contractAction extends adminBaseAction {
 	        $company1=M('public:common')->model('logistics_contact')->where("id in ($map1)")->select("contact_name")->getAll();
 	        $name1=M('public:common')->model('admin')->where('admin_id='.$list[$k]['created_by'])->select('name')->getAll();
 	        $name2=M('public:common')->model('admin')->where('admin_id='.$list[$k]['last_edited_by'])->select('name')->getAll();
+			$manager_id=M('public:common')->model('order')->where('o_id='.$list[$k]['o_id'])->select('customer_manager')->getOne();	
+			$list[$k]['c_name']= M("user:customer")->getColByName($list[$k]['c_id'],"c_name");//客户名称
+			$list[$k]['manager']=M('rbac:adm')->getUserByCol($manager_id);//业务员名称
+			$list[$k]['shortplace']=substr($list[$k]['end_place'],0,18);//截取送货地点前6个汉字
 	        $list[$k]['second_part_company_name']=$company['0']['supplier_name'];
 	        $list[$k]['second_part_contact_name']=$company1['0']['contact_name'];
 	        $list[$k]['statusvalue']=$this->c_status[$v['status']];
@@ -443,14 +450,14 @@ class contractAction extends adminBaseAction {
 	    $str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
 	
 	    $str .= '<tr><td>订单号</td><td>甲方</td><td>乙方</td><td>货物牌号</td><td>货物数量【吨】</td>
-					<td>提货地点</td><td>送货地点</td><td>单价【元/吨】</td><td>装车费【元】</td>
+					<td>提货地点</td><td>送货地点</td><td>客户名称</td><td>业务员</td><td>单价【元/吨】</td><td>装车费【元】</td>
 					<td>其它【元】</td><td>运输总费用【元】</td><td>车号</td><td>司机姓名</td><td>身份证号码</td>
 					<td>乙方联系人</td><td>乙方联系方式</td><td>乙方传真号</td><td>合同日期</td><td>送货日期</td><td>创建时间</td><td>更新时间</td><td>审核状态</td><td>创建人</td>
 	                <td>操作人</td>
 				</tr>';
 	    foreach($list as $k=>$v){
 	        $str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['order_sn']."</td><td>".$v['order_name']."</td><td>".$v['second_part_company_name']."</td><td>".$v['goods_class']."</td><td>".$v['goods_num']."</td>
-						<td>".$v['start_place']."</td><td>".$v['end_place']."</td><td>".$v['delivery_price']."</td><td>".$v['delivery_trans']."</td>
+						<td>".$v['start_place']."</td><td>".$v['shortplace']."</td><td>".$v['c_name']."</td><td>".$v['manager']."</td><td>".$v['delivery_price']."</td><td>".$v['delivery_trans']."</td>
 						<td>".$v['delivery_other']."</td><td>".$v['delivery_fee_count']."</td><td>".$v['plate_number']."</td><td>".$v['driver_name']."</td><td>".$v['driver_idcard']."</td>
 						<td>".$v['second_part_contact_name']."</td><td>".$v['second_part_contact_tel']."</td><td>".$v['second_part_contact_fax']."</td><td>".$v['contract_time']."</td><td>".$v['delivery_time']."</td><td>".$v['create_time']."</td>
 						<td>".$v['update_time']."</td><td>".$v['statusvalue']."</td><td>".$v['created_name']."</td><td>".$v['last_edited_name']."</td>
