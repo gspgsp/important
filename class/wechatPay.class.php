@@ -202,7 +202,7 @@ class wechatPay{
         file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
-        $xml = $this->arrayToXml($Obj);
+        $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
         $response = $this->xmlstr_to_array($response);
         file_put_contents('/tmp/xielei.txt',print_r($response,true)."\n",FILE_APPEND);
