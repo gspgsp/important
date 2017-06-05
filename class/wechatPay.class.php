@@ -11,6 +11,7 @@ class wechatPay{
         'notify_url' => APP_URL.'/api/wechatPay/notifySome'
     );
 
+    public $is_sandbox = 1;
     public function  __construct() {
 
         if(!empty(C('wechatPay'))) {
@@ -32,7 +33,11 @@ class wechatPay{
         $data["spbill_create_ip"] = $this->get_client_ip();
         $data["total_fee"] = $total_fee;
         $data["trade_type"] = "APP";
-        $s = $this->getSign($data, false);
+        if($this->is_sandbox) {
+            $s = $this->getSandboxSign ($data);
+        }else{
+            $s = $this->getSign ($data);
+        }
         $data["sign"] = $s;
 
         $xml = $this->arrayToXml($data);
@@ -178,6 +183,22 @@ class wechatPay{
         return $result_;
     }
 
+
+    public function getSandboxSign($Obj)
+    {
+        //$data['mch_id'] = $config;
+        $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+        $onoce_str = $this->getRandChar(32);
+        $data["nonce_str"] = $config;
+
+        $s = $this->getSign($data, false);
+        $data["sign"] = $s;
+
+        $xml = $this->arrayToXml($Obj);
+        $response = $this->postXmlCurl($xml, $url);
+
+        return $response['sandbox_signkey'];
+    }
 
     public function getRandChar($length){
         $str = null;
