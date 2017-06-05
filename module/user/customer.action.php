@@ -186,7 +186,7 @@ class customerAction extends adminBaseAction {
 					$this->error('<font style="color:red">只支持查询自己及下属哦！</font>');
 				}
 			}elseif($key_type=='need_product'){
-				$where.=" and `need_product_adm` like '%$keyword%' ";
+				$where.=" and `need_product` like '%$keyword%' ";
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
@@ -216,7 +216,6 @@ class customerAction extends adminBaseAction {
 				}
 			}
 		}
-		p($where);
 		$list=$this->db ->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['customer_manager'] = M('rbac:adm')->getUserByCol($v['customer_manager']);
