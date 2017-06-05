@@ -94,7 +94,6 @@
 						<div field="customer_manager" width="35" headerAlign="center" align="center">采购人</div>
 						<div field="input_time" width="70" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
 						<div action="" width="50" headerAlign="center" align="center" renderer="send">操作</div>
-						<div field="remark" width="60" headerAlign="center" align="center">备注</div>
 					</div>
 				</div>
 			</div>
@@ -167,7 +166,7 @@ function onLoadFllow(e) {
 }
 function send(e){
 	var record = e.record,id=record.id,s='';
-	return s += '<a href="javascript:sends('+id+')">发短信</a>|';
+	return s += '<a href="javascript:sends('+id+')">发短信</a>';
 }
 //发送短信回调方法
 function sends(e){
