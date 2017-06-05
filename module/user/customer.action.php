@@ -175,9 +175,9 @@ class customerAction extends adminBaseAction {
 		if($cus_status == 3) $where .=" and (is_pur = 0 and is_sale = 0) ";//私海
 
 		//客户区域筛选
-		$china_area = sget("china_area",'i',0); //客户筛选
-		if($china_area>0){
-			$where .=" and china_area = $china_area "; //
+		$china_area = sget("china_area",'s'); //客户筛选
+		if($china_area){
+			$where .=" and china_area = '$china_area' "; //
 		}
 
 		$key_type=sget('key_type','s','c_id');
