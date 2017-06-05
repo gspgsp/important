@@ -37,11 +37,7 @@ class wechatPay{
         $s = $this->getSign ($data);
 
         $data["sign"] = $s;
-        if($this->is_sandbox) {
-            $sandbox_key = $this->getSandboxSign ($data);
-            $data["sign"] = $sandbox_key;
-        }
-        file_put_contents('/tmp/xielei.txt',print_r($sandbox_key,true)."\n",FILE_APPEND);
+
 
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
@@ -180,6 +176,12 @@ class wechatPay{
         //echo "【string】 =".$String."</br>";
         //签名步骤二：在string后加入KEY
         $String = $String."&key=".$this->config['api_key'];
+        if($this->is_sandbox) {
+            $sandbox_key = $this->getSandboxSign ($Obj);
+            $String = $String."&key=".$sandbox_key;
+            file_put_contents('/tmp/xielei.txt',print_r($sandbox_key,true)."\n",FILE_APPEND);
+        }
+
         //echo "<textarea style='width: 50%; height: 150px;'>$String</textarea> <br />";
         //签名步骤三：MD5加密
         $result_ = strtoupper(md5($String));
