@@ -86,11 +86,14 @@
 				</div>
 				<div id="investGrid" class="mini-datagrid" style="width:auto;height:540px;" url="/product/storeDetail/init?action=grid&isAddSale=1" sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
-						<div field="user_id" width="50" headerAlign="center" renderer="onLoadHandle" align="center">牌号/厂家</div>
-						<div field="name" width="50" headerAlign="center" align="center">价格/仓库</div>
-						<div field="is_default" width="50" headerAlign="center" align="center" renderer="defu">区域/吨数</div>
-						<div field="c_id" width="80" headerAlign="center" align="center">采购人</div>
-						<div field="sex" width="60" headerAlign="center"  align="center">时间</div>
+						<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
+						<div field="f_name" width="55" headerAlign="center" align="center" allowSort="true">厂家</div>
+						<div field="store_name" width="50" headerAlign="center" align="center" allowSort="true">仓库</div>
+						<div field="unit_price" width="40"  headerAlign="center" align="center" allowSort="true">采购价</div>
+						<div field="is_default" width="50" headerAlign="center" align="center" renderer="defu">吨数</div>
+						<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
+						<div field="admin_name" width="35" headerAlign="center" align="center">采购人</div>
+						<div field="input_time" width="60" headerAlign="center"  align="center">时间</div>
 						<div action="" width="80" headerAlign="center" align="center">操作</div>
 						<div field="remark" width="80" headerAlign="center" align="center">备注</div>
 					</div>
