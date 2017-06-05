@@ -154,6 +154,59 @@ function csearch() {
 function conKeyEnter(e) {
 	csearch();
 }
+//客户的操作相关按钮
+function onLoadFllow(e) {
+	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
+	s += '<a href="javascript:new_useless('+cid+')">公开</a><a href="javascript:viewFinfo('+cid+')">跟</a><a href="javascript:contract('+cid+')">联系人</a>'
+	return s;
+}
+//新版的作废客户
+function new_useless(cid){
+	mini.open({
+	url: "/product/interface/useless?id="+cid,
+	title: '把客户作废', width: 500, height:300,
+	ondestroy: function (action) {
+	  if(action=='save'){ //重新加载
+		grid.reload();
+	  }
+	}
+	});
+}
+//获取联系人
+function contract(cid){
+	mini.open({
+		url: "/user/contact/init?c_id="+cid,
+		showMaxButton:true,
+		title: "客户联系人",
+		width: 990, height:460,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});
+}
+//打开跟进客户信息页面
+function viewFinfo(c_id){
+	mini.open({
+		url: "/user/follow/info?id="+c_id,
+		showMaxButton:true,
+		title: "新增客户跟进",
+		width: 300, height:320
+	});
+}
+//编辑联系人
+function onLoadHandle(e) {
+	var record = e.record,uid=record.c_id, c_name=record.c_name, s='';
+	s += '<a href="javascript:viewCinfo('+uid+')">'+c_name+'</a> ';
+	return s;
+}
+
+
+
+
+
+
 
 
 
