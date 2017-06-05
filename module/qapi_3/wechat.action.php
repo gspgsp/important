@@ -123,7 +123,7 @@ class wechatAction extends baseAction
 
     /**
      * @api {post} /qapi_3/wechat/shareMyPur weixin-分享我的供给或其求购
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  shareMyPur
      * @apiGroup wechat
      * @apiUse UAHeader
@@ -179,7 +179,7 @@ class wechatAction extends baseAction
 
     /**
      * @api {post} /qapi_3/wechat/saveShareLog weixin-分享记录日志
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  saveShareLog
      * @apiGroup wechat
      * @apiUse UAHeader

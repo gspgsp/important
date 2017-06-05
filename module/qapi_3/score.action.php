@@ -15,7 +15,7 @@ class scoreAction extends baseAction
     /**
      * 积分记录
      * @api {post} /qapi_3/score/scoreRecord   塑料圈app之积分记录
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  pointSupplyList
      * @apiGroup score
      * @apiUse UAHeader

@@ -10,7 +10,7 @@ class userAction extends baseAction
 
     /**
      * @api {post} /qapi_3/user/init 初始化页面
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  init
      * @apiGroup User
      * @apiUse UAHeader
@@ -26,7 +26,7 @@ class userAction extends baseAction
 
     /**
      * @api {post} /qapi_3/user/register 注册
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  register
      * @apiGroup User
      * @apiUse UAHeader
@@ -331,7 +331,7 @@ class userAction extends baseAction
 
     /**
      * @api {post} /qapi_3/user/finfMyPwd 找回密码
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  finfMyPwd
      * @apiGroup User
      * @apiUse UAHeader
@@ -390,7 +390,7 @@ class userAction extends baseAction
     /**
      * 发送手机验证码
      * @api {post} /qapi_3/user/sendMsg 发送验证码
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  sendMsg
      * @apiGroup User
      * @apiUse UAHeader
@@ -447,7 +447,7 @@ class userAction extends baseAction
     /**
      * 登录
      * @api {post} /qapi_3/user/login 登录
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  login
      * @apiGroup User
      * @apiUse UAHeader
@@ -534,7 +534,7 @@ class userAction extends baseAction
     /**
      * 短信密码快速登录接口
      * @api {post} /qapi_3/user/simpleLogin 短信密码快速登录接口
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  SimpleLogin
      * @apiGroup User
      * @apiUse UAHeader
@@ -692,7 +692,7 @@ class userAction extends baseAction
     /**
      * 登出
      * @api {post} /qapi_3/user/logout 登出
-     * @apiVersion 3.2.0
+     * @apiVersion 3.1.0
      * @apiName  logout
      * @apiGroup User
      * @apiUse UAHeader
