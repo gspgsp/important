@@ -10,6 +10,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('level',L('company_level'));//客户级别
 		$this->assign('identification',L('identification'));//客户级别
 		$this->assign('credit',L('is_credit'));//授信状态
+		$this->assign('credit_new',L('is_credit_new'));//授信状态用于筛选
 		$this->assign('credit_level',L('credit_level'));//信用等级
 		$this->assign('company_chanel',L('company_chanel'));//客户来源渠道
 		$this->assign('send_msg',L('msg'));//发短信
@@ -184,6 +185,7 @@ class customerAction extends adminBaseAction {
 		//授信信息情况
 		$is_credit = sget("is_credit",'i'); //信用信息筛选
 		if($is_credit){
+			$is_credit -=1;
 			$where .=" and is_credit = '$is_credit' "; //
 		}
 
