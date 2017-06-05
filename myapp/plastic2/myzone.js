@@ -876,8 +876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				package: res.prepayid,
 				signType: 'MD5',
 				paySign: res.sign,
-				success: function success(res) {
-					console.log(res);
+				success: function success(data) {
+					console.log(">>>", data);
 				}
 			});
 		}).fail(function () {});
