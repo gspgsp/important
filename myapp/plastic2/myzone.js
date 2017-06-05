@@ -873,7 +873,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			wx.chooseWXPay({
 				timestamp: res.timestamp,
 				nonceStr: res.noncestr,
-				package: res.package,
+				package: "prepay_id=" + res.prepayid,
 				signType: 'MD5',
 				paySign: res.sign,
 				success: function success(data) {
