@@ -7,6 +7,9 @@ class workAction extends adminBaseAction {
 	// private $title='后台用户信息列表'; //
 	public function __init(){
 		$this->debug = false;
+		$this->assign('type',L('company_type'));//工厂类型
+		$this->assign('cus_status',L('cus_status'));//客户状态
+		$this->assign('belong_area',L('belong_area'));//所属区域
 		// $this->db=M('public:common')->model('work');
 	}
 	/**
