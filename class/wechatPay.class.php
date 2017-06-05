@@ -19,7 +19,7 @@ class wechatPay{
     }
 
     public function getPrePayOrder($body, $out_trade_no, $total_fee){
-        $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+        $url = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
         $notify_url = $this->config["notify_url"];
         $onoce_str = $this->getRandChar(32);
 
@@ -235,7 +235,7 @@ class wechatPay{
             return false;
         }
 
-        $url = "https://api.mch.weixin.qq.com/pay/closeorder";
+        $url = "https://api.mch.weixin.qq.com/sandboxnew/pay/closeorder";
 
         $onoce_str = $this->getRandChar(32);
 
@@ -259,7 +259,7 @@ class wechatPay{
             return false;
         }
 
-        $url = "https://api.mch.weixin.qq.com/pay/downloadbill";
+        $url = "https://api.mch.weixin.qq.com/sandboxnew/pay/downloadbill";
 
         $onoce_str = $this->getRandChar(32);
 
