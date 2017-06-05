@@ -167,6 +167,19 @@ class customerAction extends adminBaseAction {
 		$identification = sget("identification",'s',''); //认证
 		if($identification!='') $where.=" and identification='$identification' ";
 		// 关键词
+
+		//客户类型筛选
+		$cus_status = sget("cus_status",'i',0); //合作状态
+		if($cus_status == 1) $where .=" and (is_pur = 1 and is_sale = 0) ";//供应商
+		if($cus_status == 2) $where .=" and (is_pur = 0 and is_sale = 1) ";//合作客户
+		if($cus_status == 3) $where .=" and (is_pur = 0 and is_sale = 0) ";//私海
+
+		//客户区域筛选
+		$china_area = sget("china_area",'i',0); //客户筛选
+		if($china_area>0){
+			$where .=" and china_area = $china_area "; //
+		}
+
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
