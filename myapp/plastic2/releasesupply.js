@@ -65,7 +65,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			url: version + '/friend/getZoneFriend',
 			type: 'post',
 			data: {
-				userid: _this.$route.params.id,
+				user_id: _this.$route.params.id,
 				token: window.localStorage.getItem("token"),
 				size: 10
 			},

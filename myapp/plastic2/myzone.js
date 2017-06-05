@@ -858,6 +858,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}, function () {});
 
 		$.ajax({
+			url: version + '/pay/getPrePayOrder',
+			type: 'post',
+			data: {
+				type: 1,
+				total_fee: "0.01"
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			console.log(res);
+			wx.chooseWXPay({
+				timestamp: res.timestamp,
+				nonceStr: res.noncestr,
+				package: res.prepayid,
+				signType: 'MD5',
+				paySign: res.sign,
+				success: function success(res) {
+					console.log(res);
+				}
+			});
+		}).fail(function () {});
+
+		$.ajax({
 			url: version + '/myInfo/myZone',
 			type: 'post',
 			data: {
