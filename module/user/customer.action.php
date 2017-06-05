@@ -182,9 +182,9 @@ class customerAction extends adminBaseAction {
 		}
 
 		//授信信息情况
-		$credit_level = sget("credit_level",'i'); //信用信息筛选
-		if($credit_level){
-			$where .=" and credit_level = '$credit_level' "; //
+		$is_credit = sget("is_credit",'i'); //信用信息筛选
+		if($is_credit){
+			$where .=" and is_credit = '$is_credit' "; //
 		}
 
 		//授信信息筛选
