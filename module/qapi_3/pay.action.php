@@ -244,16 +244,16 @@ class payAction extends baseAction
         ));
     }
     /**
-     * 获取金钱苏豆对应关系
-     * @api {post} /qapi_3/pay/getPayAmountConfig 网上支付-更新订单状态
+     * 获取具体金额金钱苏豆
+     * @api {post} /qapi_3/pay/getExactAmount 网上支付-获取具体金额金钱苏豆
      * @apiVersion 3.2.0
-     * @apiName  getPayAmountConfig
+     * @apiName  getExactAmount
      * @apiGroup pay
      * @apiUse UAHeader
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
-     * @apiSuccess {Array} data   信息
+     * @apiSuccess {Array} plasticBean   信息
      *
      * @apiSuccessExample Success-Response:
      * {"err":0,"plasticBean":1000}
