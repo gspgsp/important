@@ -196,13 +196,13 @@ class wechatPay{
 
         $s = $this->getSign($data, false);
         $data["sign"] = $s;*/
-        $data['mch_id'] = $Obj['mch_id'];
+        /*$data['mch_id'] = $Obj['mch_id'];
         $data['nonce_str'] = $Obj['nonce_str'];
-        $data['sign'] = $Obj['sign'];
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
+        $data['sign'] = $Obj['sign'];*/
+        file_put_contents('/tmp/xielei.txt',print_r($Obj,true)."\n",FILE_APPEND);
 
         $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
-        $xml = $this->arrayToXml($data);
+        $xml = $this->arrayToXml($Obj);
         $response = $this->postXmlCurl($xml, $url);
         $response = $this->xmlstr_to_array($response);
         file_put_contents('/tmp/xielei.txt',print_r($response,true)."\n",FILE_APPEND);
