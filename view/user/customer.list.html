@@ -41,7 +41,12 @@
 					<option value="1">为0</option>
 					<option value="2">不为0</option>
 				</select>
+				<select name="credit_level">
+					<option value="" selected="selected">=是否授信=</option>
+					{html_options options=$credit_level}
+				</select>
 				{/if}
+
 				{if $isPublic}
 				<select name="cooperate">
 					<option value="" selected="selected">=是否合作过=</option>
