@@ -40,7 +40,7 @@ class wechatPay{
         if($this->is_sandbox) {
             $s = $this->getSandboxSign ($data);
         }
-        $data["sign"] = $s;
+        //$data["sign"] = $s;
 
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
