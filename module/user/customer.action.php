@@ -10,6 +10,7 @@ class customerAction extends adminBaseAction {
 		$this->assign('level',L('company_level'));//客户级别
 		$this->assign('identification',L('identification'));//客户级别
 		$this->assign('credit',L('is_credit'));//授信状态
+		$this->assign('credit_level',L('credit_level'));//信用等级
 		$this->assign('company_chanel',L('company_chanel'));//客户来源渠道
 		$this->assign('send_msg',L('msg'));//发短信
 		$this->db=M('public:common')->model('customer');
@@ -180,6 +181,13 @@ class customerAction extends adminBaseAction {
 			$where .=" and china_area = '$china_area' "; //
 		}
 
+		//授信信息情况
+		$credit_level = sget("credit_level",'i'); //信用信息筛选
+		if($credit_level){
+			$where .=" and credit_level = '$credit_level' "; //
+		}
+
+		//授信信息筛选
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
