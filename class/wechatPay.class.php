@@ -35,8 +35,10 @@ class wechatPay{
         $s = $this->getSign($data, false);
         $data["sign"] = $s;
 
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
+        file_put_contents('/tmp/xielei.txt',print_r($this->xmlstr_to_array($response),true)."\n",FILE_APPEND);
 
         //将微信返回的结果xml转成数组
         return $this->xmlstr_to_array($response);
