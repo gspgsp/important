@@ -164,7 +164,7 @@ class hbPayAction extends homeBaseAction{
 		$parameter['sign'] = $sign;
 		$xmlTpl = $this->arrayToXml($parameter);
 		//$xmlTpl = $this->arrayToXml();
-		$url = 'https://api.mch.weixin.qq.com/sandboxnew/mmpaymkttransfers/sendredpack';
+		$url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 		$responseXml = $this->curl_post_ssl($url, $xmlTpl);
 		//logger($responseXml);
 		$postObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
