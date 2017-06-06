@@ -133,6 +133,9 @@ class wechatPayAction extends null2Action
         require_once(APP_LIB."class/WxpayAPI_php_v3/example/jsapi.php");
     }
 
+    public function getJsNotify(){
+        echo 'this is js success notify';
+    }
 
 }
 
