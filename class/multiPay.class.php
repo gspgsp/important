@@ -8,12 +8,11 @@
 class multiPay
 {
     public $type;
-    public $goods_name;
+    public $goods_name='塑料圈通讯录-塑豆';
 
     public function __construct($type = 'wechatpay')
     {
         $this->type = $type;
-        $this->goods_name = '塑料圈通讯录-塑豆';
         switch ($type) {
 
             case 1:
@@ -31,6 +30,11 @@ class multiPay
     public function getPrePayOrder($order_id, $send_amount)
     {
 
+        //微信支付单位为分
+        if($this->type != 2)
+        {
+            $send_amount = (int)($send_amount*100);
+        }
 
         $res = $this->{$this->type}->getPrePayOrder($this->goods_name, $order_id, $send_amount);
         switch ($this->type) {
