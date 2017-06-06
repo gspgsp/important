@@ -78,8 +78,8 @@ class payAction extends baseAction
         }
 
         $order_id      = $this->buildOrderId ();
-        $send_amount   = 0;
-        $send_amount   = (int)($total_fee * 100);
+
+        $send_amount   = $total_fee;
         $this->payment = new multiPay($type);
 
         $res           = $this->payment->getPrePayOrder ($order_id, $send_amount);
