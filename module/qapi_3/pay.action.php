@@ -66,7 +66,6 @@ class payAction extends baseAction
         $total_fee = sprintf ("%.2f", $total_fee);
         $total_fee = $total_fee + 0;
 
-        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
         if (empty($goods_id) && empty($goods_num) && empty($total_fee)) {
             $this->_errCode (6);
         }
@@ -87,8 +86,6 @@ class payAction extends baseAction
         $order = M ('order:onlineOrder');
 
         $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['status'], $res['remark']);
-
-        file_put_contents('/tmp/xielei.txt',print_r($res,true)."\n",FILE_APPEND);
 
         if ($res['status'] == 1 && !empty($data)) {
             $x = $this->payment->getOrder ($res['prepay_id']);

@@ -4,9 +4,13 @@ class wechatPayAction extends null2Action
 {
     protected $wechatPay;
 
+    protected $config;
     public function __init ()
     {
         $this->wechatPay = E ('wechatPay', APP_LIB.'class');
+        if(!empty(C('wechatPay'))) {
+            $this->config = C ('wechatPay');
+        }
     }
 
     public function getPrePayOrder ()
@@ -29,7 +33,7 @@ class wechatPayAction extends null2Action
     public function notifySome ()
     {
         $xmlData = file_get_contents ('php://input');
-
+        file_put_contents('/tmp/xielei.txt',print_r($xmlData,true)."\n",FILE_APPEND);
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
 
         ksort ($data);
@@ -39,7 +43,7 @@ class wechatPayAction extends null2Action
                 $buff .= $k.'='.$v.'&';
             }
         }
-        $stringSignTemp = $buff.'key=807066fb67e13b985b591f32d54219b9';//key为证书密钥
+        $stringSignTemp = $buff.'key='.$this->config['api_key'];//key为证书密钥
         $sign           = strtoupper (md5 ($stringSignTemp));
         $order_info     = M ('order:onlineOrder')->getPk ($data['out_trade_no']);
 
