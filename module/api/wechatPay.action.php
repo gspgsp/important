@@ -34,6 +34,8 @@ class wechatPayAction extends null2Action
     {
         $xmlData = file_get_contents ('php://input');
         file_put_contents('/tmp/xielei.txt',print_r($xmlData,true)."\n",FILE_APPEND);
+        var_dump($xmlData);
+        die();
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
 
         ksort ($data);
