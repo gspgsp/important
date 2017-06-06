@@ -13,7 +13,7 @@ class multiPay
     public function __construct($type = 'wechatpay')
     {
         $this->type = $type;
-        /*if(!$name =C('qapp_payment_goods_name'))
+        /*if($name =C('qapp_payment_goods_name'))
         {
             $this->goods_name = $name;
         }*/
