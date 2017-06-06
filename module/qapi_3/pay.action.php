@@ -249,11 +249,11 @@ class payAction extends baseAction
             ),
             array(
                 'money'=>500,
-                'plasticBean'=>500
+                'plasticBean'=>5000
             ),
             array(
                 'money'=>600,
-                'plasticBean'=>600
+                'plasticBean'=>6000
             )
         );
         $this->json_output (array(
