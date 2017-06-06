@@ -30,8 +30,9 @@
             <div field="sale" width="35" headerAlign="center" allowSort="true" align="center" >销售吨数</div>
             <div field="buy" width="35" headerAlign="center" allowSort="true" align="center" >采购吨数</div>
             <div field="call_num" width="35" headerAlign="center" allowSort="true" align="center" >去重电话</div>
-            <div field="call_time_str" width="35" headerAlign="center" align="center" >通话时长</div>
-            <div field="call_time" name="call_time" width="35" headerAlign="center" allowSort="true" align="center" >通话时长</div>
+            <div field="out_time_str" width="35" headerAlign="center" align="center" >呼出总时长</div>
+            <div field="call_time_str" width="35" headerAlign="center" align="center" >匹配时长</div>
+            <div field="out_time" name="out_time" width="35" headerAlign="center" allowSort="true" align="center" >通话总时长</div>
             <div field="input_time" width="50" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" allowSort="true" align="center">抓取时间</div>
         </div>
     </div>
@@ -39,7 +40,7 @@
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell");
-grid.hideColumn("call_time");
+grid.hideColumn("out_time");
 grid.on("drawcell", function (e) {
     var record = e.record,
         column = e.column,
@@ -89,7 +90,7 @@ grid.on("drawcell", function (e) {
     }
     if (column.field == "sale") {
         //console.log(record);
-        if (e.value==0 && e.row.buy == 0 && (e.row.call_num < 40 || e.row.call_time < 2400) ) {
+        if (e.value==0 && e.row.buy == 0 && (e.row.call_num < 40 || e.row.out_time < 2400) ) {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {
@@ -98,7 +99,7 @@ grid.on("drawcell", function (e) {
     }
     if (column.field == "buy") {
         //console.log(record);
-        if (e.value==0 && e.row.sale == 0 && (e.row.call_num < 40 || e.row.call_time < 2400) ) {
+        if (e.value==0 && e.row.sale == 0 && (e.row.call_num < 40 || e.row.out_time < 2400) ) {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {
@@ -114,9 +115,9 @@ grid.on("drawcell", function (e) {
             e.rowStyle = "";
         }
     }
-    if (column.field == "call_time_str") {
+    if (column.field == "out_time_str") {
         console.log(e.row);
-        if (e.row.sale==0 && e.row.buy == 0 && e.row.call_time < 2400 ) {
+        if (e.row.sale==0 && e.row.buy == 0 && e.row.out_time < 2400 ) {
             //e.rowStyle = "background:#FF00BA";
             e.cellStyle = "background:#FF00BA"
         } else {

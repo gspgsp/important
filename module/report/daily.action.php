@@ -54,19 +54,9 @@ class dailyAction extends adminBaseAction {
 				$list['data'][$k]['admin_name']=$this->db->model('admin')->select('name')->where("admin_id = {$val['customer_manager']}")->getOne();
 				$team=M('rbac:adm')->getPartByID($val['customer_manager']);
 				$list['data'][$k]['team_name']=$team['name'];
-				$dayc=floor($val['call_time']/86400);
-                $hourc=floor($val['call_time']/60/60%24);
-                $minc=floor($val['call_time']/60%60);
-                $sc=floor($val['call_time']%60);
-                $str='';
-                $str.=empty($dayc)?'':$dayc.'天';
-                $str.=empty($hourc)?'':$hourc.'时';
-                $str.=empty($minc)?'':$minc.'分钟';
-                $str.=empty($sc)?'':$sc.'秒';
-                if(empty($str)){
-                    $str="-";
-                }
-               $list['data'][$k]['call_time_str']=$str;     
+
+                $list['data'][$k]['call_time_str'] = $this->returnSomeTime($val['call_time']);
+                $list['data'][$k]['out_time_str'] = $this->returnSomeTime($val['out_time']);
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
 			$this->json_output($result);
@@ -74,6 +64,22 @@ class dailyAction extends adminBaseAction {
 		// $this->assign('page_title','提醒信息列表');
 		$this->display('daily.list.html');
 	}
+	public function returnSomeTime($b=0){
+        $a['outime'] = $b;
+        $dayc=floor($a['outime']/86400);
+        $hourc=floor($a['outime']/60/60%24);
+        $minc=floor($a['outime']/60%60);
+        $sc=floor($a['outime']%60);
+        $str1='';
+        $str1.=empty($dayc)?'':$dayc.'天';
+        $str1.=empty($hourc)?'':$hourc.'时';
+        $str1.=empty($minc)?'':$minc.'分钟';
+        $str1.=empty($sc)?'':$sc.'秒';
+        if(empty($str1)){
+            $str1="-";
+        }
+        return $str1;
+    }
 	
 }
 ?>
