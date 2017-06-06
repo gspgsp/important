@@ -84,7 +84,7 @@ class payAction extends baseAction
         file_put_contents('/tmp/xielei.txt',print_r($res,true)."\n",FILE_APPEND);
         file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
-        if ($res['status'] == 0 && !empty($data)) {
+        if ($res['status'] == 1 && !empty($data)) {
             $x = $this->payment->getOrder ($res['prepay_id']);
             file_put_contents('/tmp/xielei.txt',print_r($x,true)."\n",FILE_APPEND);
 
