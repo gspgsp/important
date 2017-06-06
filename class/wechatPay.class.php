@@ -48,6 +48,7 @@ class wechatPay{
         $s = $this->getSign($data);
         $data["sign"] = $s;
 
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
 
