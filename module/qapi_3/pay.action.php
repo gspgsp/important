@@ -73,6 +73,8 @@ class payAction extends baseAction
         $this->payment = new multiPay($type);
         $res           = $this->payment->getPrePayOrder ($order_id, $send_amount);
 
+        file_put_contents('/tmp/xielei.txt',print_r(2222,true)."\n",FILE_APPEND);
+
         $order = M ('order:onlineOrder');
 
         $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['status'], $res['remark']);
