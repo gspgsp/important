@@ -139,15 +139,18 @@ class payAction extends baseAction
         if ($order_info['type'] != $type || $order_info['user_id'] != $user_id) {
             $this->_errCode (1001);
         }
-        $data = array(
-            'status'=>$status,
-            'update_time'=>CORE_TIME
-        );
 
-        $res = $order->updatePk($data,$order_id);
+        if($order_info['status']<5) {
+            $data = array(
+                'status'      => $status,
+                'update_time' => CORE_TIME
+            );
 
-        if(empty($res)){
-            $this->_errCode (101);
+            $res = $order->updatePk ($data, $order_id);
+
+            if (empty($res)) {
+                $this->_errCode (101);
+            }
         }
         $this->json_output (array(
             'err'  => 0,
