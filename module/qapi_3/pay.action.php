@@ -71,6 +71,8 @@ class payAction extends baseAction
         $send_amount   = 0;
         $send_amount   = (int)($total_fee * 100);
         $this->payment = new multiPay($type);
+        file_put_contents('/tmp/xielei.txt',print_r(1111,true)."\n",FILE_APPEND);
+
         $res           = $this->payment->getPrePayOrder ($order_id, $send_amount);
 
         file_put_contents('/tmp/xielei.txt',print_r(2222,true)."\n",FILE_APPEND);
