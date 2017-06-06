@@ -33,10 +33,9 @@ class wechatPayAction extends null2Action
     public function notifySome ()
     {
         $xmlData = file_get_contents ('php://input');
-        file_put_contents('/tmp/xielei.txt',print_r($xmlData,true)."\n",FILE_APPEND);
-        var_dump($xmlData);
-        die();
+
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         ksort ($data);
         $buff = '';
