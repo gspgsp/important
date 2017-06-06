@@ -43,7 +43,7 @@ class storeAction extends adminBaseAction
 
 	/**
 	 * 所有管理员
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function info(){
@@ -58,7 +58,7 @@ class storeAction extends adminBaseAction
 			$size = sget("pageSize",'i',20); //每页数
 			$sortField = sget("sortField",'s','input_time'); //排序字段
 			$sortOrder = sget("sortOrder",'s','desc'); //排序
-			
+
 			$list=$this->db->select("sa.*,ad.name, ad.mobile, ad.username")
 					->from('store_admin sa')->join('admin ad','ad.admin_id = sa.admin_id')
 					->where("`store_id`=".$store_id.' and'."`off`=0")
@@ -87,8 +87,8 @@ class storeAction extends adminBaseAction
 		if(empty($data)){
 			$this->error('错误的请求');
 		}
-		if(!M('product:store')->curUnique('store_name',$data['store_name'])) $this->error('仓库名重复');
-		if(!M('product:store')->curUnique('store_tel',$data['store_tel'])) $this->error('仓库电话重复');
+		// if(!M('product:store')->curUnique('store_name',$data['store_name'])) $this->error('仓库名重复');
+		// if(!M('product:store')->curUnique('store_tel',$data['store_tel'])) $this->error('仓库电话重复');
 		$data = $data+array(
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
@@ -125,10 +125,10 @@ class storeAction extends adminBaseAction
 		}
 	}
 
-	
+
 	/**
 	 * 保存行内编辑仓库数据
-	 * @access public 
+	 * @access public
 	 * @return html
 	 */
 	public function save(){
@@ -145,7 +145,7 @@ class storeAction extends adminBaseAction
 		$tel =M('product:store')->curUnique('store_tel',$data['store_tel'],$data[id]);
 			if (!$tel)	$this->error('仓库电话重复');
 		}
-		
+
 		$sql=array();
 		foreach($data as $v){
 			$_id=$v['id'];
@@ -179,21 +179,21 @@ class storeAction extends adminBaseAction
 	 * 选定业务员
 	 */
 	public function checkLock(){
-		$this->is_ajax=true; //指定为Ajax输出		
+		$this->is_ajax=true; //指定为Ajax输出
 		$data = sdata(); //传递的参数
 		if(empty($data)) $this->error('错误的请求');
 		$arr=explode(',', $data['admin_id']);
 		$update=array(
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
-		);		
+		);
 
 		$this->db->startTrans();//开启事务
 			try {
 				foreach ($arr as $v) {
 					if( M('product:store_admin')->replaceByStoreId($v,$data[store_id]) )throw new Exception("此业务员已经绑定");
 					if( !$this->db->model('store_admin')->add($update+array('admin_id'=>$v,'store_id'=>$data['store_id'])) )throw new Exception("业务员绑定失败");
-				}		
+				}
 			} catch (Exception $e) {
 				$this->db->rollback();
 				$this->error($e->getMessage());
