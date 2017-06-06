@@ -156,7 +156,7 @@ class payAction extends baseAction
      * 获取金钱苏豆对应关系
      * @api {post} /qapi_3/pay/getPayConfig 网上支付-更新订单状态
      * @apiVersion 3.2.0
-     * @apiName  getPayAmountConfig
+     * @apiName  getPayConfig
      * @apiGroup pay
      * @apiUse UAHeader
      *
