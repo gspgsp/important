@@ -11,6 +11,10 @@ class wechatPay{
         'notify_url' => APP_URL.'/api/wechatPay/notifySome'
     );
 
+    public $is_sandbox = 1;
+
+    public $is_test_case  =1;
+
     public function  __construct() {
 
         if(!empty(C('wechatPay'))) {
@@ -35,6 +39,12 @@ class wechatPay{
         $data["spbill_create_ip"] = $this->get_client_ip();
         $data["total_fee"] = (int)$total_fee;
         $data["trade_type"] = "APP";
+
+
+        if($this->is_sandbox&&$this->is_test_case)
+        {
+            $data['total_fee']=201;
+        }
         $s = $this->getSign($data);
         $data["sign"] = $s;
 
