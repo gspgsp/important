@@ -57,6 +57,7 @@ class payAction extends baseAction
         $total_fee = sprintf ("%.2f", $total_fee);
         $total_fee = $total_fee + 0;
 
+        file_put_contents('/tmp/xielei.txt',print_r($_POST,true)."\n",FILE_APPEND);
         if (empty($goods_id) && empty($goods_num) && empty($total_fee)) {
             $this->_errCode (6);
         }
@@ -71,22 +72,17 @@ class payAction extends baseAction
         $send_amount   = 0;
         $send_amount   = (int)($total_fee * 100);
         $this->payment = new multiPay($type);
-        file_put_contents('/tmp/xielei.txt',print_r(1111,true)."\n",FILE_APPEND);
 
         $res           = $this->payment->getPrePayOrder ($order_id, $send_amount);
-
-        file_put_contents('/tmp/xielei.txt',print_r(2222,true)."\n",FILE_APPEND);
 
         $order = M ('order:onlineOrder');
 
         $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['status'], $res['remark']);
 
         file_put_contents('/tmp/xielei.txt',print_r($res,true)."\n",FILE_APPEND);
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
 
         if ($res['status'] == 1 && !empty($data)) {
             $x = $this->payment->getOrder ($res['prepay_id']);
-            file_put_contents('/tmp/xielei.txt',print_r($x,true)."\n",FILE_APPEND);
 
             $this->json_output (array(
                 'err'  => 0,
