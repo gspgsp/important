@@ -107,7 +107,7 @@ class cronDaily{
                 $rs6[0]['out_match_time'] += $ese['time'];
             }
             $sql2="select count(id) as out_num,sum(time) as out_time from p2p_api where phone='{$row['seat_phone']}' and callstatus='ou' and ctime>{$startTime} and ctime<{$endTime}";
-
+			$rs2=$this->db->model('api')->getAll($sql2);
              $tmp[]=array(
                             'customer_manager'=>$row['admin_id'],
                             'seat_phone'=>$row['seat_phone'],
@@ -121,6 +121,7 @@ class cronDaily{
 				if($value['customer_manager'] == $v['customer_manager']){
 					$res[$key]['call_num']=$v['out_eff_match_num'];
 					$res[$key]['call_time']=$v['out_match_time'];
+					$res[$key]['out_time']=$v['out_time'];
 				}
 			}
 		}
@@ -143,6 +144,7 @@ class cronDaily{
 				'customer_manager'=>$value['customer_manager'],
 				'call_num'=>$value['call_num'],
 				'call_time'=>$value['call_time'],
+				'out_time'=>$value['out_time'],
 				'sale'=>$value['sale'],
 				'buy'=>$value['buy'],
 				'team_id'=>$value['team_id'],
