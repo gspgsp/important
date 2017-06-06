@@ -11,7 +11,6 @@ class wechatPay{
         'notify_url' => APP_URL.'/api/wechatPay/notifySome'
     );
 
-    public $is_sandbox = 1;
     public function  __construct() {
 
         if(!empty(C('wechatPay'))) {
@@ -33,11 +32,8 @@ class wechatPay{
         $data["spbill_create_ip"] = $this->get_client_ip();
         $data["total_fee"] = $total_fee;
         $data["trade_type"] = "APP";
-
-        $s = $this->getSign ($data);
-
+        $s = $this->getSign($data, false);
         $data["sign"] = $s;
-
 
         $xml = $this->arrayToXml($data);
         $response = $this->postXmlCurl($xml, $url);
@@ -176,41 +172,12 @@ class wechatPay{
         //echo "【string】 =".$String."</br>";
         //签名步骤二：在string后加入KEY
         $String = $String."&key=".$this->config['api_key'];
-        if($this->is_sandbox) {
-            $sandbox_key = $this->getSandboxSign ($Obj);
-            $String = $String."&key=".$sandbox_key;
-            file_put_contents('/tmp/xielei.txt',print_r($sandbox_key,true)."\n",FILE_APPEND);
-        }
-
         //echo "<textarea style='width: 50%; height: 150px;'>$String</textarea> <br />";
         //签名步骤三：MD5加密
         $result_ = strtoupper(md5($String));
         return $result_;
     }
 
-
-    public function getSandboxSign($Obj)
-    {
-        //$data['mch_id'] = $config;
-        /*$url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
-        $onoce_str = $this->getRandChar(32);
-        $data["nonce_str"] = $config;
-
-        $s = $this->getSign($data, false);
-        $data["sign"] = $s;*/
-        /*$data['mch_id'] = $Obj['mch_id'];
-        $data['nonce_str'] = $Obj['nonce_str'];
-        $data['sign'] = $Obj['sign'];*/
-        file_put_contents('/tmp/xielei.txt',print_r($Obj,true)."\n",FILE_APPEND);
-
-        $url = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
-        $xml = $this->arrayToXml($Obj);
-        $response = $this->postXmlCurl($xml, $url);
-        $response = $this->xmlstr_to_array($response);
-        file_put_contents('/tmp/xielei.txt',print_r($response,true)."\n",FILE_APPEND);
-
-        return $response['sandbox_signkey'];
-    }
 
     public function getRandChar($length){
         $str = null;
