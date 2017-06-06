@@ -25,9 +25,9 @@ class payAction extends baseAction
      * @apiGroup pay
      * @apiUse UAHeader
      *
-     * @apiParam {int} type       1  weixin zhifu     2支付宝
-     * @apiParam {Number} goods_id       商品id（非必填）  //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
-     * @apiParam {Number} goods_num       商品数量（非必填）
+     * @apiParam {int} type               1  weixin zhifu     2支付宝
+     * @apiParam {Number} goods_id        商品id（必填）  //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
+     * @apiParam {Number} goods_num       商品数量（必填）
      * @apiParam {String} total_fee       总金额  单位元（必填）
      *
      *
@@ -104,8 +104,8 @@ class payAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam {int}    type           1  weixin zhifu     2支付宝
-     * @apiParam {Number} order_id       订单ID（非必填）  //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
-     * @apiParam {Number} status         APP状态  2 唤醒APP成功 -2 唤醒APP失败 -3用户取消支付
+     * @apiParam {Number} order_id       订单ID（必填）
+     * @apiParam {Number} status         APP状态（必填）  //  状态 1:已生成预支付订单;-1:生成预支付订单失败；2 唤醒APP成功 -2 唤醒APP失败 -3用户取消支付；4支付成功客户端回调，-4支付失败客户端回调；
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
