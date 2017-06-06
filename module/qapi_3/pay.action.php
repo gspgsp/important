@@ -206,6 +206,7 @@ class payAction extends baseAction
             }
             ]
             }
+     *
      */
 
     public function getPayAmountConfig()
