@@ -18,21 +18,24 @@ class wechatPay{
         }
     }
 
+
+
+
     public function getPrePayOrder($body, $out_trade_no, $total_fee){
         $url = "https://api.mch.weixin.qq.com/sandboxnew/pay/unifiedorder";
         $notify_url = $this->config["notify_url"];
         $onoce_str = $this->getRandChar(32);
 
-        $data["appid"] = $this->config["appid"];
-        $data["body"] = $body;
+        /*$data["appid"] = $this->config["appid"];
+        $data["body"] = $body;*/
         $data["mch_id"] = $this->config['mch_id'];
         $data["nonce_str"] = $onoce_str;
-        $data["notify_url"] = $notify_url;
+        /*$data["notify_url"] = $notify_url;
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip();
         $data["total_fee"] = $total_fee;
-        $data["trade_type"] = "APP";
-        $s = $this->getSign($data, false);
+        $data["trade_type"] = "APP";*/
+        $s = $this->getSign($data);
         $data["sign"] = $s;
 
         file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
