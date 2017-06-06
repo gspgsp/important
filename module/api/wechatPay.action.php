@@ -38,7 +38,6 @@ class wechatPayAction extends null2Action
         $xmlData = file_get_contents ('php://input');
 
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."notify\n",FILE_APPEND);
 
         ksort ($data);
         $buff = '';
@@ -47,13 +46,11 @@ class wechatPayAction extends null2Action
                 $buff .= $k.'='.$v.'&';
             }
         }
-        file_put_contents('/tmp/xielei.txt',print_r($this->config,true)."config\n",FILE_APPEND);
 
         $stringSignTemp = $buff.'key='.$this->config['api_key'];//key为证书密钥
         $sign           = strtoupper (md5 ($stringSignTemp));
         $order_info     = M ('order:onlineOrder')->getPk ($data['out_trade_no']);
-        file_put_contents('/tmp/xielei.txt',print_r($sign,true)."//////sign\n",FILE_APPEND);
-        file_put_contents('/tmp/xielei.txt',print_r($order_info,true)."//////order_info\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($order_info,true)."eqweqw\n",FILE_APPEND);
 
         if ($sign == $data['sign']) {
             //            $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
@@ -61,7 +58,7 @@ class wechatPayAction extends null2Action
             //            file_put_contents('./wechatPay.log', $msg, FILE_APPEND | LOCK_EX);
 
             if ($order_info['status'] < 5 ) {
-                $data = array(
+                $arr = array(
                     'partner_order_id'   => $data['transaction_id'],
                     'status'             => 5,
                     'partner_fee_type'   => $data['fee_type'],
@@ -72,12 +69,15 @@ class wechatPayAction extends null2Action
                     'update_time'        => CORE_TIME,
                 );
 
-                M ('order:onlineOrder')->where ("order_id=".$data['out_trade_no'])->update ($data);
+                M ('order:onlineOrder')->updatePk($arr,$data['out_trade_no']);
 
                 if($order_info['channel']==6&&$order_info['is_cashed']==0)
                 {
                     M ('order:onlineOrder')->updatePlasticBean($order_info['order_id']);
                 }
+
+                file_put_contents('/tmp/xielei.txt',print_r(showTrace(),true)."\n",FILE_APPEND);
+
             }
 
             echo '<xml>
