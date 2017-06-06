@@ -186,10 +186,10 @@ class customerAction extends adminBaseAction {
 		}
 
 		//授信信息情况
-		$is_credit = sget("is_credit",'i',0); //信用信息筛选
-		if($is_credit){
+		$is_credit = sget("is_credit",'i',-1); //信用信息筛选
+		if($is_credit != -1){
 			$is_credit -=1;
-			$where .=" and is_credit = '$is_credit' "; //
+			$where .=" and is_credit = $is_credit "; //
 			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				//处理不能看到的数据
 			$where.=" and `customer_manager` in ($sons) ";
@@ -226,7 +226,7 @@ class customerAction extends adminBaseAction {
 		if($cids)  $where.=" and `c_id` in ".$cids;
 		//筛选自己的客户
 		if($this->public == 0 && $this->moreChoice == 0){
-			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $key_type != 'customer_manager' && $is_credit ==0 && empty($china_area)){
+			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $key_type != 'customer_manager' && $is_credit ==-1 && empty($china_area)){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户(原来共享不存在上下级修改为存在上下级)
 				$pools = M('user:customer')->getCidPoolCus($sons);
