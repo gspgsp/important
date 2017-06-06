@@ -1,18 +1,18 @@
 {layout file="public:mini_layout"}
 <div class="mini-toolbar"  style="margin:3px 3px 0;">
 	<table style="width:100%;">
-		<tr>	
+		<tr>
 			{if $choose neq '1'}
 			<td style="white-space:nowrap;">
 				<a class="mini-button" iconCls="icon-add" plain="true" onclick="add()">新增</a>
 				<span class="separator"></span>
 				<a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
 				<span class="separator"></span>
-				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a> 
+				<a class="mini-button" iconCls="icon-save" onclick="saveData()" plain="true">保存</a>
 			</td>
 			{/if}
 			<td style="float:right;">
-			  <form id="soform">				
+			  <form id="soform">
 				<select name="key_type">
 					<option value="store_name">仓库名字</option>
 					<option value="store_tel">仓库电话</option>
@@ -52,23 +52,23 @@
 	</div>
   </div>
  </div>
- 
-	
-<div id="admInfo" class="mini-window" title="增加仓库信息" style="width:300px;" 
+
+
+<div id="admInfo" class="mini-window" title="增加仓库信息" style="width:300px;"
 	showModal="true" allowResize="true" allowDrag="true"
 	>
 	<div id="addForm" class="form" >
 		<table style="width:100%;">
 			<tr>
-				<td style="width:60px;">仓库名称：</td>
+				<td style="width:60px;">仓库名称：<font style="color: red;">*</font></td>
 				<td><input name="store_name" class="mini-textbox" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
 				<td style="width:60px;">仓库电话：</td>
-				<td><input name="store_tel" class="mini-textbox" style="width:200px" required="true"/></td>
+				<td><input name="store_tel" class="mini-textbox" style="width:200px"/></td>
 			</tr>
 			<tr>
-				<td style="width:40px;">仓库地址：</td>
+				<td style="width:40px;">仓库地址：<font style="color: red;">*</font></td>
 				<td><input name="store_address" class="mini-textarea" style="width:200px" required="true"/></td>
 			</tr>
 			<tr>
@@ -84,9 +84,9 @@
 	  <span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 	</div>
 </div>
-	
 
-<div id="lockInfo" class="mini-window" title="绑定业务员" style="width:300px;" 
+
+<div id="lockInfo" class="mini-window" title="绑定业务员" style="width:300px;"
 	showModal="true" allowResize="true" allowDrag="true"
 	>
 	<div id="lockForm" class="form">
@@ -104,7 +104,7 @@
 				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitLock()">保存</a>
 			</td>
 			</tr>
-			
+
 		</table>
 
 	</div>
@@ -263,14 +263,14 @@ function add() {
 //增加后提交数据(保存)
 function submitForm() {
 	form.validate();
-	if (form.isValid() == false) return;  
+	if (form.isValid() == false) return;
 	var o = form.getData();
-	//验证电话
-	var str=/^0\d{2,3}-?\d{7,8}$/;
-	if(!str.test(o.store_tel)) {
-		alert("请输入正确的电话号码");
-		return false;
-	}
+	// //验证电话
+	// var str=/^0\d{2,3}-?\d{7,8}$/;
+	// if(!str.test(o.store_tel)) {
+	// 	alert("请输入正确的电话号码");
+	// 	return false;
+	// }
 	grid.loading("数据提交中，请稍后......");
 	var json = mini.encode(o);
 
@@ -281,7 +281,7 @@ function submitForm() {
 	  return false;
 	}else{
 	  grid.reload();
-	  admInfo.hide(); 
+	  admInfo.hide();
 	}
   }
   utils.ajax('/product/store/ajaxSave',{data:json},callback,"POST","json");
@@ -292,7 +292,7 @@ function saveData() {
 	var data = grid.getChanges();
 	var json = mini.encode(data);
 	if(json.length<10) return false;
-  
+
 	grid.loading("保存中，请稍后......");
 	var callback=function(data){
 	grid.unmask();
