@@ -71,7 +71,7 @@ class wechatPayAction extends null2Action
 
                 M ('order:onlineOrder')->updatePk($arr,$data['out_trade_no']);
 
-                if($order_info['channel']==6&&$order_info['is_cashed']==0)
+                if($order_info['channel']==6 && $order_info['is_cashed']==0)
                 {
                     M ('order:onlineOrder')->updatePlasticBean($order_info['order_id']);
                 }
