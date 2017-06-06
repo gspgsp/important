@@ -4,13 +4,16 @@ class wechatPayAction extends null2Action
 {
     protected $wechatPay;
 
-    protected $config;
+    public $config = array(
+        'appid' => "wxc0eb2ef58d5df955",
+        'mch_id' => "1473441002",
+        'api_key' => "5eb7836d20e7727b7f7be8ec96ab4838",
+        'notify_url' => APP_URL.'/api/wechatPay/notifySome'
+    );
     public function __init ()
     {
         $this->wechatPay = E ('wechatPay', APP_LIB.'class');
-        if(!empty(C('wechatPay'))) {
-            $this->config = C ('wechatPay');
-        }
+
     }
 
     public function getPrePayOrder ()
