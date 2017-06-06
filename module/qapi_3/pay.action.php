@@ -105,7 +105,7 @@ class payAction extends baseAction
      *
      * @apiParam {int}    type           1  weixin zhifu     2支付宝
      * @apiParam {Number} order_id       订单ID（必填）
-     * @apiParam {Number} status         APP状态（必填）  //  状态 1:已生成预支付订单;-1:生成预支付订单失败；2 唤醒APP成功 -2 唤醒APP失败 -3用户取消支付；4支付成功客户端回调，-4支付失败客户端回调；
+     * @apiParam {Number} status         APP状态（必填）  //  状态 2 唤醒APP成功 -2 唤醒APP失败 -3用户取消支付；4支付成功客户端回调，-4支付失败客户端回调；
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
