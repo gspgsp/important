@@ -26,8 +26,8 @@ class payAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam {int} type               1  weixin zhifu     2支付宝
-     * @apiParam {Number} goods_id        商品id（必填）  //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
-     * @apiParam {Number} goods_num       商品数量（必填）
+     * @apiParam {Number} goods_id        商品id（必填）  现在都穿99 //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
+     * @apiParam {Number} goods_num       商品数量（必填）传递苏豆个数
      * @apiParam {String} total_fee       总金额  单位元（必填）
      *
      * @apiSuccess {String}  msg   描述
