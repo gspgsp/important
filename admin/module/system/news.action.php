@@ -61,6 +61,17 @@
 
 		//添加新闻
 		public function info(){
+			$cache= E('RedisClusterServer',APP_LIB.'class');
+			//获取物性表标签
+			$physical=$cache->get('physical_label');
+			if (empty($physical)) {
+				$physical=array();
+				foreach ( L('physical_label') as $k => $v) {
+					$physical[]=array('valueField'=>$k,'textField'=>$v);
+				}
+				$physical=json_encode($physical);
+				$cache->set('physical_label',$physical,86400);
+			}
 			$this->newsType=array(array('valueField'=>'public','textField'=>'公共文章'),array('valueField'=>'pe','textField'=>'PE文章'),array('valueField'=>'pp','textField'=>'PP文章'),array('valueField'=>'pvc','textField'=>'PVC文章'),array('valueField'=>'vip','textField'=>'VIP文章'));
 			$this->is_ajax=true;
 			$edit_id=sget('edit_id','i');
@@ -114,7 +125,6 @@
 				//获取id，用来判断是更新数据还是添加数据
 				$id=sget('id','i');
 				$repeat=sget('repeat','i');
-				$cache= E('RedisCluster',APP_LIB.'class');
 				if($id>0){
 					$data['update_time']=CORE_TIME;
 					$result=$this->db->model('news_content')->wherePk($id)->update($data);
@@ -142,6 +152,7 @@
 			}
 
 			$this->cate=$this->db->model('news_cate')->select('cate_id,cate_name,pid')->where('pid=0')->getAll();
+			$this->assign('physical',$physical);
 			$this->display('news_info');
 		}
 

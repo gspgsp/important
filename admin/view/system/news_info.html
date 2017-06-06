@@ -73,6 +73,12 @@ td a.add,td a.del{cursor:pointer; color:#36F;}
 					</td>
 				</tr>
 				<tr>
+					<td class="dt" >物性标签</td>
+					<td>
+						<input name="info[physical]" vtype="int" class="mini-checkboxlist"  repeatItems="6" repeatLayout="table" textField="textField" valueField="valueField" value="{$info.physical}" data='{$physical}' />
+					</td>
+				</tr>
+				<tr>
 					<td class="dt" >文章类型</td>
 					<td>
 						<input name="info[type]" vtype="int" class="mini-radiobuttonlist" textField="textField" valueField="valueField" value="{$info.type|default:public}" data='{:json_encode|$newsType}' />
