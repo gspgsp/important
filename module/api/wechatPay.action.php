@@ -44,6 +44,8 @@ class wechatPayAction extends null2Action
                 $buff .= $k.'='.$v.'&';
             }
         }
+        file_put_contents('/tmp/xielei.txt',print_r($this->config,true)."config\n",FILE_APPEND);
+
         $stringSignTemp = $buff.'key='.$this->config['api_key'];//key为证书密钥
         $sign           = strtoupper (md5 ($stringSignTemp));
         $order_info     = M ('order:onlineOrder')->getPk ($data['out_trade_no']);
