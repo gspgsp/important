@@ -30,11 +30,10 @@ class payAction extends baseAction
      * @apiParam {Number} goods_num       商品数量（必填）
      * @apiParam {String} total_fee       总金额  单位元（必填）
      *
-     *
-     *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
-     * @apiSuccess {Array} data   信息
+     * @apiSuccess {Array} data    微信加密信息
+     * @apiSuccess {String} order_id   内部使用order_id
      *
      * @apiSuccessExample Success-Response:
      *     {
@@ -88,6 +87,7 @@ class payAction extends baseAction
                 'err'  => 0,
                 'msg'  => '订单生成成功',
                 'data' => $x,
+                'order_id'=>$order_id
             ));
 
         } else {
