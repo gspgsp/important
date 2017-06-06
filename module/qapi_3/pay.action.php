@@ -144,6 +144,7 @@ class payAction extends baseAction
         }
         $data = array(
             'status'=>$status,
+            'update_time'=>CORE_TIME
         );
 
         $res = $order->updatePk($data,$order_id);
@@ -160,7 +161,7 @@ class payAction extends baseAction
 
     /**
      * 获取金钱苏豆对应关系
-     * @api {post} /qapi_3/pay/getPayConfig 网上支付-更新订单状态
+     * @api {post} /qapi_3/pay/getPayConfig 获取金钱苏豆对应关系
      * @apiVersion 3.2.0
      * @apiName  getPayConfig
      * @apiGroup pay
