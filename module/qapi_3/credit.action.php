@@ -9,6 +9,54 @@ class creditAction extends baseAction
 {
 
     /**
+     * 企业额度信用页面接口
+     * @api {post} /qapi_3/credit/creditPage 企业额度信用页面接口
+     * @apiVersion 3.2.0
+     * @apiName  creditPage
+     * @apiGroup Credit
+     * @apiUse UAHeader
+     *
+     * @apiSuccess {String}  msg   描述
+     * @apiSuccess {String}  err   错误码
+     * @apiSuccess {String}  url   apk下载地址
+     *
+     * @apiSuccessExample {json} Success-Response:
+     * {
+        "err": 0,
+        "data": [
+        {
+        "q": "如何获得授信？",
+        "a": "你可以根据以下方式与我们联系：\\n邮箱：info@myplas.com\\n客服热线：400-6129-965\\n前台热线：021-61070985"
+        },
+        {
+        "q": "如何提升额度？",
+        "a": "一，在我的塑料网上形成交易，并确保交易信用良好\\n二，在塑料圈通讯录上多发布供求信息\\n为塑料圈通讯录引入新的塑料交易人员"
+        }
+        ]
+        }
+     *
+     *
+     */
+    public function creditPage()
+    {
+        $arr = array(
+            array(
+                'q'=>'如何获得授信？',
+                'a'=>'你可以根据以下方式与我们联系：\n邮箱：info@myplas.com\n客服热线：400-6129-965\n前台热线：021-61070985'
+            ),
+            array(
+                'q'=>'如何提升额度？',
+                'a'=>'一，在我的塑料网上形成交易，并确保交易信用良好\n二，在塑料圈通讯录上多发布供求信息\n为塑料圈通讯录引入新的塑料交易人员'
+            ),
+        );
+        $this->json_output (array(
+            'err'  => 0,
+            'data' => $arr,
+        ));
+
+    }
+
+    /**
      * 获取企查查的接口
      * @api {post} /qapi_3/credit/getQiChaCha 获取企查查的接口
      * @apiVersion 3.2.0
