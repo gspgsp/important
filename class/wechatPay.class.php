@@ -238,7 +238,7 @@ class wechatPay{
         $data["partnerid"] = $this->config['mch_id'];
         $data["prepayid"] = $prepayId;
         $data["timestamp"] = time();
-        $s = $this->getSign($data, false);
+        $s = $this->getSign($data);
         $data["sign"] = $s;
 
         return $data;
