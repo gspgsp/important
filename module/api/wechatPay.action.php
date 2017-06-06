@@ -35,7 +35,7 @@ class wechatPayAction extends null2Action
         $xmlData = file_get_contents ('php://input');
 
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
-        file_put_contents('/tmp/xielei.txt',print_r($data,true)."\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($data,true)."notify\n",FILE_APPEND);
 
         ksort ($data);
         $buff = '';
@@ -47,6 +47,7 @@ class wechatPayAction extends null2Action
         $stringSignTemp = $buff.'key='.$this->config['api_key'];//key为证书密钥
         $sign           = strtoupper (md5 ($stringSignTemp));
         $order_info     = M ('order:onlineOrder')->getPk ($data['out_trade_no']);
+        file_put_contents('/tmp/xielei.txt',print_r($sign,true)."//////sign\n",FILE_APPEND);
 
         if ($sign == $data['sign']) {
             //            $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
