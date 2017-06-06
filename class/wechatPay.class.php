@@ -33,7 +33,7 @@ class wechatPay{
         $data["notify_url"] = $notify_url;
         $data["out_trade_no"] = $out_trade_no;
         $data["spbill_create_ip"] = $this->get_client_ip();
-        $data["total_fee"] = $total_fee;
+        $data["total_fee"] = (int)$total_fee;
         $data["trade_type"] = "APP";
         $s = $this->getSign($data);
         $data["sign"] = $s;
