@@ -37,9 +37,19 @@ class payAction extends baseAction
      *
      * @apiSuccessExample Success-Response:
      *     {
-     *      "err":0
-     *      "info":"xxx"
-     *      }
+            "err": 0,
+            "msg": "订单生成成功",
+            "data": {
+            "appid": "wxc0eb2ef58d5df955",
+            "noncestr": "M1goYqk13hnd5cHj9JVZInAb1Mlrpi9B",
+            "package": "Sign=WXPay",
+            "partnerid": "1473441002",
+            "prepayid": "wx20170606133730794f3ed98e0001656934",
+            "timestamp": 1496727450,
+            "sign": "93607A8B3CCDCB7EEE8CCE1538C40628"
+            },
+            "order_id": "2017060657102514"
+            }
      *
      *
      */
