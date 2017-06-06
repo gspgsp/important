@@ -7,7 +7,7 @@ class wechatPay{
     public $config = array(
         'appid' => "wxc0eb2ef58d5df955",
         'mch_id' => "1473441002",
-        'api_key' => "807066fb67e13b985b591f32d54219b9",
+        'api_key' => "5eb7836d20e7727b7f7be8ec96ab4838",
         'notify_url' => APP_URL.'/api/wechatPay/notifySome'
     );
 
