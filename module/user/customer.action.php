@@ -162,8 +162,13 @@ class customerAction extends adminBaseAction {
 		if($cooperate == 2) $where .=" and (is_pur = 1 or is_sale = 1) ";//是
 		//信用
 		$credit = sget("credit",'i',0); //合作状态
-		if($credit == 1) $where .=" and credit_limit = 0";//否
-		if($credit == 2) $where .=" and credit_limit > 0 ";//是
+		if($credit > 0){
+			if($credit == 1) $where .=" and credit_limit = 0";//否
+			if($credit == 2) $where .=" and credit_limit > 0 ";//是
+			$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
+			//处理不能看到的数据
+			$where.=" and `customer_manager` in ($sons) ";
+		}
 		$level = sget("level",'s',''); //状态
 		if($level!='') $where.=" and level='$level' ";//level 客户级别
 		$identification = sget("identification",'s',''); //认证
@@ -226,7 +231,7 @@ class customerAction extends adminBaseAction {
 		if($cids)  $where.=" and `c_id` in ".$cids;
 		//筛选自己的客户
 		if($this->public == 0 && $this->moreChoice == 0){
-			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $key_type != 'customer_manager' && $is_credit ==-1 && empty($china_area)){
+			if($_SESSION['adminid'] != 1 && $_SESSION['adminid'] > 0 && $key_type != 'customer_manager' && $is_credit ==-1 && empty($china_area) && $credit==0){
 				$sons = M('rbac:rbac')->getSons($_SESSION['adminid']);  //领导
 				// $pools = M('user:customer')->getCidByPoolCus($_SESSION['adminid']); //共享客户(原来共享不存在上下级修改为存在上下级)
 				$pools = M('user:customer')->getCidPoolCus($sons);
