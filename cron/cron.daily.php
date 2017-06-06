@@ -106,11 +106,14 @@ class cronDaily{
             foreach($newArr2 as $ese){
                 $rs6[0]['out_match_time'] += $ese['time'];
             }
+            $sql2="select count(id) as out_num,sum(time) as out_time from p2p_api where phone='{$row['seat_phone']}' and callstatus='ou' and ctime>{$startTime} and ctime<{$endTime}";
+
              $tmp[]=array(
                             'customer_manager'=>$row['admin_id'],
                             'seat_phone'=>$row['seat_phone'],
                             'out_eff_match_num' => $rs6[0]['out_eff_match_num'],
                             'out_match_time'=>$rs6[0]['out_match_time'],    //匹配时长
+                            'out_time'=>$rs2[0]['out_time'],
                     );
          }
          foreach ($res as $key => $value) {
