@@ -86,11 +86,14 @@ class payAction extends baseAction
 
         if ($res['status'] == 0 && !empty($data)) {
             $x = $this->payment->getOrder ($res['prepay_id']);
+            file_put_contents('/tmp/xielei.txt',print_r($x,true)."\n",FILE_APPEND);
+
             $this->json_output (array(
                 'err'  => 0,
                 'msg'  => '订单生成成功',
                 'data' => $x,
             ));
+
         } else {
             $this->_errCode (1002);
         }
