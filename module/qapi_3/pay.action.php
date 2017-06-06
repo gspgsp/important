@@ -154,7 +154,7 @@ class payAction extends baseAction
 
     /**
      * 获取金钱苏豆对应关系
-     * @api {post} /qapi_3/pay/getPayAmountConfig 网上支付-更新订单状态
+     * @api {post} /qapi_3/pay/getPayConfig 网上支付-更新订单状态
      * @apiVersion 3.2.0
      * @apiName  getPayAmountConfig
      * @apiGroup pay
@@ -164,8 +164,8 @@ class payAction extends baseAction
      * @apiSuccess {Boolean} err   错误码
      * @apiSuccess {Array} data   信息
      *
-     * @apiSuccessExample Success-Response:
-             *     {
+     * @apiSuccessExample Success-Response
+     *     {
             "err": 0,
             "data": [
             {
@@ -209,7 +209,7 @@ class payAction extends baseAction
      *
      */
 
-    public function getPayAmountConfig()
+    public function getPayConfig()
     {
         $arr = array(
             array(
@@ -261,6 +261,8 @@ class payAction extends baseAction
      * @apiName  getExactAmount
      * @apiGroup pay
      * @apiUse UAHeader
+     *
+     * @apiParam {int}    money
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
