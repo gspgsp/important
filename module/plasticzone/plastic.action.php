@@ -85,7 +85,32 @@ class plasticAction extends homeBaseAction
 		   $this->signature = $SignPackage['signature'];
 		   $this->noncestr = $SignPackage['nonceStr'];
 		   $this->AppID = $SignPackage['appId'];
-		//
+
+
+		/**
+		 *
+		 * 我的塑料公众号的
+		 */
+		require_file(APP_LIB."class/WxpayAPI_php_v3/example/WxPay.JsApiPay.php");
+
+
+			$tools = new JsApiPay();
+			$openId = $tools->GetOpenid();
+
+		$this->OpenID = $openId;
+
+
+		//p($_GET);p($_POST);exit;
+
+//		if($_GET['janfly::sshowurl']>0 && $_GET['left_url'] >0){
+//			$url ="/plasticzone/plastic/init#/headlinedetail/1733";
+//			$route = '';
+//			header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
+//		}
+
+//		header("Location: $url", true,(is_array($route) && isset($route[1]))?$route[1]:301);
+//		exit;
+
 		$this->display('index');
 	}
 	public function plasticzone2(){
