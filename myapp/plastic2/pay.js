@@ -219,7 +219,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		payMoney: function payMoney() {
 			var _this = this;
-			_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
+			_this.onBridgeReady();
 		},
 		paySelect: function paySelect(num, i) {
 			this.money = num;
