@@ -64,7 +64,7 @@ export default{
 		},
 		payMoney:function(){
 			var _this=this;
-			console.log(this.data);
+			_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
 			$.ajax({
 				url:version+'/pay/getPrePayOrder',
 				type:'post',
@@ -81,7 +81,7 @@ export default{
 			}).done(function(res){
 				console.log(res);
 				if(res.err==0){
-					_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
+					
 				}
 //				if(res.err==0){
 //					wx.chooseWXPay({
