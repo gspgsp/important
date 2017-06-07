@@ -46,6 +46,7 @@ export default{
 	},
 	methods:{
 		onBridgeReady:function(timeStamp,nonceStr,prepay_id,paySign){
+			console.log("11111");
 		   WeixinJSBridge.invoke(
 		       'getBrandWCPayRequest', {
 		           "appId":"wxbe66e37905d73815",     //公众号名称，由商户传入     
@@ -64,40 +65,42 @@ export default{
 		},
 		payMoney:function(){
 			var _this=this;
-			_this.onBridgeReady();
-//			$.ajax({
-//				url:version+'/pay/getPrePayOrder',
-//				type:'post',
-//				data:{
-//					type:1,
-//					goods_id:"99",
-//					total_fee:"0.01",
-//					goods_num:"1"
-//				},
-//				headers: {
-//					'X-UA': window.localStorage.getItem("XUA")
-//				},
-//				dataType: 'JSON'
-//			}).done(function(res){
-//				console.log(res);
+			
+			_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
+			
+			$.ajax({
+				url:version+'/pay/getPrePayOrder',
+				type:'post',
+				data:{
+					type:1,
+					goods_id:"99",
+					total_fee:"0.01",
+					goods_num:"1"
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function(res){
+				console.log(res);
+				if(res.err==0){
+					_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
+				}
 //				if(res.err==0){
-//					
+//					wx.chooseWXPay({
+//					    timestamp: res.data.timestamp,
+//					    nonceStr: res.data.noncestr,
+//					    package: "prepay_id="+res.data.prepayid,
+//					    signType: 'MD5',
+//					    paySign: res.data.sign,
+//					    success: function (data) {
+//					        console.log(">>>",data);
+//					    }
+//					});
 //				}
-////				if(res.err==0){
-////					wx.chooseWXPay({
-////					    timestamp: res.data.timestamp,
-////					    nonceStr: res.data.noncestr,
-////					    package: "prepay_id="+res.data.prepayid,
-////					    signType: 'MD5',
-////					    paySign: res.data.sign,
-////					    success: function (data) {
-////					        console.log(">>>",data);
-////					    }
-////					});
-////				}
-//			}).fail(function(){
-//				
-//			});
+			}).fail(function(){
+				
+			});
 		},
 		paySelect:function(num,i){
 			this.money=num;
