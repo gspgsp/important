@@ -190,7 +190,6 @@ mini.parse();
 
 var grids = mini.get("gridCell");
 grids.load();
-var investGrid=mini.get("investGrid"), gridCell=mini.get("gridCell");
 
 //加载左侧信息
 var grid = mini.get("gridCells");
@@ -322,6 +321,7 @@ function removeRow(cid) {
 	);
 }
 function changeTab(e){
+	var investGrid=mini.get("investGrid"), gridCell=mini.get("gridCell");
 	var tab=e.tab;
 	if(tab.title=='==库 存 信 息=='){
 		var data=investGrid.getData();
