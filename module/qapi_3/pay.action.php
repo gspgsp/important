@@ -29,7 +29,7 @@ class payAction extends baseAction
      * @apiParam {Number} goods_id        商品id（必填）  现在都穿99 //  为了以后的商品，也用支付，现在我们只用来充塑豆 ，传total_fee
      * @apiParam {Number} goods_num       商品数量（必填）传递苏豆个数
      * @apiParam {String} total_fee       总金额  单位元（必填）
-     *
+     *@apiParam {String} open_id       open_id 微信用户表示（微信端独有）（必填）
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
      * @apiSuccess {Array} data    微信加密信息
@@ -63,6 +63,7 @@ class payAction extends baseAction
         $goods_id  = sget ('goods_id', 'i');
         $goods_num = sget ('goods_num', 'i');
         $total_fee = sget ('total_fee', 's');//  单位为元
+        $open_id = sget('open_id','s');
         $total_fee = sprintf ("%.2f", $total_fee);
         $total_fee = $total_fee + 0;
 
@@ -84,7 +85,8 @@ class payAction extends baseAction
 
 
         if($type == 1 && $this->platform =="weixin"){
-            $res = $this->payment->getJsOrder($order_id,$send_amount);
+            if(empty($open_id)) $this->_errCode(6);
+            $res = $this->payment->getJsOrder($open_id,$order_id,$send_amount);
             $order = M ('order:onlineOrder');
             $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['err'], $res['msg']);
             if($res['err'] == 1 && !empty($data)){
@@ -315,6 +317,55 @@ class payAction extends baseAction
             'err'  => 0,
             'plasticBean'  => $bean,
         ));
+    }
+
+    public function wxJsNotify(){
+        require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
+        $notify = new PayNotifyCallBack();
+        $notify->Handle(false);
+        $result = $notify->GetValues;
+
+        $order      = M ('order:onlineOrder');
+        $order_id = $result['out_trade_no'];
+        $order_info = $order->getPk ($order_id);
+
+        if(array_key_exists("return_code", $result)
+            && array_key_exists("result_code", $result)
+            && $result["return_code"] == "SUCCESS"
+            && $result["result_code"] == "SUCCESS")
+        {
+            $data = $result;
+            if ($order_info['status'] < 5 ) {
+                $arr = array(
+                    'partner_order_id'   => $data['transaction_id'],
+                    'status'             => 5,
+                    'partner_fee_type'   => $data['fee_type'],
+                    'partner_bank_type'  => $data['bank_type'],
+                    'partner_trade_type' => $data['trade_type'],
+                    'partner_app_id'     => $data['appid'],
+                    'fee_type'           => $data['fee_type'],
+                    'update_time'        => CORE_TIME,
+                );
+
+                M ('order:onlineOrder')->updatePk($arr,$data['out_trade_no']);
+
+                if($order_info['channel']==6 && $order_info['is_cashed']==0)
+                {
+                    M ('order:onlineOrder')->updatePlasticBean($order_info['order_id']);
+                }
+
+                //file_put_contents('/tmp/xielei.txt',print_r(showTrace(),true)."\n",FILE_APPEND);
+
+            }
+        }
+
+        if ($order_info['status'] < 1 && $order_info['status'] > -5) {
+            M ('order:onlineOrder')->where ("order_id=".$data['out_trade_no'])->update (array(
+                'status' => -5,
+                'remark' =>$result['return_msg'],
+            ));
+        }
+
     }
 
 }
