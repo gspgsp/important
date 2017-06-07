@@ -76,6 +76,43 @@ class multiPay
         }
     }
 
+    public function getJsOrder($order_id, $send_amount){//APP_LIB."class/WxpayAPI_php_v3/example/jsapi.php"
+        require_file(APP_LIB."class/WxpayAPI_php_v3/lib/WxPay.Api.php");
+        require_file(APP_LIB."class/WxpayAPI_php_v3/example/WxPay.JsApiPay.php");
+
+        $send_amount = (int)($send_amount*100);
+
+        try{
+            $tools = new JsApiPay();
+            $openId = $tools->GetOpenid();
+
+            $input = new WxPayUnifiedOrder();
+            $input->SetBody($this->goods_name);
+            //$input->SetAttach("test");
+            $input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
+            $input->SetTotal_fee($send_amount);
+            $input->SetTime_start(date("YmdHis"));
+            $input->SetTime_expire(date("YmdHis", time() + 600));
+            $input->SetGoods_tag("test");
+            $input->SetNotify_url(APP_URL."/api/wechatPay/getJsNotify");
+            $input->SetTrade_type("JSAPI");
+            $input->SetOpenid($openId);
+            $order = WxPayApi::unifiedOrder($input);
+//        echo '<font color="#f00"><b>统一下单支付单信息</b></font><br/>';
+//        printf_info($order);
+            $jsApiParameters = $tools->GetJsApiParameters($order);
+
+            //获取共享收货地址js函数参数
+            $editAddress = $tools->GetEditAddressParameters();
+
+            return array('err'=> 1,'data'=>$jsApiParameters,'msg'=>'');
+
+
+        }catch(WxPayException $e){
+            return array('err'=> -1,'msg'=>$e->getMessage());
+        }
+    }
+
 
 }
 
