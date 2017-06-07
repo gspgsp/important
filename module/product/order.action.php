@@ -653,6 +653,7 @@ class orderAction extends adminBaseAction {
 				'customer_manager'=>$_SESSION['adminid'],
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
+			p($data);die;
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
 				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
 				if(!$this->db->model('order')->where("o_id = {$data['store_o_id']}")->getRow()) $this->error("您选择的采购订单不存在");
@@ -660,7 +661,7 @@ class orderAction extends adminBaseAction {
 			if($data['order_type'] == 2){//如果是销售订单(1.先采后销  2.先销后采')
 				if(isset($data['store_o_id'])) unset($data['store_o_id']);
 			}
-			if(!$this->db->model('order')->add($add_data+$data)) $this->error("新增订单失败2");//新增订单
+			if(!$this->db->model('order')->add($ +$data)) $this->error("新增订单失败2");//新增订单
 			$o_id=$this->db->getLastID();//获取新增订单ID
 			if(!$o_id) $this->error("新增订单失败1");
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){ //如果是销售订单(1.先采后销  2.先销后采')
