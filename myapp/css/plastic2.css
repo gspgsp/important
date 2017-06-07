@@ -314,8 +314,8 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .myzonenum span:last-of-type{ border: none;}
 .myzonenum a{ color: #FFFFFF;}
 .iconZone{ width: 26px; height: 26px; float: left; margin: 7px 10px 0 0;}
-.iconZone.zone{ background: url(../img/myZone.jpg) no-repeat; background-size: 100% 100%;}
-.iconZone.zone2{ background: url(../img/myZone3.jpg) no-repeat; background-size: 100% 100%;}
+.iconZone.zone{ background: url(../img/myZone.png) no-repeat; background-size: 100% 100%;}
+.iconZone.zone2{ background: url(../img/myZone3.png) no-repeat; background-size: 100% 100%;}
 .iconZone.zone3{ background: url(../img/myZone4.jpg) no-repeat; background-size: 100% 100%;}
 .iconZone.zone4{ background: url(../img/myZone5.jpg) no-repeat; background-size: 100% 100%;}
 .iconZone.zone5{ background: url(../img/myZone6.jpg) no-repeat; background-size: 100% 100%;}
@@ -890,7 +890,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .payList li.on .payBox span{ color: #FFFFFF;}
 .payOther{ font-size: 13px; height: 25px; line-height: 25px; padding: 0 10px; color: #000000;}
 .payOther span{ float: left;}
-.payNum{ width: 80px; height: 25px; -webkit-appearance: none; line-height: 25px; padding: 0 3px; border:1px solid #d6d7dc;}
+.payNum{ width: 80px; height: 25px; padding: 5px 7px; -webkit-appearance: none; line-height: 25px; border:1px solid #d6d7dc;}
 .payOther b{ font-weight: normal; color: #ff5000; font-weight: normal;}
 .payWay{ margin: 10px 0 0 0; padding: 20px; border-top: 1px solid #d6d7dc;}
 .payWay h3{ font-size: 15px; color: #000000; font-weight: normal; margin: 0 0 20px 0;}

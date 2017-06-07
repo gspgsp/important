@@ -50,7 +50,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.inputMoney = $event.target.value
       }, _vm.payInput]
     }
-  }), _vm._v(" "), _c('b', [_vm._v(_vm._s(_vm.plasticBean))])])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])
+  }), _vm._v(" "), _c('b', [_vm._v(_vm._s(_vm.plasticBean))])])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "padding": "0 15px",
+      "margin": "30px 0 0 0"
+    }
+  }, [_c('div', {
+    staticClass: "wxPayBtn",
+    on: {
+      "click": _vm.pay
+    }
+  }, [_vm._v("支付")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('header', {
     attrs: {
@@ -72,15 +82,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v("微信支付\n\t\t\t\t"), _c('i', {
     staticClass: "iconWxRight"
   })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticStyle: {
-      "padding": "0 15px",
-      "margin": "30px 0 0 0"
-    }
-  }, [_c('div', {
-    staticClass: "wxPayBtn"
-  }, [_vm._v("支付")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -203,6 +204,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	methods: {
+		payMoney: function payMoney() {
+			$.ajax({
+				url: version + '/pay/getPrePayOrder',
+				type: 'post',
+				data: {
+					type: 1,
+					goods_id: "99",
+					total_fee: "0.01",
+					goods_num: "1"
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				console.log(res);
+				if (res.err == 0) {
+					wx.chooseWXPay({
+						timestamp: res.data.timestamp,
+						nonceStr: res.data.noncestr,
+						package: "prepay_id=" + res.data.prepayid,
+						signType: 'MD5',
+						paySign: res.data.sign,
+						success: function success(data) {
+							console.log(">>>", data);
+						}
+					});
+				}
+			}).fail(function () {});
+		},
 		paySelect: function paySelect(num, i) {
 			this.money = num;
 			this.eq = i;

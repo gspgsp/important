@@ -776,39 +776,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		logout: function logout() {
 			var _this = this;
-
-			$.ajax({
-				url: version + '/user/logout',
-				type: 'post',
-				data: {
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				if (res.err == 0) {
-					window.localStorage.setItem("token", "");
-					window.localStorage.setItem("userid", "");
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'index'
-								});
-							}
-						}]
-					});
-				} else {
-					window.localStorage.setItem("token", "");
-					window.localStorage.setItem("userid", "");
-				}
-				window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
-			}, function () {});
+			weui.confirm('确定退出？', function () {
+				$.ajax({
+					url: version + '/user/logout',
+					type: 'post',
+					data: {
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						window.localStorage.setItem("token", "");
+						window.localStorage.setItem("userid", "");
+						_this.$router.push({
+							name: 'index'
+						});
+					} else {
+						window.localStorage.setItem("token", "");
+						window.localStorage.setItem("userid", "");
+					}
+					window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
+				}, function () {});
+			}, function () {}, {
+				title: '塑料圈通讯录'
+			});
 		}
 	},
 	activated: function activated() {
