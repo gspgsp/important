@@ -187,9 +187,138 @@ module.exports = function normalizeComponent (
 /***/ }),
 
 /***/ 86:
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: D:/xampp/htdocs/workspace2/www/view/default/plasticzone/src/views/pay.vue: Unexpected token, expected , (82:9)\n\n\u001b[0m \u001b[90m 80 | \u001b[39m\t\t\t\u001b[36mif\u001b[39m(res\u001b[33m.\u001b[39merr \u001b[33m==\u001b[39m \u001b[35m0\u001b[39m) {\n \u001b[90m 81 | \u001b[39m\t\t\t\tjsApiParameters\u001b[33m=\u001b[39m{\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 82 | \u001b[39m\t\t\t\t\t\u001b[33mJSON\u001b[39m\u001b[33m.\u001b[39mparse(res\u001b[33m.\u001b[39mdata)\n \u001b[90m    | \u001b[39m\t\t\t\t\t    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 83 | \u001b[39m\t\t\t\t}\u001b[33m;\u001b[39m\n \u001b[90m 84 | \u001b[39m\t\t\t\t\u001b[36mif\u001b[39m(\u001b[36mtypeof\u001b[39m \u001b[33mWeixinJSBridge\u001b[39m \u001b[33m==\u001b[39m \u001b[32m\"undefined\"\u001b[39m) {\n \u001b[90m 85 | \u001b[39m\t\t\t\t\t\u001b[36mif\u001b[39m(document\u001b[33m.\u001b[39maddEventListener) {\u001b[0m\n");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			pay: [],
+			money: null,
+			eq: null,
+			inputMoney: null,
+			plasticBean: ""
+		};
+	},
+	methods: {
+		payMoney: function payMoney() {
+			var _this = this;
+			var jsApiParameters = {};
+			function onBridgeReady() {
+				console.log("11111");
+				WeixinJSBridge.invoke('getBrandWCPayRequest', jsApiParameters, function (res) {
+					if (res.err_msg == "get_brand_wcpay_request:ok") {
+						alert(ok);
+					}
+				});
+			}
+
+			$.ajax({
+				url: version + '/pay/getPrePayOrder',
+				type: 'post',
+				data: {
+					type: 1,
+					goods_id: "99",
+					total_fee: "0.01",
+					goods_num: "1",
+					open_id: window.localStorage.getItem("openid")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					jsApiParameters = JSON.parse(res.data);
+					if (typeof WeixinJSBridge == "undefined") {
+						if (document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+						} else if (document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+							document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+						}
+					} else {
+						onBridgeReady();
+					}
+				}
+			}).fail(function () {});
+		},
+		paySelect: function paySelect(num, i) {
+			this.money = num;
+			this.eq = i;
+			this.inputMoney = null;
+			this.plasticBean = null;
+			console.log(this.money);
+			console.log(this.eq);
+		},
+		payInput: function payInput() {
+			var _this = this;
+			this.eq = null;
+			if (this.inputMoney && this.inputMoney <= 10000) {
+				$.ajax({
+					type: "post",
+					url: version + "/pay/getExactAmount",
+					data: {
+						money: _this.inputMoney
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						_this.plasticBean = res.plasticBean + "塑豆";
+					}
+				}, function () {});
+			} else if (this.inputMoney > 10000) {
+				this.inputMoney = 10000;
+				$.ajax({
+					type: "post",
+					url: version + "/pay/getExactAmount",
+					data: {
+						money: _this.inputMoney
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						_this.plasticBean = res.plasticBean + "塑豆";
+					}
+				}, function () {});
+			} else {
+				this.plasticBean = "";
+				this.paySelect(10, 0);
+			}
+		}
+	},
+	activated: function activated() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		var _this = this;
+
+		$.ajax({
+			type: "post",
+			url: version + "/pay/getPayConfig",
+			data: {},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.pay = res.data;
+				_this.paySelect(res.data[0].money, 0);
+			}
+		}, function () {});
+	}
+});
 
 /***/ })
 
