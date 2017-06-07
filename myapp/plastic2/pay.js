@@ -221,8 +221,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		payMoney: function payMoney() {
 			var _this = this;
 
-			_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
-
 			$.ajax({
 				url: version + '/pay/getPrePayOrder',
 				type: 'post',
@@ -239,6 +237,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).done(function (res) {
 				console.log(res);
 				if (res.err == 0) {
+
 					_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
 				}
 			}).fail(function () {});
