@@ -76,10 +76,29 @@ class payAction extends baseAction
             $this->_errCode (5);
         }
 
+
         $order_id      = $this->buildOrderId ();
 
         $send_amount   = $total_fee;
         $this->payment = new multiPay($type);
+
+
+        if($type == 1 && $this->platform =="weixin"){
+            $res = $this->payment->getJsOrder($order_id,$send_amount);
+            $order = M ('order:onlineOrder');
+            $data = $order->addOrder ($order_id, $type, $res['prepay_id'], $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['appid'], $this->platform, $res['err'], $res['msg']);
+            if($res['err'] == 1 && !empty($data)){
+                $this->json_output (array(
+                    'err'  => 0,
+                    'msg'  => '订单生成成功',
+                    'data' => $res['data'],
+                    'order_id'=>$order_id
+                ));
+            }else{
+                $this->_errCode (1002);
+            }
+        }
+
 
         $res           = $this->payment->getPrePayOrder ($order_id, $send_amount);
 
