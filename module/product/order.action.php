@@ -31,6 +31,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('admin_id',$_SESSION['admin_id']);
 		$this->moreChoice = sget('moreChoice','i',0);
 		$this->teams = M('rbac:adm')->getTeam();
+
 	}
 	/**
 	 * @access public
