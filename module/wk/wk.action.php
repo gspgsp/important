@@ -377,7 +377,7 @@ class wkAction extends adminBaseAction{
 	 * @DateTime 2017-06-07T16:37:29+0800
 	 * @return   [type]                   [description]
 	 */
-	public function getDate(){
+	public function getDatas(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
