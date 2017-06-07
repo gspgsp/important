@@ -228,7 +228,8 @@ function sends(e){
 var rbl = mini.get("rbl");
 rbl.on("valuechanged",function (e) {
 	var val = this.getValue();
-	if(val == 1){
+	alert(val);
+	if(val == 2){
 		mini.get('editForm1').removeClass('hidden');
 		mini.get('editForm2').addClass('hidden');
 	}else{
