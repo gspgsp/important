@@ -47,6 +47,7 @@ const Credit2= r => require.ensure([], () => r(require('./views/credit2.vue')), 
 const Searchcompany= r => require.ensure([], () => r(require('./views/searchcompany.vue')), 'searchcompany')
 const Recharge= r => require.ensure([], () => r(require('./views/recharge.vue')), 'recharge')
 const Recharge2= r => require.ensure([], () => r(require('./views/recharge2.vue')), 'recharge2')
+const Pay= r => require.ensure([], () => r(require('./views/pay.vue')), 'pay')
 const Pointsrule2= r => require.ensure([], () => r(require('./views/pointsrule2.vue')), 'pointsrule2')
 const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
 
@@ -92,6 +93,7 @@ var router = new VueRouter({
 	{path:'/searchcompany',name:'searchcompany',component:Searchcompany},
 	{path:'/recharge',name:'recharge',component:Recharge},
 	{path:'/recharge2',name:'recharge2',component:Recharge2},
+	{path:'/pay',name:'pay',component:Pay},
 	{path:'/pointsrule2',name:'pointsrule2',component:Pointsrule2},
 	{path: '/', redirect: { name: 'index' }}
   ]
