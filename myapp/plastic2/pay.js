@@ -228,7 +228,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					type: 1,
 					goods_id: "99",
 					total_fee: "0.01",
-					goods_num: "1"
+					goods_num: "1",
+					open_id: openid
 				},
 				headers: {
 					'X-UA': window.localStorage.getItem("XUA")
