@@ -126,10 +126,10 @@
 						<div field="fmodel" width="50" headerAlign="center" align="center">牌号/厂家</div>
 						<div field="hinfo" width="50" headerAlign="center" align="center">价格/仓库</div>
 						<div field="ainfo" width="50" headerAlign="center" align="center">区域/吨数</div>
-						<div field="uname" width="80" headerAlign="center" align="center">采购人</div>
+						<div field="uname" width="40" headerAlign="center" align="center">采购人</div>
 						<div field="input_time" width="60" headerAlign="center"  align="center" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
-						<div action="" width="80" headerAlign="center" align="center">操作</div>
-						<div field="remark" width="80" headerAlign="center" align="center">备注</div>
+						<div action="" width="30" headerAlign="center" align="center" renderer="republish">操作</div>
+						<div field="remark" width="40" headerAlign="center" align="center">备注</div>
 					</div>
 				</div>
 			</div>
@@ -170,6 +170,15 @@ function send(e){
 }
 //发送短信回调方法
 function sends(e){
+
+}
+//报价从新发布
+function republish(e){
+	var record = e.record,id=record.id,s='';
+	return s += '<a href="javascript:publish('+id+')">重新发布</a>';
+}
+//发送短信回调方法
+function publish(e){
 
 }
 //新版的作废客户
