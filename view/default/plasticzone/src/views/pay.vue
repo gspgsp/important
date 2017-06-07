@@ -78,7 +78,7 @@ methods: {
 			dataType: 'JSON'
 		}).done(function(res) {
 			console.log(res);
-			console.log(JSON.parseInt(res.data))
+			console.log(JSON.parse(res.data))
 			if(res.err == 0) {
 				jsApiParameters={
 					//appId:JSON.parseInt(res.data);
