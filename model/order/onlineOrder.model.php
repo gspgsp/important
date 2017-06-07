@@ -50,6 +50,7 @@ class onlineOrderModel extends model{
         $this->startTrans ();
 
         $res =$this->where ("order_id=$order_id")->update (array('is_cashed' => 1));
+        file_put_contents('/tmp/xielei.txt',print_r(2222,true)."\n",FILE_APPEND);
 
         $data = array(
             'add_time'=>CORE_TIME,
@@ -58,13 +59,18 @@ class onlineOrderModel extends model{
             'is_mobile'=>1
         );
         $res1 =$this->model('points_bill')->update($data);
+        file_put_contents('/tmp/xielei.txt',print_r(3333,true)."\n",FILE_APPEND);
 
 
         if ($res && $res1) {
+            file_put_contents('/tmp/xielei.txt',print_r('comit',true)."\n",FILE_APPEND);
+
             $this->commit ();
 
             return true;
         } else {
+            file_put_contents('/tmp/xielei.txt',print_r('rollback',true)."\n",FILE_APPEND);
+
             $this->rollback ();
 
             return false;
