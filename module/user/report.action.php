@@ -120,7 +120,7 @@ class reportAction extends adminBaseAction {
 		$data = sdata(); //传递的参数
 		$team = M('rbac:adm')->getPartByID($data['admin_id']);//根据管理员id获取管理员战队id
 		if(empty($data)) $this->error('错误的请求');
-    		$report_date = strtotime(date('Y-m',strtotime($data['report_date'])));
+    		$report_date = strtotime(date('Y-m',time()));
     		$user_data = $this->db->select('id')
     		                  ->where("admin_id=".$data['admin_id']." and report_date = '".$report_date."'")
     		                  ->getOne();
