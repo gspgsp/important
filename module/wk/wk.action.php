@@ -400,11 +400,11 @@ class wkAction extends adminBaseAction{
 			}
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-		foreach($list as $k=>$v){
-			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
-			$list['data'][$k]['fmodel'] = $v['grade'].'/'.$v['factory'];
-			$list['data'][$k]['hinfo'] = $v['sale_price'].'/'.$v['store'];
-			$list['data'][$k]['ainfo'] = $v['china_area'].'/'.$v['num'];
+		foreach($list['data'] as &$v){
+			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
+			$v['fmodel'] = $v['grade'].'/'.$v['factory'];
+			$v['hinfo'] = $v['sale_price'].'/'.$v['store'];
+			$v['ainfo'] = $v['china_area'].'/'.$v['num'];
 		}
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
