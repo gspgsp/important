@@ -71,7 +71,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:window.history.back();"
     }
-  }), _vm._v("\n\t\t充值中心\n\t")])
+  }), _vm._v("\n\t充值中心\n")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "payWay"
@@ -79,7 +79,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "wxPay"
   }, [_c('i', {
     staticClass: "iconWxPay"
-  }), _vm._v("微信支付\n\t\t\t\t"), _c('i', {
+  }), _vm._v("微信支付\n\t\t\t"), _c('i', {
     staticClass: "iconWxRight"
   })])])
 }]}
@@ -204,22 +204,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	methods: {
-		onBridgeReady: function onBridgeReady(timeStamp, nonceStr, prepay_id, paySign) {
-			console.log("11111");
-			WeixinJSBridge.invoke('getBrandWCPayRequest', {
-				"appId": "wxbe66e37905d73815",
-				"timeStamp": "1324710901",
-				"nonceStr": "97bimlpPRfS6X8mV",
-				"package": "prepay_id=wx20170607141219e84645f7df0381665882 ",
-				"signType": "MD5",
-				"paySign": "787361706D8804C9E884958415EB7B23" }, function (res) {
-				if (res.err_msg == "get_brand_wcpay_request:ok") {
-					alert(ok);
-				}
-			});
-		},
 		payMoney: function payMoney() {
 			var _this = this;
+			var jsApiParameters = {};
+			function onBridgeReady() {
+				console.log("11111");
+				WeixinJSBridge.invoke('getBrandWCPayRequest', jsApiParameters, function (res) {
+					if (res.err_msg == "get_brand_wcpay_request:ok") {
+						alert(ok);
+					}
+				});
+			}
 
 			$.ajax({
 				url: version + '/pay/getPrePayOrder',
@@ -238,8 +233,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).done(function (res) {
 				console.log(res);
 				if (res.err == 0) {
-
-					_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
+					jsApiParameters = res.data;
+					if (typeof WeixinJSBridge == "undefined") {
+						if (document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+						} else if (document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+							document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+						}
+					} else {
+						onBridgeReady();
+					}
 				}
 			}).fail(function () {});
 		},
@@ -299,17 +303,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		var _this = this;
-
-		if (typeof WeixinJSBridge == "undefined") {
-			if (document.addEventListener) {
-				document.addEventListener('WeixinJSBridgeReady', _this.onBridgeReady, false);
-			} else if (document.attachEvent) {
-				document.attachEvent('WeixinJSBridgeReady', _this.onBridgeReady);
-				document.attachEvent('onWeixinJSBridgeReady', _this.onBridgeReady);
-			}
-		} else {
-			this.onBridgeReady();
-		}
 
 		$.ajax({
 			type: "post",
