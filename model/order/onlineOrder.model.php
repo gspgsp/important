@@ -46,6 +46,7 @@ class onlineOrderModel extends model{
     public function updatePlasticBean($order_id)
     {
         $order_info = $this->getPk($order_id);
+        $contact_info =$this->model('contact_info')->getPk($order_info['user_id']);
 
         $this->startTrans ();
 
@@ -59,10 +60,15 @@ class onlineOrderModel extends model{
             'is_mobile'=>1
         );
         $res1 =$this->model('points_bill')->add($data);
+
+        $points = (int)($contact_info['quan_points']+$order_info['goods_num']);
+
+        $res2 =$this->model('contact_info')->update(array('quan_points'=>$points));
+
         file_put_contents('/tmp/xielei.txt',print_r(3333,true)."\n",FILE_APPEND);
 
 
-        if ($res && $res1) {
+        if ($res && $res1&&$res2) {
             file_put_contents('/tmp/xielei.txt',print_r('comit',true)."\n",FILE_APPEND);
 
             $this->commit ();
