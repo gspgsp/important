@@ -299,7 +299,7 @@ class payAction extends baseAction
      */
     public function getExactAmount()
     {
-        if(empty($_POST['money'])||!is_int($_POST['money']))
+        if(preg_match('/\D/',$_POST['money']))
         {
             $this->_errCode(6);
         }
