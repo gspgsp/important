@@ -21,7 +21,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.paySelect(p.money, index)
+          _vm.paySelect(p.plasticBean, p.money, index)
         }
       }
     }, [_c('div', {
@@ -200,7 +200,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			money: null,
 			eq: null,
 			inputMoney: null,
-			plasticBean: ""
+			plasticBean: "",
+			order_id: "",
+			beanOrder: {
+				bean: "",
+				money: ""
+			}
 		};
 	},
 	methods: {
@@ -211,7 +216,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				console.log("11111");
 				WeixinJSBridge.invoke('getBrandWCPayRequest', jsApiParameters, function (res) {
 					if (res.err_msg == "get_brand_wcpay_request:ok") {
-						alert(ok);
+						$.ajax({
+							type: "post",
+							url: version + '/pay/updateOrderStatus',
+							data: {
+								type: 1,
+								order_id: _this.order_id,
+								status: "4"
+							},
+							headers: {
+								'X-UA': window.localStorage.getItem("XUA")
+							},
+							dataType: 'JSON'
+						}).then(function (res) {}, function () {});
+					}
+					if (res.err_msg == "get_brand_wcpay_request:cancel") {
+						$.ajax({
+							type: "post",
+							url: version + '/pay/updateOrderStatus',
+							data: {
+								type: 1,
+								order_id: _this.order_id,
+								status: "-3"
+							},
+							headers: {
+								'X-UA': window.localStorage.getItem("XUA")
+							},
+							dataType: 'JSON'
+						}).then(function (res) {}, function () {});
+					}
+					if (res.err_msg == "get_brand_wcpay_request:fail") {
+						$.ajax({
+							type: "post",
+							url: version + '/pay/updateOrderStatus',
+							data: {
+								type: 1,
+								order_id: _this.order_id,
+								status: "-4"
+							},
+							headers: {
+								'X-UA': window.localStorage.getItem("XUA")
+							},
+							dataType: 'JSON'
+						}).then(function (res) {}, function () {});
 					}
 				});
 			}
@@ -222,8 +269,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				data: {
 					type: 1,
 					goods_id: "99",
-					total_fee: "0.01",
-					goods_num: "1",
+					total_fee: _this.beanOrder.money,
+					goods_num: _this.beanOrder.bean,
 					open_id: window.localStorage.getItem("openid")
 				},
 				headers: {
@@ -232,6 +279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				dataType: 'JSON'
 			}).done(function (res) {
 				if (res.err == 0) {
+					_this.order_id = res.order_id;
 					jsApiParameters = JSON.parse(res.data);
 					if (typeof WeixinJSBridge == "undefined") {
 						if (document.addEventListener) {
@@ -246,13 +294,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}
 			}).fail(function () {});
 		},
-		paySelect: function paySelect(num, i) {
-			this.money = num;
+		paySelect: function paySelect(num, money, i) {
+			this.beanOrder.bean = num;
+			this.beanOrder.money = money;
+			this.money = money;
 			this.eq = i;
 			this.inputMoney = null;
 			this.plasticBean = null;
-			console.log(this.money);
-			console.log(this.eq);
 		},
 		payInput: function payInput() {
 			var _this = this;
@@ -270,6 +318,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					dataType: 'JSON'
 				}).then(function (res) {
 					if (res.err == 0) {
+						_this.beanOrder.bean = plasticBean;
+						_this.beanOrder.money = _this.inputMoney;
 						_this.plasticBean = res.plasticBean + "塑豆";
 					}
 				}, function () {});
@@ -288,11 +338,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}).then(function (res) {
 					if (res.err == 0) {
 						_this.plasticBean = res.plasticBean + "塑豆";
+						_this.beanOrder.bean = plasticBean;
+						_this.beanOrder.money = _this.inputMoney;
 					}
 				}, function () {});
 			} else {
 				this.plasticBean = "";
-				this.paySelect(10, 0);
+				this.paySelect(100, 10, 0);
 			}
 		}
 	},
@@ -314,7 +366,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}).then(function (res) {
 			if (res.err == 0) {
 				_this.pay = res.data;
-				_this.paySelect(res.data[0].money, 0);
+				_this.paySelect(res.data[0].plasticBean, res.data[0].money, 0);
 			}
 		}, function () {});
 	}
