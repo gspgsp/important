@@ -645,14 +645,15 @@ class orderAction extends adminBaseAction {
 		$data['total_price']=$data['price']; //前台计算的所有明细总价
 		$data['total_num']=$data['num']; //所有明细总数
 		$data['order_source'] = 2; //订单默认来源ERP
-		p($data);die;
 		//新增
 			$this->db->startTrans(); //开启事务
+			$partner_id = empty($data['partner']) ? $_SESSION['adminid'] : $data['partner'];
+			$partner_name = empty($data['partner']) ? $_SESSION['name'] : M('rbac:adm')->getUserByCol($data['partner']);
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
-				'customer_manager'=>$_SESSION['adminid'],
+				'customer_manager'=>$partner_id,
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
 
