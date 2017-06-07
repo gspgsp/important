@@ -180,7 +180,7 @@ export default{
 		       document.attachEvent('onWeixinJSBridgeReady', _this.onBridgeReady);
 		   }
 		}else{
-		   onBridgeReady();
+		   this.onBridgeReady();
 		}
 		
 		$.ajax({
