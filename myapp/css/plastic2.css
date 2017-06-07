@@ -890,7 +890,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .payList li.on .payBox span{ color: #FFFFFF;}
 .payOther{ font-size: 13px; height: 25px; line-height: 25px; padding: 0 10px; color: #000000;}
 .payOther span{ float: left;}
-.payNum{ width: 80px; height: 25px; line-height: 25px; padding: 0 3px; border:1px solid #d6d7dc;}
+.payNum{ width: 80px; height: 25px; -webkit-appearance: none; line-height: 25px; padding: 0 3px; border:1px solid #d6d7dc;}
 .payOther b{ font-weight: normal; color: #ff5000; font-weight: normal;}
 .payWay{ margin: 10px 0 0 0; padding: 20px; border-top: 1px solid #d6d7dc;}
 .payWay h3{ font-size: 15px; color: #000000; font-weight: normal; margin: 0 0 20px 0;}
