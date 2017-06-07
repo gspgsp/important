@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 132);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,630 +141,313 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-var core = module.exports = {version: '2.4.0'};
-if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ }),
-
-/***/ 109:
+/***/ 108:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'app',
 	components: {
-		'Leftmodel': __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default.a
+		'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
 	},
 	data: function data() {
 		return {
-			keywords: "",
-			page: 1,
-			release: [],
-			type: 0,
-			store_house: "",
-			model: "",
-			f_name: "",
-			deal_price: "",
-			remark: "",
-			show: false,
 			content: "",
 			id: "",
-			user_id: "",
-			selected: "",
-			isArrow: false,
-			sortfield1: "ALL",
-			sortfield2: "AUTO",
-			filter1: false,
-			filter2: true,
-			filter3: false,
-			filter4: false,
-			condition: 7,
-			txt2: "全部",
-			filtershow: false,
-			mine: false,
-			on1: true,
-			errmsg: "",
-			loadingShow: "",
-			top: "",
-
-			re_type: 2,
-			re_store_house: "",
-			re_model: "",
-			re_f_name: "",
-			re_price: "",
-			re_remark: "",
-			re_show: false,
-			re_content: "",
-			re_isDisable: false,
-			re_show1: true,
-			re_show2: false,
-			re_standard: 1
+			saysCount: "",
+			name: "",
+			c_name: "",
+			thumb: "",
+			is_pass: "",
+			deliverPriceCount: "",
+			type: "",
+			show1: true,
+			show2: false,
+			fans: "",
+			level: "",
+			price: [],
+			deliverprice: "",
+			reply: [],
+			msg: "",
+			deliverbtn: false,
+			replybtn: false,
+			right: 0,
+			right2: 0,
+			mine: true,
+			userinfoid: ""
 		};
 	},
-	methods: {
-		selectAll: function selectAll() {
-			var _this = this,
-			    curSel = $(".select option:selected").val();
 
-			if (curSel === "all") {
-				_this.selected = 0;
-				$.ajax({
-					url: '/api/qapi1_2/getReleaseMsg',
-					type: 'post',
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						type: _this.selected,
-						sortField1: _this.sortfield1,
-						sortField2: _this.sortfield2,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					console.log(res);
-					if (res.err == 0) {
-						_this.release = res.data;
-					} else if (res.err == 2) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 4) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 9) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 6) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 7) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 8) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					}
-				}, function () {});
-			} else if (curSel === "sell") {
-					_this.selected = 2;
+	methods: {
+		lishow1: function lishow1() {
+			this.show1 = true;
+			this.show2 = false;
+		},
+		lishow2: function lishow2() {
+			this.show1 = false;
+			this.show2 = true;
+		},
+
+		deliver: function deliver() {
+			var _this = this;
+			$.ajax({
+				url: '/api/qapi1/deliverPrice',
+				type: 'get',
+				data: {
+					id: _this.id,
+					rev_id: _this.user_id,
+					token: window.localStorage.getItem("token"),
+					type: _this.type,
+					price: _this.deliverprice
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				if (res.err == 0) {
 					$.ajax({
-						url: '/api/qapi1_2/getReleaseMsg',
-						type: 'post',
+						url: '/api/qapi1/getDeliverPrice',
+						type: 'get',
 						data: {
-							keywords: _this.keywords.toLocaleUpperCase(),
-							page: _this.page,
-							type: _this.selected,
-							sortField1: _this.sortfield1,
-							sortField2: _this.sortfield2,
+							id: _this.id,
+							rev_id: _this.user_id,
 							token: window.localStorage.getItem("token"),
+							page: 1,
 							size: 10
 						},
 						dataType: 'JSON'
 					}).then(function (res) {
 						if (res.err == 0) {
-							_this.release = res.data;
-						} else if (res.err == 2) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 4) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 9) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 6) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 7) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 8) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
+							_this.price = res.data.data;
+							_this.deliverprice = "";
 						}
 					}, function () {});
-				} else if (curSel === "buy") {
-						_this.selected = 1;
-						$.ajax({
-							url: '/api/qapi1_2/getReleaseMsg',
-							type: 'post',
-							data: {
-								keywords: _this.keywords.toLocaleUpperCase(),
-								page: _this.page,
-								type: _this.selected,
-								sortField1: _this.sortfield1,
-								sortField2: _this.sortfield2,
-								token: window.localStorage.getItem("token"),
-								size: 10
-							},
-							dataType: 'JSON'
-						}).then(function (res) {
-							if (res.err == 0) {
-								_this.release = res.data;
-							} else if (res.err == 2) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 4) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 9) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 6) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 7) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 8) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							}
-						}, function () {});
-					}
-		},
-
-		getRelease: function getRelease(cate) {
-			var _this = this;
-			switch (cate) {
-				case 'all':
-					_this.filter1 = true;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "ALL";
-					_this.sortfield2 = "";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'recommend':
-					_this.filter1 = false;
-					_this.filter2 = true;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "AUTO";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'attention':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = true;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "CONCERN";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'supplydemand':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = true;
-					_this.mine = true;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "DEMANDORSUPPLY";
-					_this.condition = true;
-					_this.page = 1;
-				default:
-					break;
-			}
-			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					_this.release = res.data;
-					if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-						_this.top = null;
-					} else {
-						_this.top = res.top;
-					}
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				}
-				console.log("共有数据" + _this.release.length + "条");
-			}).fail(function () {}).always(function () {});
-		},
-
-		search: function search() {
-			var _this = this;
-			this.condition = true;
-			_this.filtershow = false;
-			_this.filtershow2 = false;
-			this.page = 1;
-
-			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				if (res.err == 0) {
-					_this.release = res.data;
 				} else if (res.err == 1) {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
-						}]
+					mui.alert("", res.msg, function () {
+						_this.$router.push({
+							name: 'login'
+						});
 					});
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
+				} else {
+					alert(res.msg);
+					window.location.reload();
 				}
 			}, function () {});
 		},
 
-		arrow: function arrow() {
-			$(".right").scrollTop(0);
-		},
-
-		loadingMore: function loadingMore() {
+		replyMsg: function replyMsg() {
 			var _this = this;
-			var scrollTop = $(".right").scrollTop();
-			var scrollHeight = $(".buy-sell-con").height();
-			var windowHeight = $(window).height();
-			if (scrollTop + windowHeight == scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: "/api/qapi1_2/getReleaseMsg",
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						type: _this.selected,
-						sortField1: _this.sortfield1,
-						sortField2: _this.sortfield2,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						_this.release = _this.release.concat(res.data);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 3) {
-						alert(res.msg);
-					}
-				}, function () {});
-			}
-		},
-
-		detail: function detail(id1, id2, tab) {
-			tab = tab || 0;
-			location.href = "releasedetail?id=" + id1 + "&userid=" + id2 + "&tab=" + tab;
-		},
-
-		lishow1: function lishow1() {
-			this.re_show1 = true;
-			this.re_show2 = false;
-			this.re_standard = 1;
-		},
-		lishow2: function lishow2() {
-			this.re_show1 = false;
-			this.re_show2 = true;
-			this.re_standard = 2;
-		},
-
-		sale: function sale() {
-			var _this = this;
-			this.re_isDisable = true;
-			var data = [];
-			var arr = {
-				'model': this.re_model.toUpperCase(),
-				'f_name': this.re_f_name,
-				'store_house': this.re_store_house,
-				'price': this.re_price,
-				'type': 1,
-				'quan_type': 0,
-				'content': this.re_remark
-			};
-			data.push(arr);
-
-			arr.type = $('.radio input:checked').attr("id") === "radio-buy" ? 1 : 2;
-
-			if (this.re_type && this.re_store_house && this.re_model && this.re_f_name && this.re_price || this.re_remark) {
-				$.ajax({
-					url: '/api/qapi1_2/pub',
-					type: 'post',
-					data: {
-						data: data,
-						token: window.localStorage.getItem("token")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						$.ajax({
-							type: "post",
-							url: "/api/score/addScore",
-							data: {
-								token: window.localStorage.getItem("token"),
-								type: '7',
-								standard: _this.re_standard
-							},
-							dataType: 'JSON'
-						}).done(function (res) {}).fail(function () {});
-						_this.re_isDisable = false;
-						alert(res.msg);
-						window.location.reload();
-					} else {}
-				}, function () {});
-			} else {
-					alert("请把信息填写完整");
-					_this.re_isDisable = false;
+			$.ajax({
+				url: '/api/qapi1/saveMsg',
+				type: 'get',
+				data: {
+					pur_id: _this.id,
+					content: _this.msg,
+					send_id: _this.user_id,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				if (res.err == 0) {
+					$.ajax({
+						url: '/api/qapi1/getReleaseMsgDetailReply',
+						type: 'get',
+						data: {
+							id: _this.id,
+							user_id: _this.user_id,
+							token: window.localStorage.getItem("token"),
+							page: 1,
+							size: 10
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						console.log(res);
+						if (res.err == 0) {
+							_this.reply = res.data.data;
+							_this.msg = "";
+						}
+					}, function () {});
+				} else {
+					alert(res.msg);
+					window.location.reload();
 				}
+			}, function () {});
+		},
+
+		pay: function pay() {
+			var _this = this;
+			$.ajax({
+				url: '/api/qapi1/focusOrCancel',
+				type: 'get',
+				data: {
+					focused_id: _this.user_id,
+					token: window.localStorage.getItem("token")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(">>>", res.msg);
+				window.location.reload();
+			}, function () {});
 		}
 	},
 
 	mounted: function mounted() {
-		var _this = this;
+		var _this = this,
+		    url = location.search,
+		    results = [],
+		    str = "",
+		    strs = "",
+		    linkId = "",
+		    linkUserId = "",
+		    tab = 0;
 
-		$(".right").scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(this).height();
-			_this.loadingMore();
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-		});
+		if (url.indexOf("?") != -1) {
+			str = url.substr(1);
+
+			strs = str.split("&");
+		}
+		for (var i = 0; i < strs.length; i++) {
+			results.push(strs[i].split("="));
+		}
+
+		linkId = results[0][1];
+
+		linkUserId = results[1][1];
+
+		tab = results[2][1];
+
 		$.ajax({
-			url: '/api/qapi1_2/getReleaseMsg',
-			type: 'post',
+			url: '/api/qapi1/getReleaseMsgDetail',
+			type: 'get',
 			data: {
-				keywords: _this.keywords.toLocaleUpperCase(),
-				page: _this.page,
-				type: _this.selected,
-				sortField1: _this.sortfield1,
-				sortField2: _this.sortfield2,
+				id: linkId,
+				user_id: linkUserId,
+				token: window.localStorage.getItem("token")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.id = res.data.id;
+				_this.user_id = res.data.user_id;
+				_this.content = res.data.contents;
+				_this.saysCount = res.data.saysCount;
+				_this.time = res.data.input_time;
+				_this.type = res.data.type;
+				_this.name = res.data.info.name;
+				_this.fans = res.data.info.fans;
+				_this.level = res.data.info.member_level;
+				_this.c_name = res.data.info.c_name;
+				_this.status = res.data.info.status;
+				_this.is_pass = res.data.info.is_pass;
+				_this.thumb = res.data.info.thumb;
+				_this.deliverPriceCount = res.data.deliverPriceCount;
+				if (_this.user_id == window.localStorage.getItem("userid")) {
+					_this.mine = false;
+				} else {
+					_this.mine = true;
+				}
+				if (tab === "0" || tab === "1") {
+					_this.show1 = true;
+					_this.show2 = false;
+				} else {
+					_this.show1 = false;
+					_this.show2 = true;
+				}
+			} else if (res.err == 1) {}
+		}, function () {});
+
+		$.ajax({
+			url: '/api/qapi1/getDeliverPrice',
+			type: 'get',
+			data: {
+				id: linkId,
+				rev_id: linkUserId,
 				token: window.localStorage.getItem("token"),
+				page: 1,
 				size: 10
 			},
 			dataType: 'JSON'
-		}).done(function (res) {
+		}).then(function (res) {
+			console.log(res);
 			if (res.err == 0) {
-				_this.release = res.data;
-				_this.top = res.top;
+				_this.price = res.data.data;
 			} else if (res.err == 1) {
-				alert(res.msg);
-				location.href = "/mypczone/index/login";
+				mui.alert("", res.msg, function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				});
 			} else if (res.err == 2) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 4) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 5) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 6) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 7) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 8) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.release = [];
-				_this.top = null;
+				_this.price = [];
 			}
-		}).fail(function () {}).always(function () {});
+		}, function () {});
+
+		$.ajax({
+			url: '/api/qapi1/getReleaseMsgDetailReply',
+			type: 'get',
+			data: {
+				id: linkId,
+				user_id: linkUserId,
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 10
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.reply = res.data.data;
+			} else if (res.err == 1) {
+				mui.alert("", res.msg, function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				});
+			} else if (res.err == 2) {
+				_this.reply = [];
+			}
+		}, function () {});
+
+		$(".left li").removeClass("hover");
+		$("#left2").addClass("hover");
 	}
+});
+$(function () {
+	var w = $(".right").width(),
+	    opt = $(".opt");
+	opt.width(w);
+	$(window).resize(function () {
+		opt.width(w);
+	});
 });
 
 /***/ }),
 
-/***/ 133:
+/***/ 132:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__supplybuy_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__releasedetail_vue__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__releasedetail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__releasedetail_vue__);
 
 
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   el: '#app',
   template: '<Index/>',
-  components: { Index: __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue___default.a }
+  components: { Index: __WEBPACK_IMPORTED_MODULE_1__releasedetail_vue___default.a }
 });
 
 /***/ }),
 
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(16), __esModule: true };
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-var core  = __webpack_require__(10)
-  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-  return $JSON.stringify.apply($JSON, arguments);
-};
-
-/***/ }),
-
-/***/ 184:
+/***/ 174:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -773,439 +456,234 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "app"
     }
   }, [_c('Leftmodel'), _vm._v(" "), _c('div', {
-    staticClass: "right flt"
+    staticClass: "right"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "buy-sell-con buy-sell-con2"
+  }, [_c('ul', [_c('li', [_c('div', {
+    staticClass: "w96 sell settop"
   }, [_c('div', {
-    staticClass: "buy-sell-fixed"
+    staticClass: "thumb"
   }, [_c('div', {
-    staticClass: "buy-sell-search"
-  }, [_c('div', {
-    staticClass: "w96"
-  }, [_c('form', {
+    staticClass: "pic flt"
+  }, [_c('img', {
     attrs: {
-      "action": "javascript:;"
+      "src": _vm.thumb
     }
+  }), _c('div', {
+    staticClass: "authen no"
+  }, [_vm._v("V")])]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.name))])]), _vm._v(" "), (_vm.type == 2) ? _c('div', {
+    staticClass: "info sell"
+  }, [_c('span', [_vm._v("供给：")]), _vm._v(_vm._s(_vm.content) + "\n\t\t\t\t\t\t                ")]) : _c('div', {
+    staticClass: "info buy"
+  }, [_c('span', [_vm._v("求购：")]), _vm._v(_vm._s(_vm.content) + "\n\t\t\t\t\t\t                ")]), _vm._v(" "), _c('div', {
+    staticClass: "other"
   }, [_c('div', {
-    staticClass: "select flt"
-  }, [_c('select', {
+    staticClass: "time flt"
+  }, [_vm._v(_vm._s(_vm.time))]), _vm._v(" "), _c('div', {
+    staticClass: "feedback frt"
+  }, [_c('p', {
+    staticClass: "bid"
+  }, [_vm._v("出价"), _c('span', [_vm._v("(" + _vm._s(_vm.deliverPriceCount) + ")")])]), _vm._v(" "), _c('p', {
+    staticClass: "reply"
+  }, [_vm._v("回复"), _c('span', [_vm._v("(" + _vm._s(_vm.saysCount) + ")")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "attention yes",
     on: {
-      "change": _vm.selectAll
+      "click": _vm.pay
     }
-  }, [_c('option', {
-    attrs: {
-      "value": "all"
-    }
-  }, [_vm._v("全部")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "sell"
-    }
-  }, [_vm._v("供给")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "buy"
-    }
-  }, [_vm._v("求购")])])]), _vm._v(" "), _c('div', {
-    staticClass: "search flt"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.keywords),
-      expression: "keywords"
-    }],
-    staticClass: "import flt",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入厂家或牌号搜索"
-    },
-    domProps: {
-      "value": (_vm.keywords)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.keywords = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "submit frt",
-    attrs: {
-      "type": "button",
-      "value": "搜索"
-    },
-    on: {
-      "click": function($event) {
-        _vm.search()
-      }
-    }
-  })])])])]), _vm._v(" "), _c('ul', {
-    staticClass: "buy-sell-tab"
+  }, [_vm._v(_vm._s(_vm.status))])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "feedback-wrap"
+  }, [_c('ul', {
+    staticClass: "feedback-tab"
   }, [_c('li', {
     class: {
-      'hover': _vm.filter1
+      hover: _vm.show1
     },
     attrs: {
-      "id": "tab1"
+      "id": "taba1"
     },
     on: {
-      "click": function($event) {
-        _vm.getRelease('all')
-      }
+      "click": _vm.lishow1
     }
-  }, [_vm._v("全部")]), _vm._v(" "), _c('li', {
+  }, [_vm._v("出价消息")]), _vm._v(" "), _c('li', {
     class: {
-      'hover': _vm.filter2
+      hover: _vm.show2
     },
     attrs: {
-      "id": "tab2"
+      "id": "taba2"
     },
     on: {
-      "click": function($event) {
-        _vm.getRelease('recommend')
-      }
+      "click": _vm.lishow2
     }
-  }, [_vm._v("智能推荐")]), _vm._v(" "), _c('li', {
-    class: {
-      'hover': _vm.filter3
-    },
-    attrs: {
-      "id": "tab3"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('attention')
-      }
-    }
-  }, [_vm._v("我的关注")]), _vm._v(" "), _c('li', {
-    class: {
-      'hover': _vm.filter4
-    },
-    attrs: {
-      "id": "tab4"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('supplydemand')
-      }
-    }
-  }, [_vm._v("我的供求")])])]), _vm._v(" "), _c('div', {
-    staticClass: "buy-sell-con"
+  }, [_vm._v("回复消息")])]), _vm._v(" "), _c('div', {
+    staticClass: "feedback-con"
   }, [_c('div', {
-    staticClass: "tab-con",
-    attrs: {
-      "id": "con-tab-1"
-    }
-  }, [_c('ul', _vm._l((_vm.release), function(r) {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.show1),
+      expression: "show1"
+    }]
+  }, [_c('div', {
+    staticClass: "w96"
+  }, [_c('div', {
+    staticClass: "bid-list"
+  }, [_vm._m(1), _vm._v(" "), _c('ul', {
+    staticClass: "bid-con"
+  }, _vm._l((_vm.price), function(p) {
     return _c('li', [_c('div', {
-      staticClass: "w96"
+      staticClass: "name"
     }, [_c('div', {
       staticClass: "thumb"
     }, [_c('div', {
       staticClass: "pic flt"
     }, [_c('img', {
       attrs: {
-        "src": r.thumb
+        "src": p.info.thumb
       }
     }), _c('div', {
-      staticClass: "authen",
-      class: {
-        'yes': r.is_pass == null || r.is_pass == 1, 'no': r.is_pass == 0
+      staticClass: "authen no"
+    }, [_vm._v("V")])]), _vm._v(" "), _c('p', {
+      staticClass: "person"
+    }, [_c('span', [_vm._v(_vm._s(p.info.c_name))]), _c('span', [_vm._v(_vm._s(p.info.name))])]), _vm._v(" "), _c('p', {
+      staticClass: "time"
+    }, [_vm._v(_vm._s(p.input_time))])])]), _vm._v(" "), _c('div', {
+      staticClass: "price"
+    }, [_vm._v(_vm._s(p.price))]), _vm._v(" "), _c('div', {
+      staticClass: "mobile"
+    }, [_vm._v(_vm._s(p.info.mobile))])])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "opt"
+  }, [_c('div', {
+    staticClass: "w96"
+  }, [_c('form', {
+    attrs: {
+      "name": "",
+      "action": "",
+      "method": "post"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deliverprice),
+      expression: "deliverprice"
+    }],
+    staticClass: "import flt",
+    attrs: {
+      "type": "number",
+      "placeholder": "期待你的出价"
+    },
+    domProps: {
+      "value": (_vm.deliverprice)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.deliverprice = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
       }
-    }, [_vm._v("V")])]), _vm._v(" "), _c('span', [_vm._v(_vm._s(r.c_name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(r.name))])]), _vm._v(" "), _c('div', {
-      staticClass: "todetail",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id)
-        }
-      }
-    }, [(r.type == 2) ? _c('div', {
-      staticClass: "info sell"
-    }, [_c('span', [_vm._v("供给：")]), _c('strong', {
-      domProps: {
-        "innerHTML": _vm._s(r.contents)
-      }
-    })]) : _c('div', {
-      staticClass: "info buy"
-    }, [_c('span', [_vm._v("求购：")]), _c('strong', {
-      domProps: {
-        "innerHTML": _vm._s(r.contents)
-      }
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "other"
-    }, [_c('div', {
-      staticClass: "time flt"
-    }, [_vm._v(_vm._s(r.input_time))]), _vm._v(" "), _c('div', {
-      staticClass: "feedback frt"
-    }, [_c('p', {
-      staticClass: "bid",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id, 1)
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "javascript:;"
-      }
-    }, [_vm._v("出价"), _c('span', [_vm._v("(" + _vm._s(r.deliverPriceCount) + ")")])])]), _vm._v(" "), _c('p', {
-      staticClass: "reply",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id, 2)
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "javascript:;"
-      }
-    }, [_vm._v("回复"), _c('span', [_vm._v("(" + _vm._s(r.saysCount) + ")")])])])])])])])
-  })), _vm._v(" "), (_vm.condition == 7) ? _c('div', {
-    staticClass: "no-results no-results1"
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1)]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "submit frt",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.deliver
+    }
+  }, [_vm._v("出价")])])])])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isArrow),
-      expression: "isArrow"
-    }],
-    staticClass: "top-arrow",
-    on: {
-      "click": _vm.arrow
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "release"
-  }, [_c('form', {
-    attrs: {
-      "name": "",
-      "method": "post",
-      "action": ""
-    }
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "con w96"
-  }, [_c('div', {
-    staticClass: "import flt"
-  }, [_c('form', {
-    attrs: {
-      "name": "",
-      "method": "post",
-      "action": ""
-    }
-  }, [_c('div', {
-    staticClass: "release-tab flt"
+      value: (_vm.show2),
+      expression: "show2"
+    }]
   }, [_c('ul', {
-    staticClass: "tabx"
-  }, [_c('li', {
-    class: {
-      hover: _vm.re_show1
-    },
-    attrs: {
-      "id": "tabx1"
-    },
-    on: {
-      "click": _vm.lishow1
-    }
-  }, [_vm._v("快速发布")]), _vm._v(" "), _c('li', {
-    class: {
-      hover: _vm.re_show2
-    },
-    attrs: {
-      "id": "tabx2"
-    },
-    on: {
-      "click": _vm.lishow2
-    }
-  }, [_vm._v("精准发布")])])]), _vm._v(" "), _c('div', {
-    staticClass: "release-tab-con flt"
-  }, [_c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.re_show1),
-      expression: "re_show1"
-    }],
-    attrs: {
-      "id": "con-tabx-1"
-    }
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_remark),
-      expression: "re_remark"
-    }],
-    attrs: {
-      "placeholder": "在此文本框内，可快速复制粘贴供求信息，限制100字以内！"
-    },
-    domProps: {
-      "value": (_vm.re_remark)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_remark = $event.target.value
+    staticClass: "reply-list"
+  }, _vm._l((_vm.reply), function(r) {
+    return _c('li', [_c('div', {
+      staticClass: "thumb"
+    }, [_c('div', {
+      staticClass: "pic flt"
+    }, [_c('img', {
+      attrs: {
+        "src": r.info.thumb
       }
-    }
-  })]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.re_show2),
-      expression: "re_show2"
-    }],
+    }), _c('div', {
+      staticClass: "authen no"
+    }, [_vm._v("V")])]), _vm._v(" "), _c('p', {
+      staticClass: "person"
+    }, [_c('span', [_vm._v(_vm._s(r.info.c_name))]), _c('span', [_vm._v(_vm._s(r.info.name))])]), _vm._v(" "), _c('p', {
+      staticClass: "time"
+    }, [_vm._v(_vm._s(r.input_time))])]), _vm._v(" "), _c('div', {
+      staticClass: "info"
+    }, [_vm._v(_vm._s(r.content))])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "opt"
+  }, [_c('div', {
+    staticClass: "w96"
+  }, [_c('form', {
     attrs: {
-      "id": "con-tabx-2"
+      "name": "",
+      "action": "",
+      "method": "post"
     }
-  }, [_c('div', {
-    staticClass: "tr"
-  }, [_c('div', {
-    staticClass: "name"
-  }, [_vm._v("牌号")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.re_model),
-      expression: "re_model"
+      value: (_vm.msg),
+      expression: "msg"
     }],
+    staticClass: "import flt",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": "期待你的回复"
     },
     domProps: {
-      "value": (_vm.re_model)
+      "value": (_vm.msg)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.re_model = $event.target.value
+        _vm.msg = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "name"
-  }, [_vm._v("厂家")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_f_name),
-      expression: "re_f_name"
-    }],
+  }), _vm._v(" "), _c('button', {
+    staticClass: "submit frt",
     attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_f_name)
+      "type": "button"
     },
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_f_name = $event.target.value
-      }
+      "click": _vm.replyMsg
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "tr"
-  }, [_c('div', {
-    staticClass: "name"
-  }, [_vm._v("价格")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_price),
-      expression: "re_price"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_price)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_price = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "name"
-  }, [_vm._v("仓库")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_store_house),
-      expression: "re_store_house"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_store_house)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_store_house = $event.target.value
-      }
-    }
-  })])])])]), _vm._v(" "), _c('input', {
-    staticClass: "submit",
-    attrs: {
-      "type": "button",
-      "value": "发布"
-    },
-    on: {
-      "click": _vm.sale
-    }
-  })])]), _vm._v(" "), _vm._m(3)])])])])], 1)
+  }, [_vm._v("回复")])])])])])])])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "thumb flt"
+    staticClass: "back buy-sell-back"
+  }, [_c('a', {
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("详情")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "bid-title"
   }, [_c('div', {
-    staticClass: "img"
-  }), _vm._v(" "), _c('span', [_vm._v("系统暂未为您匹配到相应的牌号，暂无推荐！")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "explain frt"
-  }, [_c('h4', [_vm._v("说明：")]), _vm._v(" "), _c('p', [_vm._v("1、智能推荐会根据您发布的信息为您匹配相关牌号的供求信息；")]), _vm._v(" "), _c('p', [_vm._v("2、若无匹配信息，则目前不存在此牌号的信息。")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "type": "radio",
-      "name": "opt",
-      "id": "radio-buy",
-      "checked": "checked"
-    }
-  }), _c('label', {
-    attrs: {
-      "for": "radio-buy"
-    }
-  }, [_vm._v("我要"), _c('span', [_vm._v("求购")])]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "radio",
-      "name": "opt",
-      "id": "radio-sell"
-    }
-  }), _c('label', {
-    attrs: {
-      "for": "radio-sell"
-    }
-  }, [_vm._v("我要"), _c('span', [_vm._v("供给")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tips frt"
-  }, [_c('p', {
-    staticClass: "title"
-  }, [_vm._v("信息发布提示：")]), _vm._v(" "), _c('p', [_vm._v("快速发布：简单粘贴或复制供求，快速录入；")]), _vm._v(" "), _c('p', [_vm._v("精准发布：填写准确供求，参与系统比价。")])])
+    staticClass: "name"
+  }, [_vm._v("出价人")]), _vm._v(" "), _c('div', {
+    staticClass: "price"
+  }, [_vm._v("出价")]), _vm._v(" "), _c('div', {
+    staticClass: "mobile"
+  }, [_vm._v("手机号码")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-9e3513c6", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-3632b51f", module.exports)
   }
 }
 
@@ -1475,22 +953,22 @@ if (false) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 84:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(109),
+  __webpack_require__(108),
   /* template */
-  __webpack_require__(184),
+  __webpack_require__(174),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\supplybuy\\supplybuy.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\releasedetail\\releasedetail.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] supplybuy.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] releasedetail.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1499,9 +977,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9e3513c6", Component.options)
+    hotAPI.createRecord("data-v-3632b51f", Component.options)
   } else {
-    hotAPI.reload("data-v-9e3513c6", Component.options)
+    hotAPI.reload("data-v-3632b51f", Component.options)
   }
 })()}
 

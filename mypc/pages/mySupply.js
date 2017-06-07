@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 129);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,630 +141,138 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 10:
-/***/ (function(module, exports) {
-
-var core = module.exports = {version: '2.4.0'};
-if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ }),
-
-/***/ 109:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_myView__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'app',
-	components: {
-		'Leftmodel': __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default.a
-	},
-	data: function data() {
-		return {
-			keywords: "",
-			page: 1,
-			release: [],
-			type: 0,
-			store_house: "",
-			model: "",
-			f_name: "",
-			deal_price: "",
-			remark: "",
-			show: false,
-			content: "",
-			id: "",
-			user_id: "",
-			selected: "",
-			isArrow: false,
-			sortfield1: "ALL",
-			sortfield2: "AUTO",
-			filter1: false,
-			filter2: true,
-			filter3: false,
-			filter4: false,
-			condition: 7,
-			txt2: "全部",
-			filtershow: false,
-			mine: false,
-			on1: true,
-			errmsg: "",
-			loadingShow: "",
-			top: "",
+    components: {
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
+        'myView': __WEBPACK_IMPORTED_MODULE_1__components_myView___default.a
+    },
+    data: function data() {
+        return {
+            name: [],
+            page: 1,
+            condition: true,
+            countShow: false,
+            count: "",
+            id: "",
+            user_id: "",
+            is_says: true,
+            type: ""
+        };
+    },
+    methods: {
+        getParam: function getParam(param) {
+            var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            var context = "";
+            if (r != null) context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+        var left = $(".left"),
+            left2 = $("#left2"),
+            center = $(".center"),
+            right = $(".right"),
+            html = $("html"),
+            index = 0,
+            h = $(document).height();
 
-			re_type: 2,
-			re_store_house: "",
-			re_model: "",
-			re_f_name: "",
-			re_price: "",
-			re_remark: "",
-			re_show: false,
-			re_content: "",
-			re_isDisable: false,
-			re_show1: true,
-			re_show2: false,
-			re_standard: 1
-		};
-	},
-	methods: {
-		selectAll: function selectAll() {
-			var _this = this,
-			    curSel = $(".select option:selected").val();
+        left.height(h);
+        center.height(h);
+        right.height(h);
+        html.height(h);
 
-			if (curSel === "all") {
-				_this.selected = 0;
-				$.ajax({
-					url: '/api/qapi1_2/getReleaseMsg',
-					type: 'post',
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						type: _this.selected,
-						sortField1: _this.sortfield1,
-						sortField2: _this.sortfield2,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					console.log(res);
-					if (res.err == 0) {
-						_this.release = res.data;
-					} else if (res.err == 2) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 4) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 9) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 6) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 7) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					} else if (res.err == 8) {
-						_this.condition = res.err;
-						_this.errmsg = res.msg;
-						_this.release = [];
-						_this.top = null;
-					}
-				}, function () {});
-			} else if (curSel === "sell") {
-					_this.selected = 2;
-					$.ajax({
-						url: '/api/qapi1_2/getReleaseMsg',
-						type: 'post',
-						data: {
-							keywords: _this.keywords.toLocaleUpperCase(),
-							page: _this.page,
-							type: _this.selected,
-							sortField1: _this.sortfield1,
-							sortField2: _this.sortfield2,
-							token: window.localStorage.getItem("token"),
-							size: 10
-						},
-						dataType: 'JSON'
-					}).then(function (res) {
-						if (res.err == 0) {
-							_this.release = res.data;
-						} else if (res.err == 2) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 4) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 9) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 6) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 7) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 8) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						}
-					}, function () {});
-				} else if (curSel === "buy") {
-						_this.selected = 1;
-						$.ajax({
-							url: '/api/qapi1_2/getReleaseMsg',
-							type: 'post',
-							data: {
-								keywords: _this.keywords.toLocaleUpperCase(),
-								page: _this.page,
-								type: _this.selected,
-								sortField1: _this.sortfield1,
-								sortField2: _this.sortfield2,
-								token: window.localStorage.getItem("token"),
-								size: 10
-							},
-							dataType: 'JSON'
-						}).then(function (res) {
-							if (res.err == 0) {
-								_this.release = res.data;
-							} else if (res.err == 2) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 4) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 9) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 6) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 7) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							} else if (res.err == 8) {
-								_this.condition = res.err;
-								_this.errmsg = res.msg;
-								_this.release = [];
-								_this.top = null;
-							}
-						}, function () {});
-					}
-		},
+        setW(left, center, right);
+        $(window).resize(function () {
+            setW(left, center, right);
+        });
 
-		getRelease: function getRelease(cate) {
-			var _this = this;
-			switch (cate) {
-				case 'all':
-					_this.filter1 = true;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "ALL";
-					_this.sortfield2 = "";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'recommend':
-					_this.filter1 = false;
-					_this.filter2 = true;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "AUTO";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'attention':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = true;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "CONCERN";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'supplydemand':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = true;
-					_this.mine = true;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "DEMANDORSUPPLY";
-					_this.condition = true;
-					_this.page = 1;
-				default:
-					break;
-			}
-			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					_this.release = res.data;
-					if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-						_this.top = null;
-					} else {
-						_this.top = res.top;
-					}
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				}
-				console.log("共有数据" + _this.release.length + "条");
-			}).fail(function () {}).always(function () {});
-		},
-
-		search: function search() {
-			var _this = this;
-			this.condition = true;
-			_this.filtershow = false;
-			_this.filtershow2 = false;
-			this.page = 1;
-
-			$.ajax({
-				url: '/api/qapi1_2/getReleaseMsg',
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				if (res.err == 0) {
-					_this.release = res.data;
-				} else if (res.err == 1) {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
-						}]
-					});
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				}
-			}, function () {});
-		},
-
-		arrow: function arrow() {
-			$(".right").scrollTop(0);
-		},
-
-		loadingMore: function loadingMore() {
-			var _this = this;
-			var scrollTop = $(".right").scrollTop();
-			var scrollHeight = $(".buy-sell-con").height();
-			var windowHeight = $(window).height();
-			if (scrollTop + windowHeight == scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: "/api/qapi1_2/getReleaseMsg",
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						type: _this.selected,
-						sortField1: _this.sortfield1,
-						sortField2: _this.sortfield2,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						_this.release = _this.release.concat(res.data);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 3) {
-						alert(res.msg);
-					}
-				}, function () {});
-			}
-		},
-
-		detail: function detail(id1, id2, tab) {
-			tab = tab || 0;
-			location.href = "releasedetail?id=" + id1 + "&userid=" + id2 + "&tab=" + tab;
-		},
-
-		lishow1: function lishow1() {
-			this.re_show1 = true;
-			this.re_show2 = false;
-			this.re_standard = 1;
-		},
-		lishow2: function lishow2() {
-			this.re_show1 = false;
-			this.re_show2 = true;
-			this.re_standard = 2;
-		},
-
-		sale: function sale() {
-			var _this = this;
-			this.re_isDisable = true;
-			var data = [];
-			var arr = {
-				'model': this.re_model.toUpperCase(),
-				'f_name': this.re_f_name,
-				'store_house': this.re_store_house,
-				'price': this.re_price,
-				'type': 1,
-				'quan_type': 0,
-				'content': this.re_remark
-			};
-			data.push(arr);
-
-			arr.type = $('.radio input:checked').attr("id") === "radio-buy" ? 1 : 2;
-
-			if (this.re_type && this.re_store_house && this.re_model && this.re_f_name && this.re_price || this.re_remark) {
-				$.ajax({
-					url: '/api/qapi1_2/pub',
-					type: 'post',
-					data: {
-						data: data,
-						token: window.localStorage.getItem("token")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						$.ajax({
-							type: "post",
-							url: "/api/score/addScore",
-							data: {
-								token: window.localStorage.getItem("token"),
-								type: '7',
-								standard: _this.re_standard
-							},
-							dataType: 'JSON'
-						}).done(function (res) {}).fail(function () {});
-						_this.re_isDisable = false;
-						alert(res.msg);
-						window.location.reload();
-					} else {}
-				}, function () {});
-			} else {
-					alert("请把信息填写完整");
-					_this.re_isDisable = false;
-				}
-		}
-	},
-
-	mounted: function mounted() {
-		var _this = this;
-
-		$(".right").scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(this).height();
-			_this.loadingMore();
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-		});
-		$.ajax({
-			url: '/api/qapi1_2/getReleaseMsg',
-			type: 'post',
-			data: {
-				keywords: _this.keywords.toLocaleUpperCase(),
-				page: _this.page,
-				type: _this.selected,
-				sortField1: _this.sortfield1,
-				sortField2: _this.sortfield2,
-				token: window.localStorage.getItem("token"),
-				size: 10
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 0) {
-				_this.release = res.data;
-				_this.top = res.top;
-			} else if (res.err == 1) {
-				alert(res.msg);
-				location.href = "/mypczone/index/login";
-			} else if (res.err == 2) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 4) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 5) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 6) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 7) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 8) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.release = [];
-				_this.top = null;
-			}
-		}).fail(function () {}).always(function () {});
-	}
+        function setW(gid1, gid2, elem, index) {
+            index = index || 0;
+            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
+            elem.width(w);
+        };
+        _this.type = _this.getParam('type');
+        $.ajax({
+            url: "/qapi_3/releaseMsg/getMyMsg",
+            type: 'post',
+            data: {
+                type: _this.type,
+                page: _this.page,
+                token: window.localStorage.getItem("token"),
+                size: 50
+            },
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            dataType: 'JSON'
+        }).then(function (res) {
+            if (res.err == 2) {
+                _this.condition = false;
+            } else if (res.err == 1) {
+                alert('请登录');
+            } else {
+                _this.condition = true;
+                _this.name = res.data;
+            }
+        }, function () {});
+    }
 });
 
 /***/ }),
 
-/***/ 133:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__supplybuy_vue__);
-
-
-
-new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-  el: '#app',
-  template: '<Index/>',
-  components: { Index: __WEBPACK_IMPORTED_MODULE_1__supplybuy_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 15:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(16), __esModule: true };
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(9),
+  /* template */
+  __webpack_require__(12),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32a73169", Component.options)
+  } else {
+    hotAPI.reload("data-v-32a73169", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-var core  = __webpack_require__(10)
-  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
-module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-  return $JSON.stringify.apply($JSON, arguments);
-};
-
-/***/ }),
-
-/***/ 184:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -772,440 +280,259 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "app"
     }
-  }, [_c('Leftmodel'), _vm._v(" "), _c('div', {
-    staticClass: "right flt"
   }, [_c('div', {
-    staticClass: "buy-sell-fixed"
+    staticClass: "center flt"
   }, [_c('div', {
-    staticClass: "buy-sell-search"
+    staticClass: "my-title"
+  }, [_vm._v("我的塑料圈")]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary"
   }, [_c('div', {
-    staticClass: "w96"
-  }, [_c('form', {
-    attrs: {
-      "action": "javascript:;"
-    }
+    staticClass: "my-summary-top"
   }, [_c('div', {
-    staticClass: "select flt"
-  }, [_c('select', {
-    on: {
-      "change": _vm.selectAll
-    }
-  }, [_c('option', {
+    staticClass: "pic flt"
+  }, [_c('img', {
     attrs: {
-      "value": "all"
-    }
-  }, [_vm._v("全部")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "sell"
-    }
-  }, [_vm._v("供给")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "buy"
-    }
-  }, [_vm._v("求购")])])]), _vm._v(" "), _c('div', {
-    staticClass: "search flt"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.keywords),
-      expression: "keywords"
-    }],
-    staticClass: "import flt",
-    attrs: {
-      "type": "text",
-      "placeholder": "请输入厂家或牌号搜索"
-    },
-    domProps: {
-      "value": (_vm.keywords)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.keywords = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    staticClass: "submit frt",
-    attrs: {
-      "type": "button",
-      "value": "搜索"
-    },
-    on: {
-      "click": function($event) {
-        _vm.search()
-      }
-    }
-  })])])])]), _vm._v(" "), _c('ul', {
-    staticClass: "buy-sell-tab"
-  }, [_c('li', {
-    class: {
-      'hover': _vm.filter1
-    },
-    attrs: {
-      "id": "tab1"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('all')
-      }
-    }
-  }, [_vm._v("全部")]), _vm._v(" "), _c('li', {
-    class: {
-      'hover': _vm.filter2
-    },
-    attrs: {
-      "id": "tab2"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('recommend')
-      }
-    }
-  }, [_vm._v("智能推荐")]), _vm._v(" "), _c('li', {
-    class: {
-      'hover': _vm.filter3
-    },
-    attrs: {
-      "id": "tab3"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('attention')
-      }
-    }
-  }, [_vm._v("我的关注")]), _vm._v(" "), _c('li', {
-    class: {
-      'hover': _vm.filter4
-    },
-    attrs: {
-      "id": "tab4"
-    },
-    on: {
-      "click": function($event) {
-        _vm.getRelease('supplydemand')
-      }
-    }
-  }, [_vm._v("我的供求")])])]), _vm._v(" "), _c('div', {
-    staticClass: "buy-sell-con"
-  }, [_c('div', {
-    staticClass: "tab-con",
-    attrs: {
-      "id": "con-tab-1"
-    }
-  }, [_c('ul', _vm._l((_vm.release), function(r) {
-    return _c('li', [_c('div', {
-      staticClass: "w96"
-    }, [_c('div', {
-      staticClass: "thumb"
-    }, [_c('div', {
-      staticClass: "pic flt"
-    }, [_c('img', {
-      attrs: {
-        "src": r.thumb
-      }
-    }), _c('div', {
-      staticClass: "authen",
-      class: {
-        'yes': r.is_pass == null || r.is_pass == 1, 'no': r.is_pass == 0
-      }
-    }, [_vm._v("V")])]), _vm._v(" "), _c('span', [_vm._v(_vm._s(r.c_name))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(r.name))])]), _vm._v(" "), _c('div', {
-      staticClass: "todetail",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id)
-        }
-      }
-    }, [(r.type == 2) ? _c('div', {
-      staticClass: "info sell"
-    }, [_c('span', [_vm._v("供给：")]), _c('strong', {
-      domProps: {
-        "innerHTML": _vm._s(r.contents)
-      }
-    })]) : _c('div', {
-      staticClass: "info buy"
-    }, [_c('span', [_vm._v("求购：")]), _c('strong', {
-      domProps: {
-        "innerHTML": _vm._s(r.contents)
-      }
-    })])]), _vm._v(" "), _c('div', {
-      staticClass: "other"
-    }, [_c('div', {
-      staticClass: "time flt"
-    }, [_vm._v(_vm._s(r.input_time))]), _vm._v(" "), _c('div', {
-      staticClass: "feedback frt"
-    }, [_c('p', {
-      staticClass: "bid",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id, 1)
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "javascript:;"
-      }
-    }, [_vm._v("出价"), _c('span', [_vm._v("(" + _vm._s(r.deliverPriceCount) + ")")])])]), _vm._v(" "), _c('p', {
-      staticClass: "reply",
-      on: {
-        "click": function($event) {
-          _vm.detail(r.id, r.user_id, 2)
-        }
-      }
-    }, [_c('a', {
-      attrs: {
-        "href": "javascript:;"
-      }
-    }, [_vm._v("回复"), _c('span', [_vm._v("(" + _vm._s(r.saysCount) + ")")])])])])])])])
-  })), _vm._v(" "), (_vm.condition == 7) ? _c('div', {
-    staticClass: "no-results no-results1"
-  }, [_vm._m(0), _vm._v(" "), _vm._m(1)]) : _vm._e()])]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.isArrow),
-      expression: "isArrow"
-    }],
-    staticClass: "top-arrow",
-    on: {
-      "click": _vm.arrow
+      "src": _vm.thumb
     }
   }), _vm._v(" "), _c('div', {
-    staticClass: "release"
-  }, [_c('form', {
-    attrs: {
-      "name": "",
-      "method": "post",
-      "action": ""
-    }
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "con w96"
-  }, [_c('div', {
-    staticClass: "import flt"
-  }, [_c('form', {
-    attrs: {
-      "name": "",
-      "method": "post",
-      "action": ""
-    }
-  }, [_c('div', {
-    staticClass: "release-tab flt"
-  }, [_c('ul', {
-    staticClass: "tabx"
-  }, [_c('li', {
+    staticClass: "authen",
     class: {
-      hover: _vm.re_show1
-    },
-    attrs: {
-      "id": "tabx1"
-    },
-    on: {
-      "click": _vm.lishow1
+      'yes': _vm.is_pass == 1, 'no': _vm.is_pass == 0
     }
-  }, [_vm._v("快速发布")]), _vm._v(" "), _c('li', {
-    class: {
-      hover: _vm.re_show2
-    },
-    attrs: {
-      "id": "tabx2"
-    },
-    on: {
-      "click": _vm.lishow2
-    }
-  }, [_vm._v("精准发布")])])]), _vm._v(" "), _c('div', {
-    staticClass: "release-tab-con flt"
+  }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
+    staticClass: "person-info flt"
+  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary-bot"
+  }, [_c('ul', [_c('li', [_c('span', [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('p', [_vm._v("供给")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('p', [_vm._v("求购")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.msg))]), _vm._v(" "), _c('p', [_vm._v("留言")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('p', [_vm._v("引荐")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('p', [_vm._v("粉丝")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('p', [_vm._v("关注")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v(" "), _c('p', [_vm._v("积分")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-info"
+  }, [_c('ul', [_c('li', [_c('div', {
+    staticClass: "item item1"
   }, [_c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.re_show1),
-      expression: "re_show1"
-    }],
-    attrs: {
-      "id": "con-tabx-1"
-    }
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_remark),
-      expression: "re_remark"
-    }],
-    attrs: {
-      "placeholder": "在此文本框内，可快速复制粘贴供求信息，限制100字以内！"
-    },
-    domProps: {
-      "value": (_vm.re_remark)
-    },
+    staticClass: "icon icon1"
+  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_remark = $event.target.value
+      "click": function($event) {
+        _vm.toNext(2)
       }
     }
   })]), _vm._v(" "), _c('div', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.re_show2),
-      expression: "re_show2"
-    }],
-    attrs: {
-      "id": "con-tabx-2"
-    }
+    staticClass: "item item2"
   }, [_c('div', {
-    staticClass: "tr"
-  }, [_c('div', {
-    staticClass: "name"
-  }, [_vm._v("牌号")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_model),
-      expression: "re_model"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_model)
-    },
+    staticClass: "icon icon2"
+  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_model = $event.target.value
+      "click": function($event) {
+        _vm.toNext(1)
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item3"
+  }, [_c('div', {
+    staticClass: "icon icon3"
+  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(3)
       }
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "name"
-  }, [_vm._v("厂家")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_f_name),
-      expression: "re_f_name"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_f_name)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_f_name = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "tr"
+    staticClass: "item item4"
   }, [_c('div', {
-    staticClass: "name"
-  }, [_vm._v("价格")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_price),
-      expression: "re_price"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_price)
-    },
+    staticClass: "icon icon4"
+  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_price = $event.target.value
+      "click": function($event) {
+        _vm.toIntro(1)
       }
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "name"
-  }, [_vm._v("仓库")]), _vm._v(" "), _c('div', {
-    staticClass: "val"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.re_store_house),
-      expression: "re_store_house"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.re_store_house)
-    },
+    staticClass: "item item5"
+  }, [_c('div', {
+    staticClass: "icon icon5"
+  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
     on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.re_store_house = $event.target.value
+      "click": function($event) {
+        _vm.toIntro(2)
       }
     }
-  })])])])]), _vm._v(" "), _c('input', {
-    staticClass: "submit",
-    attrs: {
-      "type": "button",
-      "value": "发布"
-    },
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item6"
+  }, [_c('div', {
+    staticClass: "icon icon6"
+  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
     on: {
-      "click": _vm.sale
+      "click": function($event) {
+        _vm.toComment(3)
+      }
     }
-  })])]), _vm._v(" "), _vm._m(3)])])])])], 1)
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item7"
+  }, [_c('div', {
+    staticClass: "icon icon7"
+  }), _vm._v(" "), _c('p', [_vm._v("我的消息")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读消息" + _vm._s(_vm.msg2))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
+    on: {
+      "click": _vm.toMsg
+    }
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item8"
+  }, [_c('div', {
+    staticClass: "icon icon8"
+  }), _vm._v(" "), _c('p', [_vm._v("我的塑豆")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("可兑换礼品")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
+    on: {
+      "click": _vm.toSudou
+    }
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item9"
+  }, [_c('div', {
+    staticClass: "icon icon9"
+  }), _vm._v(" "), _c('p', [_vm._v("帮助")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("有问题点这里")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow",
+    on: {
+      "click": _vm.toHelp
+    }
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "quit"
+  }, [_c('div', {
+    staticClass: "item item10",
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("退出登录")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "thumb flt"
-  }, [_c('div', {
-    staticClass: "img"
-  }), _vm._v(" "), _c('span', [_vm._v("系统暂未为您匹配到相应的牌号，暂无推荐！")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "explain frt"
-  }, [_c('h4', [_vm._v("说明：")]), _vm._v(" "), _c('p', [_vm._v("1、智能推荐会根据您发布的信息为您匹配相关牌号的供求信息；")]), _vm._v(" "), _c('p', [_vm._v("2、若无匹配信息，则目前不存在此牌号的信息。")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "radio"
-  }, [_c('input', {
-    attrs: {
-      "type": "radio",
-      "name": "opt",
-      "id": "radio-buy",
-      "checked": "checked"
-    }
-  }), _c('label', {
-    attrs: {
-      "for": "radio-buy"
-    }
-  }, [_vm._v("我要"), _c('span', [_vm._v("求购")])]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "radio",
-      "name": "opt",
-      "id": "radio-sell"
-    }
-  }), _c('label', {
-    attrs: {
-      "for": "radio-sell"
-    }
-  }, [_vm._v("我要"), _c('span', [_vm._v("供给")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tips frt"
-  }, [_c('p', {
-    staticClass: "title"
-  }, [_vm._v("信息发布提示：")]), _vm._v(" "), _c('p', [_vm._v("快速发布：简单粘贴或复制供求，快速录入；")]), _vm._v(" "), _c('p', [_vm._v("精准发布：填写准确供求，参与系统比价。")])])
+  return _c('p', {
+    staticClass: "opt"
+  }, [_c('span', {
+    staticClass: "change"
+  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-9e3513c6", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 129:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mySupply_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mySupply_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mySupply_vue__);
+
+
+
+new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+  el: '#app',
+  template: '<mySupply/>',
+  components: { mySupply: __WEBPACK_IMPORTED_MODULE_1__mySupply_vue___default.a }
+
+});
+
+/***/ }),
+
+/***/ 168:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    attrs: {
+      "id": "app"
+    }
+  }, [_c('leftmodel'), _vm._v(" "), _c('myView'), _vm._v(" "), _c('div', {
+    staticClass: "right flt"
+  }, [(_vm.type == 2) ? _c('div', {
+    staticClass: "back"
+  }, [_vm._v("我的供给")]) : _c('div', {
+    staticClass: "back"
+  }, [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
+    staticClass: "blank"
+  }), _vm._v(" "), _vm._l((_vm.name), function(n) {
+    return _c('div', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.condition),
+        expression: "condition"
+      }],
+      staticClass: "my-wrap w96 sell"
+    }, [_c('div', {
+      staticClass: "my-wrap-top"
+    }, [_c('div', {
+      staticClass: "w96"
+    }, [_c('p', {
+      staticClass: "time"
+    }, [_c('b'), _c('span', [_vm._v(_vm._s(n.input_time))])]), _vm._v(" "), _c('div', {
+      staticClass: "info"
+    }, [(_vm.type == 2) ? _c('span', [_vm._v("供给：")]) : _c('span', [_vm._v("求购：")]), _c('p', [_vm._v(_vm._s(n.contents))])]), _vm._v(" "), _vm._m(0, true)])]), _vm._v(" "), _c('div', {
+      staticClass: "my-wrap-bot"
+    }, [_c('div', {
+      staticClass: "w96"
+    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+      staticClass: "words"
+    }, [_c('h3', [_vm._v("塑料圈友")]), _vm._v(" "), (n.says != '') ? _c('ul', [_vm._l((n.says), function(n2) {
+      return (n2.rev_id == n.user_id) ? _c('li', [_c('span', [_vm._v(_vm._s(n2.user_name))]), _vm._v("说：" + _vm._s(n2.content))]) : _vm._e()
+    }), _vm._v(" "), _vm._l((n.says), function(n2) {
+      return (n2.rev_id != n.user_id) ? _c('li', [_c('span', [_vm._v(_vm._s(n2.user_name))]), _vm._v("回复"), _c('span', [_vm._v(_vm._s(n2.rev_name))]), _vm._v("：" + _vm._s(n2.content))]) : _vm._e()
+    })], 2) : _c('ul', [_vm._v("暂无消息回复")])])])])])
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.condition),
+      expression: "!condition"
+    }],
+    staticStyle: {
+      "text-align": "center",
+      "height": "60px",
+      "line-height": "60px"
+    }
+  }, [_vm._v("\n    没有相关数据\n        ")])], 2)], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', {
+    staticClass: "del"
+  }, [_c('b'), _c('span', [_vm._v("删除")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "msg"
+  }, [_c('h3', [_vm._v("系统消息")]), _vm._v(" "), _c('p', [_vm._v("在信息库中，没有找到卖（买）此牌号的商家！")]), _vm._v(" "), _c('p', [_vm._v("参考价 ："), _c('span', [_vm._v("塑料圈查无此价格")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-08f710cd", module.exports)
   }
 }
 
@@ -1239,7 +566,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 6:
+/***/ 3:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1362,22 +689,22 @@ $(function () {
 
 /***/ }),
 
-/***/ 7:
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(6),
+  __webpack_require__(3),
   /* template */
-  __webpack_require__(8),
+  __webpack_require__(5),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1386,9 +713,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-712f541a", Component.options)
+    hotAPI.createRecord("data-v-4190243a", Component.options)
   } else {
-    hotAPI.reload("data-v-712f541a", Component.options)
+    hotAPI.reload("data-v-4190243a", Component.options)
   }
 })()}
 
@@ -1397,7 +724,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 8:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1469,28 +796,28 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 85:
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(109),
+  __webpack_require__(105),
   /* template */
-  __webpack_require__(184),
+  __webpack_require__(168),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\supplybuy\\supplybuy.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\mySupply\\mySupply.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] supplybuy.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] mySupply.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -1499,14 +826,121 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9e3513c6", Component.options)
+    hotAPI.createRecord("data-v-08f710cd", Component.options)
   } else {
-    hotAPI.reload("data-v-9e3513c6", Component.options)
+    hotAPI.reload("data-v-08f710cd", Component.options)
   }
 })()}
 
 module.exports = Component.exports
 
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      buy: "",
+      supply: "",
+      points: "",
+      fans: "",
+      pay: "",
+      invite: "",
+      msg: "",
+      msg2: "",
+      c_name: "",
+      name: "",
+      mobile: "",
+      mobile2: "",
+      thumb: "",
+      is_pass: "",
+      share: false,
+      share3: false,
+      loadingShow: ""
+    };
+  },
+  methods: {
+    toNext: function toNext(type) {
+      window.location.href = "http://www.bendi.com/mypczone/index/mySupply?type=" + type;
+    },
+    toIntro: function toIntro(type) {
+      window.location.href = "http://www.bendi.com/mypczone/index/myIntro?type=" + type;
+    },
+    toComment: function toComment(type) {
+      window.location.href = "http://www.bendi.com/mypczone/index/myComment?type=" + type;
+    },
+    toMsg: function toMsg() {
+      window.location.href = "http://www.bendi.com/mypczone/index/myMsg";
+    },
+    toSudou: function toSudou() {
+      window.location.href = "http://www.bendi.com/mypczone/index/mySudou";
+    },
+    toHelp: function toHelp() {
+      window.location.href = "http://www.bendi.com/mypczone/index/myHelp";
+    },
+    logout: function logout() {
+      var _this = this;
+      $.ajax({
+        url: '/qapi_3/user/logout',
+        type: 'post',
+        data: {
+          token: window.localStorage.getItem("token")
+        },
+        headers: {
+          'X-UA': window.localStorage.getItem("XUA")
+        },
+        dataType: 'JSON'
+      }).then(function (res) {
+        console.log(res.err);
+        if (res.err == 0) {
+          window.localStorage.setItem("token", "");
+          window.localStorage.setItem("userid", "");
+          alert('退出登录成功');
+        } else {
+          window.localStorage.setItem("token", "");
+          window.localStorage.setItem("userid", "");
+        }
+        window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
+      }, function () {});
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+    $.ajax({
+      url: '/qapi_3/myInfo/myZone',
+      type: 'post',
+      data: {
+        token: window.localStorage.getItem("token")
+      },
+      headers: {
+        'X-UA': window.localStorage.getItem("XUA")
+      },
+      dataType: 'JSON'
+    }).done(function (res) {
+      _this.name = res.data.name;
+      _this.c_name = res.data.c_name;
+      _this.mobile = res.data.mobile;
+      _this.mobile2 = res.data.mobile;
+      _this.thumb = res.data.thumb;
+      _this.is_pass = res.data.is_pass;
+      _this.buy = res.s_in_count;
+      _this.supply = res.s_out_count;
+      _this.points = res.points;
+      _this.msg = res.leaveword;
+      _this.msg2 = res.message;
+      _this.invite = res.introduction;
+      _this.fans = res.myfans;
+      _this.pay = res.myconcerns;
+    });
+  }
+});
 
 /***/ })
 
