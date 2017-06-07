@@ -229,11 +229,11 @@ var rbl = mini.get("rbl");
 rbl.on("valuechanged",function (e) {
 	var val = this.getValue();
 	if(val == 2){
-		mini.get('editForm1').removeClass('hidden');
-		mini.get('editForm2').addClass('hidden');
+		$('#editForm1').removeClass('hidden');
+		$('#editForm2').addClass('hidden');
 	}else{
-		mini.get('editForm2').removeClass('hidden');
-		mini.get('editForm1').addClass('hidden');
+		$('#editForm2').removeClass('hidden');
+		$('#editForm1').addClass('hidden');
 	}
 });
 //报价从新发布
