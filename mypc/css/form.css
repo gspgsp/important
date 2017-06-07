@@ -14,7 +14,7 @@
 .form-tr .get-code{ width:120px; height:46px; float:right; text-align:center;}
 .form-tr .get-code.enable{ background:#fff; color:#fe6e27; cursor:pointer;}
 .form-tr .get-code.disabled{ background:#ccc; color:#fff;}
-.form-tr .val input{ font-size:18px; width:260px; height:18px; padding:14px 0 14px 18px;}
+.form-tr .val input{ font-size:18px; width:260px; height:44px; padding:0 0 0 18px;}
 .form-tr.check{ font-size:14px;}
 .form-tr.check input{ float:left; margin:16px 5px 0 0;}
 .form-tr.check label{ float:left;}
@@ -25,7 +25,7 @@
 
 /*reg begin*/
 .reg{ width:520px; height:auto; overflow:hidden; margin:0 auto; padding:90px 0 0 0;}
-.reg h3{ font-size:14px; font-weight:bold; width:434px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../img/spirit.png) no-repeat 0 -244px; margin:20px 0 20px 0; padding:0 0 0 46px;}
+.reg h3{ font-size:14px; font-weight:bold; width:434px; height:30px; line-height:30px; border-bottom:1px solid #d9d9d9; background:#f9f9f9 url(../img/spirit.png) no-repeat 0 -244px; margin:0 0 20px 0; padding:0 0 0 46px;}
 .reg .tr{ width:875px; height:30px; line-height:30px; overflow:hidden; margin:0 0 20px 0;}
 .reg .tr div{ float:left;}
 .reg .tr .name{ font-weight:bold; text-align:right; width:98px; margin:0 20px 0 0;}
@@ -59,4 +59,8 @@
 .find-pwd .code .name-icon{ background-position:0 -348px;}
 .find-pwd .get-code{ width:118px; height:44px; float:right; text-align:center; border:1px solid #d6d7dc;}
 /*find-pwd end*/
+
+.error{ font-size:12px; height:28px; line-height:28px; margin:0 0 3px 0;}
+.error p{ color:#f60; padding:0 0 0 20px;}
+.reg .error{ margin:0 0 3px 20px;}
 

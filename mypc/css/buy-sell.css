@@ -4,30 +4,30 @@
 .buy-sell-search{ width:100%; height:32px; padding:11px 0 8px 0; overflow:hidden; background:#ff5000;}
 .buy-sell-search .select{ width:8%; height:32px; border-radius:4px; overflow:hidden;}
 .buy-sell-search .select select{ width:100%; height:32px;}
-.buy-sell-search .search{ width:90%; height:32px; overflow:hidden; border-radius:2px; background:#fff;}
+.buy-sell-search .search{ width:85%; height:32px; overflow:hidden; border-radius:2px; background:#fff;}
 .buy-sell-search .search .import{ height:14px; padding:9px 0 9px 9px;}
 .buy-sell-search .search .submit{ color:#fff; width:80px; height:32px; line-height:32px; text-align:center; background:#732400; cursor:pointer;}
 /*buy-sell-search end*/
 
 /*buy-sell-tab begin*/
 .buy-sell-tab{ width:100%; height:49px; line-height:48px; background:#fff; border-bottom:1px solid #d6d7dc;}
-.buy-sell-tab li{ text-align:center; width:25%; float:left;}
-.buy-sell-tab li.hover a{ color:#ff5000; border-bottom:2px solid #ff5000;}
-.buy-sell-tab li a{ color:#6d6d6d; display:block;}
+.buy-sell-tab li{ color:#6d6d6d; text-align:center; width:25%; float:left; cursor:pointer;}
+.buy-sell-tab li.hover{ color:#ff5000; border-bottom:2px solid #ff5000;}
 /*buy-sell-tab end*/
 
 /*buy-sell-con begin*/
 .buy-sell-con{ width:100%; height:auto; overflow:hidden;}
-.buy-sell-con .tab-con{ padding:101px 0 0 0;}
+.buy-sell-con .tab-con{ padding:101px 0 199px 0; height:auto; overflow:hidden;}
 .buy-sell-con li{ width:100%; height:119px; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#fff; margin:0 0 10px 0;}
+.buy-sell-con li .todetail{ cursor:pointer;}
 .buy-sell-con li .settop{ position:relative;}
 .buy-sell-con li .thumb{ height:49px; overflow:hidden; margin:10px 0 7px 0;}
 .buy-sell-con li .thumb span{ float:left; color:#62759e; margin:12px 0 0 10px;}
 .buy-sell-con li .info{ height:14px; line-height:14px; overflow:hidden; margin:0 0 10px 0; background:url(../img/icons.png) no-repeat; padding:0 0 0 22px;} 
-.buy-sell-con li .sell .info span{ color:#62759e;}
-.buy-sell-con li .sell .info{ background-position:-30px -248px;}
-.buy-sell-con li .buy .info span{ color:#ffa200;}
-.buy-sell-con li .buy .info{ background-position:-30px -234px;}
+.buy-sell-con li .info.sell span{ color:#62759e;}
+.buy-sell-con li .info.sell{ background-position:-30px -248px;}
+.buy-sell-con li .info.buy span{ color:#ffa200;}
+.buy-sell-con li .info.buy{ background-position:-30px -234px;}
 .buy-sell-con li .other{ height:16px; line-height:16px; overflow:hidden;}
 .buy-sell-con li .other .time{ font-size:12px; color:#999;}
 .buy-sell-con li .other .feedback{ height:16px; line-height:16px; overflow:hidden;}
@@ -38,11 +38,11 @@
 .buy-sell-con li .other .feedback p a span{ color:#63769d;}
 .buy-sell-con li .set-top{ position:absolute; top:10px; right:0; width:68px; height:50px; overflow:hidden; background:url(../img/buy-sell1.png) no-repeat;}
 
-.tab-con .no-results{ font-size:16px; width:100%; height:auto; overflow:hidden; margin:64px 0 0 0;}
-.tab-con .no-results span{ display:block; text-align:center;}
-.tab-con .no-results img{ display:block; margin:0 auto; margin-bottom:22px;}
-#con-tab-2 .no-results .thumb{ width:50%; height:auto; overflow:hidden;}
-#con-tab-2 .no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../img/buy-sell3.png) right top no-repeat;}
+.no-results{ font-size:16px; width:100%; height:auto; overflow:hidden; padding:101px 0 0 0;}
+.no-results span{ display:block; text-align:center;}
+.no-results .thumb{ width:50%; height:auto; overflow:hidden;}
+.no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../img/buy-sell3.png) right top no-repeat;}
+.no-results.no-results1 .thumb .img{ width:216px; height:134px; overflow:hidden; background:url(../img/buy-sell2.png); margin:0 auto;}
 /*buy-sell-con end*/
 
 /*release begin*/
@@ -101,7 +101,14 @@
 .feedback-con .bid-list .bid-con li .price{ color:#ff5000;}
 .feedback-con .reply-list{ width:96%; height:auto; overflow:hidden; padding:0 0 60px 0; margin:0 auto;}  
 .feedback-con .reply-list li{ height:85px; overflow:hidden; border-bottom:1px solid #d6d7dc;}
-.feedback-con .opt{ height:59px; overflow:hidden; border-top:1px solid #bbb; background:#f0f0f6; position:fixed; left:70px; bottom:0; z-index:9999;}
+.feedback-con .opt{ width:100%; height:59px; overflow:hidden; border-top:1px solid #bbb; background:#f0f0f6; position:fixed; left:70px; bottom:0; z-index:9999;}
 .feedback-con .opt .import{ width:80%; height:30px; line-height:30px; background:#fff; border:1px solid #d6d7dc; margin:13px 0 0 0; padding:0 0 0 2%;}
 .feedback-con .opt .submit{ color:#fff; font-size:18px; text-align:center; width:15%; height:44px; line-height:44px; background:#ff5000; margin:7px 0 0 0; cursor:pointer;}
 /*feedback-wrap end*/
+
+/*page begin*/
+.page{ width:150px; height:30px; line-height:30px; overflow:hidden; margin:20px auto;}
+.page a{ color:#666;}
+.page a.prev{ float:left;}
+.page a.next{ float:right;}
+/*page end*/

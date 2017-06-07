@@ -1,14 +1,14 @@
 /*discovery begin*/
 .discovery{ width:100%; height:auto; overflow:hidden;}
 .discovery h2{ color:#fff; font-size:16px; text-align:center; width:100%; height:51px; line-height:51px; overflow:hidden; background:#ff5000;}
-.discovery ul{ color:#333; width:100%; height:auto; overflow:hidden; margin:0 0 10px 0; border-bottom:1px solid #d6d7dc; border-top:1px solid #d6d7dc; background:#fff;}
-.discovery li{ text-indent:42px; width:96%; height:50px; line-height:50px; border-bottom:1px solid #d6d7dc; margin:0 0 0 4%;}
-.discovery li.title{ width:100%; margin:0; background:url(../img/spirit.png) no-repeat;}
-.discovery .discovery1 li.title{ background-position:10px -426px;}
-.discovery .discovery2 li.title{ background-position:10px -526px;}
-.discovery .discovery3 li.title{ background-position:10px -576px;}
+.discovery ul{ color:#333; width:309px; height:auto; overflow:hidden; margin:0 0 2px 0; border-bottom:1px solid #eee;  background:#fff;}
+.discovery li{ color:#666;text-indent:42px; width:96%; height:40px; line-height:40px; border-bottom:1px solid #eee; margin:0 0 0 4%;}
+.discovery li.title{ font-weight:bold; width:100%; margin:0;}
+.discovery .discovery1 li.title{ background:url(../img/icon1.png) no-repeat 17px center; background-size:12px; }
+.discovery .discovery2 li.title{ background:url(../img/icon2.png) no-repeat 14px center; background-size:18px;}
+.discovery .discovery3 li.title{ background:url(../img/icon3.png) no-repeat 14px center; background-size:18px;}
 .discovery li.last{ border-bottom:none;}
-.discovery li a{ color:#333; display:block;}
+.discovery li a{ color:#666; display:block;}
 .discovery li:hover a,.discovery li.hover a{ color:#ff5000;}
-.discovery .discovery1 li.title:hover,.discovery .discovery1 li.title.hover{ background-position:10px -476px;}
+/* .discovery .discovery1 li.title:hover,.discovery .discovery1 li.title.hover{ background-position:10px -476px;} */
 /*discovery end*/
