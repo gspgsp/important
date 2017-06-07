@@ -400,7 +400,7 @@ class wkAction extends adminBaseAction{
 			}
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
 }
