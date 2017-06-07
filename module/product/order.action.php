@@ -656,7 +656,7 @@ class orderAction extends adminBaseAction {
 				'customer_manager'=>$partner_id,
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
-
+			p($add_data);die;
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
 				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
 				if(!$this->db->model('order')->where("o_id = {$data['store_o_id']}")->getRow()) $this->error("您选择的采购订单不存在");
