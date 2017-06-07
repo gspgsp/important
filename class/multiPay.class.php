@@ -76,7 +76,7 @@ class multiPay
         }
     }
 
-    public function getJsOrder($order_id, $send_amount){//APP_LIB."class/WxpayAPI_php_v3/example/jsapi.php"
+    public function getJsOrder($openId,$order_id, $send_amount){//APP_LIB."class/WxpayAPI_php_v3/example/jsapi.php"
         require_file(APP_LIB."class/WxpayAPI_php_v3/lib/WxPay.Api.php");
         require_file(APP_LIB."class/WxpayAPI_php_v3/example/WxPay.JsApiPay.php");
 
@@ -84,8 +84,6 @@ class multiPay
 
         try{
             $tools = new JsApiPay();
-            $openId = $tools->GetOpenid();
-
             $input = new WxPayUnifiedOrder();
             $input->SetBody($this->goods_name);
             //$input->SetAttach("test");
@@ -94,7 +92,7 @@ class multiPay
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
             $input->SetGoods_tag("test");
-            $input->SetNotify_url(APP_URL."/api/wechatPay/getJsNotify");
+            $input->SetNotify_url(APP_URL."/qapi_3/pay/wxJsNotify");
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($openId);
             $order = WxPayApi::unifiedOrder($input);

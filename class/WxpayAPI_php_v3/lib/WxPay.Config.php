@@ -27,7 +27,7 @@ class WxPayConfig
 	const KEY = '807066fb67e13b985b591f32d54219b9';
 	const APPSECRET = '7eb6cc579a7d39a0e123273913daedb0';
 	//const NOTIFY_URL =APP_URL.'/api/wechatPay/notifySome';
-	const NOTIFY_URL ='http://test.myplas.com/api/wechatPay/notifySome';
+	//const NOTIFY_URL ='http://test.myplas.com/api/wechatPay/notifySome';
 	
 	//=======【证书路径设置】=====================================
 	/**
@@ -36,8 +36,8 @@ class WxPayConfig
 	 * API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书）
 	 * @var path
 	 */
-	const SSLCERT_PATH = '../cert/apiclient_cert.pem';
-	const SSLKEY_PATH = '../cert/apiclient_key.pem';
+	const SSLCERT_PATH = APP_LIB.'/class/WxpayAPI_php_v3/cert/apiclient_cert.pem';
+	const SSLKEY_PATH = APP_LIB.'/class/WxpayAPI_php_v3/cert/apiclient_key.pem';
 	
 	//=======【curl代理设置】===================================
 	/**
