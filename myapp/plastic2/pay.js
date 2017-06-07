@@ -58,7 +58,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "wxPayBtn",
     on: {
-      "click": _vm.pay
+      "click": _vm.payMoney
     }
   }, [_vm._v("支付")])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
