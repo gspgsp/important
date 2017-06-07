@@ -58,6 +58,7 @@ class onlineOrderModel extends model{
         $data = array(
             'addtime'=>CORE_TIME,
             'points'=>$order_info['goods_num'],
+            'uid'=>$order_info['user_id'],
             'type'=>16,
             'is_mobile'=>1
         );
