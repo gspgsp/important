@@ -220,23 +220,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		payMoney: function payMoney() {
 			var _this = this;
 			_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
-			$.ajax({
-				url: version + '/pay/getPrePayOrder',
-				type: 'post',
-				data: {
-					type: 1,
-					goods_id: "99",
-					total_fee: "0.01",
-					goods_num: "1"
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				console.log(res);
-				if (res.err == 0) {}
-			}).fail(function () {});
 		},
 		paySelect: function paySelect(num, i) {
 			this.money = num;
