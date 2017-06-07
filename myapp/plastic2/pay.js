@@ -307,7 +307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				document.attachEvent('onWeixinJSBridgeReady', _this.onBridgeReady);
 			}
 		} else {
-			onBridgeReady();
+			this.onBridgeReady();
 		}
 
 		$.ajax({
