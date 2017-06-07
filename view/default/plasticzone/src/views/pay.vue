@@ -76,7 +76,7 @@ export default{
 					goods_id:"99",
 					total_fee:"0.01",
 					goods_num:"1",
-					open_id:openid
+					open_id:window.localStorage.getItem("openid")
 				},
 				headers: {
 					'X-UA': window.localStorage.getItem("XUA")

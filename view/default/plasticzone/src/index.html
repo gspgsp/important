@@ -27,6 +27,10 @@
 	var tel = localStorage.tel;
 	var version='/qapi_3';
 	var openid='{$OpenID}';
+	if(openid){
+		window.localStorage.setItem("openid",openid)
+	}
+	
 	window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
 </script>
 <script type="text/javascript">
