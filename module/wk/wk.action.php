@@ -103,7 +103,7 @@ class wkAction extends adminBaseAction{
 		$data['status'] = 0;
 		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
-		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 1200,'count'=>$res['count']+1));
+		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('send_time'=>CORE_TIME,'unlock_time'=>CORE_TIME + 1200,'count'=>$res['count']+1));
 		if($add_res){
 			$this->success('发送成功');
 		}else{

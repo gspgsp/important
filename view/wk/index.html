@@ -196,7 +196,7 @@
 					                <!-- <th>审核结果</th> -->
 					                <th>发短信</th>
 					                <th>状态</th>
-					                <th>发布时间</th>
+					                <th>发送时间</th>
 					                <th>删除</th>
 					            </tr>
 					        </thead>
@@ -229,7 +229,7 @@
 					                {else}
 					                <td style="color:red;">未发送</td>
 					                {/if}
-					                <td>{$value.input_time|date:m-d H:i}</td>
+					                <td>{$value.send_time|date:m-d H:i}</td>
 					                <td><a href="javascript:void(0)" onclick="del({$value.id})">删除</a></td>
 					            </tr>
          						{/foreach}
