@@ -78,9 +78,7 @@ methods: {
 			dataType: 'JSON'
 		}).done(function(res) {
 			if(res.err == 0) {
-				jsApiParameters={
-					JSON.parse(res.data)
-				};
+				jsApiParameters=JSON.parse(res.data);
 				if(typeof WeixinJSBridge == "undefined") {
 					if(document.addEventListener) {
 						document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
