@@ -645,6 +645,7 @@ class orderAction extends adminBaseAction {
 		$data['total_price']=$data['price']; //前台计算的所有明细总价
 		$data['total_num']=$data['num']; //所有明细总数
 		$data['order_source'] = 2; //订单默认来源ERP
+		p($data);die;
 		//新增
 			$this->db->startTrans(); //开启事务
 			$add_data=array(
@@ -654,6 +655,7 @@ class orderAction extends adminBaseAction {
 				'customer_manager'=>$_SESSION['adminid'],
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
+
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
 				if(!$data['store_o_id'])  $this->error("采购订单未选择或者错误");//不销库存的订单 不存在此字段
 				if(!$this->db->model('order')->where("o_id = {$data['store_o_id']}")->getRow()) $this->error("您选择的采购订单不存在");
@@ -661,7 +663,7 @@ class orderAction extends adminBaseAction {
 			if($data['order_type'] == 2){//如果是销售订单(1.先采后销  2.先销后采')
 				if(isset($data['store_o_id'])) unset($data['store_o_id']);
 			}
-			if(!$this->db->model('order')->add($ +$data)) $this->error("新增订单失败2");//新增订单
+			if(!$this->db->model('order')->add($data)) $this->error("新增订单失败2");//新增订单
 			$o_id=$this->db->getLastID();//获取新增订单ID
 			if(!$o_id) $this->error("新增订单失败1");
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){ //如果是销售订单(1.先采后销  2.先销后采')
