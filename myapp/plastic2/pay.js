@@ -200,20 +200,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			money: null,
 			eq: null,
 			inputMoney: null,
-			plasticBean: ""
+			plasticBean: "",
+			data: {
+				type: 1,
+				goods_id: "99",
+				total_fee: "0.01",
+				goods_num: "1"
+			}
 		};
 	},
 	methods: {
 		payMoney: function payMoney() {
+			var _this = this;
+			console.log(this.data);
 			$.ajax({
 				url: version + '/pay/getPrePayOrder',
 				type: 'post',
-				data: {
-					type: 1,
-					goods_id: "99",
-					total_fee: "0.01",
-					goods_num: "1"
-				},
+				data: _this.data,
 				headers: {
 					'X-UA': window.localStorage.getItem("XUA")
 				},
