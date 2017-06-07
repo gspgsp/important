@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div style="padding: 0 15px; margin: 30px 0 0 0;">
-		<div class="wxPayBtn">支付</div>
+		<div class="wxPayBtn" v-on:click="pay">支付</div>
 		</div>
 	</div>
 </div>
@@ -45,6 +45,38 @@ export default{
 		}
 	},
 	methods:{
+		payMoney:function(){
+			$.ajax({
+				url:version+'/pay/getPrePayOrder',
+				type:'post',
+				data:{
+					type:1,
+					goods_id:"99",
+					total_fee:"0.01",
+					goods_num:"1"
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function(res){
+				console.log(res);
+				if(res.err==0){
+					wx.chooseWXPay({
+					    timestamp: res.data.timestamp,
+					    nonceStr: res.data.noncestr,
+					    package: "prepay_id="+res.data.prepayid,
+					    signType: 'MD5',
+					    paySign: res.data.sign,
+					    success: function (data) {
+					        console.log(">>>",data);
+					    }
+					});			
+				}
+			}).fail(function(){
+				
+			});
+		},
 		paySelect:function(num,i){
 			this.money=num;
 			this.eq=i;
