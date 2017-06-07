@@ -299,8 +299,13 @@ class payAction extends baseAction
      */
     public function getExactAmount()
     {
-        $money = sget('money','i',1);
-        if($money>10000||$money<1||!is_integer($money))
+        if(empty($_POST['money'])||!is_int($_POST['money']))
+        {
+            $this->_errCode(6);
+        }
+
+        $money = sget('money','i');
+        if($money>10000||$money<1||!is_int($money))
         {
             $this->_errCode(6);
         }
