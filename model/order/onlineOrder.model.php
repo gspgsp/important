@@ -58,7 +58,7 @@ class onlineOrderModel extends model{
             'type'=>16,
             'is_mobile'=>1
         );
-        $res1 =$this->model('points_bill')->update($data);
+        $res1 =$this->model('points_bill')->add($data);
         file_put_contents('/tmp/xielei.txt',print_r(3333,true)."\n",FILE_APPEND);
 
 
