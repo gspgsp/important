@@ -53,6 +53,8 @@ class onlineOrderModel extends model{
         $res =$this->where ("order_id=$order_id")->update (array('is_cashed' => 1));
         file_put_contents('/tmp/xielei.txt',print_r($res,true)."2222\n",FILE_APPEND);
 
+        file_put_contents('/tmp/xielei.txt',print_r( $this->getLastSql(),true)."2222\n",FILE_APPEND);
+
         $data = array(
             'add_time'=>CORE_TIME,
             'points'=>$order_info['goods_num'],
@@ -60,7 +62,9 @@ class onlineOrderModel extends model{
             'is_mobile'=>1
         );
         $res1 =$this->model('points_bill')->add($data);
-        file_put_contents('/tmp/xielei.txt',print_r($res1,true)."4444\n",FILE_APPEND);
+        file_put_contents('/tmp/xielei.txt',print_r($res1,true)."333\n",FILE_APPEND);
+
+        file_put_contents('/tmp/xielei.txt',print_r( $this->model('points_bill')->getLastSql(),true)."3333\n",FILE_APPEND);
 
         $points = (int)($contact_info['quan_points']+$order_info['goods_num']);
 
@@ -68,6 +72,7 @@ class onlineOrderModel extends model{
 
         file_put_contents('/tmp/xielei.txt',print_r($res2,true)."4444\n",FILE_APPEND);
 
+        file_put_contents('/tmp/xielei.txt',print_r( $this->model('contact_info')->getLastSql(),true)."3333\n",FILE_APPEND);
 
         if ($res && $res1&&$res2) {
             file_put_contents('/tmp/xielei.txt',print_r('comit',true)."\n",FILE_APPEND);
