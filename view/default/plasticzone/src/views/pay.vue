@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div style="padding: 0 15px; margin: 30px 0 0 0;">
-		<div class="wxPayBtn" v-on:click="pay">支付</div>
+		<div class="wxPayBtn" v-on:click="payMoney">支付</div>
 		</div>
 	</div>
 </div>
