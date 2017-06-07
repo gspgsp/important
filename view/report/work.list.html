@@ -135,7 +135,7 @@
 			</div>
 		</div>
 		<fieldset style="width:640px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend><label><input name="stype" type="radio" value="1" checked />采购</label><label><input name="stype" type="radio" value="2" />报价</label></legend>
+			<legend><label><input id="rbl" name="stype" value="1" class="mini-radiobuttonlist" data="[{id: 1, text: '采购'}, {id: 2, text: '报价'}]"/></label></legend>
 			<div id="editForm1" style="padding:5px;display: none;">
 				<table style="width:100%;">
 					<tr>
@@ -220,6 +220,18 @@ function send(e){
 function sends(e){
 
 }
+//单选切换
+var rbl = mini.get("rbl");
+rbl.on("valuechanged",function (e) {
+	var val = this.getValue();
+	if(val == 1){
+		mini.get('editForm1').show();
+		mini.get('editForm2').hide();
+	}else{
+		mini.get('editForm2').show();
+		mini.get('editForm1').hide();
+	}
+});
 //报价从新发布
 function republish(e){
 	var record = e.record,id=record.id,s='';
