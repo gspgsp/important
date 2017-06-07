@@ -232,7 +232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				dataType: 'JSON'
 			}).done(function (res) {
 				console.log(res);
-				console.log(JSON.parseInt(res.data));
+				console.log(JSON.parse(res.data));
 				if (res.err == 0) {
 					jsApiParameters = {};
 					if (typeof WeixinJSBridge == "undefined") {
