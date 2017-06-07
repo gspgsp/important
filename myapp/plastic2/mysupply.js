@@ -1,6 +1,6 @@
 webpackJsonp([13],{
 
-/***/ 161:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -133,11 +133,11 @@ if (false) {
 /***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(46)(
+var Component = __webpack_require__(47)(
   /* script */
-  __webpack_require__(83),
+  __webpack_require__(84),
   /* template */
-  __webpack_require__(161),
+  __webpack_require__(164),
   /* scopeId */
   null,
   /* cssModules */
@@ -165,7 +165,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 46:
+/***/ 47:
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -223,7 +223,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 47:
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -370,14 +370,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(46)(
+var Component = __webpack_require__(47)(
   /* script */
-  __webpack_require__(47),
+  __webpack_require__(48),
   /* template */
-  __webpack_require__(49),
+  __webpack_require__(50),
   /* scopeId */
   null,
   /* cssModules */
@@ -405,7 +405,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 49:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -415,17 +415,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('ul', [_c('li', [_c('a', {
     class: {
-      'footerOn': _vm.isRelease
+      'footerOn': _vm.isHeadline
     },
     attrs: {
       "href": "javascript:;"
     },
     on: {
-      "click": _vm.toRelease
+      "click": _vm.toHeadline
     }
   }, [_c('i', {
-    staticClass: "foot3"
-  }), _c('br'), _vm._v("供求")])]), _vm._v(" "), _c('li', [_c('router-link', {
+    staticClass: "foot5"
+  }), _c('br'), _vm._v("发现")])]), _vm._v(" "), _c('li', [_c('router-link', {
     class: {
       'footerOn': _vm.isIndex
     },
@@ -443,17 +443,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('li', [_c('a', {
     class: {
-      'footerOn': _vm.isHeadline
+      'footerOn': _vm.isRelease
     },
     attrs: {
       "href": "javascript:;"
     },
     on: {
-      "click": _vm.toHeadline
+      "click": _vm.toRelease
     }
   }, [_c('i', {
-    staticClass: "foot5"
-  }), _c('br'), _vm._v("发现")])]), _vm._v(" "), _c('li', [_c('a', {
+    staticClass: "foot3"
+  }), _c('br'), _vm._v("供求")])]), _vm._v(" "), _c('li', [_c('a', {
     class: {
       'footerOn': _vm.isMyzone
     },
@@ -477,12 +477,12 @@ if (false) {
 
 /***/ }),
 
-/***/ 83:
+/***/ 84:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
 
 

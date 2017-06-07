@@ -880,3 +880,21 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 
 .downloadApp{ display: block; width: 100%; height: 50px; background: url(../img/downloadApp.png) no-repeat; background-size: 100% 100%;}
 
+.payWrap{ background: #FFFFFF; position: absolute; top: 45px; bottom: 0; width: 100%;}
+.payTitle{ width: auto; line-height: 44px; padding: 0 10px; font-size: 15px; color: #000000; font-weight: normal;}
+.payList{ list-style: none; overflow: hidden;}
+.payList li{ float: left; width: 33.33333%; box-sizing: border-box; padding: 0 5px; margin: 0 0 10px 0;}
+.payList li .payBox{ width: 100%; height: 60px; padding: 3px 0 0 0; text-align: center; font-size: 16px; background: #f2f2f2;}
+.payList li .payBox span{ color: #ff5000; font-size: 13px;}
+.payList li.on .payBox{ background: #ff5000; color: #FFFFFF;}
+.payList li.on .payBox span{ color: #FFFFFF;}
+.payOther{ font-size: 13px; height: 25px; line-height: 25px; padding: 0 10px; color: #000000;}
+.payOther span{ float: left;}
+.payNum{ width: 80px; height: 25px; line-height: 25px; padding: 0 3px; border:1px solid #d6d7dc;}
+.payOther b{ font-weight: normal; color: #ff5000; font-weight: normal;}
+.payWay{ margin: 10px 0 0 0; padding: 20px; border-top: 1px solid #d6d7dc;}
+.payWay h3{ font-size: 15px; color: #000000; font-weight: normal; margin: 0 0 20px 0;}
+.wxPay{ font-size: 15px; color: #000000;}
+.iconWxPay{ width: 25px; height: 25px; margin: 0 15px 0 0; float: left; background: url(../img/wxPay.png) no-repeat; background-size: 100% 100%;}
+.iconWxRight{ width: 25px; height: 25px; float: right; background: url(../img/payRight.png) no-repeat; background-size: 100% 100%;}
+.wxPayBtn{ width: 100%; line-height: 45px; color: #FFFFFF; font-size: 15px; text-align: center; background: #ff5000;}
