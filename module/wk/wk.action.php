@@ -103,7 +103,7 @@ class wkAction extends adminBaseAction{
 		$data['status'] = 0;
 		// p($data);die;
 		$add_res = $this->db->model('offers_cron')->add($data);
-		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('send_time'=>CORE_TIME,'unlock_time'=>CORE_TIME + 1200,'count'=>$res['count']+1));
+		$update_res = $this->db->model('offers_msg')->where('id = '.$id)->update(array('unlock_time'=>CORE_TIME + 1200,'count'=>$res['count']+1));
 		if($add_res){
 			$this->success('发送成功');
 		}else{
@@ -370,5 +370,37 @@ class wkAction extends adminBaseAction{
 		}
 		$allpage=ceil($list['count']/$size);
 		exit(json_encode(array('list'=>$list['data'],'count'=>$allpage,'p'=>$p)));
+	}
+	/**
+	 * 指标工作台获取数据
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-06-07T16:37:29+0800
+	 * @return   [type]                   [description]
+	 */
+	public function getDate(){
+		$page = sget("pageIndex",'i',0); //页码
+		$size = sget("pageSize",'i',20); //每页数
+		$sortField = sget("sortField",'s','input_time'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$where = ' 1 ';
+		//授信信息筛选
+		$key_type=sget('key_type','s','c_id');
+		$keyword=sget('keyword','s');
+		if(!empty($keyword)){
+			if($key_type=='c_name'){
+				$cidshare = M('user:customer')->getcidByCname($keyword);
+				$where.=" and $key_type like '%$keyword%' ";
+			}elseif($key_type=='customer_manager'){
+				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
+			}elseif($key_type=='need_product'){
+				$where.=" and `need_product` like '%$keyword%' ";
+				//处理授信查询不准的情况
+			}else{
+				$where.=" and $key_type='$keyword' ";
+			}
+		}
+		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
+		$result=array('total'=>$list['count'],'data'=>$list['data'],'msg'=>'');
+		$this->json_output($result);
 	}
 }
