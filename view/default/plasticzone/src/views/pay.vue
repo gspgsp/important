@@ -77,8 +77,12 @@ methods: {
 			},
 			dataType: 'JSON'
 		}).done(function(res) {
+			console.log(">>>",JSON.parse(res.data));
 			if(res.err == 0) {
-				jsApiParameters=JSON.parse(res.data);
+				jsApiParameters={
+					appId:JSON.parse(res.data)
+					
+				};
 				if(typeof WeixinJSBridge == "undefined") {
 					if(document.addEventListener) {
 						document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
