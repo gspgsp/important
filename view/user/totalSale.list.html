@@ -49,7 +49,7 @@ function onKeyEnter(e) {
 //添加操作
 function onOperate(e){
 	var id=e.record.id,str='';
-	return '<a href="javascript:viewRows('+id+')">开通记录</a>';
+	return '<a href="javascript:viewRows('+id+')">开通记录</a> | <a href="javascript:delRows('+id+')">删除记录</a>';
 }
 //查看开通记录
 function viewRows(id){
@@ -66,6 +66,22 @@ function viewRows(id){
 				grid.reload();
 			}
 		}
+	});
+}
+//删除开通记录
+function delRows(id){
+	mini.confirm("确定删除记录？", "提示",	function(action){
+		if(action!='ok') return;
+		var callback=function(data){
+			if(data.err!='0'){
+				grid.unmask();
+				alert(data.msg);
+				return false;
+			}else{
+				grid.reload();
+			}
+		}
+		utils.ajax('/user/headline/delRows?id='+id,'',callback,"POST","json");
 	});
 }
 </script>

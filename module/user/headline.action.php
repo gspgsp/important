@@ -367,5 +367,26 @@ class headlineAction extends adminBaseAction {
 		$this->display('openMember.view.html');
 
 	}
+	/**
+	 * 结算金额界面删除开通记录
+	 */
+	public function delRows(){
+		$id=sget('id','i');
+		if ($id>0) {
+			$h_id=$this->db->model('headline_sale')->select('h_id')->where('id='.$id)->getOne();
+			//开启事务
+			$this->db->startTrans();
+			$this->db->model('customer_headline')->where('id in ('.$h_id.')')->delete();
+			$this->db->model('headline_sale')->where('id='.$id)->delete();
+			if($this->db->commit()){
+				$this->success('删除开通记录成功！');
+			}else{
+				$this->rollback();
+				$this->error('开通记录删除失败！');
+			}
+		}else{
+			$this->error('无法找到开通记录！');
+		}
+	}
 	
 }
