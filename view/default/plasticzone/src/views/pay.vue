@@ -66,7 +66,7 @@ export default{
 		payMoney:function(){
 			var _this=this;
 			
-			_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
+			//_this.onBridgeReady();
 			
 			$.ajax({
 				url:version+'/pay/getPrePayOrder',
@@ -84,6 +84,7 @@ export default{
 			}).done(function(res){
 				console.log(res);
 				if(res.err==0){
+					
 					_this.onBridgeReady(res.data.timestamp,res.data.noncestr,res.data.prepayid,res.data.sign);
 				}
 //				if(res.err==0){
