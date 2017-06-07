@@ -180,7 +180,7 @@ methods: {
 				dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err == 0) {
-					_this.beanOrder.bean=plasticBean;
+					_this.beanOrder.bean=res.plasticBean;
 					_this.beanOrder.money=_this.inputMoney;
 					_this.plasticBean = res.plasticBean + "塑豆";
 				}
@@ -203,7 +203,7 @@ methods: {
 			}).then(function(res) {
 				if(res.err == 0) {
 					_this.plasticBean = res.plasticBean + "塑豆";
-					_this.beanOrder.bean=plasticBean;
+					_this.beanOrder.bean= res.plasticBean;
 					_this.beanOrder.money=_this.inputMoney;
 
 				}
