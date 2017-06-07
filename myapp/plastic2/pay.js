@@ -200,23 +200,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			money: null,
 			eq: null,
 			inputMoney: null,
-			plasticBean: "",
-			data: {
-				type: 1,
-				goods_id: "99",
-				total_fee: "0.01",
-				goods_num: "1"
-			}
+			plasticBean: ""
 		};
 	},
 	methods: {
+		onBridgeReady: function onBridgeReady(timeStamp, nonceStr, prepay_id, paySign) {
+			WeixinJSBridge.invoke('getBrandWCPayRequest', {
+				"appId": "wxbe66e37905d73815",
+				"timeStamp": "1324710901",
+				"nonceStr": "97bimlpPRfS6X8mV",
+				"package": "prepay_id=wx20170607141219e84645f7df0381665882 ",
+				"signType": "MD5",
+				"paySign": "787361706D8804C9E884958415EB7B23" }, function (res) {
+				if (res.err_msg == "get_brand_wcpay_request:ok") {
+					alert(ok);
+				}
+			});
+		},
 		payMoney: function payMoney() {
 			var _this = this;
 			console.log(this.data);
 			$.ajax({
 				url: version + '/pay/getPrePayOrder',
 				type: 'post',
-				data: _this.data,
+				data: {
+					type: 1,
+					goods_id: "99",
+					total_fee: "0.01",
+					goods_num: "1"
+				},
 				headers: {
 					'X-UA': window.localStorage.getItem("XUA")
 				},
@@ -224,16 +236,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).done(function (res) {
 				console.log(res);
 				if (res.err == 0) {
-					wx.chooseWXPay({
-						timestamp: res.data.timestamp,
-						nonceStr: res.data.noncestr,
-						package: "prepay_id=" + res.data.prepayid,
-						signType: 'MD5',
-						paySign: res.data.sign,
-						success: function success(data) {
-							console.log(">>>", data);
-						}
-					});
+					_this.onBridgeReady(res.data.timestamp, res.data.noncestr, res.data.prepayid, res.data.sign);
 				}
 			}).fail(function () {});
 		},
@@ -293,6 +296,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 		var _this = this;
+
+		if (typeof WeixinJSBridge == "undefined") {
+			if (document.addEventListener) {
+				document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+			} else if (document.attachEvent) {
+				document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+				document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+			}
+		} else {
+			onBridgeReady();
+		}
+
 		$.ajax({
 			type: "post",
 			url: version + "/pay/getPayConfig",
