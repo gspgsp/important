@@ -50,13 +50,13 @@ class onlineOrderModel extends model{
 
         $this->startTrans ();
 
-        $res =$this->where ("order_id=$order_id")->update (array('is_cashed' => 1));
+        $res =$this->model('online_order')->where ("order_id=$order_id")->update (array('is_cashed' => 1));
         file_put_contents('/tmp/xielei.txt',print_r($res,true)."2222\n",FILE_APPEND);
 
         file_put_contents('/tmp/xielei.txt',print_r( $this->getLastSql(),true)."2222\n",FILE_APPEND);
 
         $data = array(
-            'add_time'=>CORE_TIME,
+            'addtime'=>CORE_TIME,
             'points'=>$order_info['goods_num'],
             'type'=>16,
             'is_mobile'=>1
@@ -68,7 +68,7 @@ class onlineOrderModel extends model{
 
         $points = (int)($contact_info['quan_points']+$order_info['goods_num']);
 
-        $res2 =$this->model('contact_info')->update(array('quan_points'=>$points));
+        $res2 =$this->model('contact_info')->where ("user_id=".$order_info['user_id'])->update(array('quan_points'=>$points));
 
         file_put_contents('/tmp/xielei.txt',print_r($res2,true)."4444\n",FILE_APPEND);
 
