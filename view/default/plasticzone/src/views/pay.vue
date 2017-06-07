@@ -170,10 +170,10 @@ export default{
 
 		if (typeof WeixinJSBridge == "undefined"){
 		   if( document.addEventListener ){
-		       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		       document.addEventListener('WeixinJSBridgeReady', _this.onBridgeReady, false);
 		   }else if (document.attachEvent){
-		       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-		       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		       document.attachEvent('WeixinJSBridgeReady', _this.onBridgeReady); 
+		       document.attachEvent('onWeixinJSBridgeReady', _this.onBridgeReady);
 		   }
 		}else{
 		   onBridgeReady();
