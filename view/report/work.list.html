@@ -135,9 +135,9 @@
 			</div>
 		</div>
 		<fieldset style="width:600px;border:solid 1px #aaa;margin-top:8px;position:relative;">
-			<legend><label><input name="stype" type="radio" value="1" selected='selected' />采购</label><label><input name="stype" type="radio" value="2" />报价</label></legend>
+			<legend><label><input name="stype" type="radio" value="1" checked />采购</label><label><input name="stype" type="radio" value="2" />报价</label></legend>
 			<div id="editForm1" style="padding:5px;">
-				<table style="width:100%;">
+				<table style="width:100%;display: none;">
 					<tr>
 						<td style="width:50px;">牌号：</td>
 						<td style="width:100px;"><input id="loginname" name="loginname" class="mini-textbox" /></td>
@@ -151,6 +151,32 @@
 						<td><input id="gender" name="gender" class="mini-combobox" data="Genders"/></td>
 						<td>备注：</td>
 						<td><input id="age" name="age" class="mini-spinner" minValue="0" maxValue="200" value="25"  /></td>
+					</tr>
+				</table>
+				<table style="width:100%;">
+					<tr>
+						<td style="width:50px;">牌号：</td>
+						<td style="width:100px;"><input id="loginname" name="loginname" class="mini-textbox" emptyText="牌号"/></td>
+						<td style="width:50px;">厂家：</td>
+						<td style="width:100px;"><input id="name" name="name" class="mini-textbox" emptyText="厂家"/></td>
+						<td style="width:50px;">相似牌号：</td>
+						<td style="width:100px;"><input name="salary" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
+					</tr>
+					<tr>
+						<td>数量：</td>
+						<td><input id="gender" name="gender" class="mini-combobox" data="Genders"/></td>
+						<td>成本：</td>
+						<td><input id="age" name="age" class="mini-spinner" minValue="0" maxValue="200" value="25"/></td>
+						<td>销售价：</td>
+						<td><input id="gender" name="gender" class="mini-combobox" data="Genders"/></td>
+					</tr>
+					<tr>
+						<td>仓库：</td>
+						<td><input id="gender" name="gender" class="mini-combobox" data="Genders"/></td>
+						<td>区域：</td>
+						<td><input id="age" name="age" class="mini-spinner" minValue="0" maxValue="200" value="25"/></td>
+						<td>备注：</td>
+						<td><input id="gender" name="gender" class="mini-combobox" data="Genders"/></td>
 					</tr>
 				</table>
 			</div>
