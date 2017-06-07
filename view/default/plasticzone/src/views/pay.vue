@@ -41,20 +41,23 @@ export default{
 			money:null,
 			eq:null,
 			inputMoney:null,
-			plasticBean:""
-		}
-	},
-	methods:{
-		payMoney:function(){
-			$.ajax({
-				url:version+'/pay/getPrePayOrder',
-				type:'post',
-				data:{
+			plasticBean:"",
+			data:{
 					type:1,
 					goods_id:"99",
 					total_fee:"0.01",
 					goods_num:"1"
-				},
+				}
+		}
+	},
+	methods:{
+		payMoney:function(){
+			var _this=this;
+			console.log(this.data);
+			$.ajax({
+				url:version+'/pay/getPrePayOrder',
+				type:'post',
+				data:_this.data,
 				headers: {
 					'X-UA': window.localStorage.getItem("XUA")
 				},
