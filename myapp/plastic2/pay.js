@@ -318,7 +318,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					dataType: 'JSON'
 				}).then(function (res) {
 					if (res.err == 0) {
-						_this.beanOrder.bean = plasticBean;
+						_this.beanOrder.bean = res.plasticBean;
 						_this.beanOrder.money = _this.inputMoney;
 						_this.plasticBean = res.plasticBean + "塑豆";
 					}
@@ -338,7 +338,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				}).then(function (res) {
 					if (res.err == 0) {
 						_this.plasticBean = res.plasticBean + "塑豆";
-						_this.beanOrder.bean = plasticBean;
+						_this.beanOrder.bean = res.plasticBean;
 						_this.beanOrder.money = _this.inputMoney;
 					}
 				}, function () {});
