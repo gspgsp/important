@@ -88,8 +88,9 @@ class payAction extends baseAction
             if(empty($open_id)) $this->_errCode(6);
             $res = $this->payment->getJsOrder($open_id,$order_id,$send_amount);
             $order = M ('order:onlineOrder');
-            $prepay_id = substr($res['data']['package'],11);
-            $data = $order->addOrder ($order_id, $type, $prepay_id, $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $res['data']['appid'], $this->platform, $res['err'], $res['msg']);
+            $_data = json_decode($res['data']);
+            $prepay_id = substr($_data['package'],11);
+            $data = $order->addOrder ($order_id, $type, $prepay_id, $total_fee, $goods_id, $goods_num, $user_id, $this->uuid, $_data['appId'], $this->platform, $res['err'], $res['msg']);
             if($res['err'] == 1 && !empty($data)){
                 $this->json_output (array(
                     'err'  => 0,
