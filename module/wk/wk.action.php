@@ -424,7 +424,8 @@ class wkAction extends adminBaseAction{
 			'person_phone'=>M('rbac:adm')->getPhoneByAdminId($this->adminid),
 			'status'=>1,//1.待审核   2审核通过  3.不通过
 		);
-		&$data = sdata();
+		$data = sdata();
+		p($data);
 		$data['model'] = trim($data['model']);
 		$data['model'] = strtoupper($data['model']);
 		$data['smodel'] = trim($data['smodel']);
