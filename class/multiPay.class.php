@@ -91,8 +91,8 @@ class multiPay
             $input->SetTotal_fee($send_amount);
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
-            $input->SetGoods_tag("test");
-            $input->SetNotify_url(APP_URL."/qapi_3/pay/wxJsNotify");
+            $input->SetGoods_tag($this->goods_name);
+            $input->SetNotify_url(APP_URL."/api/wechatPay/wxJsNotify");
             $input->SetTrade_type("JSAPI");
             $input->SetOpenid($openId);
             $order = WxPayApi::unifiedOrder($input);
