@@ -46,7 +46,6 @@ class onlineOrderModel extends model{
     public function updatePlasticBean($order_id)
     {
         $order_info = $this->getPk($order_id);
-        $contact_info =$this->model('contact_info')->getPk($order_info['user_id']);
 
         $this->startTrans ();
 
@@ -55,27 +54,13 @@ class onlineOrderModel extends model{
 
         file_put_contents('/tmp/xielei.txt',print_r( $this->getLastSql(),true)."2222\n",FILE_APPEND);
 
-        $data = array(
-            'addtime'=>CORE_TIME,
-            'points'=>$order_info['goods_num'],
-            'uid'=>$order_info['user_id'],
-            'type'=>16,
-            'is_mobile'=>1
-        );
-        $res1 =$this->model('points_bill')->add($data);
-        file_put_contents('/tmp/xielei.txt',print_r($res1,true)."333\n",FILE_APPEND);
 
-        file_put_contents('/tmp/xielei.txt',print_r( $this->model('points_bill')->getLastSql(),true)."3333\n",FILE_APPEND);
+        $res1 = A("api:points")->addScoreByMoney($order_info['goods_num'],$order_info['user_id']);
 
-        $points = (int)($contact_info['quan_points']+$order_info['goods_num']);
+        //$res1 =$this->model('points_bill')->update($data);
 
-        $res2 =$this->model('contact_info')->where ("user_id=".$order_info['user_id'])->update(array('quan_points'=>$points));
 
-        file_put_contents('/tmp/xielei.txt',print_r($res2,true)."4444\n",FILE_APPEND);
-
-        file_put_contents('/tmp/xielei.txt',print_r( $this->model('contact_info')->getLastSql(),true)."3333\n",FILE_APPEND);
-
-        if ($res && $res1&&$res2) {
+        if ($res && $res1['err'] == 0) {
             file_put_contents('/tmp/xielei.txt',print_r('comit',true)."\n",FILE_APPEND);
 
             $this->commit ();
