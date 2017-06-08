@@ -68,7 +68,7 @@
 			<table style="width:100%;">
 				<tr>
 					<td style="width:33%;">
-						<div class="mini-panel" title="每月指标完成情况" style="width:100%;height:100px;" onbuttonclick="onbuttonclick">
+						<div class="mini-panel" title="每月指标完成情况" style="width:100%;height:100px;">
 							成交客户：50  私海：699 公海：2300000
 							目标：利润 39990，吨位 200000
 							执行：利润 19990，吨位 200000
@@ -497,8 +497,12 @@ function changeTab(e){
 //追加查看产品按钮
 function onLoadProduct(e){
 	var record = e.record,s='',p_id = record.p_id,model=record.model;
-	s += '<a href="javascript:viewProInfo('+p_id+')">'+model+'</a> ';
+	s += '<a href="javascript:searchModel('+model+')">'+model+'</a> ';
 	return s;
+}
+//根据传输的model筛选
+function searchModel(model){
+	alert(model);
 }
 //查看产品相关信息
 function viewProInfo(pid){
