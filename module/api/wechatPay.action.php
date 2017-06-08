@@ -161,7 +161,12 @@ class wechatPayAction extends null2Action
 //        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
 //        file_put_contents('./sjs.txt',print_r($xmlData,true)."\n",FILE_APPEND);
 //        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
-        require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
+        try{
+            require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
+        }catch(Exception $e){
+            p($e->getMessage());
+        }
+
         p('this is start');
         chmod('./sjs.txt',0777);
         file_put_contents('./sjs.txt',print_r('this is a b',true)."\n",FILE_APPEND);
