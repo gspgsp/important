@@ -5,7 +5,7 @@
 class orderAction extends adminBaseAction {
 	public function __init(){
 		$this->debug = false;
-		ini_set('display_errors','on');
+		// ini_set('display_errors','on');
 		$this->db=M('public:common')->model('order');
 		$this->doact = sget('do','s');
 		$this->assign('order_source',L('order_source')); //订单来源
@@ -57,21 +57,21 @@ class orderAction extends adminBaseAction {
 	 * @return html
 	 */
 	public function sale(){
-	    $saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
-	    $doact=sget('do','s');
-	    $action=sget('action','s');
-	    $order_type=sget('order_type','s');
-	    if($action=='grid'){ //获取列表
-	        $this->_grid();exit;
-	    }
-	    $this->assign('seestay',trim($saleurl[count($saleurl)-1]));
-	    $this->assign('order_type',1);
-	    $this->assign('order_sn',sget('order_sn','s'));
-	    $this->assign('o_ids',sget('o_ids','s'));
-	    $this->assign('unid',sget('unid','i',0));
-	    $this->assign('doact',$doact);
-	    $this->assign('page_title','订单管理列表');
-	    $this->display('order.list.html');
+		$saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
+		$doact=sget('do','s');
+		$action=sget('action','s');
+		$order_type=sget('order_type','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('seestay',trim($saleurl[count($saleurl)-1]));
+		$this->assign('order_type',1);
+		$this->assign('order_sn',sget('order_sn','s'));
+		$this->assign('o_ids',sget('o_ids','s'));
+		$this->assign('unid',sget('unid','i',0));
+		$this->assign('doact',$doact);
+		$this->assign('page_title','订单管理列表');
+		$this->display('order.list.html');
 	}
 	/**
 	 * 物流采购订单
@@ -79,20 +79,20 @@ class orderAction extends adminBaseAction {
 	 * @return html
 	 **/
 	public function buy(){
-	    $saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
-	    $doact=sget('do','s');
-	    $action=sget('action','s');
-	    $order_type=sget('order_type','s');
-	    if($action=='grid'){ //获取列表
-	        $this->_grid();exit;
-	    }
-	    $this->assign('seestay',trim($saleurl[count($saleurl)-1]));
-	    $this->assign('order_type',2);
-	    $this->assign('order_sn',sget('order_sn','s'));
-	    $this->assign('o_ids',sget('o_ids','s'));
-	    $this->assign('doact',$doact);
-	    $this->assign('page_title','订单管理列表');
-	    $this->display('order.list.html');
+		$saleurl=explode('/',$_SERVER['PHP_SELF']);//获取当前页面控制器名称
+		$doact=sget('do','s');
+		$action=sget('action','s');
+		$order_type=sget('order_type','s');
+		if($action=='grid'){ //获取列表
+			$this->_grid();exit;
+		}
+		$this->assign('seestay',trim($saleurl[count($saleurl)-1]));
+		$this->assign('order_type',2);
+		$this->assign('order_sn',sget('order_sn','s'));
+		$this->assign('o_ids',sget('o_ids','s'));
+		$this->assign('doact',$doact);
+		$this->assign('page_title','订单管理列表');
+		$this->display('order.list.html');
 	}
 	/**
 	 * @access public
@@ -653,7 +653,7 @@ class orderAction extends adminBaseAction {
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
 				// 'customer_manager'=>$_SESSION['adminid'],//处理原来的问题
-				'customer_manager'=>$partner_id;
+				'customer_manager'=>$partner_id,
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
@@ -829,7 +829,7 @@ class orderAction extends adminBaseAction {
 		//销售单物流审核通过，减去信用额度
 		if($data['transport_status']==2){
 			$money = M('product:order')->getColByName($data['o_id'],'total_price');//订单总额
-            M('user:customer')->updateCreditLimit($data['o_id'],'-',$money) OR $this->error('物流审核信用额度更新失败');
+			M('user:customer')->updateCreditLimit($data['o_id'],'-',$money) OR $this->error('物流审核信用额度更新失败');
 		}
 		//处理信用额度------E
 
