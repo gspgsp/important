@@ -425,8 +425,10 @@ class wkAction extends adminBaseAction{
 			'status'=>1,//1.待审核   2审核通过  3.不通过
 		);
 		&$data = sdata();
-		strtoupper(trim($data['model']));
-		strtoupper(trim($data['smodel']));
+		$data['model'] = trim($data['model']);
+		$data['model'] = strtoupper($data['model']);
+		$data['smodel'] = trim($data['smodel']);
+		$data['smodel'] = strtoupper($data['smodel']);
 		p($data);die;
 		trim($data['remark']);
 		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
