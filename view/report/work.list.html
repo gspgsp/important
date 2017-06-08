@@ -73,7 +73,7 @@
 					<table style="width:100%;">
 						<tr>
 							<td style="white-space:nowrap;">
-							<form id="soform">
+							<form id="kcsearch">
 								<select name="sTime">
 									<option value="il.input_time">入库时间</option>
 									<option value="il.update_time">更新时间</option>
@@ -88,9 +88,9 @@
 									<option value="unit_price">采购价</option>
 									<option value="customer_manager">交易员</option>
 								</select>
-								<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
-								<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-								<span id="searchMsg"></span>
+								<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="kcKeyEnter"/>
+								<a class="mini-button" iconCls="icon-search" onclick="kcsearch()">查询</a>
+								<span id="kcmsg"></span>
 							</form>
 							</td>
 						</tr>
@@ -116,16 +116,16 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="white-space:nowrap;">
-								<form id="soform">
+								<form id="cgsearch">
 									添加时间
 									<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 									<input name="endTime" class="mini-datepicker" style="width:100px;"/>
 									<select name="key_type">
 										<option value="grade">牌号</option>
 									</select>
-									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
-									<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-												<span id="searchMsg"></span>
+									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="cgKeyEnter"/>
+									<a class="mini-button" iconCls="icon-search" onclick="cgsearch()">查询</a>
+												<span id="cgmsg"></span>
 								</form>
 								</td>
 							</tr>
@@ -151,16 +151,16 @@
 						<table style="width:100%;">
 							<tr>
 								<td style="white-space:nowrap;">
-								<form id="soform">
+								<form id="bjsearch">
 									添加时间
 									<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
 									<input name="endTime" class="mini-datepicker" style="width:100px;"/>
 									<select name="key_type">
 										<option value="grade">牌号</option>
 									</select>
-									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
-									<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
-												<span id="searchMsg"></span>
+									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="bjKeyEnter"/>
+									<a class="mini-button" iconCls="icon-search" onclick="bjsearch()">查询</a>
+												<span id="bjmsg"></span>
 								</form>
 								</td>
 							</tr>
@@ -245,22 +245,25 @@
 </div>
 <script type="text/javascript">
 mini.parse();
+var supplier = parseInt({$supplier});
+var cooperation = parseInt({$cooperation});
 var form1 = new mini.Form("#editForm1");
 var form2 = new mini.Form("#editForm2");
 
-
+//采购信息
 var grids = mini.get("gridCell");
 grids.load();
-
 //报价
 var bjgrids = mini.get("bjCell");
 bjgrids.load();
-
-//加载左侧信息
+//库存cell
+var kcgrids = mini.get("investGrid");
+kcgrids.load();
+//客户加载左侧信息
 var grid = mini.get("gridCells");
-var supplier = parseInt({$supplier});
-var cooperation = parseInt({$cooperation});
 grid.load();
+
+
 //对客户进行搜索
 function csearch() {
 	grid.load($("#csoform").serializeObject(),function(e){
@@ -270,6 +273,35 @@ function csearch() {
 function conKeyEnter(e) {
 	csearch();
 }
+//右侧库存信息搜索
+//对客户进行搜索
+function kcsearch() {
+	kcgrids.load($("#kcsearch").serializeObject(),function(e){
+		$("#kcmsg").html(e.msg);
+	});
+}
+function kcKeyEnter(e) {
+	kcsearch();
+}
+//报价
+function bjsearch() {
+	bjgrids.load($("#bjsearch").serializeObject(),function(e){
+		$("#bjmsg").html(e.msg);
+	});
+}
+function bjKeyEnter(e) {
+	bjsearch();
+}
+//采购
+function cgsearch() {
+	grids.load($("#cgsearch").serializeObject(),function(e){
+		$("#cgmsg").html(e.msg);
+	});
+}
+function cgKeyEnter(e) {
+	cgsearch();
+}
+
 //客户的操作相关按钮
 function onLoadFllow(e) {
 	var record = e.record,cid=record.c_id, status=record.status,s='',customer_manager=record.customer_manager,bli=record.bli,issale=record.is_sale;
