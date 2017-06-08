@@ -292,11 +292,10 @@ function submitForm1(){
 	var urlstr = '/wk/wk/poublish';
 	$.post(urlstr,{data:json},function(data){
 		form1.unmask();
-		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
 			grid.reload();
 		}else{
-			return false;
+			$("#returnMsg").text(data.msg);
 		}
 	},'json');
 }
@@ -316,7 +315,7 @@ function submitForm2(){
 		if(data.err=='0'){
 			grids.reload();
 		}else{
-			return false;
+			$("#returnMsg").text(data.msg);
 		}
 	},'json');
 }
