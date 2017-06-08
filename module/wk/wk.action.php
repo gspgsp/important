@@ -425,11 +425,10 @@ class wkAction extends adminBaseAction{
 			'status'=>1,//1.待审核   2审核通过  3.不通过
 		);
 		$data = sdata();
-		p($data);
-		strtoupper(trim(&$data['model']));
-		$data['smodel'] = strtoupper(trim($data['smodel']));
-		p($data);die;
-		trim($data['remark']);
+		$data['grade'] = strtoupper(trim($data['model']));
+		$data['same_product'] = strtoupper(trim($data['smodel']));
+		$data['remark'] = trim($data['remark']);
+		$data['factory'] = trim($data['factory']);
 		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
 		M('product:factory')->where("f_name='{$data['factory']}'")->select('f_name')->getOne() OR $this->error('添加失败，基础数据库中不存在此厂家');
 		if(!$this->db->model('offers_msg')->add($_data+$data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
