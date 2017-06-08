@@ -304,87 +304,87 @@ class profitAction extends adminBaseAction {
 		}
 		// p($where);die;
 		// --交易员所在战队写死，如有新增战队或者删除战队，就要修改这个in(里面的id)
-	$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
-			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
-			o.`order_sn` AS s_sn,
-			pro.`model` AS s_model,
-			fac.`f_name` AS s_fname,
-			sale.o_id AS s_oid,
-			sale.p_id AS s_pid,
-			sale.number AS s_num,
-			sale.remainder AS s_rem,
-			sale.unit_price AS s_price,
-			(sale.number * sale.unit_price) AS s_xj,
-			o.`payd_time` AS s_input_time,
-			o.`input_time` AS sale_input_time,
-			sale.customer_manager AS s_customer_manager,
-			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
-			IFNULL(`out`.ship,0) AS ship,
-		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
-		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
-			o.`join_id` AS p_oid,
-			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
-			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
-			(SELECT o2.order_sn FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_sn,
-			pu.p_id AS p_pid,
-			pu.number AS p_num,
-			pu.remainder AS p_rem,
-			pu.unit_price AS p_price,
-			(pu.number * pu.unit_price) AS p_xj,
-			(SELECT o2.`payd_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_input_time,
-			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
-			pu.customer_manager AS p_customer_manager,
-			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
-		FROM `p2p_sale_log` AS sale 
-		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
-		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id` AND sale.`purchase_id` = pu.`id`
-		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
-		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
-		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`join_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) aa
+	$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=o.`o_id`)=`s_cus`.`c_id`) AS `s_name`,
+			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`o_id`) AS `s_ordname`,
+			o.`order_sn` AS `s_sn`,
+			`pro`.`model` AS `s_model`,
+			`fac`.`f_name` AS `s_fname`,
+			`sale`.`o_id` AS `s_oid`,
+			`sale`.`p_id` AS `s_pid`,
+			`sale`.`number` AS `s_num`,
+			`sale`.`remainder` AS `s_rem`,
+			`sale`.`unit_price` AS `s_price`,
+			(`sale`.`number` * `sale`.`unit_price`) AS `s_xj`,
+			`o`.`payd_time` AS `s_input_time`,
+			`o`.`input_time` AS `sale_input_time`,
+			`sale`.`customer_manager` AS `s_customer_manager`,
+			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `sale`.`customer_manager`=`admin`.`admin_id`) AS `s_uname`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,54)) AS `s_team_id`,
+			IFNULL(`out`.`ship`,0) AS `ship`,
+		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`))- IFNULL(`out`.`ship`,0) AS `profit`,
+		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`)) AS `gross`,
+			`o`.`join_id` AS `p_oid`,
+			(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`)=`c_id`) AS `p_name`,
+			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `p_ordname`,
+			(SELECT `o2`.`order_sn` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `p_sn`,
+			`pu`.`p_id` AS `p_pid`,
+			`pu`.`number` AS `p_num`,
+			`pu`.`remainder` AS `p_rem`,
+			`pu`.`unit_price` AS `p_price`,
+			(`pu`.`number` * `pu`.`unit_price`) AS `p_xj`,
+			(SELECT `o2`.`payd_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `p_input_time`,
+			(SELECT `o2`.`input_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `buy_input_time`,
+			`pu`.`customer_manager` AS `p_customer_manager`,
+			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `pu`.`customer_manager`=`admin`.`admin_id`) AS `p_uname`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,54)) AS `p_team_id`
+		FROM `p2p_sale_log` AS `sale` 
+		LEFT JOIN `p2p_order` AS `o` ON `sale`.`o_id` = `o`.`o_id`
+		LEFT JOIN `p2p_purchase_log` AS `pu` ON `o`.`join_id` = `pu`.`o_id` AND `sale`.`p_id` = `pu`.`p_id` AND `sale`.`purchase_id` = `pu`.`id`
+		LEFT JOIN `p2p_product` AS `pro` ON `sale`.`p_id` = `pro`.`id`
+		LEFT JOIN `p2p_factory` AS `fac` ON `pro`.`f_id` = `fac`.`fid`
+		LEFT JOIN `p2p_out_log` AS `out` ON `sale`.`id` = `out`.`sale_log_id`
+		WHERE `sale`.`p_id` >0 AND `o`.`join_id` > 0 AND `o`.`order_status`=2 AND `o`.`transport_status`=2 AND `o`.`collection_status` = 3 AND `o`.`payd_time` >0) `aa`
 		UNION ALL
-		SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
-			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
-			o.`order_sn` AS s_sn,
-			pro.`model` AS s_model,
-			fac.`f_name` AS s_fname,
-			sale.o_id AS s_oid,
-			sale.p_id AS s_pid,
-			sale.number AS s_num,
-			sale.remainder AS s_rem,
-			sale.unit_price AS s_price,
-			(sale.number * sale.unit_price) AS s_xj,
-			o.`payd_time` AS s_input_time,
-			o.`input_time` AS sale_input_time,
-			sale.customer_manager AS s_customer_manager,
-			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
-			IFNULL(`out`.ship,0) AS ship,
-		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
-		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
-			o.`store_o_id` AS p_oid,
-			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
-			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,
-			(SELECT o2.order_sn FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_sn,
-			pu.p_id AS p_pid,
-			pu.number AS p_num,
-			pu.remainder AS p_rem,
-			pu.unit_price AS p_price,
-			(pu.number * pu.unit_price) AS p_xj,
-			(SELECT o2.payd_time FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_input_time,
-			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
-			pu.customer_manager AS p_customer_manager,
-			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
-		FROM `p2p_sale_log` AS sale 
-		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
-		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id`  AND sale.`purchase_id` = pu.`id`
-		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
-		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
-		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`store_o_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) AS cc  '.$where.$orderby.' limit '.($page)*$size.','.$size);
+		SELECT * FROM ( SELECT 	(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`o_id`)=`s_cus`.`c_id`) AS `s_name`,
+			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`o_id`) AS `s_ordname`,
+			`o`.`order_sn` AS `s_sn`,
+			`pro`.`model` AS `s_model`,
+			`fac`.`f_name` AS `s_fname`,
+			`sale`.`o_id` AS `s_oid`,
+			`sale`.`p_id` AS `s_pid`,
+			`sale`.`number` AS `s_num`,
+			`sale`.`remainder` AS `s_rem`,
+			`sale`.`unit_price` AS `s_price`,
+			(`sale`.`number` * `sale`.`unit_price`) AS `s_xj`,
+			`o`.`payd_time` AS `s_input_time`,
+			`o`.`input_time` AS `sale_input_time`,
+			`sale`.`customer_manager` AS `s_customer_manager`,
+			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `sale`.`customer_manager`=`admin`.`admin_id`) AS `s_uname`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,54)) AS `s_team_id`,
+			IFNULL(`out`.`ship`,0) AS `ship`,
+		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`))- IFNULL(`out`.`ship`,0) AS `profit`,
+		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`)) AS `gross`,
+			`o`.`store_o_id` AS `p_oid`,
+			(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`)=`c_id`) AS `p_name`,
+			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `p_ordname`,
+			(SELECT `o2`.`order_sn` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `p_sn`,
+			`pu`.`p_id` AS `p_pid`,
+			`pu`.`number` AS `p_num`,
+			`pu`.`remainder` AS `p_rem`,
+			`pu`.`unit_price` AS `p_price`,
+			(`pu`.`number` * `pu`.`unit_price`) AS `p_xj`,
+			(SELECT `o2`.`payd_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `p_input_time`,
+			(SELECT `o2`.`input_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `buy_input_time`,
+			`pu`.`customer_manager` AS `p_customer_manager`,
+			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `pu`.`customer_manager`=`admin`.`admin_id`) AS `p_uname`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,54)) AS `p_team_id`
+		FROM `p2p_sale_log` AS `sale` 
+		LEFT JOIN `p2p_order` AS `o` ON `sale`.`o_id` = `o`.`o_id`
+		LEFT JOIN `p2p_purchase_log` AS `pu` ON `o`.`store_o_id` = `pu`.`o_id` AND `sale`.`p_id` = `pu`.`p_id`  AND `sale`.`purchase_id` = `pu`.`id`
+		LEFT JOIN `p2p_product` AS `pro` ON `sale`.`p_id` = `pro`.`id`
+		LEFT JOIN `p2p_factory` AS `fac` ON `pro`.`f_id` = `fac`.`fid`
+		LEFT JOIN `p2p_out_log` AS `out` ON `sale`.`id` = `out`.`sale_log_id`
+		WHERE `sale`.`p_id` >0 AND `o`.`store_o_id` > 0 AND `o`.`order_status`=2 AND `o`.`transport_status`=2 AND `o`.`collection_status` = 3 AND `o`.`payd_time` >0) `bb` ) AS `cc`  '.$where.$orderby.' limit '.($page)*$size.','.$size);
 	// showtrace();
 	$list_count = $this->db->getRow('SELECT count(*) as total,sum(s_xj) as s_xj,sum(s_num) as s_num,sum(profit) as profit,sum(ship) as ship,sum(p_num) as p_num,sum(p_xj) as p_xj from ( SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
@@ -467,6 +467,7 @@ class profitAction extends adminBaseAction {
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
 		WHERE sale.p_id >0 AND o.`store_o_id` > 0 and o.`order_status`=2 and o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) as cc '.$where);
+// showtrace();
 		// p($list_count);die;
 		foreach($list as &$value){
 			$value['s_input_time']=$value['s_input_time']>1000 ? date("Y-m-d H:i:s",$value['s_input_time']) : '-';
