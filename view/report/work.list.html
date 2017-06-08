@@ -145,62 +145,60 @@
 				<table style="width:100%;">
 					<tr>
 						<td style="width:50px;">牌号：</td>
-						<td style="width:100px;"><input id="loginname" name="loginname" class="mini-textbox" /></td>
+						<td style="width:100px;"><input name="model" class="mini-textbox" /></td>
 						<td style="width:50px;">厂家：</td>
-						<td style="width:100px;"><input id="name" name="name" class="mini-textbox" /></td>
+						<td style="width:100px;"><input name="factory" class="mini-textbox" /></td>
 						<td style="width:50px;">数量：</td>
-						<td style="width:100px;"><input name="salary" class="mini-textbox" /></td>
+						<td style="width:100px;"><input name="num" class="mini-textbox" /></td>
 					</tr>
 					<tr>
 						<td>价格：</td>
-						<td><input id="gender" name="gender" class="mini-combobox"/></td>
+						<td><input name="num" class="mini-textbox"/></td>
 						<td>备注：</td>
-						<td><input id="age" name="age" class="mini-spinner" minValue="0" maxValue="200" value="25"  /></td>
+						<td><input name="remark" class="mini-textbox"/></td>
 					</tr>
 				</table>
 				<div style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
-						<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
-						<span style="display:inline-block;width:25px;"></span>
-						<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+						<a class="mini-button" style="width:60px;" onClick="submitForm1()">确定</a>
 				</div>
 			</div>
 			<div id="editForm2" style="padding:5px;" class="hidden">
 				<table style="width:100%;">
 					<tr>
 						<td style="width:80px;">牌号：</td>
-						<td style="width:100px;"><input id="loginname" name="loginname" class="mini-textbox" emptyText="牌号"/></td>
+						<td style="width:100px;"><input name="model" class="mini-textbox" emptyText="牌号"/></td>
 						<td style="width:80px;">厂家：</td>
-						<td style="width:100px;"><input id="name" name="name" class="mini-textbox" emptyText="厂家"/></td>
+						<td style="width:100px;"><input name="factory" class="mini-textbox" emptyText="厂家"/></td>
 						<td style="width:80px;">相似牌号：</td>
-						<td style="width:100px;"><input name="salary" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
+						<td style="width:100px;"><input name="smodel" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
 					</tr>
 					<tr>
 						<td>数量：</td>
-						<td><input id="gender" name="gender" class="mini-textbox"/></td>
+						<td><input name="num" class="mini-textbox"/></td>
 						<td>成本：</td>
-						<td><input id="age" name="age" class="mini-textbox" minValue="0" maxValue="200"/></td>
+						<td><input name="cost" class="mini-textbox" minValue="0" maxValue="200"/></td>
 						<td>销售价：</td>
-						<td><input id="gender" name="gender" class="mini-textbox"/></td>
+						<td><input name="sale_price" class="mini-textbox"/></td>
 					</tr>
 					<tr>
 						<td>仓库：</td>
-						<td><input id="gender" name="gender" class="mini-textbox"/></td>
+						<td><input name="store" class="mini-textbox"/></td>
 						<td>区域：</td>
-						<td><input id="age" name="age" class="mini-textbox" minValue="0" maxValue="200"/></td>
+						<td><input name="area" class="mini-textbox" minValue="0" maxValue="200"/></td>
 						<td>备注：</td>
-						<td><input id="gender" name="gender" class="mini-textbox"/></td>
+						<td><input name="remark" class="mini-textbox"/></td>
 					</tr>
 				</table>
 				<div style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
-						<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
-						<span style="display:inline-block;width:25px;"></span>
-						<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+						<a class="mini-button" style="width:60px;" onClick="submitForm2()">确定</a>
 				</div>
 			</div>
 		</fieldset>
 	</div>
 </div>
 <script type="text/javascript">
+var form1 = new mini.Form("#editForm1");
+var form2 = new mini.Form("#editForm2");
 mini.parse();
 
 var grids = mini.get("gridCell");
@@ -233,6 +231,46 @@ function send(e){
 //发送短信回调方法
 function sends(e){
 
+}
+//采购报价发布确认按钮
+function submitForm1(){
+	form1.validate();
+	if(form1.isValid() == false) return;
+	//提交数据
+	var o = form1.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/order/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//采购报价发布确认按钮
+function submitForm2(){
+	form2.validate();
+	if(form2.isValid() == false) return;
+	//提交数据
+	var o = form2.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/product/order/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
 }
 //单选切换
 var rbl = mini.get("rbl");
