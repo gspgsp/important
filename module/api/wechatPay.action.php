@@ -157,20 +157,15 @@ class wechatPayAction extends null2Action
 
 
     public function wxJsNotify(){
-//        $xmlData = file_get_contents ('php://input');
-//        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
-//        file_put_contents('./sjs.txt',print_r($xmlData,true)."\n",FILE_APPEND);
-//        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
+        $xmlData = file_get_contents ('php://input');
+        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
+        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
 
         require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
-        chmod('./sjs.txt',0777);
-        file_put_contents('./sjs.txt',print_r('this is a b',true)."\n",FILE_APPEND);
         $notify = new PayNotifyCallBack();
-        file_put_contents('./sjs.txt',print_r('s',true)."\n",FILE_APPEND);
         $notify->Handle(false);
-        file_put_contents('./sjs.txt',print_r('---------------------------',true)."\n",FILE_APPEND);
-        file_put_contents('./sjs.txt',print_r('lslok',true)."\n",FILE_APPEND);
         $result = $notify->GetValues();
+
         file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
         $order_id = $result['out_trade_no'];
@@ -179,8 +174,6 @@ class wechatPayAction extends null2Action
         if(array_key_exists("return_code", $result)
             && $result["return_code"] == "SUCCESS")
         {
-            file_put_contents('./sjs.txt',print_r('this is true result',true)."\n",FILE_APPEND);
-            $data = $result;
             if ($order_info['status'] < 5 ) {
                 $arr = array(
                     'partner_order_id'   => $data['transaction_id'],
