@@ -20,7 +20,7 @@ class WxPayNotify extends WxPayNotifyReply
 
 		if($result == false){
 			$this->SetReturn_code("FAIL");
-			$this->SetReturn_msg($this->GetReturn_msg());
+			$this->SetReturn_msg($msg);
 			$this->ReplyNotify(false);
 			return;
 		} else {
