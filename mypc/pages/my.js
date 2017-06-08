@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 130);
+/******/ 	return __webpack_require__(__webpack_require__.s = 139);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,188 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 106:
+/***/ 10:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    attrs: {
+      "id": "app"
+    }
+  }, [_c('div', {
+    staticClass: "center flt"
+  }, [_c('div', {
+    staticClass: "my-title"
+  }, [_vm._v("我的塑料圈")]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary"
+  }, [_c('div', {
+    staticClass: "my-summary-top"
+  }, [_c('div', {
+    staticClass: "pic flt"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.thumb
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "authen",
+    class: {
+      'yes': _vm.is_pass == 1, 'no': _vm.is_pass == 0
+    }
+  }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
+    staticClass: "person-info flt"
+  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _c('p', {
+    staticClass: "opt"
+  }, [_c('span', {
+    staticClass: "change",
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary-bot"
+  }, [_c('ul', [_c('li', [_c('span', [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('p', [_vm._v("供给")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('p', [_vm._v("求购")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.msg))]), _vm._v(" "), _c('p', [_vm._v("留言")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('p', [_vm._v("引荐")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('p', [_vm._v("粉丝")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('p', [_vm._v("关注")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v(" "), _c('p', [_vm._v("积分")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-info"
+  }, [_c('ul', [_c('li', [_c('div', {
+    staticClass: "item item1",
+    on: {
+      "click": function($event) {
+        _vm.toNext(2)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon1"
+  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item2",
+    on: {
+      "click": function($event) {
+        _vm.toNext(1)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon2"
+  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item3",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(3)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon3"
+  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item4",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(1)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon4"
+  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item5",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(2)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon5"
+  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item6",
+    on: {
+      "click": function($event) {
+        _vm.toComment(3)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon6"
+  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item7",
+    on: {
+      "click": _vm.toMsg
+    }
+  }, [_c('div', {
+    staticClass: "icon icon7"
+  }), _vm._v(" "), _c('p', [_vm._v("我的消息")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读消息" + _vm._s(_vm.msg2))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item8",
+    on: {
+      "click": _vm.toSudou
+    }
+  }, [_c('div', {
+    staticClass: "icon icon8"
+  }), _vm._v(" "), _c('p', [_vm._v("我的塑豆")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("可兑换礼品")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item9",
+    on: {
+      "click": _vm.toHelp
+    }
+  }, [_c('div', {
+    staticClass: "icon icon9"
+  }), _vm._v(" "), _c('p', [_vm._v("帮助")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("有问题点这里")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "quit"
+  }, [_c('div', {
+    staticClass: "item item10",
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("退出登录")])])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_myView__);
 
 
@@ -216,17 +390,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (res.err == 0) {
           window.localStorage.setItem("token", "");
           window.localStorage.setItem("userid", "");
-          alert('退出登录成功');
+          layer.open({
+            title: false,
+            offset: "28%",
+            content: "退出登录成功！",
+            closeBtn: false,
+            btnAlign: 'c',
+            anim: 2,
+            yes: function yes() {
+              location.href = "/mypczone/index";
+            }
+          });
         } else {
           window.localStorage.setItem("token", "");
           window.localStorage.setItem("userid", "");
         }
-        window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
       }, function () {});
+    },
+    editInfo: function editInfo() {
+      window.location.href = "/mypczone/index/myEdit";
     }
   },
   mounted: function mounted() {
     var _this = this;
+
+    if (!window.localStorage.getItem("token")) {
+      layer.open({
+        title: false,
+        offset: "28%",
+        icon: 5,
+        content: "您未登录塑料圈,无法查看企业及个人信息",
+        closeBtn: false,
+        btnAlign: 'c',
+        anim: 2,
+        yes: function yes() {
+          location.href = "/mypczone/index/login?my";
+        }
+      });
+    }
+
     $.ajax({
       url: '/qapi_3/myInfo/myZone',
       type: 'post',
@@ -238,6 +440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       },
       dataType: 'JSON'
     }).done(function (res) {
+      console.log(res);
       _this.name = res.data.name;
       _this.c_name = res.data.c_name;
       _this.mobile = res.data.mobile;
@@ -258,218 +461,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 11:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(9),
-  /* template */
-  __webpack_require__(12),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-32a73169", Component.options)
-  } else {
-    hotAPI.reload("data-v-32a73169", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    attrs: {
-      "id": "app"
-    }
-  }, [_c('div', {
-    staticClass: "center flt"
-  }, [_c('div', {
-    staticClass: "my-title"
-  }, [_vm._v("我的塑料圈")]), _vm._v(" "), _c('div', {
-    staticClass: "my-summary"
-  }, [_c('div', {
-    staticClass: "my-summary-top"
-  }, [_c('div', {
-    staticClass: "pic flt"
-  }, [_c('img', {
-    attrs: {
-      "src": _vm.thumb
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "authen",
-    class: {
-      'yes': _vm.is_pass == 1, 'no': _vm.is_pass == 0
-    }
-  }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
-    staticClass: "person-info flt"
-  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
-    staticClass: "my-summary-bot"
-  }, [_c('ul', [_c('li', [_c('span', [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('p', [_vm._v("供给")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('p', [_vm._v("求购")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.msg))]), _vm._v(" "), _c('p', [_vm._v("留言")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('p', [_vm._v("引荐")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('p', [_vm._v("粉丝")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('p', [_vm._v("关注")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v(" "), _c('p', [_vm._v("积分")])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "my-info"
-  }, [_c('ul', [_c('li', [_c('div', {
-    staticClass: "item item1"
-  }, [_c('div', {
-    staticClass: "icon icon1"
-  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toNext(2)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item2"
-  }, [_c('div', {
-    staticClass: "icon icon2"
-  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toNext(1)
-      }
-    }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item3"
-  }, [_c('div', {
-    staticClass: "icon icon3"
-  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toIntro(3)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item4"
-  }, [_c('div', {
-    staticClass: "icon icon4"
-  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toIntro(1)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item5"
-  }, [_c('div', {
-    staticClass: "icon icon5"
-  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toIntro(2)
-      }
-    }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item6"
-  }, [_c('div', {
-    staticClass: "icon icon6"
-  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": function($event) {
-        _vm.toComment(3)
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item7"
-  }, [_c('div', {
-    staticClass: "icon icon7"
-  }), _vm._v(" "), _c('p', [_vm._v("我的消息")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v("未读消息" + _vm._s(_vm.msg2))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toMsg
-    }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item8"
-  }, [_c('div', {
-    staticClass: "icon icon8"
-  }), _vm._v(" "), _c('p', [_vm._v("我的塑豆")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v("可兑换礼品")]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toSudou
-    }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item9"
-  }, [_c('div', {
-    staticClass: "icon icon9"
-  }), _vm._v(" "), _c('p', [_vm._v("帮助")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v("有问题点这里")]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toHelp
-    }
-  })])]), _vm._v(" "), _c('li', {
-    staticClass: "quit"
-  }, [_c('div', {
-    staticClass: "item item10",
-    on: {
-      "click": _vm.logout
-    }
-  }, [_vm._v("退出登录")])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticClass: "opt"
-  }, [_c('span', {
-    staticClass: "change"
-  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 130:
+/***/ 139:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__my_vue__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__my_vue__ = __webpack_require__(85);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__my_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__my_vue__);
 
 
@@ -482,7 +481,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 178:
+/***/ 191:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -511,121 +510,132 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
     staticClass: "person-info flt"
-  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _c('p', {
+    staticClass: "opt"
+  }, [_c('span', {
+    staticClass: "change",
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "my-summary-bot"
   }, [_c('ul', [_c('li', [_c('span', [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('p', [_vm._v("供给")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('p', [_vm._v("求购")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.msg))]), _vm._v(" "), _c('p', [_vm._v("留言")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('p', [_vm._v("引荐")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('p', [_vm._v("粉丝")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('p', [_vm._v("关注")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v(" "), _c('p', [_vm._v("积分")])])])])]), _vm._v(" "), _c('div', {
     staticClass: "my-info"
   }, [_c('ul', [_c('li', [_c('div', {
-    staticClass: "item item1"
-  }, [_c('div', {
-    staticClass: "icon icon1"
-  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
-    staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+    staticClass: "item item1",
     on: {
       "click": function($event) {
         _vm.toNext(2)
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item2"
   }, [_c('div', {
-    staticClass: "icon icon2"
-  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
+    staticClass: "icon icon1"
+  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
     staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item2",
     on: {
       "click": function($event) {
         _vm.toNext(1)
       }
     }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item3"
   }, [_c('div', {
-    staticClass: "icon icon3"
-  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
+    staticClass: "icon icon2"
+  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
     staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item3",
     on: {
       "click": function($event) {
         _vm.toIntro(3)
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item4"
   }, [_c('div', {
-    staticClass: "icon icon4"
-  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
+    staticClass: "icon icon3"
+  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
     staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item4",
     on: {
       "click": function($event) {
         _vm.toIntro(1)
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "item item5"
   }, [_c('div', {
-    staticClass: "icon icon5"
-  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
+    staticClass: "icon icon4"
+  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
     staticClass: "text"
-  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item5",
     on: {
       "click": function($event) {
         _vm.toIntro(2)
       }
     }
-  })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item6"
   }, [_c('div', {
-    staticClass: "icon icon6"
-  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
+    staticClass: "icon icon5"
+  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
     staticClass: "text"
-  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
+  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item6",
     on: {
       "click": function($event) {
         _vm.toComment(3)
       }
     }
+  }, [_c('div', {
+    staticClass: "icon icon6"
+  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
   })]), _vm._v(" "), _c('div', {
-    staticClass: "item item7"
+    staticClass: "item item7",
+    on: {
+      "click": _vm.toMsg
+    }
   }, [_c('div', {
     staticClass: "icon icon7"
   }), _vm._v(" "), _c('p', [_vm._v("我的消息")]), _vm._v(" "), _c('div', {
     staticClass: "text"
   }, [_vm._v("未读消息" + _vm._s(_vm.msg2))]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toMsg
-    }
+    staticClass: "arrow"
   })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item8"
+    staticClass: "item item8",
+    on: {
+      "click": _vm.toSudou
+    }
   }, [_c('div', {
     staticClass: "icon icon8"
   }), _vm._v(" "), _c('p', [_vm._v("我的塑豆")]), _vm._v(" "), _c('div', {
     staticClass: "text"
   }, [_vm._v("可兑换礼品")]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toSudou
-    }
+    staticClass: "arrow"
   })])]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "item item9"
+    staticClass: "item item9",
+    on: {
+      "click": _vm.toHelp
+    }
   }, [_c('div', {
     staticClass: "icon icon9"
   }), _vm._v(" "), _c('p', [_vm._v("帮助")]), _vm._v(" "), _c('div', {
     staticClass: "text"
   }, [_vm._v("有问题点这里")]), _vm._v(" "), _c('div', {
-    staticClass: "arrow",
-    on: {
-      "click": _vm.toHelp
-    }
+    staticClass: "arrow"
   })])]), _vm._v(" "), _c('li', {
     staticClass: "quit"
   }, [_c('div', {
@@ -633,13 +643,47 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.logout
     }
-  }, [_vm._v("退出登录")])])])])])], 1)
+  }, [_vm._v("退出登录")])])])])]), _vm._v(" "), _vm._m(0)], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticClass: "opt"
-  }, [_c('span', {
-    staticClass: "change"
-  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])
+  return _c('div', {
+    staticClass: "right flt"
+  }, [_c('div', {
+    staticClass: "default"
+  }, [_c('div', {
+    staticClass: "default-top"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/default-top.png",
+      "width": "440",
+      "height": "170"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "default-bot"
+  }, [_c('div', {
+    staticClass: "opt flt"
+  }, [_c('p', {
+    staticClass: "opt1"
+  }, [_c('a', {
+    attrs: {
+      "target": "_blank",
+      "href": "http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q"
+    }
+  }, [_vm._v("iphone版下载")])]), _vm._v(" "), _c('p', {
+    staticClass: "opt2"
+  }, [_c('a', {
+    attrs: {
+      "target": "_blank",
+      "href": "https://itunes.apple.com/cn/app/id1172762802"
+    }
+  }, [_vm._v("Android版下载")])])]), _vm._v(" "), _c('div', {
+    staticClass: "ewm frt"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/ewm.jpg",
+      "width": "160",
+      "height": "160"
+    }
+  }), _vm._v(" "), _c('p', [_vm._v("扫一扫 加入通讯录")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -895,15 +939,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
+  }), _vm._v("我的")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -915,42 +951,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 82:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(106),
-  /* template */
-  __webpack_require__(178),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\my\\my.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] my.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4b7d872d", Component.options)
-  } else {
-    hotAPI.reload("data-v-4b7d872d", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 9:
+/***/ 7:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -981,22 +982,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     toNext: function toNext(type) {
-      window.location.href = "http://www.bendi.com/mypczone/index/mySupply?type=" + type;
+      window.location.href = "/mypczone/index/mySupply?type=" + type;
     },
     toIntro: function toIntro(type) {
-      window.location.href = "http://www.bendi.com/mypczone/index/myIntro?type=" + type;
+      window.location.href = "/mypczone/index/myIntro?type=" + type;
     },
     toComment: function toComment(type) {
-      window.location.href = "http://www.bendi.com/mypczone/index/myComment?type=" + type;
+      window.location.href = "/mypczone/index/myComment?type=" + type;
     },
     toMsg: function toMsg() {
-      window.location.href = "http://www.bendi.com/mypczone/index/myMsg";
+      window.location.href = "/mypczone/index/myMsg";
     },
     toSudou: function toSudou() {
-      window.location.href = "http://www.bendi.com/mypczone/index/mySudou";
+      window.location.href = "/mypczone/index/mySudou";
     },
     toHelp: function toHelp() {
-      window.location.href = "http://www.bendi.com/mypczone/index/myHelp";
+      window.location.href = "/mypczone/index/myHelp";
     },
     logout: function logout() {
       var _this = this;
@@ -1015,13 +1016,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (res.err == 0) {
           window.localStorage.setItem("token", "");
           window.localStorage.setItem("userid", "");
-          alert('退出登录成功');
+          layer.open({
+            title: false,
+            offset: "28%",
+            content: "退出登录成功！",
+            closeBtn: false,
+            btnAlign: 'c',
+            anim: 2,
+            yes: function yes() {
+              location.href = "/mypczone/index";
+            }
+          });
         } else {
           window.localStorage.setItem("token", "");
           window.localStorage.setItem("userid", "");
         }
-        window.localStorage.setItem("XUA", "weixin|5.5|" + localStorage.getItem("userid") + "|" + localStorage.getItem("token") + "|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
       }, function () {});
+    },
+    editInfo: function editInfo() {
+      window.location.href = "/mypczone/index/myEdit";
     }
   },
   mounted: function mounted() {
@@ -1030,7 +1043,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       url: '/qapi_3/myInfo/myZone',
       type: 'post',
       data: {
-        token: window.localStorage.getItem("token")
+        token: '3bf198c15c2b3b98bd41832df8445a89'
       },
       headers: {
         'X-UA': window.localStorage.getItem("XUA")
@@ -1054,6 +1067,76 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     });
   }
 });
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(112),
+  /* template */
+  __webpack_require__(191),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\my\\my.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] my.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4b7d872d", Component.options)
+  } else {
+    hotAPI.reload("data-v-4b7d872d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(7),
+  /* template */
+  __webpack_require__(10),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32a73169", Component.options)
+  } else {
+    hotAPI.reload("data-v-32a73169", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
 
 /***/ })
 

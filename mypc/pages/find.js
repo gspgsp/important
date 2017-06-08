@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 115);
+/******/ 	return __webpack_require__(__webpack_require__.s = 122);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,14 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 115:
+/***/ 122:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__find_vue__);
 
 
@@ -161,7 +161,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 175:
+/***/ 187:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -531,15 +531,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
+  }), _vm._v("我的")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -551,14 +543,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(91),
+  __webpack_require__(95),
   /* template */
-  __webpack_require__(175),
+  __webpack_require__(187),
   /* scopeId */
   null,
   /* cssModules */
@@ -586,7 +578,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 91:
+/***/ 95:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -606,7 +598,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             msg: ""
         };
     },
-    mounted: function mounted() {}
+    mounted: function mounted() {
+        if (!window.localStorage.getItem("token")) {
+            layer.open({
+                title: false,
+                offset: "28%",
+                icon: 5,
+                content: "您未登录塑料圈,无法查看企业及个人信息",
+                closeBtn: false,
+                btnAlign: 'c',
+                anim: 2,
+                yes: function yes() {
+                    location.href = "/mypczone/index/login?find";
+                }
+            });
+        }
+    }
 });
 
 /***/ })

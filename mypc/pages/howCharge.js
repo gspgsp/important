@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 120);
+/******/ 	return __webpack_require__(__webpack_require__.s = 126);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,145 +141,7 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 120:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chself_vue__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chself_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__chself_vue__);
-
-
-
-new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-  el: '#app',
-  template: '<Chself/>',
-  components: { Chself: __WEBPACK_IMPORTED_MODULE_1__chself_vue___default.a }
-
-});
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  null,
-  /* template */
-  __webpack_require__(14),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\middleView.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] middleView.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e616d75c", Component.options)
-  } else {
-    hotAPI.reload("data-v-e616d75c", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "center flt",
-    staticStyle: {
-      "background": "#eee"
-    }
-  }, [_c('div', {
-    staticClass: "discovery"
-  }, [_c('h2', [_vm._v("塑料发现")]), _vm._v(" "), _c('ul', {
-    staticClass: "discovery1"
-  }, [_c('li', {
-    staticClass: "title last"
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/headline"
-    }
-  }, [_vm._v("塑料头条")])])]), _vm._v(" "), _c('ul', {
-    staticClass: "discovery2"
-  }, [_c('li', {
-    staticClass: "title"
-  }, [_vm._v("企业信用额度")]), _vm._v(" "), _c('li', {
-    staticClass: "link1"
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/checkSelf"
-    }
-  }, [_vm._v("查自己")])]), _vm._v(" "), _c('li', {
-    staticClass: "link2"
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/checkOther"
-    }
-  }, [_vm._v("查别人")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/pc/index.html?sysNum=137f8799efcb49fea05534057318dde0",
-      "target": "_blank"
-    }
-  }, [_vm._v("要授信")])]), _vm._v(" "), _c('li', {
-    staticClass: "last"
-  }, [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/pc/index.html?sysNum=137f8799efcb49fea05534057318dde0",
-      "target": "_blank"
-    }
-  }, [_vm._v("提额度")])])]), _vm._v(" "), _c('ul', {
-    staticClass: "discovery3"
-  }, [_c('li', {
-    staticClass: "title"
-  }, [_vm._v("塑料配资")]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/pc/index.html?sysNum=137f8799efcb49fea05534057318dde0",
-      "target": "_blank"
-    }
-  }, [_vm._v("产品定义")])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/pc/index.html?sysNum=137f8799efcb49fea05534057318dde0",
-      "target": "_blank"
-    }
-  }, [_vm._v("费率")])]), _vm._v(" "), _c('li', {
-    staticClass: "last"
-  }, [_c('a', {
-    attrs: {
-      "href": "https://www.sobot.com/chat/pc/index.html?sysNum=137f8799efcb49fea05534057318dde0",
-      "target": "_blank"
-    }
-  }, [_vm._v("我要申请")])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-e616d75c", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 193:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -287,40 +149,238 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "app"
     }
-  }, [_c('Leftmodel'), _vm._v(" "), _c('MiddleView'), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "center flt"
+  }, [_c('div', {
+    staticClass: "my-title"
+  }, [_vm._v("我的塑料圈")]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary"
+  }, [_c('div', {
+    staticClass: "my-summary-top"
+  }, [_c('div', {
+    staticClass: "pic flt"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.thumb
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "authen",
+    class: {
+      'yes': _vm.is_pass == 1, 'no': _vm.is_pass == 0
+    }
+  }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
+    staticClass: "person-info flt"
+  }, [_c('p', [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.name) + " " + _vm._s(_vm.mobile))]), _vm._v(" "), _c('p', {
+    staticClass: "opt"
+  }, [_c('span', {
+    staticClass: "change",
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("更改用户信息"), _c('b')]), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.editInfo
+    }
+  }, [_vm._v("上传名片加V认证"), _c('b', [_vm._v(">>")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-summary-bot"
+  }, [_c('ul', [_c('li', [_c('span', [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('p', [_vm._v("供给")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('p', [_vm._v("求购")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.msg))]), _vm._v(" "), _c('p', [_vm._v("留言")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('p', [_vm._v("引荐")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('p', [_vm._v("粉丝")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('p', [_vm._v("关注")])]), _vm._v(" "), _c('li', [_c('span', [_vm._v(_vm._s(_vm.points))]), _vm._v(" "), _c('p', [_vm._v("积分")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-info"
+  }, [_c('ul', [_c('li', [_c('div', {
+    staticClass: "item item1",
+    on: {
+      "click": function($event) {
+        _vm.toNext(2)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon1"
+  }), _vm._v(" "), _c('p', [_vm._v("我的供给")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.supply))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item2",
+    on: {
+      "click": function($event) {
+        _vm.toNext(1)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon2"
+  }), _vm._v(" "), _c('p', [_vm._v("我的求购")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.buy))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item3",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(3)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon3"
+  }), _vm._v(" "), _c('p', [_vm._v("我的引荐")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.invite))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item4",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(1)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon4"
+  }), _vm._v(" "), _c('p', [_vm._v("我的粉丝")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.fans))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item5",
+    on: {
+      "click": function($event) {
+        _vm.toIntro(2)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon5"
+  }), _vm._v(" "), _c('p', [_vm._v("我的关注")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v(_vm._s(_vm.pay))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item6",
+    on: {
+      "click": function($event) {
+        _vm.toComment(3)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "icon icon6"
+  }), _vm._v(" "), _c('p', [_vm._v("我的留言")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读留言" + _vm._s(_vm.msg))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "item item7",
+    on: {
+      "click": _vm.toMsg
+    }
+  }, [_c('div', {
+    staticClass: "icon icon7"
+  }), _vm._v(" "), _c('p', [_vm._v("我的消息")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("未读消息" + _vm._s(_vm.msg2))]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item8",
+    on: {
+      "click": _vm.toSudou
+    }
+  }, [_c('div', {
+    staticClass: "icon icon8"
+  }), _vm._v(" "), _c('p', [_vm._v("我的塑豆")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("可兑换礼品")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "item item9",
+    on: {
+      "click": _vm.toHelp
+    }
+  }, [_c('div', {
+    staticClass: "icon icon9"
+  }), _vm._v(" "), _c('p', [_vm._v("帮助")]), _vm._v(" "), _c('div', {
+    staticClass: "text"
+  }, [_vm._v("有问题点这里")]), _vm._v(" "), _c('div', {
+    staticClass: "arrow"
+  })])]), _vm._v(" "), _c('li', {
+    staticClass: "quit"
+  }, [_c('div', {
+    staticClass: "item item10",
+    on: {
+      "click": _vm.logout
+    }
+  }, [_vm._v("退出登录")])])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 126:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__howCharge_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__howCharge_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__howCharge_vue__);
+
+
+
+new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+  el: '#howCharge',
+  template: '<howCharge/>',
+  components: { howCharge: __WEBPACK_IMPORTED_MODULE_1__howCharge_vue___default.a }
+
+});
+
+/***/ }),
+
+/***/ 189:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    attrs: {
+      "id": "app"
+    }
+  }, [_c('leftmodel'), _vm._v(" "), _c('myView'), _vm._v(" "), _vm._m(0)], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "right flt"
   }, [_c('div', {
     staticClass: "back"
-  }, [_vm._v("查自己")]), _vm._v(" "), _c('div', {
-    staticClass: "credit1 w96"
-  }, [_vm._m(0), _vm._v(" "), _c('h4', [_vm._v("热烈庆祝" + _vm._s(_vm.c_name))]), _vm._v(" "), _c('h5', [_vm._v("获得信用"), _c('span', [_vm._v(_vm._s(_vm.credit_level))]), _vm._v("级客户称号/预计获得"), _c('span', [_vm._v(_vm._s(_vm.credit_limit))]), _vm._v("万授信额度")]), _vm._v(" "), _c('p', [_vm._v("经“我的塑料网”塑料电商交易平台信用认证，贵司企业信用良好，为" + _vm._s(_vm.credit_level) + "级，预计授信额度：" + _vm._s(_vm.credit_limit) + "万元人民币。特发此证，以兹鼓励！")]), _vm._v(" "), _c('div', {
-    staticClass: "certificate"
-  }, [_c('div', {
-    staticClass: "title"
-  }, [_vm._v(_vm._s(_vm.c_name))]), _vm._v(" "), _c('div', {
-    staticClass: "con"
-  }, [_vm._v("经我司评定，确认贵单位为二０一七年度信用" + _vm._s(_vm.credit_level) + "级客户，预授信额度" + _vm._s(_vm.credit_limit) + "万人民币，有效期一年。")])]), _vm._v(" "), _c('a', {
+  }, [_c('a', {
     attrs: {
-      "href": "javascript:;"
-    },
-    on: {
-      "click": _vm.toCreditintro
+      "href": "javascript:window.history.back();"
     }
-  }, [_vm._v("？授信说明")])])])], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h3', [_c('img', {
+  }), _vm._v("如何赚塑豆")]), _vm._v(" "), _c('div', {
+    staticClass: "blank"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "mall-ad"
+  }, [_c('img', {
     attrs: {
-      "src": "http://pic.myplas.com/mypc/img/discovery2.png",
-      "width": "80",
-      "height": "80"
+      "src": "http://pic.myplas.com/mypc/img/my5.jpg",
+      "width": "520",
+      "height": "162"
     }
-  })])
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "rule"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/my6.jpg",
+      "width": "520",
+      "height": "1034"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "rule-explain"
+  }, [_c('h3', [_vm._v("充值规则说明")]), _vm._v(" "), _c('p', [_vm._v("充值平台，即可有机会每天得500元塑豆")]), _vm._v(" "), _c('p', [_vm._v("参与条件：塑料圈注册用户，且信息完整，通过平台审核的用户。")]), _vm._v(" "), _c('p', [_vm._v("塑豆：塑料圈专用，可用于充值平台内活动（供求匹配、信息置顶、客户详情查看、塑料头条阅读等），具体兑换比例如下：1元人民币=10塑豆")]), _vm._v(" "), _c('p', [_vm._v("活动内容：")]), _vm._v(" "), _c('p', [_vm._v("1、充值每天最高奖励500塑豆")]), _vm._v(" "), _c('p', [_vm._v("2、平台不定时举办各种促销优惠活动，用户可根据实际自身情况进行相应充值，换取相应的塑豆和由塑豆兑换的礼品。 ")]), _vm._v(" "), _c('p', [_vm._v("充值方式： ")]), _vm._v(" "), _c('p', [_vm._v("1、支付宝/微信，支付完成后请联系我的塑料网客服（客服热线：400-612\n                9-965），完成塑豆发放确认。")]), _vm._v(" "), _c('p', [_vm._v("2、充值金额人民币10元起，以10的倍数如20、30、40……..")]), _vm._v(" "), _c('p', [_vm._v("3、所有塑豆均不能兑换现金，不能退换，只能用于塑料圈或者\n                我的塑料网消费。")]), _vm._v(" "), _c('p', [_vm._v("4、微信浏览器内不支持支付宝转账。")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-707c280d", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-3f69a692", module.exports)
   }
 }
 
@@ -582,22 +642,141 @@ if (false) {
 
 /***/ }),
 
-/***/ 66:
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      buy: "",
+      supply: "",
+      points: "",
+      fans: "",
+      pay: "",
+      invite: "",
+      msg: "",
+      msg2: "",
+      c_name: "",
+      name: "",
+      mobile: "",
+      mobile2: "",
+      thumb: "",
+      is_pass: "",
+      share: false,
+      share3: false,
+      loadingShow: ""
+    };
+  },
+  methods: {
+    toNext: function toNext(type) {
+      window.location.href = "/mypczone/index/mySupply?type=" + type;
+    },
+    toIntro: function toIntro(type) {
+      window.location.href = "/mypczone/index/myIntro?type=" + type;
+    },
+    toComment: function toComment(type) {
+      window.location.href = "/mypczone/index/myComment?type=" + type;
+    },
+    toMsg: function toMsg() {
+      window.location.href = "/mypczone/index/myMsg";
+    },
+    toSudou: function toSudou() {
+      window.location.href = "/mypczone/index/mySudou";
+    },
+    toHelp: function toHelp() {
+      window.location.href = "/mypczone/index/myHelp";
+    },
+    logout: function logout() {
+      var _this = this;
+      $.ajax({
+        url: '/qapi_3/user/logout',
+        type: 'post',
+        data: {
+          token: window.localStorage.getItem("token")
+        },
+        headers: {
+          'X-UA': window.localStorage.getItem("XUA")
+        },
+        dataType: 'JSON'
+      }).then(function (res) {
+        console.log(res.err);
+        if (res.err == 0) {
+          window.localStorage.setItem("token", "");
+          window.localStorage.setItem("userid", "");
+          layer.open({
+            title: false,
+            offset: "28%",
+            content: "退出登录成功！",
+            closeBtn: false,
+            btnAlign: 'c',
+            anim: 2,
+            yes: function yes() {
+              location.href = "/mypczone/index";
+            }
+          });
+        } else {
+          window.localStorage.setItem("token", "");
+          window.localStorage.setItem("userid", "");
+        }
+      }, function () {});
+    },
+    editInfo: function editInfo() {
+      window.location.href = "/mypczone/index/myEdit";
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+    $.ajax({
+      url: '/qapi_3/myInfo/myZone',
+      type: 'post',
+      data: {
+        token: '3bf198c15c2b3b98bd41832df8445a89'
+      },
+      headers: {
+        'X-UA': window.localStorage.getItem("XUA")
+      },
+      dataType: 'JSON'
+    }).done(function (res) {
+      _this.name = res.data.name;
+      _this.c_name = res.data.c_name;
+      _this.mobile = res.data.mobile;
+      _this.mobile2 = res.data.mobile;
+      _this.thumb = res.data.thumb;
+      _this.is_pass = res.data.is_pass;
+      _this.buy = res.s_in_count;
+      _this.supply = res.s_out_count;
+      _this.points = res.points;
+      _this.msg = res.leaveword;
+      _this.msg2 = res.message;
+      _this.invite = res.introduction;
+      _this.fans = res.myfans;
+      _this.pay = res.myconcerns;
+    });
+  }
+});
+
+/***/ }),
+
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(93),
+  __webpack_require__(99),
   /* template */
-  __webpack_require__(193),
+  __webpack_require__(189),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\chself\\chself.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\howCharge\\howCharge.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] chself.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] howCharge.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -606,9 +785,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-707c280d", Component.options)
+    hotAPI.createRecord("data-v-3f69a692", Component.options)
   } else {
-    hotAPI.reload("data-v-707c280d", Component.options)
+    hotAPI.reload("data-v-3f69a692", Component.options)
   }
 })()}
 
@@ -617,94 +796,58 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 93:
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(7),
+  /* template */
+  __webpack_require__(10),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-32a73169", Component.options)
+  } else {
+    hotAPI.reload("data-v-32a73169", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_middleView__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_myView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_myView__);
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'app',
     components: {
         'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
-        'MiddleView': __WEBPACK_IMPORTED_MODULE_1__components_middleView___default.a
-    },
-    data: function data() {
-        return {
-            c_name: "",
-            credit_level: "",
-            credit_limit: "",
-            user_id: "",
-            share: false,
-            share3: false,
-            is_credit: "",
-            creditshow: true,
-            msg: ""
-        };
-    },
-    methods: {
-        toCreditintro: function toCreditintro() {
-            var _this = this;
-            window.location.href = "/mypczone/index/creditIntro";
-        }
-    },
-    mounted: function mounted() {
-        var left = $(".left"),
-            left2 = $("#left2"),
-            center = $(".center"),
-            right = $(".right"),
-            html = $("html"),
-            index = 0,
-            h = $(document).height();
-
-        left.height(h);
-        center.height(h);
-        right.height(h);
-        html.height(h);
-
-        setW(left, center, right);
-
-        $(window).resize(function () {
-            setW(left, center, right);
-        });
-
-        function setW(gid1, gid2, elem, index) {
-            index = index || 0;
-            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
-            elem.width(w);
-        };
-        var _this = this;
-
-        $.ajax({
-            type: "post",
-            url: "/qapi_3/credit/creditCertificate",
-            data: {
-                token: '3bf198c15c2b3b98bd41832df8445a89'
-            },
-            headers: {
-                'X-UA': window.localStorage.getItem("XUA")
-            },
-            dataType: 'JSON'
-        }).done(function (res) {
-            if (res.err == 0) {
-                _this.creditshow = true;
-                _this.c_name = res.data.c_name;
-                _this.credit_level = res.data.credit_level;
-                _this.credit_limit = res.data.credit_limit / 10000;
-                _this.user_id = res.data.user_id;
-                _this.is_credit = res.data.is_credit;
-            } else if (res.err == 2) {
-                _this.creditshow = false;
-                _this.msg = res.msg;
-            }
-        }).fail(function () {}).always(function () {});
+        'myView': __WEBPACK_IMPORTED_MODULE_1__components_myView___default.a
     }
 });
 

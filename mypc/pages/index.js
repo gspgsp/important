@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 119);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,7 +141,401 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 10:
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    components: {
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default.a
+    },
+    data: function data() {
+        return {
+            name: [],
+            keywords: "",
+            page: 1,
+            condition: true,
+            member: "",
+            picarr: [],
+            fans: [],
+            isCircle: false,
+            isArrow: false,
+            region: 0,
+            c_type: 0,
+            txt: "所有分类",
+            txt2: "全国站",
+            loadingShow: "",
+            top: "",
+            isFocus: true,
+            bannerLink: "",
+            bannerImg: "",
+            filterShow: true,
+            selected: '0',
+            selected1: '0',
+            isPadding1: "",
+            isPadding2: ""
+        };
+    },
+    methods: {
+        onSelectChange: function onSelectChange() {
+            var _this = this;
+            var selected = _this.selected;
+            console.log(selected);
+            console.log(_this.selected1);
+            _this.page = 1;
+            $.ajax({
+                type: "post",
+                url: version + "/friend/getPlasticPerson",
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                data: {
+                    keywords: "",
+                    page: _this.page,
+                    token: window.localStorage.getItem("token"),
+                    size: 10,
+                    region: selected,
+                    c_type: _this.selected1
+                },
+                dataType: 'JSON'
+            }).done(function (res) {
+                if (res.err == 0) {
+                    _this.condition = true;
+                    _this.member = res.member;
+                    _this.name = res.persons;
+                } else if (res.err == 2) {
+                    _this.condition = false;
+                }
+            }).fail(function () {}).always(function () {});
+        },
+        onSelectChange1: function onSelectChange1() {
+            var _this = this;
+            var selected1 = _this.selected1;
+            _this.page = 1;
+            $.ajax({
+                type: "post",
+                url: version + "/friend/getPlasticPerson",
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                data: {
+                    keywords: "",
+                    page: _this.page,
+                    token: window.localStorage.getItem("token"),
+                    size: 10,
+                    region: _this.selected,
+                    c_type: selected1
+                },
+                dataType: 'JSON'
+            }).done(function (res) {
+                if (res.err == 0) {
+                    _this.condition = true;
+                    _this.member = res.member;
+                    _this.name = res.persons;
+                } else if (res.err == 2) {
+                    _this.condition = false;
+                }
+            }).fail(function () {}).always(function () {});
+        },
+        focusShow: function focusShow() {
+            this.filterShow = false;
+        },
+        toLogin: function toLogin() {
+            if (window.localStorage.getItem("token")) {} else {
+                this.$router.push({
+                    name: 'login'
+                });
+            }
+        },
+        arrow: function arrow() {
+            window.scrollTo(0, 0);
+        },
+        circle: function circle() {
+            var _this = this;
+            this.isCircle = true;
+            $.ajax({
+                type: "post",
+                url: version + "/friend/getPlasticPerson",
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                data: {
+                    keywords: "",
+                    page: 1,
+                    token: window.localStorage.getItem("token"),
+                    size: 10,
+                    region: _this.region,
+                    c_type: _this.c_type
+                },
+                dataType: 'JSON'
+            }).then(function (res) {
+                if (res.err == 0) {
+                    _this.condition = true;
+                    _this.member = res.member;
+                    _this.name = res.persons;
+                    _this.isCircle = false;
+                    window.scrollTo(0, 0);
+                    if (res.show_msg) {}
+                } else if (res.err == 2) {
+                    _this.condition = false;
+                }
+            }, function () {});
+        },
+        search: function search() {
+            var _this = this;
+            _this.page = 1;
+            this.filterShow = true;
+            if (this.keywords) {
+                try {
+                    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+                    piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
+                } catch (err) {}
+
+                $.ajax({
+                    url: version + "/friend/getPlasticPerson",
+                    type: 'post',
+                    headers: {
+                        'X-UA': window.localStorage.getItem("XUA")
+                    },
+
+                    data: {
+                        keywords: _this.keywords.toLocaleUpperCase(),
+                        page: _this.page,
+                        token: window.localStorage.getItem("token"),
+                        size: 10,
+                        region: _this.region,
+                        c_type: _this.c_type
+                    },
+                    dataType: 'JSON'
+                }).done(function (res) {
+                    if (res.err == 0) {
+                        _this.condition = true;
+                        _this.name = res.persons;
+                    } else if (res.err == 2) {
+                        _this.condition = false;
+                    }
+                }).fail(function () {}).always(function () {});
+            } else {
+                window.location.reload();
+            }
+        },
+        loadingMore: function loadingMore() {
+            var _this = this;
+            var scrollTop = $(".center").scrollTop();
+            var scrollHeight = $(".address-list").height();
+            var windowHeight = $(window).height();
+            if (scrollTop + windowHeight >= scrollHeight) {
+                _this.page++;
+                $.ajax({
+                    type: "post",
+                    url: version + "/friend/getPlasticPerson",
+                    headers: {
+                        'X-UA': window.localStorage.getItem("XUA")
+                    },
+                    data: {
+                        sortField: _this.sortField,
+                        sortOrder: _this.sortOrder,
+                        keywords: _this.keywords.toLocaleUpperCase(),
+                        page: _this.page,
+                        region: _this.selected,
+                        token: window.localStorage.getItem("token"),
+                        c_type: _this.selected1,
+                        size: 10
+                    },
+                    dataType: 'JSON'
+                }).then(function (res) {
+                    if (res.err == 0) {
+                        _this.condition = true;
+                        _this.name = _this.name.concat(res.persons);
+                    } else if (res.err == 1) {
+                        layer.open({
+                            title: ["塑料圈通讯录", "text-align:center"],
+                            offset: "28%",
+                            content: res.msg,
+                            btnAlign: 'c',
+                            anim: 2,
+                            yes: function yes() {
+                                location.href = "/mypczone/index/login";
+                            }
+                        });
+                    } else if (res.err == 2) {
+                        _this.condition = false;
+                    } else if (res.err == 3) {
+                        weui.topTips(res.msg, 3000);
+                    }
+                }, function () {});
+            }
+        },
+        myfans: function myfans() {
+            location.href = "/mypczone/index/myIntro?type=1";
+        },
+        payfans: function payfans() {
+            location.href = "/mypczone/index/myIntro?type=2";
+        },
+        personinfo: function personinfo(user_id) {
+            var user_id = user_id;
+            location.href = "/mypczone/index/indexinfo?id=" + user_id;
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+        this.loadingShow = true;
+        try {
+            var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+            piwikTracker.trackPageView();
+        } catch (err) {}
+
+        $.ajax({
+            type: "post",
+            url: version + "/friend/getPlasticPerson",
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            data: {
+                keywords: "",
+                page: 1,
+                token: window.localStorage.getItem("token"),
+                size: 10,
+                region: _this.region
+            },
+            dataType: 'JSON'
+        }).done(function (res) {
+            if (res.err == 0) {
+                _this.isFocus = res.is_show_focus;
+                _this.bannerLink = res.banner_jump_url;
+                _this.bannerImg = res.banner_url;
+                _this.condition = true;
+                _this.member = res.member;
+                _this.name = res.persons;
+                _this.c_type = res.show_ctype;
+                if (_this.c_type == 0) {
+                    _this.txt = "所有分类";
+                } else if (_this.c_type == 1) {
+                    _this.txt = "塑料制品厂";
+                } else if (_this.c_type == 2) {
+                    _this.txt = "原料供应商";
+                } else if (_this.c_type == 4) {
+                    _this.txt = "物流服务商";
+                } else if (_this.c_type == 5) {
+                    _this.txt = "其他";
+                }
+                if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+                    _this.top = null;
+                    _this.isPadding1 = true;
+                    _this.isPadding2 = false;
+                } else {
+                    _this.top = res.top;
+                    _this.isPadding1 = false;
+                    _this.isPadding2 = true;
+                }
+            } else if (res.err == 2) {
+                _this.condition = false;
+            }
+        }).fail(function () {}).always(function () {
+            _this.loadingShow = false;
+        });
+
+        $(".center").scroll(function () {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            _this.loadingMore();
+            if (scrollTop > 600) {
+                _this.isArrow = true;
+            } else {
+                _this.isArrow = false;
+            }
+        });
+    }
+});
+
+$(".opt flt").find(".opt1").bind("mouseover", function () {
+    $(this).find(".opt1").removeClass("opt1").addClass("opt2");
+});
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "leftmodel"
+  }, [_c('div', {
+    staticClass: "left flt"
+  }, [_c('div', {
+    staticClass: "pic"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "authen no"
+  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+    attrs: {
+      "id": "left1"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index"
+    }
+  }, [_c('span', {
+    staticClass: "menu1"
+  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left2"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/supplybuy"
+    }
+  }, [_c('span', {
+    staticClass: "menu2"
+  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left3"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/find"
+    }
+  }, [_c('span', {
+    staticClass: "menu3"
+  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left4"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/my"
+    }
+  }, [_c('span', {
+    staticClass: "menu4"
+  }), _vm._v("我的")])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 12:
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
@@ -149,14 +543,14 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 119:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_vue__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__index_vue__);
 
 
@@ -179,7 +573,7 @@ module.exports = { "default": __webpack_require__(16), __esModule: true };
 /***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
-var core  = __webpack_require__(10)
+var core  = __webpack_require__(12)
   , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
   return $JSON.stringify.apply($JSON, arguments);
@@ -187,7 +581,7 @@ module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 
 /***/ }),
 
-/***/ 173:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -319,7 +713,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }, [_vm._v("搜索")])])])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('ul', {
+  }, [_vm._v("搜索")])])])]), _vm._v(" "), (_vm.isFocus) ? _c('div', {
+    staticClass: "concern"
+  }, [_c('ul', [_c('li', {
+    staticStyle: {
+      "cursor": "pointer"
+    },
+    on: {
+      "click": function($event) {
+        _vm.payfans()
+      }
+    }
+  }, [_c('p', {
+    staticClass: "thumb thumb2"
+  }), _c('span', [_vm._v("我关注的人")])]), _vm._v(" "), _c('li', {
+    staticStyle: {
+      "cursor": "pointer"
+    },
+    on: {
+      "click": function($event) {
+        _vm.myfans()
+      }
+    }
+  }, [_c('p', {
+    staticClass: "thumb thumb1"
+  }), _c('span', [_vm._v("关注我的人")])])])]) : _vm._e(), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('ul', {
     staticClass: "list set-top"
   }, [(_vm.top) ? _c('li', {
     staticStyle: {
@@ -360,6 +778,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "info flt"
   }, [_c('p', [_c('span', {
     staticClass: "company",
+    attrs: {
+      "title": _vm.top.c_name
+    },
     domProps: {
       "innerHTML": _vm._s(_vm.top.c_name)
     }
@@ -368,7 +789,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.top.name)
     }
-  }), _vm._v(" " + _vm._s(_vm.top.sex))]), _vm._v(" "), _c('p', [(_vm.top.type === '1') ? _c('span', [_vm._v("产品:" + _vm._s(_vm.top.main_product))]) : _vm._e(), _vm._v(" "), (_vm.top.type === '1') ? _c('span', [_vm._v("月用量:" + _vm._s(_vm.top.month_consum))]) : _vm._e()]), _vm._v(" "), (_vm.top.type == '1') ? _c('p', [_vm._v("\n                            供 : " + _vm._s(_vm.top.sale_count) + " 求 : " + _vm._s(_vm.top.buy_count) + "  需求：\n                            "), _c('b', {
+  }), _vm._v(" " + _vm._s(_vm.top.sex))]), _vm._v(" "), _c('p', [(_vm.top.type === '1') ? _c('span', [_vm._v("产品:" + _vm._s(_vm.top.main_product))]) : _vm._e(), _vm._v(" "), (_vm.top.type === '1') ? _c('span', [_vm._v("月用量:" + _vm._s(_vm.top.month_consum))]) : _vm._e()]), _vm._v(" "), (_vm.top.type == '1') ? _c('p', [_c('span', [_vm._v("供 : " + _vm._s(_vm.top.sale_count))]), _vm._v(" "), _c('span', [_vm._v("求 : " + _vm._s(_vm.top.buy_count) + "  需求：")]), _vm._v(" "), _c('span', {
+    staticClass: "need",
     staticStyle: {
       "color": "#666666",
       "font-weight": "normal"
@@ -376,24 +798,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "innerHTML": _vm._s(_vm.top.need_product)
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '2') ? _c('p', [_vm._v("\n                            供 : " + _vm._s(_vm.top.sale_count) + " 求 : " + _vm._s(_vm.top.buy_count) + " 主营：\n                            "), _c('b', {
+  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '2') ? _c('p', [_c('span', [_vm._v("供 : " + _vm._s(_vm.top.sale_count))]), _vm._v(" "), _c('span', [_vm._v("求 : " + _vm._s(_vm.top.buy_count) + " 主营：")]), _vm._v(" "), _c('span', {
+    staticClass: "need",
     domProps: {
       "innerHTML": _vm._s(_vm.top.need_product)
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '3' || _vm.top.type === '5' || _vm.top.type === '6' || _vm.top.type === '7' || _vm.top.type === '8' || _vm.top.type === '9' || _vm.top.type === '10') ? _c('p', [_vm._v("\n                            主营产品："), _c('b', {
+  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '3' || _vm.top.type === '5' || _vm.top.type === '6' || _vm.top.type === '7' || _vm.top.type === '8' || _vm.top.type === '9' || _vm.top.type === '10') ? _c('p', [_c('span', [_vm._v("主营产品：")]), _c('span', {
+    staticClass: "need",
     domProps: {
       "innerHTML": _vm._s(_vm.top.need_product)
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '4') ? _c('p', [_vm._v("\n                            主营产品："), _c('b', {
+  })]) : _vm._e(), _vm._v(" "), (_vm.top.type === '4') ? _c('p', [_c('span', [_vm._v("主营产品：")]), _c('span', {
     domProps: {
       "innerHTML": _vm._s(_vm.top.main_product)
     }
   })]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "set-top"
   }, [_vm._v("已置顶")])])]) : _vm._e()]), _vm._v(" "), _c('ul', {
-    staticClass: "list set-top",
-    staticStyle: {
-      "padding": "300px 0 0 0"
+    staticClass: "list",
+    class: {
+      padding1: _vm.isPadding1, padding2: _vm.isPadding2
     },
     attrs: {
       "id": "list"
@@ -438,6 +862,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('p', [_c('span', {
       staticClass: "company",
+      attrs: {
+        "title": n.c_name
+      },
       domProps: {
         "innerHTML": _vm._s(n.c_name)
       }
@@ -446,17 +873,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "innerHTML": _vm._s(n.name)
       }
-    }), _vm._v(_vm._s(n.sex) + "\n                ")]), _vm._v(" "), _c('p', [(n.type === '1') ? _c('span', {
+    }), _vm._v(" "), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(n.sex)
+      }
+    })]), _vm._v(" "), _c('p', [(n.type === '1') ? _c('span', {
       staticClass: "product"
     }, [_vm._v("产品：" + _vm._s(n.main_product))]) : _vm._e(), _vm._v(" "), (n.type === '1') ? _c('span', {
       staticClass: "amount"
     }, [_vm._v("月用量：" + _vm._s(n.month_consum))]) : _vm._e()]), _vm._v(" "), (n.type == '1') ? _c('p', [_c('span', [_vm._v("供：" + _vm._s(n.sale_count))]), _vm._v(" "), _c('span', {
       staticClass: "demand"
     }), _vm._v(" "), _c('span', [_vm._v("求：" + _vm._s(n.buy_count) + " ")]), _vm._v(" "), _c('span', [_vm._v("需求：")]), _vm._v(" "), _c('span', {
+      staticClass: "need",
       domProps: {
         "innerHTML": _vm._s(n.need_product)
       }
     })]) : _vm._e(), _vm._v(" "), (n.type === '2') ? _c('p', [_c('span', [_vm._v("供：" + _vm._s(n.sale_count))]), _vm._v(" "), _c('span', [_vm._v("求：" + _vm._s(n.buy_count) + " ")]), _vm._v(" "), _c('span', [_vm._v("需求：")]), _vm._v(" "), _c('span', {
+      staticClass: "need",
       domProps: {
         "innerHTML": _vm._s(n.need_product)
       }
@@ -498,24 +931,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.arrow
     }
-  })], 1)]), _vm._v(" "), _vm._m(2)], 1)
+  })], 1)]), _vm._v(" "), _vm._m(1)], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "concern"
-  }, [_c('ul', [_c('li', [_c('a', {
-    attrs: {
-      "href": "javascript:;"
-    }
-  }, [_c('p', {
-    staticClass: "thumb thumb1"
-  }), _c('span', [_vm._v("我关注的人")])])]), _vm._v(" "), _c('li', [_c('a', {
-    attrs: {
-      "href": "javascript:;"
-    }
-  }, [_c('p', {
-    staticClass: "thumb thumb2"
-  }), _c('span', [_vm._v("关注我的人")])])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "banner"
   }, [_c('img', {
@@ -727,49 +1144,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 7:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(6),
+  __webpack_require__(100),
   /* template */
-  __webpack_require__(8),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-712f541a", Component.options)
-  } else {
-    hotAPI.reload("data-v-712f541a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 71:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(95),
-  /* template */
-  __webpack_require__(173),
+  __webpack_require__(185),
   /* scopeId */
   null,
   /* cssModules */
@@ -800,377 +1182,35 @@ module.exports = Component.exports
 /***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "leftmodel"
-  }, [_c('div', {
-    staticClass: "left flt"
-  }, [_c('div', {
-    staticClass: "pic"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
-    attrs: {
-      "id": "left1"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index"
-    }
-  }, [_c('span', {
-    staticClass: "menu1"
-  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left2"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/supplybuy"
-    }
-  }, [_c('span', {
-    staticClass: "menu2"
-  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left3"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/find"
-    }
-  }, [_c('span', {
-    staticClass: "menu3"
-  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left4"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/my"
-    }
-  }, [_c('span', {
-    staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(6),
+  /* template */
+  __webpack_require__(11),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
   module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-712f541a", Component.options)
+  } else {
+    hotAPI.reload("data-v-712f541a", Component.options)
   }
-}
+})()}
 
-/***/ }),
+module.exports = Component.exports
 
-/***/ 95:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Leftmodel__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'app',
-    components: {
-        'Leftmodel': __WEBPACK_IMPORTED_MODULE_1__components_Leftmodel___default.a
-    },
-    data: function data() {
-        return {
-            name: [],
-            keywords: "",
-            page: 1,
-            condition: true,
-            member: "",
-            picarr: [],
-            fans: [],
-            isCircle: false,
-            isArrow: false,
-            region: 0,
-            c_type: 0,
-            txt: "所有分类",
-            txt2: "全国站",
-            loadingShow: "",
-            top: "",
-            isFocus: true,
-            bannerLink: "",
-            bannerImg: "",
-            filterShow: true,
-            selected: '0',
-            selected1: '0'
-        };
-    },
-    methods: {
-        onSelectChange: function onSelectChange() {
-            var _this = this;
-            var selected = _this.selected;
-            _this.page = 1;
-            $.ajax({
-                type: "post",
-                url: version + "/friend/getPlasticPerson",
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                data: {
-                    keywords: "",
-                    page: _this.page,
-                    token: window.localStorage.getItem("token"),
-                    size: 10,
-                    region: selected,
-                    c_type: _this.selected1
-                },
-                dataType: 'JSON'
-            }).done(function (res) {
-                if (res.err == 0) {
-                    _this.condition = true;
-                    _this.member = res.member;
-                    _this.name = res.persons;
-                } else if (res.err == 2) {
-                    _this.condition = false;
-                }
-            }).fail(function () {}).always(function () {});
-        },
-        onSelectChange1: function onSelectChange1() {
-            var _this = this;
-            var selected1 = _this.selected1;
-            _this.page = 1;
-            $.ajax({
-                type: "post",
-                url: version + "/friend/getPlasticPerson",
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                data: {
-                    keywords: "",
-                    page: _this.page,
-                    token: window.localStorage.getItem("token"),
-                    size: 10,
-                    region: _this.selected,
-                    c_type: selected1
-                },
-                dataType: 'JSON'
-            }).done(function (res) {
-                if (res.err == 0) {
-                    _this.condition = true;
-                    _this.member = res.member;
-                    _this.name = res.persons;
-                } else if (res.err == 2) {
-                    _this.condition = false;
-                }
-            }).fail(function () {}).always(function () {});
-        },
-        focusShow: function focusShow() {
-            this.filterShow = false;
-        },
-        toLogin: function toLogin() {
-            if (window.localStorage.getItem("token")) {} else {
-                this.$router.push({
-                    name: 'login'
-                });
-            }
-        },
-        arrow: function arrow() {
-            window.scrollTo(0, 0);
-        },
-        circle: function circle() {
-            var _this = this;
-            this.isCircle = true;
-            $.ajax({
-                type: "post",
-                url: version + "/friend/getPlasticPerson",
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                data: {
-                    keywords: "",
-                    page: 1,
-                    token: window.localStorage.getItem("token"),
-                    size: 10,
-                    region: _this.region,
-                    c_type: _this.c_type
-                },
-                dataType: 'JSON'
-            }).then(function (res) {
-                if (res.err == 0) {
-                    _this.condition = true;
-                    _this.member = res.member;
-                    _this.name = res.persons;
-                    _this.isCircle = false;
-                    window.scrollTo(0, 0);
-                    if (res.show_msg) {}
-                } else if (res.err == 2) {
-                    _this.condition = false;
-                }
-            }, function () {});
-        },
-        search: function search() {
-            var _this = this;
-            _this.page = 1;
-            this.filterShow = true;
-            if (this.keywords) {
-                try {
-                    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-                    piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-                } catch (err) {}
-
-                $.ajax({
-                    url: version + "/friend/getPlasticPerson",
-                    type: 'post',
-                    headers: {
-                        'X-UA': window.localStorage.getItem("XUA")
-                    },
-
-                    data: {
-                        keywords: _this.keywords.toLocaleUpperCase(),
-                        page: _this.page,
-                        token: window.localStorage.getItem("token"),
-                        size: 10,
-                        region: _this.region,
-                        c_type: _this.c_type
-                    },
-                    dataType: 'JSON'
-                }).done(function (res) {
-                    if (res.err == 0) {
-                        _this.condition = true;
-                        _this.name = res.persons;
-                    } else if (res.err == 2) {
-                        _this.condition = false;
-                    }
-                }).fail(function () {}).always(function () {});
-            } else {
-                window.location.reload();
-            }
-        },
-        loadingMore: function loadingMore() {
-            var _this = this;
-            var scrollTop = $(".center").scrollTop();
-            var scrollHeight = $(".address-list").height();
-            var windowHeight = $(window).height();
-            if (scrollTop + windowHeight >= scrollHeight) {
-                _this.page++;
-                $.ajax({
-                    type: "post",
-                    url: version + "/friend/getPlasticPerson",
-                    headers: {
-                        'X-UA': window.localStorage.getItem("XUA")
-                    },
-                    data: {
-                        sortField: _this.sortField,
-                        sortOrder: _this.sortOrder,
-                        keywords: _this.keywords.toLocaleUpperCase(),
-                        page: _this.page,
-                        region: _this.region,
-                        token: window.localStorage.getItem("token"),
-                        c_type: _this.c_type,
-                        size: 10
-                    },
-                    dataType: 'JSON'
-                }).then(function (res) {
-                    if (res.err == 0) {
-                        _this.condition = true;
-                        _this.name = _this.name.concat(res.persons);
-                    } else if (res.err == 1) {} else if (res.err == 2) {
-                        _this.condition = false;
-                    } else if (res.err == 3) {
-                        weui.topTips(res.msg, 3000);
-                    }
-                }, function () {});
-            }
-        },
-        personinfo: function personinfo(user_id) {
-            var user_id = user_id;
-            location.href = "/mypczone/index/indexinfo?id=" + user_id;
-        }
-    },
-    mounted: function mounted() {
-        var _this = this;
-        this.loadingShow = true;
-        try {
-            var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-            piwikTracker.trackPageView();
-        } catch (err) {}
-
-        $.ajax({
-            type: "post",
-            url: version + "/friend/getPlasticPerson",
-            headers: {
-                'X-UA': window.localStorage.getItem("XUA")
-            },
-            data: {
-                keywords: "",
-                page: 1,
-                token: window.localStorage.getItem("token"),
-                size: 10,
-                region: _this.region
-            },
-            dataType: 'JSON'
-        }).done(function (res) {
-            if (res.err == 0) {
-                _this.isFocus = res.is_show_focus;
-                _this.bannerLink = res.banner_jump_url;
-                _this.bannerImg = res.banner_url;
-                _this.condition = true;
-                _this.member = res.member;
-                _this.name = res.persons;
-                _this.c_type = res.show_ctype;
-                if (_this.c_type == 0) {
-                    _this.txt = "所有分类";
-                } else if (_this.c_type == 1) {
-                    _this.txt = "塑料制品厂";
-                } else if (_this.c_type == 2) {
-                    _this.txt = "原料供应商";
-                } else if (_this.c_type == 4) {
-                    _this.txt = "物流服务商";
-                } else if (_this.c_type == 5) {
-                    _this.txt = "其他";
-                }
-                if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-                    _this.top = null;
-                } else {
-                    _this.top = res.top;
-                }
-            } else if (res.err == 2) {
-                _this.condition = false;
-            }
-        }).fail(function () {}).always(function () {
-            _this.loadingShow = false;
-        });
-
-        $(".center").scroll(function () {
-            var scrollTop = $(this).scrollTop();
-            var scrollHeight = $(document).height();
-            var windowHeight = $(this).height();
-            _this.loadingMore();
-            if (scrollTop > 600) {
-                _this.isArrow = true;
-            } else {
-                _this.isArrow = false;
-            }
-        });
-    }
-});
-
-$(".opt flt").find(".opt1").bind("mouseover", function () {
-    $(this).find(".opt1").removeClass("opt1").addClass("opt2");
-});
 
 /***/ })
 

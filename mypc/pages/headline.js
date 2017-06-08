@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 118);
+/******/ 	return __webpack_require__(__webpack_require__.s = 125);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,14 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 118:
+/***/ 125:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__headline_vue__);
 
 
@@ -279,7 +279,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 171:
+/***/ 183:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -715,15 +715,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
+  }), _vm._v("我的")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -735,14 +727,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 70:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(94),
+  __webpack_require__(98),
   /* template */
-  __webpack_require__(171),
+  __webpack_require__(183),
   /* scopeId */
   null,
   /* cssModules */
@@ -770,7 +762,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 94:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -850,7 +842,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.isHover6 = false;
                     break;
             }
-
             $.ajax({
                 type: "post",
                 url: '/qapi_3/toutiao/getCateList',
@@ -882,7 +873,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.isHover5 = false;
             this.isHover6 = true;
 
-            window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
             $.ajax({
                 type: "post",
                 url: '/qapi_3/toutiao/getCateList',
@@ -905,13 +895,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         search: function search() {
             var _this = this;
-            window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
             if (this.keywords) {
-                try {
-                    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-                    piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-                } catch (err) {}
-
+                alert(this.keywords);
                 $.ajax({
                     url: '/qapi_3/toutiao/getSubscribe',
                     type: 'post',
@@ -926,6 +911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     },
                     dataType: 'JSON'
                 }).done(function (res) {
+                    console.log(res);
                     if (res.err == 0) {
                         _this.items = res.data.slice(0, 3);
                         console.log(_this.items);
@@ -934,12 +920,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             } else {}
         },
         moveToDetail: function moveToDetail(id) {
-            window.location.href = "http://www.gsp.com/mypczone/index/headline2?id=" + id;
+            window.location.href = "/mypczone/index/headline2?id=" + id;
         },
         nextPage: function nextPage(page, cate_id) {
             var _this = this;
             _this.page = page + 1;
-            window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
             $.ajax({
                 type: "post",
                 url: '/qapi_3/toutiao/getCateList',
@@ -956,7 +941,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).done(function (res) {
                 if (res.err == 0) {
                     console.log(res);
-                    _this.items = res.info;
+                    _this.items = _this.items.concat(res.info);
                 } else {}
             }).fail(function () {}).always(function () {});
         }
@@ -988,7 +973,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
 
         var _this = this;
-        window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
         $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getCateList',

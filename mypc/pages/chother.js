@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 112);
+/******/ 	return __webpack_require__(__webpack_require__.s = 119);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,14 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 112:
+/***/ 119:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chother_vue__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chother_vue__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chother_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__chother_vue__);
 
 
@@ -279,7 +279,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 172:
+/***/ 184:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -606,15 +606,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
+  }), _vm._v("我的")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -626,14 +618,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 64:
+/***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(88),
+  __webpack_require__(92),
   /* template */
-  __webpack_require__(172),
+  __webpack_require__(184),
   /* scopeId */
   null,
   /* cssModules */
@@ -661,7 +653,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 88:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -710,7 +702,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         getInfo: function getInfo(contact_id) {
-            window.location.href = "http://www.gsp.com/mypczone/index/checkOther2?link_id=" + contact_id;
+            window.location.href = "/mypczone/index/checkOther2?link_id=" + contact_id;
         }
     },
     mounted: function mounted() {

@@ -16,10 +16,11 @@
 /*buy-sell-tab end*/
 
 /*buy-sell-con begin*/
-.buy-sell-con{ width:100%; height:auto; overflow:hidden;}
-.buy-sell-con .tab-con{ padding:101px 0 199px 0; height:auto; overflow:hidden;}
+.buy-sell-con{ width:100%; height:auto; overflow:auto;}
+.buy-sell-con .tab-con{ padding:101px 0 199px 0; height:auto; overflow:auto;}
 .buy-sell-con li{ width:100%; height:119px; overflow:hidden; border-bottom:1px solid #d9d9d9; background:#fff; margin:0 0 10px 0;}
 .buy-sell-con li .todetail{ cursor:pointer;}
+.buy-sell-con li .todetail strong{ font-weight:normal;}
 .buy-sell-con li .settop{ position:relative;}
 .buy-sell-con li .thumb{ height:49px; overflow:hidden; margin:10px 0 7px 0;}
 .buy-sell-con li .thumb span{ float:left; color:#62759e; margin:12px 0 0 10px;}
@@ -38,11 +39,13 @@
 .buy-sell-con li .other .feedback p a span{ color:#63769d;}
 .buy-sell-con li .set-top{ position:absolute; top:10px; right:0; width:68px; height:50px; overflow:hidden; background:url(../img/buy-sell1.png) no-repeat;}
 
-.no-results{ font-size:16px; width:100%; height:auto; overflow:hidden; padding:101px 0 0 0;}
-.no-results span{ display:block; text-align:center;}
-.no-results .thumb{ width:50%; height:auto; overflow:hidden;}
-.no-results .explain{ width:50%; height:auto; line-height:32px; overflow:hidden; margin:60px 0 0 0; background:url(../img/buy-sell3.png) right top no-repeat;}
-.no-results.no-results1 .thumb .img{ width:216px; height:134px; overflow:hidden; background:url(../img/buy-sell2.png); margin:0 auto;}
+.releaseMsg{ text-align: center; padding: 55px 0 0 0;}
+.releaseMsgHead{ width: 174px; height: 90px; display: inline-block; background: url(../img/releaseMsg.png) no-repeat; background-size: 100% 100%;}
+.releaseMsgHead2{ width: 174px; height: 107px; display: inline-block; background: url(../img/releaseMsg2.png) no-repeat; background-size: 100% 100%;}
+.releaseMsgHead3{ width: 174px; height: 99px; display: inline-block; background: url(../img/releaseMsg3.png) no-repeat; background-size: 100% 100%;}
+.releaseTxt{ padding: 0 20px; line-height: 25px; font-size: 15px; color: #666666;}
+.releaseMsg a{ width: 270px; height: 40px; margin: 30px 0 0 0; display: inline-block; color: #FFFFFF; border-bottom: 1px solid #bf3d00; line-height: 40px; background: #ff4f00; border-radius: 3px;}
+.releaseMsgIntro{ width: 100%; margin: 15px 0 0 0; display: inline-block; max-width: 375px; height: 95px; background: url(../img/releaseMsgIntro.png) no-repeat; background-size: 100% 100%;}
 /*buy-sell-con end*/
 
 /*release begin*/
@@ -105,10 +108,3 @@
 .feedback-con .opt .import{ width:80%; height:30px; line-height:30px; background:#fff; border:1px solid #d6d7dc; margin:13px 0 0 0; padding:0 0 0 2%;}
 .feedback-con .opt .submit{ color:#fff; font-size:18px; text-align:center; width:15%; height:44px; line-height:44px; background:#ff5000; margin:7px 0 0 0; cursor:pointer;}
 /*feedback-wrap end*/
-
-/*page begin*/
-.page{ width:150px; height:30px; line-height:30px; overflow:hidden; margin:20px auto;}
-.page a{ color:#666;}
-.page a.prev{ float:left;}
-.page a.next{ float:right;}
-/*page end*/

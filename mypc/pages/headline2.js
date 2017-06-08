@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 117);
+/******/ 	return __webpack_require__(__webpack_require__.s = 124);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,14 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 117:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__headline2_vue__);
 
 
@@ -279,7 +279,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 170:
+/***/ 182:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -600,15 +600,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
+  }), _vm._v("我的")])])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -620,14 +612,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 69:
+/***/ 70:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(93),
+  __webpack_require__(97),
   /* template */
-  __webpack_require__(170),
+  __webpack_require__(182),
   /* scopeId */
   null,
   /* cssModules */
@@ -655,7 +647,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 93:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -705,7 +697,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         toPage: function toPage(id) {
             var _this = this;
-            window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
             if (id) {
                 $.ajax({
                     type: "post",
@@ -763,7 +754,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
         var _this = this;
         var id = _this.getParam("id");
-        window.localStorage.setItem("XUA", "pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|" + navigator.platform + "|" + navigator.platform + "|" + navigator.platform + "|" + navigator.appName + "|" + navigator.appCodeName + "|0|0|0");
         $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getDetailInfo',

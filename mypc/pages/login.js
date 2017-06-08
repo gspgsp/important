@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 123);
+/******/ 	return __webpack_require__(__webpack_require__.s = 131);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,151 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 123:
+/***/ 104:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+		name: 'app',
+		components: {
+				'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
+		},
+		data: function data() {
+				return {
+						mobile: "",
+						pwd: "",
+						checked: false
+				};
+		},
+
+		methods: {
+				login: function login() {
+						var _this = this,
+						    errorMsg = $(".error p");
+						if (this.mobile && this.pwd) {
+								$.ajax({
+										url: '/api/qapi1_2/login',
+										type: 'post',
+										data: {
+												username: _this.mobile,
+												password: _this.pwd
+										},
+										dataType: 'JSON'
+								}).done(function (res) {
+										if (res.err == 0) {
+												window.localStorage.setItem("token", res.dataToken);
+												window.localStorage.setItem("userid", res.user_id);
+												var url = location.search,
+												    results = [],
+												    str = "";
+
+												if (url.indexOf("?") != -1) {
+														str = url.substr(1);
+												}
+												location.href = "/mypczone/index/" + str;
+										} else {
+														errorMsg.html(res.msg);
+												}
+								});
+						} else {
+								errorMsg.html("手机号和密码不能为空");
+						}
+				},
+				register: function register() {
+						location.href = "register";
+				},
+				findpwd: function findpwd() {
+						location.href = "findpwd";
+				}
+		}
+});
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "leftmodel"
+  }, [_c('div', {
+    staticClass: "left flt"
+  }, [_c('div', {
+    staticClass: "pic"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "authen no"
+  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+    attrs: {
+      "id": "left1"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index"
+    }
+  }, [_c('span', {
+    staticClass: "menu1"
+  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left2"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/supplybuy"
+    }
+  }, [_c('span', {
+    staticClass: "menu2"
+  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left3"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/find"
+    }
+  }, [_c('span', {
+    staticClass: "menu3"
+  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left4"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/my"
+    }
+  }, [_c('span', {
+    staticClass: "menu4"
+  }), _vm._v("我的")])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__login_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__login_vue__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__login_vue__);
 
 
@@ -161,7 +298,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 167:
+/***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -440,49 +577,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 7:
+/***/ 77:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(6),
+  __webpack_require__(104),
   /* template */
-  __webpack_require__(8),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-712f541a", Component.options)
-  } else {
-    hotAPI.reload("data-v-712f541a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 75:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(99),
-  /* template */
-  __webpack_require__(167),
+  __webpack_require__(178),
   /* scopeId */
   null,
   /* cssModules */
@@ -513,138 +615,35 @@ module.exports = Component.exports
 /***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "leftmodel"
-  }, [_c('div', {
-    staticClass: "left flt"
-  }, [_c('div', {
-    staticClass: "pic"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
-    attrs: {
-      "id": "left1"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index"
-    }
-  }, [_c('span', {
-    staticClass: "menu1"
-  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left2"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/supplybuy"
-    }
-  }, [_c('span', {
-    staticClass: "menu2"
-  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left3"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/find"
-    }
-  }, [_c('span', {
-    staticClass: "menu3"
-  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left4"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/my"
-    }
-  }, [_c('span', {
-    staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(6),
+  /* template */
+  __webpack_require__(11),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
   module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-712f541a", Component.options)
+  } else {
+    hotAPI.reload("data-v-712f541a", Component.options)
   }
-}
+})()}
 
-/***/ }),
+module.exports = Component.exports
 
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-		name: 'app',
-		components: {
-				'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
-		},
-		data: function data() {
-				return {
-						mobile: "",
-						pwd: "",
-						checked: false
-				};
-		},
-
-		methods: {
-				login: function login() {
-						var _this = this,
-						    errorMsg = $(".error p");
-						if (this.mobile && this.pwd) {
-								$.ajax({
-										url: '/api/qapi1_2/login',
-										type: 'post',
-										data: {
-												username: _this.mobile,
-												password: _this.pwd
-										},
-										dataType: 'JSON'
-								}).done(function (res) {
-										if (res.err == 0) {
-												window.localStorage.setItem("token", res.dataToken);
-												window.localStorage.setItem("userid", res.user_id);
-												errorMsg.html(res.msg);
-										} else {
-														errorMsg.html(res.msg);
-												}
-								});
-						} else {
-								errorMsg.html("手机号和密码不能为空");
-						}
-				},
-				register: function register() {
-						location.href = "register";
-				},
-				findpwd: function findpwd() {
-						location.href = "findpwd";
-				}
-		}
-});
 
 /***/ })
 

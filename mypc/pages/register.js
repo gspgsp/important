@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 131);
+/******/ 	return __webpack_require__(__webpack_require__.s = 140);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,12 +141,82 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 107:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "leftmodel"
+  }, [_c('div', {
+    staticClass: "left flt"
+  }, [_c('div', {
+    staticClass: "pic"
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "authen no"
+  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+    attrs: {
+      "id": "left1"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index"
+    }
+  }, [_c('span', {
+    staticClass: "menu1"
+  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left2"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/supplybuy"
+    }
+  }, [_c('span', {
+    staticClass: "menu2"
+  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left3"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/find"
+    }
+  }, [_c('span', {
+    staticClass: "menu3"
+  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
+    attrs: {
+      "id": "left4"
+    }
+  }, [_c('a', {
+    attrs: {
+      "href": "/mypczone/index/my"
+    }
+  }, [_c('span', {
+    staticClass: "menu4"
+  }), _vm._v("我的")])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
 
 
@@ -242,14 +312,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 131:
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__register_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__register_vue__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__register_vue__);
 
 
@@ -262,7 +332,35 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 188:
+/***/ 2:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 202:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -621,34 +719,6 @@ if (false) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
 /***/ 6:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -772,14 +842,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(6),
   /* template */
-  __webpack_require__(8),
+  __webpack_require__(11),
   /* scopeId */
   null,
   /* cssModules */
@@ -807,92 +877,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "leftmodel"
-  }, [_c('div', {
-    staticClass: "left flt"
-  }, [_c('div', {
-    staticClass: "pic"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
-    attrs: {
-      "id": "left1"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index"
-    }
-  }, [_c('span', {
-    staticClass: "menu1"
-  }), _vm._v("通讯录")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left2"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/supplybuy"
-    }
-  }, [_c('span', {
-    staticClass: "menu2"
-  }), _vm._v("供求")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left3"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/find"
-    }
-  }, [_c('span', {
-    staticClass: "menu3"
-  }), _vm._v("发现")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left4"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/my"
-    }
-  }, [_c('span', {
-    staticClass: "menu4"
-  }), _vm._v("我的")])]), _vm._v(" "), _c('li', {
-    attrs: {
-      "id": "left5"
-    }
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/login"
-    }
-  }, [_vm._v("登录")])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 83:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(107),
+  __webpack_require__(113),
   /* template */
-  __webpack_require__(188),
+  __webpack_require__(202),
   /* scopeId */
   null,
   /* cssModules */
