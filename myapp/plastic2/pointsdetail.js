@@ -8,7 +8,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "detailtitle"
   }, [_vm._v("\n\t总塑豆 "), _c('span', [_vm._v(_vm._s(_vm.points))])]), _vm._v(" "), _c('div', {
     staticClass: "detailtitle2"
-  }, [_vm._v("\n\t积分收支明细\n")]), _vm._v(" "), _c('table', {
+  }, [_vm._v("\n\t塑豆收支明细\n")]), _vm._v(" "), _c('table', {
     attrs: {
       "id": "sdTable",
       "cellpadding": "0",

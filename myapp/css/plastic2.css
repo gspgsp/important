@@ -1,6 +1,7 @@
 /* 首页 */
 *{ box-sizing: border-box; outline: 0;}
-html,body{ width: 100%; height: 100%;}
+html,body{ width: 100%; height: 100%; background: none;}
+a:hover{text-decoration:none;}
 body{ background: #efeff4; max-width: 640px; margin: 0 auto;}
 input[type=button],input[type=text]{-webkit-appearance:none;}
 .headerMenu{ position: absolute; top: 12px; right: 10px; width: 20px; height: 20px; background: url(../img/wxIndex.png) no-repeat; background-size: 100% 100%;}
@@ -324,6 +325,8 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .iconZone.zone8{ background: url(../img/myZone8.png) no-repeat; background-size: 100% 100%;}
 .iconZone.zone9{ background: url(../img/myZone9.png) no-repeat; background-size: 100% 100%;}
 .iconZone.zone10{ background: url(../img/myZone10.png) no-repeat; background-size: 100% 100%;}
+.iconZone.zone11{ background: url(../img/myZone11.png) no-repeat; background-size: 100% 100%;}
+.iconZone.zone12{ background: url(../img/myZone12.png) no-repeat; background-size: 100% 100%;}
 
 .supplyUl{ margin: 0; padding: 10px; list-style: none;}
 .supplyUl li{ width: 100%; background: #FFFFFF; border-radius: 5px; margin: 0 0 10px 0;}
@@ -448,11 +451,10 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 }
 
 .help{ width: 100%;}
-.h1{ width: 100%; margin: 0 auto; max-width: 375px; height: 312px; background: url(../img/h1.jpg) no-repeat center; background-size: 100% 100%;}
-.h2{ width: 100%; margin: 0 auto; max-width: 375px; height: 242px; background: url(../img/h2.jpg) no-repeat center; background-size: 100% 100%;}
-.h3{ width: 100%; margin: 0 auto; max-width: 375px; height: 381px; background: url(../img/h3.jpg) no-repeat center; background-size: 100% 100%;}
-.h4{ width: 100%; margin: 0 auto; max-width: 375px; height: 377px; background: url(../img/h4.jpg) no-repeat center; background-size: 100% 100%;}
-.h5{ width: 100%; margin: 0 auto; max-width: 375px; height: 465px; background: url(../img/h5.jpg) no-repeat center; background-size: 100% 100%;}
+.h1{ width: 100%; height: 10rem; background: url(../img/h1.jpg) no-repeat center; background-size: 100% 100%;}
+.h2{ width: 100%; height: 7.56rem; background: url(../img/h2.jpg) no-repeat center; background-size: 100% 100%;}
+.h3{ width: 100%; height: 9.333333rem; background: url(../img/h3.jpg) no-repeat center; background-size: 100% 100%;}
+.h4{ width: 100%; height: 10.933333rem; background: url(../img/h4.jpg) no-repeat center; background-size: 100% 100%;}
 
 .card{ width: 133px; height: auto; background: url(../img/card.jpg) no-repeat; background-size: 100% 100%; display: inline-block; border: 2px solid #d9d9d9;}
 .card2{ width: 133px; height: auto; display: inline-block; position: relative;}
@@ -491,11 +493,13 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .headlineUl2 h3{ font-size: 15px; color: #333333; margin: 0 0 5px 0;}
 .headlineUl2 p{ font-size: 13px; color: #999999; margin: 0; line-height: 16px;}
 
-.headlineUl3{ list-style: none; margin: 0; padding: 0 10px;}
+.headlineUl3{ list-style: none; margin: 0; padding: 0 10px; background: #FFFFFF;}
 .headlineUl3 li:first-of-type{ border-top: none;}
 .headlineUl3 li{ border-bottom: 1px solid #CCCCCC; border-top: 1px solid #ffffff; padding: 10px 0;}
-.headlineUl3 h3{ font-size: 15px; color: #333333; margin: 0 0 10px 0;}
+.headlineUl3 h3{ font-size: 15px; color: #333333; line-height: 18px; margin: 0 0 5px 0;}
 .headlineUl3 p{ font-size: 13px; color: #999999; margin: 0; line-height: 16px;}
+.headicon{ width: 16px; height: 16px; display: inline-block; position: relative; top: 4px; left: -5px; background: url(../img/headicon.png) no-repeat; background-size: 100% 100%;}
+.headicon2{ width: 24px; height: 16px; display: inline-block; position: relative; top: 4px; left: -5px; background: url(../img/headicon2.png) no-repeat; background-size: 100% 100%;}
 
 .headlinecontent{ padding: 10px;}
 .headlinetitle h3{ font-size: 15px; color: #272435; font-weight: normal; margin: 0 0 10px 0;}
@@ -898,3 +902,9 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .iconWxPay{ width: 25px; height: 25px; margin: 0 15px 0 0; float: left; background: url(../img/wxPay.png) no-repeat; background-size: 100% 100%;}
 .iconWxRight{ width: 25px; height: 25px; float: right; background: url(../img/payRight.png) no-repeat; background-size: 100% 100%;}
 .wxPayBtn{ width: 100%; line-height: 45px; color: #FFFFFF; font-size: 15px; text-align: center; background: #ff5000;}
+
+.configWrap{ padding: 15px 12px;}
+.configUl{ list-style: none;}
+.configUl li{ width: auto; height: auto;; font-size: 12px; color: #333333; padding: 50px 10px 10px 10px; position: relative; margin: 0 0 15px 10px; background: #FFFFFF;}
+.configIco{ position: absolute; top: 10px; left: -10px; width: 130px; height: 40px;}
+.configIco.config1{ background: url(../img/config1.png) no-repeat; background-size: 100% 100%;}

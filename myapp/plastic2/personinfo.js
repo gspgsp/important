@@ -411,7 +411,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 			if (window.localStorage.getItem("token")) {
 				_this.$router.push({
-					name: 'headline'
+					name: 'headlinelist'
 				});
 			} else {
 				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
@@ -529,7 +529,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "foot5"
-  }), _c('br'), _vm._v("发现")])]), _vm._v(" "), _c('li', [_c('router-link', {
+  }), _c('br'), _vm._v("头条")])]), _vm._v(" "), _c('li', [_c('router-link', {
     class: {
       'footerOn': _vm.isIndex
     },

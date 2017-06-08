@@ -1,21 +1,21 @@
-webpackJsonp([39],{
+webpackJsonp([44],{
 
-/***/ 10:
+/***/ 167:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(47)(
   /* script */
-  __webpack_require__(73),
+  __webpack_require__(168),
   /* template */
-  __webpack_require__(143),
+  __webpack_require__(169),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\help.vue"
+Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\views\\plasticconfig.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] help.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] plasticconfig.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -24,9 +24,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3473d97e", Component.options)
+    hotAPI.createRecord("data-v-3facb4f5", Component.options)
   } else {
-    hotAPI.reload("data-v-3473d97e", Component.options)
+    hotAPI.reload("data-v-3facb4f5", Component.options)
   }
 })()}
 
@@ -35,25 +35,37 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 143:
+/***/ 168:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {};
+	},
+	methods: {},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+});
+
+/***/ }),
+
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _vm._m(0)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "buyWrap",
-    staticStyle: {
-      "padding": "45px 0 0 0"
-    }
-  }, [_c('div', {
-    staticStyle: {
-      "position": "fixed",
-      "top": "0",
-      "left": "0",
-      "width": "100%",
-      "z-index": "10"
-    }
+    staticClass: "buyWrap"
   }, [_c('header', {
     attrs: {
       "id": "bigCustomerHeader"
@@ -63,28 +75,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:window.history.back();"
     }
-  }), _vm._v("\n\t\t\t帮助\n\t\t\t"), _c('a', {
-    staticClass: "headerMenu3",
-    attrs: {
-      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "help"
-  }, [_c('div', {
-    staticClass: "h1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "h2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "h3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "h4"
-  })])])
+  }), _vm._v("\n\t\t塑料配资\n\t")]), _vm._v(" "), _c('div', {
+    staticClass: "configWrap"
+  }, [_c('ul', {
+    staticClass: "configUl"
+  }, [_c('li', [_c('div', {
+    staticClass: "configIco config1"
+  }), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "configIco config1"
+  }), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3473d97e", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-3facb4f5", module.exports)
   }
 }
 
@@ -145,27 +150,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 73:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {};
-	},
-	mounted: function mounted() {
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-	}
-});
 
 /***/ })
 

@@ -246,6 +246,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
+    staticClass: "iconZone zone11"
+  }), _vm._v("企业信用额度\r\n\t\t\t\t"), _c('i', {
+    staticClass: "icon2 rightArrow",
+    staticStyle: {
+      "right": "0",
+      "top": "8px"
+    }
+  })])], 1), _vm._v(" "), _c('li', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'plasticconfig'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "iconZone zone12"
+  }), _vm._v("塑料配资\r\n\t\t\t\t"), _c('i', {
+    staticClass: "icon2 rightArrow",
+    staticStyle: {
+      "right": "0",
+      "top": "8px"
+    }
+  })])], 1)]), _vm._v(" "), _c('ul', {
+    staticClass: "myzoneUl"
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'help'
+      }
+    }
+  }, [_c('i', {
     staticClass: "iconZone zone10"
   }), _vm._v("帮助"), _c('span', [_vm._v("常见问题及联系客服")]), _vm._v(" "), _c('i', {
     staticClass: "icon2 rightArrow",
@@ -475,7 +505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 			if (window.localStorage.getItem("token")) {
 				_this.$router.push({
-					name: 'headline'
+					name: 'headlinelist'
 				});
 			} else {
 				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
@@ -593,7 +623,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "foot5"
-  }), _c('br'), _vm._v("发现")])]), _vm._v(" "), _c('li', [_c('router-link', {
+  }), _c('br'), _vm._v("头条")])]), _vm._v(" "), _c('li', [_c('router-link', {
     class: {
       'footerOn': _vm.isIndex
     },
