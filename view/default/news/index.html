@@ -703,19 +703,35 @@
     <div class="left  cen flt">
         <!--vip-title begin-->
         <div class="vip-title">
-            <h3 class="shsj"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}kcxb.html">石化库存详表</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}kcxb.html">更多</a></p>
+            <h3 class="ppnc">石化库存详表&ensp;&ensp;&ensp;
+            <span id="tabi1" onmouseover="setTab2('tabi',1,2,'xbmore')" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pekcxb.html">PE</a></span>&ensp;|&ensp;
+            <span id="tabi2" onmouseover="setTab2('tabi',2,2,'xbmore')"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppkcxb.html">PP</a></span>
+            </h3>
+            <p id="xbmore1"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pekcxb.html">更多</a></p>
+            <p id="xbmore2" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppkcxb.html">更多</a></p>
         </div>
         <!--vip-title end-->
         <!--vip-con begin-->
         <div class="vip-con link6">
-            <ul class="vipli">
-                {foreach from=$data[kcxb] key=key item=v}
-                            {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
-                            {/if}
-                {/foreach}
-            </ul>
+            <div id="con-tabi-1">
+                  <ul class="vipli">
+                    {foreach from=$data[pekcxb] key=key item=v}
+                                {if !empty($v)}
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                    {/foreach}
+                </ul>  
+            </div>
+            
+            <div id="con-tabi-2" style="display:none;">
+                  <ul class="vipli">
+                    {foreach from=$data[ppkcxb] key=key item=v}
+                                {if !empty($v)}
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                    {/foreach}
+                </ul>  
+            </div>
         </div>
         <!--vip-con end-->
     </div>
@@ -724,19 +740,35 @@
     <div class="left  flt">
         <!--vip-title begin-->
         <div class="vip-title">
-            <h3 class="shsj"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}scbl.html">石化生产比例</a></h3>
-            <p><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}scbl.html">更多</a></p>
+            <h3 class="ppnc">石化生产比例&ensp;&ensp;&ensp;
+            <span id="tabj1" onmouseover="setTab2('tabj',1,2,'blmore')" class="hover"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pescbl.html">PE</a></span>&ensp;|&ensp;
+            <span id="tabj2" onmouseover="setTab2('tabj',2,2,'blmore')"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppscbl.html">PP</a></span>
+            </h3>
+            <p id="blmore1"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}pescbl.html">更多</a></p>
+            <p id="blmore2" style="display:none;"><a target="_blank"  href="{if $nav}{$nav}{else}public{/if}ppscbl.html">更多</a></p>
         </div>
         <!--vip-title end-->
         <!--vip-con begin-->
         <div class="vip-con link6">
-            <ul class="vipli">
-                {foreach from=$data[scbl] key=key item=v}
-                            {if !empty($v)}
-                                    <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
-                            {/if}
-                {/foreach}
-            </ul>
+            <div id="con-tabj-1">
+                  <ul class="vipli">
+                    {foreach from=$data[pescbl] key=key item=v}
+                                {if !empty($v)}
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                    {/foreach}
+                </ul>  
+            </div>
+            
+            <div id="con-tabj-2" style="display:none;">
+                  <ul class="vipli">
+                    {foreach from=$data[ppscbl] key=key item=v}
+                                {if !empty($v)}
+                                        <li {if $v.today}class="hover"{/if}><a target="_blank"  href="/{$v.id}.html" title="{$v.title}">{$v.title|truncate:17}</a>{$v.input_time|date:Y-m-d}</li>
+                                {/if}
+                    {/foreach}
+                </ul>  
+            </div>
         </div>
         <!--vip-con end-->
     </div>
