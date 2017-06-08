@@ -496,6 +496,7 @@ function changeTab(e){
 }
 //追加查看产品按钮
 function onLoadProduct(e){
+	var model = '';
 	var record = e.record,s='',p_id = record.p_id,model=record.model;
 	s += '<a href="javascript:sarData('+encodeURIComponent(model)+')">'+model+'</a> ';
 	return s;
