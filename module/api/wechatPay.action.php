@@ -181,6 +181,7 @@ class wechatPayAction extends null2Action
             && $result["return_code"] == "SUCCESS"
             && $result["result_code"] == "SUCCESS")
         {
+            file_put_contents('./sjs.txt',print_r('this is true result',true)."\n",FILE_APPEND);
             $data = $result;
             if ($order_info['status'] < 5 ) {
                 $arr = array(
