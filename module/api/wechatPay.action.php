@@ -51,6 +51,9 @@ class wechatPayAction extends null2Action
         $sign           = strtoupper (md5 ($stringSignTemp));
         $order_info     = M ('order:onlineOrder')->getPk ($data['out_trade_no']);
 
+        file_put_contents('./sjs.txt',print_r('this is a app notify',true)."\n",FILE_APPEND);
+        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
+
         if ($sign == $data['sign']) {
             //            $msg = date("Y-m-d H:i:s")." 支付通知验签通过\n";
             //            $msg.=serialize($data)."\n";
