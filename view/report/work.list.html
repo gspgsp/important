@@ -166,25 +166,25 @@
 				<table style="width:100%;">
 					<tr>
 						<td style="width:80px;">牌号：</td>
-						<td style="width:100px;"><input name="model" class="mini-textbox" emptyText="牌号"/></td>
+						<td style="width:100px;"><input name="model" class="mini-textbox" required="true" emptyText="牌号"/></td>
 						<td style="width:80px;">厂家：</td>
-						<td style="width:100px;"><input name="factory" class="mini-textbox" emptyText="厂家"/></td>
+						<td style="width:100px;"><input name="factory" class="mini-textbox" required="true" emptyText="厂家"/></td>
 						<td style="width:80px;">相似牌号：</td>
 						<td style="width:100px;"><input name="smodel" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
 					</tr>
 					<tr>
 						<td>数量：</td>
-						<td><input name="num" class="mini-textbox"/></td>
+						<td><input name="num" class="mini-textbox" required="true"/></td>
 						<td>成本：</td>
-						<td><input name="cost" class="mini-textbox"/></td>
+						<td><input name="price" class="mini-textbox" required="true"/></td>
 						<td>销售价：</td>
-						<td><input name="sale_price" class="mini-textbox"/></td>
+						<td><input name="sale_price" class="mini-textbox" required="true"/></td>
 					</tr>
 					<tr>
 						<td>仓库：</td>
-						<td><input name="store" class="mini-textbox"/></td>
+						<td><input name="store" class="mini-textbox" required="true"/></td>
 						<td>区域：</td>
-						<td><input name="area" class="mini-textbox"/></td>
+						<td><input name="china_area" class="mini-combobox" data="[{id: 1, text: '华东'},{id: 2, text: '华北'},{id: 3, text: '华南'},{id: 4, text: '其他'}]" textField="name" valueField="id" required="true"/></td>
 						<td>备注：</td>
 						<td><input name="remark" class="mini-textbox"/></td>
 					</tr>
@@ -246,7 +246,7 @@ function submitForm1(){
 		form1.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
-			CloseWindow("save");
+			grid.reload();
 		}else{
 			return false;
 		}
@@ -266,7 +266,7 @@ function submitForm2(){
 		form2.unmask();
 		$("#returnMsg").text(data.msg);
 		if(data.err=='0'){
-			CloseWindow("save");
+			grids.reload();
 		}else{
 			return false;
 		}
