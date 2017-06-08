@@ -166,7 +166,7 @@ class wechatPayAction extends null2Action
         $notify = new PayNotifyCallBack();
         $notify->Handle(false);
         file_put_contents('./sjs.txt',print_r('lslok',true)."\n",FILE_APPEND);
-        $result = $notify->GetValues;
+        $result = $notify->GetValues();
         file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
         $order_id = $result['out_trade_no'];
