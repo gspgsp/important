@@ -426,7 +426,7 @@ class wkAction extends adminBaseAction{
 		);
 		$data = sdata();
 		p($data);
-		$data['model'] = strtoupper(trim($data['model']));
+		strtoupper(trim(&$data['model']));
 		$data['smodel'] = strtoupper(trim($data['smodel']));
 		p($data);die;
 		trim($data['remark']);
