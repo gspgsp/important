@@ -497,7 +497,7 @@ function changeTab(e){
 //追加查看产品按钮
 function onLoadProduct(e){
 	var record = e.record,s='',p_id = record.p_id,model=record.model.toString();
-	s += "<a href='javascript:sarData("+model+")'>"+model+"</a> ";
+	s += "<a href='javascript:sarData("'+model+'")'>"+model+"</a> ";
 	return s;
 }
 //追加牌号搜索
