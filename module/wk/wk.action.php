@@ -380,9 +380,10 @@ class wkAction extends adminBaseAction{
 	public function getDatas(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
+		$stype = sget("stype",'i',1); //每页数
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
-		$where = ' 1 ';
+		$where = " 1 and `stype` = $stype ";
 		//授信信息筛选
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
