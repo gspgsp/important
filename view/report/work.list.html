@@ -233,7 +233,6 @@
 				</table>
 				<div style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
 						<a class="mini-button" style="width:60px;" onClick="submitForm2()">确定</a>
-						<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 				</div>
 			</div>
 		</fieldset>
@@ -295,7 +294,7 @@ function submitForm1(){
 		if(data.err=='0'){
 			bjgrids.reload();
 		}else{
-			$("#returnMsg").text(data.msg);
+			alert(data.msg);
 		}
 	},'json');
 }
@@ -315,7 +314,7 @@ function submitForm2(){
 		if(data.err=='0'){
 			grids.reload();
 		}else{
-			$("#returnMsg").text(data.msg);
+			alert(data.msg);
 		}
 	},'json');
 }
