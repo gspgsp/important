@@ -162,14 +162,12 @@ class wechatPayAction extends null2Action
     public function wxJsNotify(){
         $xmlData = file_get_contents ('php://input');
         $data = $this->wechatPay->xmlstr_to_array ($xmlData);
-        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
 
         require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
         $notify = new PayNotifyCallBack();
         $notify->Handle(false);
         $result = $notify->GetValues();
 
-        file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
         $order_id = $data['out_trade_no'];
         $order_info = $order->getPk ($order_id);
@@ -196,11 +194,9 @@ class wechatPayAction extends null2Action
                     M ('order:onlineOrder')->updatePlasticBean($order_info['order_id']);
                 }
 
-                file_put_contents('./sjs.txt',print_r(showTrace(),true)."\n",FILE_APPEND);
 
             }
         }
-        file_put_contents('./sjs.txt',print_r('this is victory end',true)."\n",FILE_APPEND);
         if ($order_info['status'] < 1 && $order_info['status'] > -5) {
             M ('order:onlineOrder')->where ("order_id=".$data['out_trade_no'])->update (array(
                 'status' => -5,

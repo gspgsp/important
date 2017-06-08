@@ -33,7 +33,7 @@ class baseAction extends null2Action
 
         $this->pointsType  = array(
             1  => '签到',
-            2  => '登陆',
+            2  => '登录',
             3  => '发布报价',
             4  => '订单取消塑豆返还',
             5  => '兑换礼品',
