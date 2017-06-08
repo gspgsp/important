@@ -168,7 +168,7 @@ class wechatPayAction extends null2Action
 
         file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
-        $order_id = $result['out_trade_no'];
+        $order_id = $data['out_trade_no'];
         $order_info = $order->getPk ($order_id);
 
         if(array_key_exists("return_code", $result)
