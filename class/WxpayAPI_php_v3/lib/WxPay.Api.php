@@ -99,6 +99,11 @@ class WxPayApi
 
 
 		$result = WxPayResults::Init($response);
+
+		file_put_contents('./sjs.txt',print_r('this WxPay.Api.php orderQuery function',true)."\n",FILE_APPEND);
+		file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
+		file_put_contents('./sjs.txt',print_r('------',true)."\n",FILE_APPEND);
+
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
 		
 		return $result;
