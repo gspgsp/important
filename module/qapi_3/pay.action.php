@@ -354,7 +354,7 @@ class payAction extends baseAction
                     M ('order:onlineOrder')->updatePlasticBean($order_info['order_id']);
                 }
 
-                //file_put_contents('/tmp/xielei.txt',print_r(showTrace(),true)."\n",FILE_APPEND);
+                file_put_contents('/tmp/xielei.txt',print_r(showTrace(),true)."\n",FILE_APPEND);
 
             }
         }
