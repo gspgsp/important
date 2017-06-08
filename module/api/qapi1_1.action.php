@@ -3468,15 +3468,7 @@ class qapi1_1Action extends null2Action
 
 
     public function janfly3(){
-       p($this);
         $this->display('janfly3/index');
-    }
-    public function janfly4(){
-        p($_GET);
-        p($_POST);
-        $_tmp = file_get_contents('php://input');
-        p($_tmp);
-        exit;
     }
 
 
