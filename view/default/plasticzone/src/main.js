@@ -49,6 +49,7 @@ const Recharge= r => require.ensure([], () => r(require('./views/recharge.vue'))
 const Recharge2= r => require.ensure([], () => r(require('./views/recharge2.vue')), 'recharge2')
 const Pay= r => require.ensure([], () => r(require('./views/pay.vue')), 'pay')
 const Pointsrule2= r => require.ensure([], () => r(require('./views/pointsrule2.vue')), 'pointsrule2')
+const Plasticconfig= r => require.ensure([], () => r(require('./views/plasticconfig.vue')), 'plasticconfig')
 const Error= r => require.ensure([], () => r(require('./views/error.vue')), 'error')
 
 var router = new VueRouter({
@@ -79,7 +80,7 @@ var router = new VueRouter({
 	{path:'/mybuy',name:'mybuy',component:Mybuy},
 	{path:'/mymsg',name:'mymsg',component:Mymsg},
 	{path:'/mymsg2',name:'mymsg2',component:Mymsg2},
-	{path:'/headlinelist/:id',name:'headlinelist',component:Headlinelist},
+	{path:'/headlinelist',name:'headlinelist',component:Headlinelist},
 	{path:'/personinfo/:id',name:'personinfo',component:Personinfo},
 	{path:'/supplybuy/:id',name:'supplybuy',component:Supplybuy},
 	{path:'/headlinedetail/:id',name:'headlinedetail',component:Headlinedetail},
@@ -95,6 +96,7 @@ var router = new VueRouter({
 	{path:'/recharge2',name:'recharge2',component:Recharge2},
 	{path:'/pay',name:'pay',component:Pay},
 	{path:'/pointsrule2',name:'pointsrule2',component:Pointsrule2},
+	{path:'/plasticconfig',name:'plasticconfig',component:Plasticconfig},
 	{path: '/', redirect: { name: 'index' }}
   ]
 })

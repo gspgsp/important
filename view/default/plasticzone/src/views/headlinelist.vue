@@ -1,23 +1,18 @@
 <template>
 <div style="padding: 45px 0 70px 0;">
 <header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 100;">
-	<a class="back" href="javascript:window.history.back();"></a>
-	{{cate}}
-</header>
+<div class="plasticSearch" style="margin:0 12px;">
+<i class="searchIcon" style="position: absolute; top: 16px; left: 5px; margin: 0;"></i>
+<form action="javascript:;">
+<input style="width: 100%; border: none;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
+</form>
+</div>
+<div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
 
+</header>
 <loadingPage :loading="loadingShow"></loadingPage>
 <errorPage :loading="loadingHide"></errorPage>
 
-<h3 class="plasticfind">
-<div style="float: left;">塑料头条</div>
-<div class="plasticSearch" style="margin-right: 40px;">
-<i class="searchIcon" style="position: absolute; top: 14px; left: 5px; margin: 0;"></i>
-<form action="javascript:;">
-<input style="width: 100%;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
-</form>
-</div>
-<div v-on:click="search" style="width: 40px; border-radius: 3px; line-height: 30px; font-size: 12px; font-weight: normal; background: #ff5000; color: #FFFFFF; position: absolute; top: 6px; right: 10px; text-align: center;">搜索</div>
-</h3>
 <div class="plasticnav">
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
@@ -79,7 +74,9 @@
 		<router-link :to="{name:'headlinedetail',params:{id:i.id}}">
 			<h3>{{i.type}}{{i.title}}</h3>
 			<p>{{i.description}}</p>
-			<p style="text-align: right;"><span style="float: left;">阅读数量:<span style=" color: #ff5000;">{{i.pv}}</span></span>{{i.input_time}}</p>
+			<p style="text-align: right; margin: 5px 0 0 0;">
+				{{i.author}}&nbsp;<i class="headicon"></i>{{i.input_time}}&nbsp;<i class="headicon2"></i><span style=" color: #ff5000;">{{i.pv}}</span>
+			</p>
 		</router-link>
 	</li>
 </ul>
@@ -431,50 +428,9 @@ activated: function() {
 	} catch(err) {
 
 	}
+	
+	this.cateid = 999;
 
-	switch(this.$route.params.id) {
-		case 1:
-			this.cateid = 1;
-			this.cate = "早盘预测";
-			break;
-		case 2:
-			this.cateid = 2;
-			this.cate = "塑料上游";
-			break;
-		case 4:
-			this.cateid = 4;
-			this.cate = "中晨塑说";
-			break;
-		case 5:
-			this.cateid = 5;
-			this.cate = "美金市场";
-			break;
-		case 9:
-			this.cateid = 9;
-			this.cate = "企业动态";
-			break;
-		case 11:
-			this.cateid = 11;
-			this.cate = "装置动态";
-			break;
-		case 13:
-			this.cateid = 13;
-			this.cate = "期刊报告";
-			break;
-		case 21:
-			this.cateid = 21;
-			this.cate = "期货资讯";
-			break;
-		case 22:
-			this.cateid = 22;
-			this.cate = "独家解读";
-			break;
-		case 999:
-			this.cateid = 999;
-			this.cate = "推荐";
-			break;
-	}
-	if(this.$route.params.id == 999) {
 		$.ajax({
 			type: "post",
 			url: version + '/toutiao/getSubscribe',
@@ -490,32 +446,6 @@ activated: function() {
 		}).done(function(res) {
 			if(res.err == 0) {
 				_this.items = res.data
-			} else {
-
-			}
-		}).fail(function(){
-			_this.loadingHide = true;
-		}).always(function(){
-			_this.loadingShow = false;
-		});
-	} else {
-		$.ajax({
-			type: "post",
-			url: version+'/toutiao/getCateList',
-			timeout:15000,
-			data: {
-				page: 1,
-				size: 10,
-				cate_id: _this.$route.params.id,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).done(function(res) {
-			if(res.err == 0) {
-				_this.items = res.info;
 			} else if(res.err == 1) {
 				weui.alert(res.msg, {
 					title: '塑料圈通讯录',
@@ -535,8 +465,6 @@ activated: function() {
 		}).always(function(){
 			_this.loadingShow = false;
 		});
-
-	}
 
 	this.$nextTick(function() {
 		var swiper = new Swiper('.swiper-container', {

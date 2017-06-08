@@ -8,7 +8,7 @@
 	总塑豆 <span>{{points}}</span>
 </div>
 <div class="detailtitle2">
-	积分收支明细
+	塑豆收支明细
 </div>
 <table id="sdTable" cellpadding="0" cellspacing="0">
 	<tr>

@@ -3,7 +3,7 @@
 	<footer id="footer">
 		<ul>
 			<li>
-				<a href="javascript:;" v-on:click="toHeadline" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>发现</a>
+				<a href="javascript:;" v-on:click="toHeadline" :class="{'footerOn':isHeadline}"><i class="foot5"></i><br>头条</a>
 			</li>
 			<li>
 				<router-link :to="{name:'index'}" :class="{'footerOn':isIndex}"><i class="foot2"></i><br>通讯录</router-link>
@@ -97,7 +97,7 @@ export default{
 			var _this=this;
 			if (window.localStorage.getItem("token")) {
 					_this.$router.push({
-						name: 'headline'
+						name: 'headlinelist'
 					});				
 			} else{
 				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {

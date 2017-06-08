@@ -12,7 +12,6 @@
 		<div class="h2"></div>
 		<div class="h3"></div>
 		<div class="h4"></div>
-		<div class="h5"></div>
 	</div>
 </div>
 </template>

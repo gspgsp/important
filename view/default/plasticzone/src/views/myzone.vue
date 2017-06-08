@@ -71,6 +71,17 @@
 	</ul>
 	<ul class="myzoneUl">
 		<li>
+			<router-link :to="{name:'help'}"><i class="iconZone zone11"></i>企业信用额度
+				<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+		</li>
+		<li>
+			<router-link :to="{name:'plasticconfig'}"><i class="iconZone zone12"></i>塑料配资
+				<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
+		</li>
+	</ul>
+
+	<ul class="myzoneUl">
+		<li>
 			<router-link :to="{name:'help'}"><i class="iconZone zone10"></i>帮助<span>常见问题及联系客服</span>
 				<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
 		</li>
