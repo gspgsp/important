@@ -165,6 +165,7 @@ class wechatPayAction extends null2Action
         require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
         $notify = new PayNotifyCallBack();
         $notify->Handle(false);
+        file_put_contents('./sjs.txt',print_r('lslok',true)."\n",FILE_APPEND);
         $result = $notify->GetValues;
         file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
