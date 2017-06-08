@@ -162,7 +162,7 @@ class wechatPayAction extends null2Action
         $notify = new PayNotifyCallBack();
         $notify->Handle(false);
         $result = $notify->GetValues;
-
+        file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
         $order      = M ('order:onlineOrder');
         $order_id = $result['out_trade_no'];
         $order_info = $order->getPk ($order_id);
