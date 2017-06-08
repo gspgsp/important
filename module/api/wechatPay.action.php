@@ -158,6 +158,10 @@ class wechatPayAction extends null2Action
 
     public function wxJsNotify(){
         file_put_contents('./sjs.txt',print_r('sdfsdf',true)."\n",FILE_APPEND);
+        $xmlData = file_get_contents ('php://input');
+        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
+        file_put_contents('./sjs.txt',print_r($xmlData,true)."\n",FILE_APPEND);
+        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
         require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
         $notify = new PayNotifyCallBack();
         $notify->Handle(false);
