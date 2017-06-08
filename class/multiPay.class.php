@@ -87,7 +87,7 @@ class multiPay
             $input = new WxPayUnifiedOrder();
             $input->SetBody($this->goods_name);
             //$input->SetAttach("test");
-            $input->SetOut_trade_no(WxPayConfig::MCHID.date("YmdHis"));
+            $input->SetOut_trade_no($order_id);
             $input->SetTotal_fee($send_amount);
             $input->SetTime_start(date("YmdHis"));
             $input->SetTime_expire(date("YmdHis", time() + 600));
