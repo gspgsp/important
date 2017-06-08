@@ -427,8 +427,7 @@ class wkAction extends adminBaseAction{
 		$data = sdata();
 		p($data);
 		$data['model'] = strtoupper(trim($data['model']));
-		$data['smodel'] = trim($data['smodel']);
-		$data['smodel'] = strtoupper($data['smodel']);
+		$data['smodel'] = strtoupper(trim($data['smodel']));
 		p($data);die;
 		trim($data['remark']);
 		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
