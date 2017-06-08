@@ -384,18 +384,15 @@ class wkAction extends adminBaseAction{
 		$sortField = sget("sortField",'s','input_time'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
 		$where = " 1 and `stype` = $stype ";
+		//时间筛选
+		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
+		$where.=getTimeFilter($sTime); //时间筛选
 		//授信信息筛选
-		$key_type=sget('key_type','s','c_id');
+		$key_type=sget('key_type','s','grade');
 		$keyword=sget('keyword','s');
 		if(!empty($keyword)){
-			if($key_type=='c_name'){
-				$cidshare = M('user:customer')->getcidByCname($keyword);
+			if($key_type=='grade'){
 				$where.=" and $key_type like '%$keyword%' ";
-			}elseif($key_type=='customer_manager'){
-				$adms = join(',',M('rbac:adm')->getIdByName($keyword));
-			}elseif($key_type=='need_product'){
-				$where.=" and `need_product` like '%$keyword%' ";
-				//处理授信查询不准的情况
 			}else{
 				$where.=" and $key_type='$keyword' ";
 			}
