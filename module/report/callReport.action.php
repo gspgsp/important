@@ -89,7 +89,6 @@ class callReportAction extends adminBaseAction
             $dpt= sget('key_dpt','s','');
 
             $where="1 ";
-            $where.=" and role_id > 33 ";
             $where.=" and seat_phone >0";
             if(!empty($dpt)){
                 $where.=" and cname='{$dpt}'";
