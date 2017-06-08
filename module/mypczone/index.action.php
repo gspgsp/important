@@ -110,4 +110,13 @@ class indexAction extends homeBaseAction
 	public function myHelp(){
 		$this->display('myHelp');
 	}
+	public function myEdit(){
+		$this->display('myEdit');
+	}
+	public function chargeDo(){
+		$this->display('chargeDo');
+	}
+	public function howCharge(){
+		$this->display('howCharge');
+	}
 }
