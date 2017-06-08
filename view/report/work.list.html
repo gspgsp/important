@@ -176,7 +176,7 @@
 						<td>数量：</td>
 						<td><input name="num" class="mini-textbox"/></td>
 						<td>成本：</td>
-						<td><input name="cost" class="mini-textbox" minValue="0" maxValue="200"/></td>
+						<td><input name="cost" class="mini-textbox"/></td>
 						<td>销售价：</td>
 						<td><input name="sale_price" class="mini-textbox"/></td>
 					</tr>
@@ -184,7 +184,7 @@
 						<td>仓库：</td>
 						<td><input name="store" class="mini-textbox"/></td>
 						<td>区域：</td>
-						<td><input name="area" class="mini-textbox" minValue="0" maxValue="200"/></td>
+						<td><input name="area" class="mini-textbox"/></td>
 						<td>备注：</td>
 						<td><input name="remark" class="mini-textbox"/></td>
 					</tr>
@@ -261,7 +261,7 @@ function submitForm2(){
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form.loading("数据提交中，请稍后......");
-	var urlstr = '/product/order/addSubmit';
+	var urlstr = '/wk/wk/poublish';
 	$.post(urlstr,{data:json},function(data){
 		form.unmask();
 		$("#returnMsg").text(data.msg);
