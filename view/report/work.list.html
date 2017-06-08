@@ -497,12 +497,12 @@ function changeTab(e){
 //追加查看产品按钮
 function onLoadProduct(e){
 	var record = e.record,s='',p_id = record.p_id,model=record.model;
-	s += '<a href="javascript:searchModel('+model+')">'+model+'</a> ';
+	s += '<a href="javascript:sarData()">'+model+'</a> ';
 	return s;
 }
-//根据传输的model筛选
-function searchModel(cmodel){
-	var model = cmodel;
+//追加牌号搜索
+function sarData(e){
+	var record = e.record,model=record.model;
 	alert(model);
 }
 //查看产品相关信息
