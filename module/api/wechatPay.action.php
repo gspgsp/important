@@ -156,12 +156,13 @@ class wechatPayAction extends null2Action
     }
 
 
-    public function wxJsNotify(){p('this is a good life');
+    public function wxJsNotify(){
 //        $xmlData = file_get_contents ('php://input');
 //        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
 //        file_put_contents('./sjs.txt',print_r($xmlData,true)."\n",FILE_APPEND);
 //        file_put_contents('./sjs.txt',print_r($data,true)."\n",FILE_APPEND);
-        try{
+        p('this is a good life');p('---------------');
+        try{p(ggg);
             require_file(APP_LIB."class/WxpayAPI_php_v3/example/notify.php");
         }catch(Exception $e){
             p($e->getMessage());
