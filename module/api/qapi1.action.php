@@ -3013,13 +3013,16 @@ class qapi1Action extends null2Action
 
 
 
-    //
-    //    public function janfly(){
-    //        $cate_id=sget('cate_id','i');
-    //        $callback=sget('callback','s');
-    //        $arr=array('err'=>0,'cate_id'=>$cate_id);
-    //        echo $callback.'('.json_encode($arr).')';
-    //    }
+
+        public function janfly(){
+            echo 'right';
+//            $cate_id=sget('cate_id','i');
+//            $callback=sget('callback','s');
+//            $arr=array('err'=>0,'cate_id'=>$cate_id);
+//            echo $callback.'('.json_encode($arr).')';
+            $url = "http://test.myplas.com/plasticzone/plastic#/headlinedetail/1332";
+            echo shortenURL($url);
+        }
 
 
 }
