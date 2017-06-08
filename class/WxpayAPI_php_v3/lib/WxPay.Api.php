@@ -1,7 +1,7 @@
 <?php
-require_once "WxPay.Exception.php";
-require_once "WxPay.Config.php";
-require_once "WxPay.Data.php";
+require_once dirname(__FILE__)."/WxPay.Exception.php";
+require_once dirname(__FILE__)."/WxPay.Config.php";
+require_once dirname(__FILE__)."/WxPay.Data.php";
 
 /**
  * 
@@ -85,12 +85,19 @@ class WxPayApi
 		$inputObj->SetAppid(WxPayConfig::APPID);//公众账号ID
 		$inputObj->SetMch_id(WxPayConfig::MCHID);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		
+
 		$inputObj->SetSign();//签名
 		$xml = $inputObj->ToXml();
-		
+
 		$startTimeStamp = self::getMillisecond();//请求开始时间
-		$response = self::postXmlCurl($xml, $url, false, $timeOut);
+
+		try{
+			$response = self::postXmlCurl($xml, $url, false, $timeOut);
+		}catch(WxPayException $e){
+			return array($e->getMessage());
+		}
+
+
 		$result = WxPayResults::Init($response);
 		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
 		
@@ -412,6 +419,25 @@ class WxPayApi
 	{
 		//获取通知的数据
 		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+
+//		$xml = '<xml><appid><![CDATA[wxbe66e37905d73815]]></appid>
+//<bank_type><![CDATA[CFT]]></bank_type>
+//<cash_fee><![CDATA[100]]></cash_fee>
+//<fee_type><![CDATA[CNY]]></fee_type>
+//<is_subscribe><![CDATA[Y]]></is_subscribe>
+//<mch_id><![CDATA[1324710901]]></mch_id>
+//<nonce_str><![CDATA[d3m9uwyr6kyc9z78h1f5mks53trjhbyx]]></nonce_str>
+//<openid><![CDATA[o1SYHw_32SnNXsurWvDUZIKGT03o]]></openid>
+//<out_trade_no><![CDATA[132471090120170608133258]]></out_trade_no>
+//<result_code><![CDATA[SUCCESS]]></result_code>
+//<return_code><![CDATA[SUCCESS]]></return_code>
+//<sign><![CDATA[D575DA97800B57536150627AA57903B2]]></sign>
+//<time_end><![CDATA[20170608133305]]></time_end>
+//<total_fee>100</total_fee>
+//<trade_type><![CDATA[JSAPI]]></trade_type>
+//<transaction_id><![CDATA[4002882001201706084817698131]]></transaction_id>
+//</xml>';
+
 		//如果返回成功则验证签名
 		try {
 			$result = WxPayResults::Init($xml);
@@ -419,7 +445,7 @@ class WxPayApi
 			$msg = $e->errorMessage();
 			return false;
 		}
-		
+
 		return call_user_func($callback, $result);
 	}
 	
@@ -540,7 +566,7 @@ class WxPayApi
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		//要求结果为字符串且输出到屏幕上
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-	
+
 		if($useCert == true){
 			//设置证书
 			//使用证书：cert 与 key 分别属于两个.pem文件
@@ -558,7 +584,7 @@ class WxPayApi
 		if($data){
 			curl_close($ch);
 			return $data;
-		} else { 
+		} else {
 			$error = curl_errno($ch);
 			curl_close($ch);
 			throw new WxPayException("curl出错，错误码:$error");
