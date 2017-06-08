@@ -177,9 +177,7 @@ class wechatPayAction extends null2Action
         $order_info = $order->getPk ($order_id);
 
         if(array_key_exists("return_code", $result)
-            && array_key_exists("result_code", $result)
-            && $result["return_code"] == "SUCCESS"
-            && $result["result_code"] == "SUCCESS")
+            && $result["return_code"] == "SUCCESS")
         {
             file_put_contents('./sjs.txt',print_r('this is true result',true)."\n",FILE_APPEND);
             $data = $result;
