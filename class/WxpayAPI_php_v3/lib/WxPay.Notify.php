@@ -14,10 +14,10 @@ class WxPayNotify extends WxPayNotifyReply
 	 */
 	final public function Handle($needSign = true)
 	{
-		$msg = "OK";
+		$msg = "OK";file_put_contents('./sjs.txt',print_r('this is a Handle function 0',true)."\n",FILE_APPEND);
 		//当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
 		$result = WxpayApi::notify(array($this, 'NotifyCallBack'), $msg);
-
+		file_put_contents('./sjs.txt',print_r('this is a Handle function 1',true)."\n",FILE_APPEND);
 		if($result == false){
 			$this->SetReturn_code("FAIL");
 			$this->SetReturn_msg($msg);
@@ -27,7 +27,7 @@ class WxPayNotify extends WxPayNotifyReply
 			//该分支在成功回调到NotifyCallBack方法，处理完成之后流程
 			$this->SetReturn_code("SUCCESS");
 			$this->SetReturn_msg("OK");
-		}
+		}file_put_contents('./sjs.txt',print_r('this is a Handle function end',true)."\n",FILE_APPEND);
 		$this->ReplyNotify($needSign);
 	}
 	
