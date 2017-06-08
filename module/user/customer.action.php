@@ -199,7 +199,12 @@ class customerAction extends adminBaseAction {
 				//处理不能看到的数据
 			$where.=" and `customer_manager` in ($sons) ";
 		}
-
+		//一体工作台右侧牌号点击搜索
+		$smodel = sget('smodel',0,'i');
+		if($smodel > 0){
+			$mymodel = M('product:product')->getModelById($smodel);
+			$where.=" and `need_product` like '%$mymodel%' ";
+		}
 		//授信信息筛选
 		$key_type=sget('key_type','s','c_id');
 		$keyword=sget('keyword','s');
