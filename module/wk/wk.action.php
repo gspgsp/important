@@ -432,8 +432,6 @@ class wkAction extends adminBaseAction{
 		$data['factory'] = trim($data['factory']);
 		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
 		M('product:factory')->where("f_name='{$data['factory']}'")->select('f_name')->getOne() OR $this->error('添加失败，基础数据库中不存在此厂家');
-		$this->db->model('offers_msg')->add($_data+$data);
-		showtrace();
 		if(!$this->db->model('offers_msg')->add($_data+$data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
 		exit(json_encode(array('err'=>0,'data'=>$data)));
 	}
