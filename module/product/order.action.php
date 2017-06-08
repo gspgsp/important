@@ -31,7 +31,6 @@ class orderAction extends adminBaseAction {
 		$this->assign('admin_id',$_SESSION['admin_id']);
 		$this->moreChoice = sget('moreChoice','i',0);
 		$this->teams = M('rbac:adm')->getTeam();
-
 	}
 	/**
 	 * @access public
@@ -653,7 +652,8 @@ class orderAction extends adminBaseAction {
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
 				'admin_id'=>$_SESSION['adminid'],
-				'customer_manager'=>$partner_id,
+				// 'customer_manager'=>$_SESSION['adminid'],//处理原来的问题
+				'customer_manager'=>$partner_id;
 				'depart'=>$data['depart']>0 ? $data['depart'] : $_SESSION['depart'],
 			);
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){//如果是销售订单(1.先采后销  2.先销后采')
@@ -663,7 +663,7 @@ class orderAction extends adminBaseAction {
 			if($data['order_type'] == 2){//如果是销售订单(1.先采后销  2.先销后采')
 				if(isset($data['store_o_id'])) unset($data['store_o_id']);
 			}
-			if(!$this->db->model('order')->add($data)) $this->error("新增订单失败2");//新增订单
+			if(!$this->db->model('order')->add($add_data+$data)) $this->error("新增订单失败2");//新增订单
 			$o_id=$this->db->getLastID();//获取新增订单ID
 			if(!$o_id) $this->error("新增订单失败1");
 			if($data['order_type'] == 1 && $data['sales_type'] == 1){ //如果是销售订单(1.先采后销  2.先销后采')
