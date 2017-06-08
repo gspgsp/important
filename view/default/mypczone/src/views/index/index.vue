@@ -40,10 +40,10 @@
         </div>
       <!--search end-->
 	  <!--concern begin-->
-        <div class="concern">
+        <div v-if="isFocus" class="concern">
             <ul>
-                <li><a href="javascript:;"><p class="thumb thumb1"></p><span>我关注的人</span></a></li>
-                <li><a href="javascript:;"><p class="thumb thumb2"></p><span>关注我的人</span></a></li>
+                <li v-on:click="payfans()" style="cursor:pointer"><p class="thumb thumb2"></p><span>我关注的人</span></li>
+                <li v-on:click="myfans()" style="cursor:pointer"><p class="thumb thumb1"></p><span>关注我的人</span></li>
             </ul>
         </div>
       <!--concern end-->
@@ -66,25 +66,27 @@
                 <!--info begin-->               
                 <div class="info flt">
                         <p>
-                                <span class="company" v-html="top.c_name"></span>
+                                <span class="company" v-html="top.c_name" v-bind:title="top.c_name"></span>
                                 <span class="name" v-html="top.name"></span>&nbsp;{{top.sex}}</p>
                         <p>
                             <span v-if="top.type==='1'">产品:{{top.main_product}}</span>
                             <span v-if="top.type==='1'">月用量:{{top.month_consum}}</span>
                         </p>
                         <p v-if="top.type=='1'">
-                            供 :&nbsp;{{top.sale_count}} 求 :&nbsp;{{top.buy_count}}&nbsp; 需求：
-                            <b style="color: #666666; font-weight: normal;" v-html="top.need_product"></b>
+                            <span>供 :&nbsp;{{top.sale_count}}</span> 
+                            <span>求 :&nbsp;{{top.buy_count}}&nbsp; 需求：</span>
+                            <span style="color: #666666; font-weight: normal;" v-html="top.need_product"  class="need"></span>
                         </p>
                         <p v-if="top.type==='2'">
-                            供 :&nbsp;{{top.sale_count}} 求 :&nbsp;{{top.buy_count}} 主营：
-                            <b v-html="top.need_product"></b>
+                            <span>供 :&nbsp;{{top.sale_count}}</span> 
+                            <span>求 :&nbsp;{{top.buy_count}} 主营：</span>
+                            <span v-html="top.need_product"  class="need"></span>
                         </p>
                         <p v-if="top.type==='3'||top.type==='5'||top.type==='6'||top.type==='7'||top.type==='8'||top.type==='9'||top.type==='10'">
-                            主营产品：<b v-html="top.need_product"></b>
+                                <span>主营产品：</span><span v-html="top.need_product"  class="need"></span>
                         </p>
                         <p v-if="top.type==='4'">
-                            主营产品：<b v-html="top.main_product"></b>
+                            <span>主营产品：</span><span v-html="top.main_product"></span>
                         </p>
                 </div>
                 <!--info end-->
@@ -94,7 +96,7 @@
         </ul>
         <!--set-top end-->    
     <!--list begin-->
-   <ul id="list" class="list set-top" style="padding:300px 0 0 0;">   
+   <ul id="list" class="list" v-bind:class="{ padding1:isPadding1,padding2:isPadding2 }">   
         <li class="static" v-show="condition" v-for="n in name" style="font-size:12px; height:67px; padding:11px 0; overflow:hidden; border-bottom:1px solid #ccc;  cursor:pointer; " v-on:click="personinfo(n.user_id)">
             <!--pic begin-->
             <div class="pic flt">
@@ -105,8 +107,9 @@
             <!--info begin-->
              <div class="info flt" style="width:242px;">
                 <p>
-                    <span class="company" v-html="n.c_name"></span>
-                    <span class="name" v-html="n.name"></span>{{n.sex}}
+                    <span class="company" v-html="n.c_name" v-bind:title="n.c_name"></span>
+                    <span class="name" v-html="n.name"></span>
+                    <span v-html="n.sex"></span>
                 </p>
                 <p>
                     <span class="product"  v-if="n.type==='1'">产品：{{n.main_product}}</span>
@@ -116,14 +119,14 @@
                     <span>供：{{n.sale_count}}</span>
                     <span class="demand" ></span>
                     <span>求：{{n.buy_count}}&nbsp;</span>
-					<span>需求：</span>
-                    <span v-html="n.need_product"></span>
+	       <span>需求：</span>
+                    <span v-html="n.need_product" class="need"></span>
                 </p>
                 <p v-if="n.type==='2'">
                     <span>供：{{n.sale_count}}</span>
                     <span>求：{{n.buy_count}}&nbsp;</span>
 					<span>需求：</span>
-                    <span v-html="n.need_product"></span>
+                    <span v-html="n.need_product" class="need"></span>
                 </p>
                 <p v-if="n.type==='3'||n.type==='5'||n.type==='6'||n.type==='7'||n.type==='8'||n.type==='9'||n.type==='10'">
                     <span>主营产品：</span>
@@ -199,13 +202,17 @@ export default {
             bannerImg: "",
             filterShow:true,
             selected:'0',
-			selected1:'0'
+	selected1:'0',
+            isPadding1:"",
+            isPadding2:""
         }
     },
     methods: {
 	    onSelectChange:function(){
 		            var _this = this;
 					var selected = _this.selected;
+					console.log(selected);
+					console.log(_this.selected1);
 					_this.page = 1;
 					$.ajax({
 						type: "post",
@@ -314,7 +321,6 @@ export default {
                 },
                 dataType: 'JSON'
             }).then(function(res) {
-                //console.log(res);
                 if(res.err == 0) {
                     _this.condition = true;
                     _this.member = res.member;
@@ -393,9 +399,9 @@ export default {
                         sortOrder: _this.sortOrder,
                         keywords: _this.keywords.toLocaleUpperCase(),
                         page: _this.page,
-                        region: _this.region,
+                        region: _this.selected,
                         token: window.localStorage.getItem("token"),
-                        c_type: _this.c_type,
+                        c_type: _this.selected1,
                         size: 10
                     },
                     dataType: 'JSON'
@@ -404,18 +410,16 @@ export default {
                         _this.condition = true;
                         _this.name = _this.name.concat(res.persons);
                     } else if(res.err == 1) {
-                        /*weui.alert(res.msg, {
-                            title: '塑料圈通讯录',
-                            buttons: [{
-                                label: '确定',
-                                type: 'parimary',
-                                onClick: function() {
-                                    _this.$router.push({
-                                        name: 'login'
-                                    });
-                                }
-                            }]
-                        });*/
+					 layer.open({
+                     title: ["塑料圈通讯录", "text-align:center"],
+								offset : "28%",
+								content : res.msg,
+								btnAlign: 'c',
+									   anim : 2,
+									   yes : function () {
+									location.href = "/mypczone/index/login";		
+								}
+								   });
                     } else if(res.err == 2) {
                         _this.condition = false;
                     } else if(res.err == 3) {
@@ -427,6 +431,12 @@ export default {
 
             }
         },
+	myfans: function() {
+        location.href="/mypczone/index/myIntro?type=1";
+    },
+    payfans: function() {
+        location.href="/mypczone/index/myIntro?type=2";
+    },		
 	personinfo: function(user_id) {
 	    var user_id = user_id;
         location.href="/mypczone/index/indexinfo?id="+user_id;
@@ -477,9 +487,13 @@ export default {
                     _this.txt = "其他";
                 }
                 if(JSON.stringify(res.top) == '{}') {
-                    _this.top = null
+                    _this.top = null;
+					_this.isPadding1=true;
+					_this.isPadding2=false;
                 } else {
                     _this.top = res.top;
+					_this.isPadding1=false;
+					_this.isPadding2=true;
                 }
             } else if(res.err == 2) {
                 _this.condition = false;

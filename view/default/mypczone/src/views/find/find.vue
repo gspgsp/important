@@ -62,7 +62,20 @@ export default {
         }
     },
     mounted: function() {
-
+          if (!window.localStorage.getItem("token") ){
+              layer.open({
+                      title: false,
+                      offset : "28%",
+                      icon : 5,
+                      content : "您未登录塑料圈,无法查看企业及个人信息",
+                      closeBtn : false,
+                      btnAlign: 'c',
+                      anim : 2,
+                      yes : function () {
+                          location.href = "/mypczone/index/login?find";    
+                      }
+                  });
+        }
     }
 }
 </script>

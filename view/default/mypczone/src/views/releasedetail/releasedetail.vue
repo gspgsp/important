@@ -226,8 +226,18 @@ export default {
 								});
 							});
 						} else {
-							alert( res.msg );
-							window.location.reload();
+								layer.open({
+										title: false,
+										offset : "28%",
+										icon : 5,
+										closeBtn : false,
+										content : res.msg,
+										btnAlign: 'c',
+										anim : 2,
+										yes : function () {
+												window.location.reload();
+										}
+								});
 						}
 					}, function() {
 					});
@@ -269,8 +279,18 @@ export default {
 		
 						});
 					} else {
-							alert( res.msg );
-							window.location.reload();
+							layer.open({
+										title: false,
+										offset : "28%",
+										icon : 5,
+										closeBtn : false,
+										content : res.msg,
+										btnAlign: 'c',
+										anim : 2,
+										yes : function () {
+												window.location.reload();
+										}
+							});
 					}
 				}, function() {
 		

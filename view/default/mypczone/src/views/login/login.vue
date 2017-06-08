@@ -69,7 +69,14 @@ export default {
 									if(res.err == 0) {
 											window.localStorage.setItem("token", res.dataToken);
 											window.localStorage.setItem("userid", res.user_id);
-											errorMsg.html( res.msg );
+											var url=location.search,
+													results = [],
+													str = "";
+											//?supplybuy
+											if(url.indexOf("?")!=-1){
+											　　str = url.substr(1);
+											}
+											location.href = "/mypczone/index/"+str;
 									}
 									//res.err == 0 end
 									//res.err == 1 begin 手机号未注册

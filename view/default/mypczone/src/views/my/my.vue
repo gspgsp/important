@@ -19,8 +19,8 @@
                       <p>{{c_name}}</p>
                         <p>{{name}} {{mobile}}</p>
                         <p class="opt">
-                            <span class="change">更改用户信息<b></b></span>
-                            <span>上传名片加V认证<b>>></b></span>
+                            <span class="change" v-on:click="editInfo">更改用户信息<b></b></span>
+                            <span v-on:click="editInfo">上传名片加V认证<b>>></b></span>
                         </p>
                     </div>
                     <!--person-info end-->
@@ -68,19 +68,19 @@
                   <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item1">
+                        <div class="item item1"  v-on:click="toNext(2)">
                           <div class="icon icon1"></div>
                           <p>我的供给</p>
                             <div class="text">{{supply}}</div>
-                            <div class="arrow" v-on:click="toNext(2)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item2">
+                        <div class="item item2"  v-on:click="toNext(1)">
                           <div class="icon icon2"></div>
                           <p>我的求购</p>
                             <div class="text">{{buy}}</div>
-                            <div class="arrow" v-on:click="toNext(1)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -88,27 +88,27 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item3">
+                        <div class="item item3"  v-on:click="toIntro(3)">
                           <div class="icon icon3"></div>
                           <p>我的引荐</p>
                             <div class="text">{{invite}}</div>
-                            <div class="arrow" v-on:click="toIntro(3)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item4">
+                        <div class="item item4"  v-on:click="toIntro(1)">
                           <div class="icon icon4"></div>
                           <p>我的粉丝</p>
                             <div class="text">{{fans}}</div>
-                            <div class="arrow" v-on:click="toIntro(1)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item5">
+                        <div class="item item5"  v-on:click="toIntro(2)">
                           <div class="icon icon5"></div>
                           <p>我的关注</p>
                             <div class="text">{{pay}}</div>
-                            <div class="arrow" v-on:click="toIntro(2)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -116,19 +116,19 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item6">
+                        <div class="item item6"v-on:click="toComment(3)">
                           <div class="icon icon6"></div>
                           <p>我的留言</p>
                             <div class="text">未读留言{{msg}}</div>
-                            <div class="arrow" v-on:click="toComment(3)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item7">
+                        <div class="item item7" v-on:click="toMsg">
                           <div class="icon icon7"></div>
                           <p>我的消息</p>
                             <div class="text">未读消息{{msg2}}</div>
-                            <div class="arrow" v-on:click="toMsg"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -136,11 +136,11 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item8">
+                        <div class="item item8" v-on:click="toSudou">
                           <div class="icon icon8"></div>
                           <p>我的塑豆</p>
                             <div class="text">可兑换礼品</div>
-                            <div class="arrow" v-on:click="toSudou"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -148,11 +148,11 @@
                      <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item9">
+                        <div class="item item9" v-on:click="toHelp">
                           <div class="icon icon9"></div>
                           <p>帮助</p>
                             <div class="text">有问题点这里</div>
-                            <div class="arrow" v-on:click="toHelp"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -160,12 +160,33 @@
                      <!--li begin-->
                   <li class="quit">
                       <!--item begin-->
-                        <div class="item item10" v-on:click="logout">退出登录</div>
+                        <div class="item item10"  v-on:click="logout">退出登录</div>
                         <!--item end-->
                     </li>
                     <!--li begin-->
                 </ul>
         </div>
+    </div>
+    <div class="right flt">
+        <div class="default">
+            <div class="default-top"><img src="http://pic.myplas.com/mypc/img/default-top.png" width="440" height="170"/></div>
+            <!--default-bot begin-->
+            <div class="default-bot">
+                <!--opt begin-->
+                <div class="opt flt">
+                    <p class="opt1"><a target="_blank" href="http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q">iphone版下载</a></p>
+                    <p class="opt2"><a target="_blank" href="https://itunes.apple.com/cn/app/id1172762802">Android版下载</a></p>
+                </div>
+                <!--opt end-->
+                <!--ewm begin-->
+                <div class="ewm frt">
+                    <img src="http://pic.myplas.com/mypc/img/ewm.jpg" width="160" height="160"/>
+                    <p>扫一扫 加入通讯录</p>
+                </div>
+                <!--ewm end-->
+            </div>
+            </div>
+            <!--default-bot end-->
     </div>
 </div>
 </template>
@@ -234,19 +255,47 @@ export default {
             if(res.err == 0) {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
-              alert('退出登录成功');
+               layer.open({
+                    title: false,
+                    offset : "28%",
+                    content : "退出登录成功！",
+                    closeBtn : false,
+                    btnAlign: 'c',
+                    anim : 2,
+                    yes : function () {
+                        location.href = "/mypczone/index";    
+                    }
+                });
             } else {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
             }
-            window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
           }, function() {
 
           });
+        },
+        editInfo: function(){
+            window.location.href = "/mypczone/index/myEdit";
         }
     },
     mounted: function(){
       var _this = this;
+
+       if( !window.localStorage.getItem("token") ){
+              layer.open({
+                      title: false,
+                      offset : "28%",
+                      icon : 5,
+                      content : "您未登录塑料圈,无法查看企业及个人信息",
+                      closeBtn : false,
+                      btnAlign: 'c',
+                      anim : 2,
+                      yes : function () {
+                          location.href = "/mypczone/index/login?my";    
+                      }
+                  });
+      }
+
       $.ajax({
             url: '/qapi_3/myInfo/myZone',
             type: 'post',
@@ -258,6 +307,7 @@ export default {
             },
             dataType: 'JSON'
         }).done(function(res) {
+                console.log( res );
                 _this.name = res.data.name;
                 _this.c_name = res.data.c_name;
                 _this.mobile = res.data.mobile;

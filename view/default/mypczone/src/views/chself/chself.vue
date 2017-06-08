@@ -47,7 +47,7 @@ export default {
     methods: {
         toCreditintro: function() {
             var _this = this;
-            window.location.href = "http://www.gsp.com/mypczone/index/creditIntro";
+            window.location.href = "/mypczone/index/creditIntro";
         }
     },
     mounted: function() {

@@ -32,7 +32,10 @@ module.exports = {
 		'pages/myComment':'./src/views/myComment/myComment.js',
 		'pages/myMsg':'./src/views/myMsg/myMsg.js',
 		'pages/mySudou':'./src/views/mySudou/mySudou.js',
-		'pages/myHelp':'./src/views/myHelp/myHelp.js'
+		'pages/myHelp':'./src/views/myHelp/myHelp.js',
+		'pages/myEdit':'./src/views/myEdit/myEdit.js',
+		'pages/chargeDo':'./src/views/chargeDo/chargeDo.js',
+		'pages/howCharge':'./src/views/howCharge/howCharge.js'
 	},
 	output: {
 	    path: path.join(__dirname, '../../../../static/mypc'),
@@ -54,7 +57,7 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/headline/headline.html'),
 			hash:true,
 			inject:true,
-			chunks:['js/app','pages/headline']
+			chunks:['js/app','pages']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/find.html'),
@@ -96,7 +99,7 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/infobuy/infobuy.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/info_buy']
+			chunks:['js/app','pages/info_buy']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/login.html'),
@@ -216,6 +219,27 @@ module.exports = {
 			hash:true,
 			inject:true,
 			chunks:['js/app','pages/myHelp']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/myEdit.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/myEdit/myEdit.html'),
+			hash:true,
+			inject:true,
+			chunks:['js/app','pages/myEdit']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/chargeDo.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/chargeDo/chargeDo.html'),
+			hash:true,
+			inject:true,
+			chunks:['js/app','pages/chargeDo']
+		}),
+		new HtmlWebpackPlugin({
+			filename: path.join(__dirname, '../../../../www/view/default/mypczone/howCharge.html'),
+			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/howCharge/howCharge.html'),
+			hash:true,
+			inject:true,
+			chunks:['js/app','pages/howCharge']
 		})
 	],
 	module: {

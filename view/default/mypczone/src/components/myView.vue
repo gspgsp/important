@@ -18,8 +18,8 @@
                       <p>{{c_name}}</p>
                         <p>{{name}} {{mobile}}</p>
                         <p class="opt">
-                            <span class="change">更改用户信息<b></b></span>
-                            <span>上传名片加V认证<b>>></b></span>
+                            <span class="change" v-on:click="editInfo">更改用户信息<b></b></span>
+                            <span v-on:click="editInfo">上传名片加V认证<b>>></b></span>
                         </p>
                     </div>
                     <!--person-info end-->
@@ -67,19 +67,19 @@
                   <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item1">
+                        <div class="item item1"  v-on:click="toNext(2)">
                           <div class="icon icon1"></div>
                           <p>我的供给</p>
                             <div class="text">{{supply}}</div>
-                            <div class="arrow" v-on:click="toNext(2)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item2">
+                        <div class="item item2"   v-on:click="toNext(1)">
                           <div class="icon icon2"></div>
                           <p>我的求购</p>
                             <div class="text">{{buy}}</div>
-                            <div class="arrow" v-on:click="toNext(1)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -87,27 +87,27 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item3">
+                        <div class="item item3" v-on:click="toIntro(3)">
                           <div class="icon icon3"></div>
                           <p>我的引荐</p>
                             <div class="text">{{invite}}</div>
-                            <div class="arrow" v-on:click="toIntro(3)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item4">
+                        <div class="item item4" v-on:click="toIntro(1)">
                           <div class="icon icon4"></div>
                           <p>我的粉丝</p>
                             <div class="text">{{fans}}</div>
-                            <div class="arrow" v-on:click="toIntro(1)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item5">
+                        <div class="item item5" v-on:click="toIntro(2)">
                           <div class="icon icon5"></div>
                           <p>我的关注</p>
                             <div class="text">{{pay}}</div>
-                            <div class="arrow" v-on:click="toIntro(2)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -115,19 +115,19 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item6">
+                        <div class="item item6"  v-on:click="toComment(3)">
                           <div class="icon icon6"></div>
                           <p>我的留言</p>
                             <div class="text">未读留言{{msg}}</div>
-                            <div class="arrow" v-on:click="toComment(3)"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                         <!--item begin-->
-                        <div class="item item7">
+                        <div class="item item7" v-on:click="toMsg">
                           <div class="icon icon7"></div>
                           <p>我的消息</p>
                             <div class="text">未读消息{{msg2}}</div>
-                            <div class="arrow" v-on:click="toMsg"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -135,11 +135,11 @@
                     <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item8">
+                        <div class="item item8"  v-on:click="toSudou">
                           <div class="icon icon8"></div>
                           <p>我的塑豆</p>
                             <div class="text">可兑换礼品</div>
-                            <div class="arrow" v-on:click="toSudou"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -147,11 +147,11 @@
                      <!--li begin-->
                   <li>
                       <!--item begin-->
-                        <div class="item item9">
+                        <div class="item item9" v-on:click="toHelp">
                           <div class="icon icon9"></div>
                           <p>帮助</p>
                             <div class="text">有问题点这里</div>
-                            <div class="arrow" v-on:click="toHelp"></div>
+                            <div class="arrow"></div>
                         </div>
                         <!--item end-->
                     </li>
@@ -193,22 +193,22 @@ export default {
     },
     methods: {
       toNext: function(type){
-        window.location.href = "http://www.bendi.com/mypczone/index/mySupply?type="+type;
+        window.location.href = "/mypczone/index/mySupply?type="+type;
       },
       toIntro: function(type){
-        window.location.href = "http://www.bendi.com/mypczone/index/myIntro?type="+type;
+        window.location.href = "/mypczone/index/myIntro?type="+type;
       },
       toComment: function(type){
-        window.location.href = "http://www.bendi.com/mypczone/index/myComment?type="+type;
+        window.location.href = "/mypczone/index/myComment?type="+type;
       },
       toMsg: function(){
-        window.location.href = "http://www.bendi.com/mypczone/index/myMsg";
+        window.location.href = "/mypczone/index/myMsg";
       },
       toSudou: function(){
-        window.location.href = "http://www.bendi.com/mypczone/index/mySudou";
+        window.location.href = "/mypczone/index/mySudou";
       },
       toHelp: function(){
-        window.location.href = "http://www.bendi.com/mypczone/index/myHelp";
+        window.location.href = "/mypczone/index/myHelp";
       },
       logout: function() {
           var _this = this;
@@ -227,15 +227,27 @@ export default {
             if(res.err == 0) {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
-              alert('退出登录成功');
+              layer.open({
+                    title: false,
+                    offset : "28%",
+                    content : "退出登录成功！",
+                    closeBtn : false,
+                    btnAlign: 'c',
+                    anim : 2,
+                    yes : function () {
+                        location.href = "/mypczone/index";    
+                    }
+                });
             } else {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
             }
-            window.localStorage.setItem("XUA","weixin|5.5|"+localStorage.getItem("userid")+"|"+localStorage.getItem("token")+"|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
           }, function() {
 
           });
+        },
+        editInfo: function(){
+            window.location.href = "/mypczone/index/myEdit";
         }
     },
     mounted: function(){
@@ -244,7 +256,7 @@ export default {
             url: '/qapi_3/myInfo/myZone',
             type: 'post',
             data: {
-                token: window.localStorage.getItem("token")
+                token: '3bf198c15c2b3b98bd41832df8445a89'
             },
             headers: {
                 'X-UA': window.localStorage.getItem("XUA")

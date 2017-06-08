@@ -131,8 +131,6 @@ export default {
                     this.isHover6 = false;
                     break;
             }
-
-            // window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
             $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getCateList',
@@ -170,7 +168,6 @@ export default {
             this.isHover5 = false;
             this.isHover6 = true;
 
-            window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
             $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getCateList',
@@ -199,13 +196,8 @@ export default {
         },
     search: function() {
         var _this = this;
-        window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
         if(this.keywords) {
-            try {
-                var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-                piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-            } catch(err) {}
-
+        alert(this.keywords);
             $.ajax({
                 url: '/qapi_3/toutiao/getSubscribe',
                 type: 'post',
@@ -220,6 +212,7 @@ export default {
             },
                 dataType: 'JSON'
                 }).done(function(res) {
+                console.log(res);
                     if(res.err == 0) {
                         _this.items = res.data.slice(0, 3);
                         console.log(_this.items);
@@ -234,12 +227,11 @@ export default {
             }
         },
     moveToDetail: function(id){
-        window.location.href = "http://www.gsp.com/mypczone/index/headline2?id="+id;//本地路径
+        window.location.href = "/mypczone/index/headline2?id="+id;//本地路径
         },
     nextPage: function(page,cate_id){
         var _this = this;
         _this.page = page + 1;
-        window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
         $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getCateList',
@@ -256,7 +248,7 @@ export default {
         }).done(function(res) {
             if(res.err == 0) {
                 console.log(res);
-                _this.items = res.info;
+                _this.items = _this.items.concat(res.info);
             } else {
 
             }
@@ -298,7 +290,6 @@ export default {
             };
 
         var _this = this;
-        window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
         $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getCateList',

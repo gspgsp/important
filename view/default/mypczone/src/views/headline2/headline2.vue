@@ -79,7 +79,6 @@ export default {
         },
         toPage: function(id) {
         var _this = this;
-        window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
         if(id) {
             $.ajax({
                 type: "post",
@@ -146,7 +145,6 @@ export default {
             };
         var _this = this;
         var id = _this.getParam("id");
-        window.localStorage.setItem("XUA","pc|5.5|9270|36db9c73b98a81d566ba5922a5281854|0|"+navigator.platform+"|"+navigator.platform+"|"+navigator.platform+"|"+navigator.appName+"|"+navigator.appCodeName+"|0|0|0");
         $.ajax({
             type: "post",
             url: '/qapi_3/toutiao/getDetailInfo',

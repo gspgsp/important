@@ -15,8 +15,8 @@
                 <div class="mall-link">
                     <ul>
                         <li class="mall-link1"><a href="javascript:;"><span>{{points}}</span>塑豆</a></li>
-                        <li class="mall-link2"><a href="javascript:;">如何赚塑豆</a></li>
-                        <li class="mall-link3 last"><a href="javascript:;">充值塑豆</a></li>
+                        <li class="mall-link2"><a href="javascript:;" v-on:click="howCharge">如何赚塑豆</a></li>
+                        <li class="mall-link3 last"><a href="javascript:;" v-on:click="chargeDo">充值塑豆</a></li>
                     </ul>
                 </div>
                 <!--mall-link end-->
@@ -57,7 +57,7 @@
                         <!--use begin-->
                         <div class="use flt">总塑豆：{{count1 * p1.points}}</div>
                         <!--use end-->
-                        <button>提交兑换</button>
+                        <button v-on:click="proExchange">提交兑换</button>
                     </div>
                     <!--opt end-->
                 </div>
@@ -118,7 +118,7 @@
                         <!--use begin-->
                         <div class="use flt">总塑豆：{{p2.points * count2}}</div>
                         <!--use end-->
-                        <button>提交兑换</button>
+                        <button v-on:click="proExchange">提交兑换</button>
                     </div>
                     <!--opt end-->
                 </div>
@@ -224,8 +224,57 @@ export default{
                     _this.choseData.pop();
                     _this.choseData.push(choseid);
                 }
-        }
-    },
+        },
+        proExchange: function() {
+                    var _this = this;
+                    Date.prototype.Format = function(fmt)   
+                    { //author: meizz   
+                      var o = {   
+                        "M+" : this.getMonth()+1,                 //月份   
+                        "d+" : this.getDate(),                    //日   
+                        "h+" : this.getHours(),                   //小时   
+                        "m+" : this.getMinutes(),                 //分   
+                        "s+" : this.getSeconds(),                 //秒   
+                        "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+                        "S"  : this.getMilliseconds()             //毫秒   
+                      };   
+                      if(/(y+)/.test(fmt))   
+                        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+                      for(var k in o)   
+                        if(new RegExp("("+ k +")").test(fmt))   
+                      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+                      return fmt;   
+                    }
+                    var myDate = new Date();
+                    var selectTime = myDate.Format("yyyy-MM-dd");
+                        $.ajax({
+                            type: "post",
+                            url: "/qapi_3/product/newExchangeSupplyOrDemand",
+                            data: {
+                                token: window.localStorage.getItem("token"),
+                                goods_id: _this.pro.id,
+                                dates:selectTime,
+                                pur_id: _this.choseData[0]
+                            },
+                            headers: {
+                                'X-UA': window.localStorage.getItem("XUA")
+                            },
+                            dataType: 'JSON'
+                        }).then(function(res) {
+                            if(res.err == 0) {
+                                alert('兑换成功');
+                            }else{
+                                alert("wrong");
+                            }
+                    })
+            },
+            howCharge: function(){
+                window.location.href = "/mypczone/index/howCharge";
+            },
+            chargeDo: function(){
+                window.location.href = "/mypczone/index/chargeDo";
+            }
+        },
     mounted: function() {
         var _this = this;
         _this.name = [];
@@ -243,7 +292,7 @@ export default{
             html.height( h );
 
             //设置右侧的宽度
-            setW( left, center, right );
+            /*setW( left, center, right );
             $( window ).resize( function () {
                 setW( left, center, right );
             } );
@@ -252,7 +301,7 @@ export default{
                 index = index || 0;
                 var w = ( index === 1 ) ? $( document ).width() - gid1.width() : $( document ).width() - gid1.width() - gid2.width();
                 elem.width( w );
-            };
+            };*/
             $.ajax({
                 url:'/qapi_3/product/getProductList',
                 type: 'post',

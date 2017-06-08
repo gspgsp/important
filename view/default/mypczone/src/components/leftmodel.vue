@@ -13,7 +13,7 @@
             <li id="left2" class=""><a href="/mypczone/index/supplybuy"><span class="menu2"></span>供求</a></li>
             <li id="left3" class=""><a href="/mypczone/index/find"><span class="menu3"></span>发现</a></li>
             <li id="left4" class=""><a href="/mypczone/index/my"><span class="menu4"></span>我的</a></li>
-            <li id="left5" class=""><a href="/mypczone/index/login">登录</a></li>
+            <!--<li id="left5" class=""><a href="/mypczone/index/login">登录</a></li>-->
         </ul>
     </div>
     <!--left end-->
@@ -117,6 +117,7 @@ export default {
 			case 'indexinfo':
 			case 'infobuy':
 			case 'infosale':
+			case 'mypczone':			
 				document.getElementById( "left1" ).className = "hover"; 
 				break;
 			case 'supplybuy':

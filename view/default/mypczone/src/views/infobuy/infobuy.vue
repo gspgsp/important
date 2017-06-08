@@ -3,7 +3,7 @@
  <Leftmodel></Leftmodel>
  <Centermodel></Centermodel>
   <div class="right flt">
-<div class="back"><a href="/mypczone/index/index_info"></a>查看TA的求购</div>
+<div class="back"><a href="/mypczone/index/indexinfo"></a>查看TA的求购</div>
 <!--back end-->
 <!--summary begin-->
 <div class="summary w96" style="padding-top:30px;">
@@ -72,11 +72,11 @@ export default {
         } catch( err ) {
             
         }
-        $.ajax({
+        $.ajax({        
             url:  version +"/friend/getTaPur",
             type: 'post',
             data: {
-                userid: lid,
+                user_id: lid,
                 type: 1,
                 page: _this.page,
                 token: window.localStorage.getItem("token"),
@@ -102,7 +102,7 @@ export default {
             url: version + '/friend/getZoneFriend',
             type: 'post',
             data: {
-                userid: _this.$route.params.id,
+                user_id: lid,
                 token: window.localStorage.getItem("token"),
                 size: 10
             },

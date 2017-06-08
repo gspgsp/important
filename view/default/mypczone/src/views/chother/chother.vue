@@ -71,7 +71,7 @@ export default{
             });
         },
         getInfo: function(contact_id){
-            window.location.href = "http://www.gsp.com/mypczone/index/checkOther2?link_id="+contact_id;
+            window.location.href = "/mypczone/index/checkOther2?link_id="+contact_id;
         }
     },
     mounted: function() {

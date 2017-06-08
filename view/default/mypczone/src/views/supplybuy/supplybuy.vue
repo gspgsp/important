@@ -84,28 +84,33 @@
 		        			</li>
 				     	</ul>
 				      <!--list end-->
-				      <!--page begin-->
-				      <!--<div class="page"  v-if="condition!=7">
-				      		<a href="javascript:;" v-on:click="loadingMore('prev')" class="prev">上一页</a>
-				      		<a href="javascript:;" v-on:click="loadingMore('next')" class="next">下一页</a>
-				      </div>-->
-				      <!--page end-->
 				      <!--no-results begin-->
-					    <div class="no-results no-results1" v-if="condition==7">
-					    	<!--thumb begin-->
-					        <div class="thumb flt">
-					        	<div class="img"></div>
-					        	<span>系统暂未为您匹配到相应的牌号，暂无推荐！</span>
-					        </div>
-					        <!--thumb end-->
-					        <!--explain begin-->
-					        <div class="explain frt">
-					            <h4>说明：</h4>
-					            <p>1、智能推荐会根据您发布的信息为您匹配相关牌号的供求信息；</p>
-					            <p>2、若无匹配信息，则目前不存在此牌号的信息。</p>
-					        </div>
-					        <!--explain end-->
-					    </div>
+				      <div class="releaseMsg" v-if="condition==7">
+									<div class="releaseMsgHead"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+									<div class="releaseMsgIntro"></div>
+							</div>
+							<div class="releaseMsg" v-if="condition==8">
+									<div class="releaseMsgHead"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+							</div>
+							<div class="releaseMsg" v-if="condition==2">
+									<div class="releaseMsgHead2"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+							</div>
+							<div class="releaseMsg" v-if="condition==6">
+									<div class="releaseMsgHead2"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+							</div>
+							<div class="releaseMsg" v-if="condition==9">
+									<div class="releaseMsgHead3"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+							</div>
+							<div class="releaseMsg" v-if="condition==4">
+									<div class="releaseMsgHead2"></div>
+									<div class="releaseTxt">{{errmsg}}</div>
+									<div class="releaseMsgIntro"></div>
+							</div>
 					    <!--no-results end-->
 				    </div>
 				    <!--con-tab-1 end-->
@@ -183,6 +188,9 @@
 		<!--right end-->
   </div>
 </template>
+<style type="text/css">
+.layui-layer-content{ text-align:center;}
+</style>
 <script>
 import Leftmodel from "../../components/Leftmodel";
 export default {
@@ -213,7 +221,7 @@ export default {
 					filter2: true,
 					filter3: false,
 					filter4: false,
-					condition: 7,
+					condition: null,
 					txt2: "全部",
 					filtershow: false,
 					mine: false,
@@ -259,7 +267,6 @@ export default {
 								},
 								dataType: 'JSON'
 							}).then(function(res) {
-								console.log(res)
 								if(res.err == 0) {
 									_this.release = res.data;
 								} else if(res.err == 2) {
@@ -514,6 +521,7 @@ export default {
 									_this.top = null;
 								}
 								console.log( "共有数据"+ _this.release.length+"条" );
+								console.log( "condition = "+_this.condition );
 					}).fail(function() {
 
 					}).always(function() {
@@ -637,7 +645,14 @@ export default {
 							});
 						} else if(res.err == 3) {
 							//没有更多数据
-							alert(res.msg);
+							layer.open({
+									title: false,
+									offset : "28%",
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2
+							});
 						}
 					}, function() {
 	
@@ -705,7 +720,6 @@ export default {
 											
 										});
 										_this.re_isDisable = false;
-										alert( res.msg );
 										window.location.reload();
 								} else {
 										/*mui.alert("", res.msg, function() {
@@ -718,10 +732,15 @@ export default {
 				}
 				//if end
 				else {
-						/*mui.alert("", "请把信息填写完整", function() {
-							_this.re_isDisable = false;
-						});*/
-						alert( "请把信息填写完整" );
+						layer.open({
+								title: false,
+								offset : "28%",
+								icon : 5,
+								closeBtn : false,
+								content : "请把相关信息填写完整，谢谢！",
+								btnAlign: 'c',
+								anim : 2
+						});
 						_this.re_isDisable = false;
 				}
 		}
@@ -730,7 +749,6 @@ export default {
   //mounted begin
 	mounted : function () {
 				var _this = this;
-				
 				$(".right").scroll( function(){
 						var scrollTop = $(this).scrollTop();
             var scrollHeight = $(document).height();
@@ -760,8 +778,18 @@ export default {
 						_this.release = res.data;
 						_this.top = res.top;
 					} else if(res.err == 1) {
-							alert( res.msg );
-							location.href = "/mypczone/index/login";
+							layer.open({
+									title: false,
+									offset : "28%",
+									icon : 5,
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2,
+									yes : function () {
+											location.href = "/mypczone/index/login?supplybuy";		
+									}
+							});
 							
 					} else if(res.err == 2) {
 						_this.condition = res.err;

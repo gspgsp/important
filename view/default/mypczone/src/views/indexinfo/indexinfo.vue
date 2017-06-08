@@ -221,7 +221,7 @@ export default {
                         url: version +"/friend/getZoneFriend",
                         type: 'post',
                         data: {
-                            user_id: loc,
+                            user_id: lid,
                             showType: 5,
                             token: window.localStorage.getItem("token")
                         },
@@ -289,7 +289,7 @@ export default {
             url: version +"/friend/getTaPur",
             type: 'post',
             data: {
-                userid: 53402,
+                user_id: lid,
                 page: 1,
                 size: 5,
                 type: 1,
@@ -315,7 +315,7 @@ export default {
             url:  version +"/friend/getTaPur",
             type: 'post',
             data: {
-                userid: 53402,
+                userid: lid,
                 page: 1,
                 size: 5,
                 type: 2,

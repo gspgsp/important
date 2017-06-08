@@ -56,7 +56,7 @@ export default {
           return context == null || context == "" || context == "undefined" ? "" : context;
         },
         toCreditintro: function() {
-            window.location.href = "http://www.gsp.com/mypczone/index/creditIntro";
+            window.location.href = "/mypczone/index/creditIntro";
         }
     },
     mounted: function() {
