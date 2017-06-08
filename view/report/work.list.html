@@ -180,18 +180,21 @@
 			<div id="editForm1" style="padding:5px;" >
 				<table style="width:100%;">
 					<tr>
-						<td style="width:50px;">牌号：</td>
-						<td style="width:100px;"><input name="model" class="mini-textbox" /></td>
-						<td style="width:50px;">厂家：</td>
-						<td style="width:100px;"><input name="factory" class="mini-textbox" /></td>
-						<td style="width:50px;">数量：</td>
-						<td style="width:100px;"><input name="num" class="mini-textbox" /></td>
+						<td style="width:50px;">牌号：<font style="color:red;">*</font></td>
+						<td style="width:100px;"><input name="model" class="mini-textbox" required="true"/></td>
+						<td style="width:50px;">厂家：<font style="color:red;">*</font></td>
+						<td style="width:100px;"><input name="factory" class="mini-textbox" required="true"/></td>
+						<td style="width:50px;">数量：<font style="color:red;">*</font></td>
+						<td style="width:100px;"><input name="num" class="mini-textbox" required="true"/></td>
 					</tr>
 					<tr>
-						<td>价格：</td>
-						<td><input name="num" class="mini-textbox"/></td>
+						<td>价格：<font style="color:red;">*</font></td>
+						<td><input name="sale_price" class="mini-textbox" required="true"/></td>
 						<td>备注：</td>
-						<td><input name="remark" class="mini-textbox"/></td>
+						<td>
+							<input name="remark" class="mini-textbox"/>
+							<input name="stype" value="1" class="mini-hidden"/>
+						</td>
 					</tr>
 				</table>
 				<div style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
@@ -201,28 +204,31 @@
 			<div id="editForm2" style="padding:5px;" class="hidden">
 				<table style="width:100%;">
 					<tr>
-						<td style="width:80px;">牌号：</td>
+						<td style="width:80px;">牌号：<font style="color:red;">*</font></td>
 						<td style="width:100px;"><input name="model" class="mini-textbox" required="true" emptyText="牌号"/></td>
-						<td style="width:80px;">厂家：</td>
+						<td style="width:80px;">厂家：<font style="color:red;">*</font></td>
 						<td style="width:100px;"><input name="factory" class="mini-textbox" required="true" emptyText="厂家"/></td>
 						<td style="width:80px;">相似牌号：</td>
 						<td style="width:100px;"><input name="smodel" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
 					</tr>
 					<tr>
-						<td>数量：</td>
+						<td>数量：<font style="color:red;">*</font></td>
 						<td><input name="num" class="mini-textbox" required="true"/></td>
-						<td>成本：</td>
+						<td>成本：<font style="color:red;">*</font></td>
 						<td><input name="price" class="mini-textbox" required="true"/></td>
-						<td>销售价：</td>
+						<td>销售价：<font style="color:red;">*</font></td>
 						<td><input name="sale_price" class="mini-textbox" required="true"/></td>
 					</tr>
 					<tr>
-						<td>仓库：</td>
+						<td>仓库：<font style="color:red;">*</font></td>
 						<td><input name="store" class="mini-textbox" required="true"/></td>
-						<td>区域：</td>
+						<td>区域：<font style="color:red;">*</font></td>
 						<td><input name="china_area" class="mini-combobox" data="[{id: 1, text: '华东'},{id: 2, text: '华北'},{id: 3, text: '华南'},{id: 4, text: '其他'}]" textField="text" valueField="id" required="true"/></td>
 						<td>备注：</td>
-						<td><input name="remark" class="mini-textbox"/></td>
+						<td>
+							<input name="remark" class="mini-textbox"/>
+							<input name="stype" value="2" class="mini-hidden"/>
+						</td>
 					</tr>
 				</table>
 				<div style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
@@ -281,7 +287,7 @@ function submitForm1(){
 	var json = mini.encode(o);
 	$("#returnMsg").text('');
 	form1.loading("数据提交中，请稍后......");
-	var urlstr = '/product/order/addSubmit';
+	var urlstr = '/wk/wk/poublish';
 	$.post(urlstr,{data:json},function(data){
 		form1.unmask();
 		$("#returnMsg").text(data.msg);
