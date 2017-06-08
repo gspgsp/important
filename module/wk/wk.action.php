@@ -409,4 +409,29 @@ class wkAction extends adminBaseAction{
 		$result=array('total'=>$list['count'],'data'=>$list['data']);
 		$this->json_output($result);
 	}
+	/**
+	 * [poublish 一体化工作台报价]
+	 * @Author   cuiyinming               QQ:1203116460
+	 * @DateTime 2017-06-08T14:53:46+0800
+	 * @return   [type]                   [description]
+	 */
+	public function poublish(){
+		$this->ajax = true;
+		$_data = array(
+			'input_time'=>CORE_TIME,
+			'uid'=>$this->adminid,
+			'uname'=>$this->uname,
+			'person_phone'=>M('rbac:adm')->getPhoneByAdminId($this->adminid),
+			'status'=>1,//1.待审核   2审核通过  3.不通过
+		);
+		&$data = sdata();
+		strtoupper(trim($data['model']));
+		strtoupper(trim($data['smodel']));
+		p($data);die;
+		trim($data['remark']);
+		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
+		M('product:factory')->where("f_name='{$data['factory']}'")->select('f_name')->getOne() OR $this->error('添加失败，基础数据库中不存在此厂家');
+		if(!$this->db->model('offers_msg')->add($_data+$data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
+		exit(json_encode(array('err'=>0,'data'=>$data)));
+	}
 }
