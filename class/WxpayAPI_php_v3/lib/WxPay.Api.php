@@ -445,7 +445,9 @@ class WxPayApi
 			$msg = $e->errorMessage();
 			return false;
 		}
-
+		file_put_contents('./sjs.txt',print_r('this WxPay.Api.php notify function',true)."\n",FILE_APPEND);
+		file_put_contents('./sjs.txt',print_r($result,true)."\n",FILE_APPEND);
+		file_put_contents('./sjs.txt',print_r('------',true)."\n",FILE_APPEND);
 		return call_user_func($callback, $result);
 	}
 	
