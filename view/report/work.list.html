@@ -293,7 +293,7 @@ function submitForm1(){
 	$.post(urlstr,{data:json},function(data){
 		form1.unmask();
 		if(data.err=='0'){
-			grid.reload();
+			bjgrids.reload();
 		}else{
 			$("#returnMsg").text(data.msg);
 		}
