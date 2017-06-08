@@ -156,7 +156,7 @@ class wechatPayAction extends null2Action
     }
 
 
-    public function wxJsNotify(){
+    public function wxJsNotify(){p('this is a good life');
 //        $xmlData = file_get_contents ('php://input');
 //        $data = $this->wechatPay->xmlstr_to_array ($xmlData);
 //        file_put_contents('./sjs.txt',print_r($xmlData,true)."\n",FILE_APPEND);
