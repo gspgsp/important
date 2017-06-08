@@ -506,6 +506,7 @@ function sarData(m){
 	var smodel = mini.get('smodel').setValue(m);
 	grid.load($("#csoform").serializeObject(),function(e){
 		$("#csearchMsg").html(e.msg);
+		mini.get('smodel').setValue('');
 	});
 }
 //查看产品相关信息
