@@ -401,7 +401,6 @@ class wkAction extends adminBaseAction{
 			}
 		}
 		$list=$this->db->where($where)->page($page+1,$size)->order("$sortField $sortOrder")->getPage();
-		p($list);
 		foreach($list['data'] as &$v){
 			$v['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$v['fmodel'] = $v['grade'].'/'.$v['factory'];
@@ -434,7 +433,6 @@ class wkAction extends adminBaseAction{
 		M('product:product')->where("model='{$data['model']}'")->select('model')->getOne() OR $this->error('添加失败，基础数据库中不存在此牌号');
 		M('product:factory')->where("f_name='{$data['factory']}'")->select('f_name')->getOne() OR $this->error('添加失败，基础数据库中不存在此厂家');
 		if(!$this->db->model('offers_msg')->add($_data+$data)) exit(json_encode(array('err'=>1,'msg'=>'系统错误，发布失败。code:101')));
-		showtrace();
 		exit(json_encode(array('err'=>0,'data'=>$data)));
 	}
 }
