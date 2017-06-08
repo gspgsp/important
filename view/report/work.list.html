@@ -89,7 +89,7 @@
 						</tr>
 					</table>
 				</div>
-				<div id="investGrid" class="mini-datagrid" style="width:auto;height:280px;" url="/wk/wk/getDatas&stype=2" sizeList="[10,20,50,100]" pageSize="20">
+				<div id="investGrid" class="mini-datagrid" style="width:auto;height:280px;" url="/product/storeDetail/init?action=grid&isAddSale=1" sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
 						<div field="f_name" width="55" headerAlign="center" align="center" allowSort="true">厂家</div>
@@ -102,6 +102,7 @@
 					</div>
 				</div>
 			</div>
+
 			<div title="==采 购 信 息==">
 				<div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
 						<style>table p{padding:0; margin:0; padding-top:3px;}</style>
@@ -125,6 +126,42 @@
 						</table>
 					</div>
 				<div id="gridCell" class="mini-datagrid" style="width:auto;height:480px;" url="/wk/wk/getDatas"
+					 sizeList="[10,20,50,100]" pageSize="20">
+					<div property="columns">
+						<div field="fmodel" width="50" headerAlign="center" align="center">牌号/厂家</div>
+						<div field="hinfo" width="50" headerAlign="center" align="center">价格/仓库</div>
+						<div field="ainfo" width="50" headerAlign="center" align="center">区域/吨数</div>
+						<div field="uname" width="40" headerAlign="center" align="center">采购人</div>
+						<div field="input_time" width="60" headerAlign="center"  align="center" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
+						<div action="" width="30" headerAlign="center" align="center" renderer="republish">操作</div>
+						<div field="remark" width="30" headerAlign="center" align="center">备注</div>
+					</div>
+				</div>
+			</div>
+
+			<div title="==报 价 信 息==">
+				<div class="mini-toolbar" style="padding:2px;border-top:0;border-left:0;border-right:0;">
+						<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+						<table style="width:100%;">
+							<tr>
+								<td style="white-space:nowrap;">
+								<form id="soform">
+									添加时间
+									<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+									<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+									<select name="key_type">
+										<option value="c_name" selected="selected">客户名称</option>
+										<option value="need_product" >所需牌号</option>
+									</select>
+									<input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+									<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+												<span id="searchMsg"></span>
+								</form>
+								</td>
+							</tr>
+						</table>
+					</div>
+				<div id="bjCell" class="mini-datagrid" style="width:auto;height:480px;" url="/wk/wk/getDatas?stype=2"
 					 sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="fmodel" width="50" headerAlign="center" align="center">牌号/厂家</div>
@@ -202,6 +239,10 @@ mini.parse();
 
 var grids = mini.get("gridCell");
 grids.load();
+
+//报价
+var bjgrids = mini.get("bjCell");
+bjgrids.load();
 
 //加载左侧信息
 var grid = mini.get("gridCells");
@@ -373,7 +414,7 @@ function removeRow(cid) {
 	);
 }
 function changeTab(e){
-	var investGrid=mini.get("investGrid"), gridCell=mini.get("gridCell");
+	var investGrid=mini.get("investGrid"), gridCell=mini.get("gridCell"),bjCell=mini.get("bjCell");
 	var tab=e.tab;
 	if(tab.title=='==库 存 信 息=='){
 		var data=investGrid.getData();
@@ -385,6 +426,12 @@ function changeTab(e){
 		var data=gridCell.getData();
 		if(data.length<1){
 			gridCell.load();
+		}
+	}
+	if(tab.title=='==报 价 信 息=='){
+		var data=bjCell.getData();
+		if(data.length<1){
+			bjCell.load();
 		}
 	}
 }
