@@ -14,7 +14,7 @@ class WxPayNotify extends WxPayNotifyReply
 	 */
 	final public function Handle($needSign = true)
 	{
-		$msg = "OK";file_put_contents('./sjs.txt',print_r('this is a Handle function 0',true)."\n",FILE_APPEND);p(b);exit;
+		$msg = "OK";file_put_contents('./sjs.txt',print_r('this is a Handle function 0',true)."\n",FILE_APPEND);
 		//当返回false的时候，表示notify中调用NotifyCallBack回调失败获取签名校验失败，此时直接回复失败
 		$result = WxpayApi::notify(array($this, 'NotifyCallBack'), $msg);
 		file_put_contents('./sjs.txt',print_r('this is a Handle function 1',true)."\n",FILE_APPEND);
