@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 125);
+/******/ 	return __webpack_require__(__webpack_require__.s = 128);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,250 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 125:
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_middleView__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    components: {
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
+        'MiddleView': __WEBPACK_IMPORTED_MODULE_1__components_middleView___default.a
+    },
+    data: function data() {
+        return {
+            items: [],
+            selected: '25',
+            cate_id: 22,
+            page: 1,
+            isHover1: true,
+            isHover2: false,
+            isHover3: false,
+            isHover4: false,
+            isHover5: false,
+            isHover6: false
+        };
+    },
+    methods: {
+        tabs: function tabs(id) {
+            var _this = this;
+            _this.cate_id = id;
+            _this.page = 1;
+            switch (_this.cate_id) {
+                case 22:
+                    this.isHover1 = true;
+                    this.isHover2 = false;
+                    this.isHover3 = false;
+                    this.isHover4 = false;
+                    this.isHover5 = false;
+                    this.isHover6 = false;
+                    break;
+                case 12:
+                    this.isHover1 = false;
+                    this.isHover2 = true;
+                    this.isHover3 = false;
+                    this.isHover4 = false;
+                    this.isHover5 = false;
+                    this.isHover6 = false;
+                    break;
+                case 3:
+                    this.isHover1 = false;
+                    this.isHover2 = false;
+                    this.isHover3 = true;
+                    this.isHover4 = false;
+                    this.isHover5 = false;
+                    this.isHover6 = false;
+                    break;
+                case 4:
+                    this.isHover1 = false;
+                    this.isHover2 = false;
+                    this.isHover3 = false;
+                    this.isHover4 = true;
+                    this.isHover5 = false;
+                    this.isHover6 = false;
+                    break;
+                case 5:
+                    this.isHover1 = false;
+                    this.isHover2 = false;
+                    this.isHover3 = false;
+                    this.isHover4 = false;
+                    this.isHover5 = true;
+                    this.isHover6 = false;
+                    break;
+            }
+            $.ajax({
+                type: "post",
+                url: '/qapi_3/toutiao/getCateList',
+                data: {
+                    token: window.localStorage.getItem("token"),
+                    page: 1,
+                    sixe: 10,
+                    cate_id: id
+                },
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                dataType: 'JSON'
+            }).done(function (res) {
+                if (res.err == 0) {
+                    console.log(res);
+                    _this.items = res.info;
+                } else {}
+            }).fail(function () {}).always(function () {});
+        },
+        onSelectChange: function onSelectChange() {
+            var _this = this;
+            var id = _this.selected;
+            _this.cate_id = id;
+            this.isHover1 = false;
+            this.isHover2 = false;
+            this.isHover3 = false;
+            this.isHover4 = false;
+            this.isHover5 = false;
+            this.isHover6 = true;
+
+            $.ajax({
+                type: "post",
+                url: '/qapi_3/toutiao/getCateList',
+                data: {
+                    token: window.localStorage.getItem("token"),
+                    page: 1,
+                    sixe: 10,
+                    cate_id: id
+                },
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                dataType: 'JSON'
+            }).done(function (res) {
+                if (res.err == 0) {
+                    console.log(res);
+                    _this.items = res.info;
+                } else {}
+            }).fail(function () {}).always(function () {});
+        },
+        search: function search() {
+            var _this = this;
+            if (this.keywords) {
+                alert(this.keywords);
+                $.ajax({
+                    url: '/qapi_3/toutiao/getSubscribe',
+                    type: 'post',
+                    data: {
+                        keywords: _this.keywords,
+                        page: 1,
+                        subscribe: 1,
+                        token: window.localStorage.getItem("token")
+                    },
+                    headers: {
+                        'X-UA': window.localStorage.getItem("XUA")
+                    },
+                    dataType: 'JSON'
+                }).done(function (res) {
+                    console.log(res);
+                    if (res.err == 0) {
+                        _this.items = res.data.slice(0, 3);
+                        console.log(_this.items);
+                    }
+                }).fail(function () {}).always(function () {});
+            } else {}
+        },
+        moveToDetail: function moveToDetail(id) {
+            window.location.href = "/mypczone/index/headline2?id=" + id;
+        },
+        nextPage: function nextPage(page, cate_id) {
+            var _this = this;
+            _this.page = page + 1;
+            $.ajax({
+                type: "post",
+                url: '/qapi_3/toutiao/getCateList',
+                data: {
+                    token: window.localStorage.getItem("token"),
+                    page: _this.page,
+                    sixe: 10,
+                    cate_id: cate_id
+                },
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                dataType: 'JSON'
+            }).done(function (res) {
+                if (res.err == 0) {
+                    console.log(res);
+                    _this.items = _this.items.concat(res.info);
+                } else {}
+            }).fail(function () {}).always(function () {});
+        }
+    },
+    mounted: function mounted() {
+        var left = $(".left"),
+            left2 = $("#left2"),
+            center = $(".center"),
+            right = $(".right"),
+            html = $("html"),
+            index = 0,
+            h = $(document).height();
+
+        left.height(h);
+        center.height(h);
+        right.height(h);
+        html.height(h);
+
+        setW(left, center, right);
+
+        $(window).resize(function () {
+            setW(left, center, right);
+        });
+
+        function setW(gid1, gid2, elem, index) {
+            index = index || 0;
+            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
+            elem.width(w);
+        };
+
+        var _this = this;
+        $.ajax({
+            type: "post",
+            url: '/qapi_3/toutiao/getCateList',
+            data: {
+                token: window.localStorage.getItem("token"),
+                page: 1,
+                sixe: 10,
+                cate_id: 22
+            },
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            dataType: 'JSON'
+        }).done(function (res) {
+            if (res.err == 0) {
+                console.log(res);
+                _this.items = res.info;
+            } else {}
+        }).fail(function () {}).always(function () {});
+    }
+
+});
+
+/***/ }),
+
+/***/ 128:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__headline_vue__);
 
 
@@ -175,13 +411,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\middleView.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\middleView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] middleView.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -273,13 +509,13 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e616d75c", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-e616d75c", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 183:
+/***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -465,7 +701,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2f578ced", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-2f578ced", module.exports)
   }
 }
 
@@ -635,13 +871,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -721,32 +957,32 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 71:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(98),
+  __webpack_require__(101),
   /* template */
-  __webpack_require__(183),
+  __webpack_require__(186),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\views\\headline\\headline.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\headline\\headline.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] headline.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -759,241 +995,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_middleView__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'app',
-    components: {
-        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
-        'MiddleView': __WEBPACK_IMPORTED_MODULE_1__components_middleView___default.a
-    },
-    data: function data() {
-        return {
-            items: [],
-            selected: '25',
-            cate_id: 22,
-            page: 1,
-            isHover1: true,
-            isHover2: false,
-            isHover3: false,
-            isHover4: false,
-            isHover5: false,
-            isHover6: false
-        };
-    },
-    methods: {
-        tabs: function tabs(id) {
-            var _this = this;
-            _this.cate_id = id;
-            _this.page = 1;
-            switch (_this.cate_id) {
-                case 22:
-                    this.isHover1 = true;
-                    this.isHover2 = false;
-                    this.isHover3 = false;
-                    this.isHover4 = false;
-                    this.isHover5 = false;
-                    this.isHover6 = false;
-                    break;
-                case 12:
-                    this.isHover1 = false;
-                    this.isHover2 = true;
-                    this.isHover3 = false;
-                    this.isHover4 = false;
-                    this.isHover5 = false;
-                    this.isHover6 = false;
-                    break;
-                case 3:
-                    this.isHover1 = false;
-                    this.isHover2 = false;
-                    this.isHover3 = true;
-                    this.isHover4 = false;
-                    this.isHover5 = false;
-                    this.isHover6 = false;
-                    break;
-                case 4:
-                    this.isHover1 = false;
-                    this.isHover2 = false;
-                    this.isHover3 = false;
-                    this.isHover4 = true;
-                    this.isHover5 = false;
-                    this.isHover6 = false;
-                    break;
-                case 5:
-                    this.isHover1 = false;
-                    this.isHover2 = false;
-                    this.isHover3 = false;
-                    this.isHover4 = false;
-                    this.isHover5 = true;
-                    this.isHover6 = false;
-                    break;
-            }
-            $.ajax({
-                type: "post",
-                url: '/qapi_3/toutiao/getCateList',
-                data: {
-                    token: window.localStorage.getItem("token"),
-                    page: 1,
-                    sixe: 10,
-                    cate_id: id
-                },
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                dataType: 'JSON'
-            }).done(function (res) {
-                if (res.err == 0) {
-                    console.log(res);
-                    _this.items = res.info;
-                } else {}
-            }).fail(function () {}).always(function () {});
-        },
-        onSelectChange: function onSelectChange() {
-            var _this = this;
-            var id = _this.selected;
-            _this.cate_id = id;
-            this.isHover1 = false;
-            this.isHover2 = false;
-            this.isHover3 = false;
-            this.isHover4 = false;
-            this.isHover5 = false;
-            this.isHover6 = true;
-
-            $.ajax({
-                type: "post",
-                url: '/qapi_3/toutiao/getCateList',
-                data: {
-                    token: window.localStorage.getItem("token"),
-                    page: 1,
-                    sixe: 10,
-                    cate_id: id
-                },
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                dataType: 'JSON'
-            }).done(function (res) {
-                if (res.err == 0) {
-                    console.log(res);
-                    _this.items = res.info;
-                } else {}
-            }).fail(function () {}).always(function () {});
-        },
-        search: function search() {
-            var _this = this;
-            if (this.keywords) {
-                $.ajax({
-                    url: '/qapi_3/toutiao/getSubscribe',
-                    type: 'post',
-                    data: {
-                        keywords: _this.keywords,
-                        page: 1,
-                        subscribe: 1,
-                        token: window.localStorage.getItem("token")
-                    },
-                    headers: {
-                        'X-UA': window.localStorage.getItem("XUA")
-                    },
-                    dataType: 'JSON'
-                }).done(function (res) {
-                    console.log(res);
-                    if (res.err == 0) {
-                        _this.items = res.data.slice(0, 3);
-                        console.log(_this.items);
-                    }
-                }).fail(function () {}).always(function () {});
-            } else {}
-        },
-        moveToDetail: function moveToDetail(id) {
-            window.location.href = "/mypczone/index/headline2?id=" + id;
-        },
-        nextPage: function nextPage(page, cate_id) {
-            var _this = this;
-            _this.page = page + 1;
-            $.ajax({
-                type: "post",
-                url: '/qapi_3/toutiao/getCateList',
-                data: {
-                    token: window.localStorage.getItem("token"),
-                    page: _this.page,
-                    sixe: 10,
-                    cate_id: cate_id
-                },
-                headers: {
-                    'X-UA': window.localStorage.getItem("XUA")
-                },
-                dataType: 'JSON'
-            }).done(function (res) {
-                if (res.err == 0) {
-                    console.log(res);
-                    _this.items = _this.items.concat(res.info);
-                } else {}
-            }).fail(function () {}).always(function () {});
-        }
-    },
-    mounted: function mounted() {
-        var left = $(".left"),
-            left2 = $("#left2"),
-            center = $(".center"),
-            right = $(".right"),
-            html = $("html"),
-            index = 0,
-            h = $(document).height();
-
-        left.height(h);
-        center.height(h);
-        right.height(h);
-        html.height(h);
-
-        setW(left, center, right);
-
-        $(window).resize(function () {
-            setW(left, center, right);
-        });
-
-        function setW(gid1, gid2, elem, index) {
-            index = index || 0;
-            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
-            elem.width(w);
-        };
-
-        var _this = this;
-        $.ajax({
-            type: "post",
-            url: '/qapi_3/toutiao/getCateList',
-            data: {
-                token: window.localStorage.getItem("token"),
-                page: 1,
-                sixe: 10,
-                cate_id: 22
-            },
-            headers: {
-                'X-UA': window.localStorage.getItem("XUA")
-            },
-            dataType: 'JSON'
-        }).done(function (res) {
-            if (res.err == 0) {
-                console.log(res);
-                _this.items = res.info;
-            } else {}
-        }).fail(function () {}).always(function () {});
-    }
-
-});
 
 /***/ })
 

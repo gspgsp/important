@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 134);
+/******/ 	return __webpack_require__(__webpack_require__.s = 137);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -309,13 +309,13 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 107:
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -363,14 +363,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 134:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__myHelp_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__myHelp_vue__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__myHelp_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__myHelp_vue__);
 
 
@@ -384,7 +384,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 196:
+/***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -414,7 +414,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8fef4ee6", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-8fef4ee6", module.exports)
   }
 }
 
@@ -584,13 +584,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -670,7 +670,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
   }
 }
 
@@ -795,26 +795,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 80:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(107),
+  __webpack_require__(110),
   /* template */
-  __webpack_require__(196),
+  __webpack_require__(199),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\views\\myHelp\\myHelp.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\myHelp\\myHelp.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myHelp.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -843,13 +843,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()

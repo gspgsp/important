@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 129);
+/******/ 	return __webpack_require__(__webpack_require__.s = 132);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,7 +141,7 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 102:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,6 +182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
         var url = window.location.search;
         var lid = url.substring(url.lastIndexOf('=') + 1, url.length);
+        _this.burl = url;
         _this.lid = lid;
         try {
             var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
@@ -299,7 +300,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-712f541a", module.exports)
   }
 }
 
@@ -313,14 +314,14 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 129:
+/***/ 132:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__infobuy_vue__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__infobuy_vue__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__infobuy_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__infobuy_vue__);
 
 
@@ -351,7 +352,7 @@ module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 
 /***/ }),
 
-/***/ 195:
+/***/ 198:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -361,7 +362,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('Leftmodel'), _vm._v(" "), _c('Centermodel'), _vm._v(" "), _c('div', {
     staticClass: "right flt"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "back"
+  }, [_c('a', {
+    attrs: {
+      "href": _vm.burl
+    }
+  }), _vm._v("查看TA的求购")]), _vm._v(" "), _c('div', {
     staticClass: "summary w96",
     staticStyle: {
       "padding-top": "30px"
@@ -406,20 +413,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "line-height": "50px"
     }
   }, [_vm._v("\n            没有相关数据\n        ")])], 2)])])], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "back"
-  }, [_c('a', {
-    attrs: {
-      "href": "/mypczone/index/indexinfo"
-    }
-  }), _vm._v("查看TA的求购")])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7a879e42", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-7a879e42", module.exports)
   }
 }
 
@@ -784,13 +783,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\Centermodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Centermodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Centermodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -1172,7 +1171,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5ef25f8c", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-5ef25f8c", module.exports)
   }
 }
 
@@ -1301,26 +1300,26 @@ $(function () {
 
 /***/ }),
 
-/***/ 75:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(102),
+  __webpack_require__(105),
   /* template */
-  __webpack_require__(195),
+  __webpack_require__(198),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\views\\infobuy\\infobuy.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\infobuy\\infobuy.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] infobuy.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -1349,13 +1348,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\Leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()

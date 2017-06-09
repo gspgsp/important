@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 124);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,152 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 124:
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_middleView__);
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    components: {
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
+        'MiddleView': __WEBPACK_IMPORTED_MODULE_1__components_middleView___default.a
+    },
+    data: function data() {
+        return {
+            title: "",
+            content: "",
+            cate: "",
+            id: "",
+            cate_id: "",
+            author: "",
+            time: "",
+            pv: "",
+            type: "",
+            subscribe: [],
+            share: false,
+            share3: false,
+            share4: false,
+            loadingShow: "",
+            loadingHide: ""
+        };
+    },
+    methods: {
+        getParam: function getParam(param) {
+            var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            var context = "";
+            if (r != null) context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        },
+        toPage: function toPage(id) {
+            var _this = this;
+            if (id) {
+                $.ajax({
+                    type: "post",
+                    url: '/qapi_3/toutiao/getDetailInfo',
+                    timeout: 15000,
+                    data: {
+                        id: id
+                    },
+                    headers: {
+                        'X-UA': window.localStorage.getItem("XUA")
+                    },
+                    dataType: 'JSON'
+                }).done(function (res) {
+                    _this.id = res.info.id;
+                    _this.title = res.info.title;
+                    _this.cate_id = res.info.cate_id;
+                    _this.content = res.info.content;
+                    _this.time = res.info.input_time;
+                    _this.type = res.info.type;
+                    _this.pv = res.info.pv;
+                    _this.author = res.info.author;
+                    _this.lastOne = res.info.lastOne;
+                    _this.nextOne = res.info.nextOne;
+                    _this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
+                }).fail(function () {}).always(function () {});
+            } else {
+                alert('没有相关数据');
+            }
+        }
+    },
+    mounted: function mounted() {
+        var left = $(".left"),
+            left2 = $("#left2"),
+            center = $(".center"),
+            right = $(".right"),
+            html = $("html"),
+            index = 0,
+            h = $(document).height();
+
+        left.height(h);
+        center.height(h);
+        right.height(h);
+        html.height(h);
+
+        setW(left, center, right);
+
+        $(window).resize(function () {
+            setW(left, center, right);
+        });
+
+        function setW(gid1, gid2, elem, index) {
+            index = index || 0;
+            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
+            elem.width(w);
+        };
+        var _this = this;
+        var id = _this.getParam("id");
+        $.ajax({
+            type: "post",
+            url: '/qapi_3/toutiao/getDetailInfo',
+            data: {
+                id: id
+            },
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            dataType: 'JSON'
+        }).done(function (res) {
+            if (res.err == 0) {
+                _this.id = res.info.id;
+                _this.title = res.info.title;
+                _this.cate_id = res.info.cate_id;
+                _this.content = res.info.content;
+                _this.time = res.info.input_time;
+                _this.type = res.info.type;
+                _this.pv = res.info.pv;
+                _this.author = res.info.author;
+                _this.lastOne = res.info.lastOne;
+                _this.nextOne = res.info.nextOne;
+                _this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
+            } else {}
+        }).fail(function () {}).always(function () {});
+    }
+
+});
+
+/***/ }),
+
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__headline2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__headline2_vue__);
 
 
@@ -175,13 +313,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\middleView.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\middleView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] middleView.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -273,13 +411,13 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-e616d75c", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-e616d75c", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 182:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -350,7 +488,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-20ab84aa", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-20ab84aa", module.exports)
   }
 }
 
@@ -520,13 +658,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -606,32 +744,32 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 70:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(97),
+  __webpack_require__(100),
   /* template */
-  __webpack_require__(182),
+  __webpack_require__(185),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\views\\headline2\\headline2.vue"
+Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\headline2\\headline2.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] headline2.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -644,144 +782,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 97:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_middleView___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_middleView__);
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'app',
-    components: {
-        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a,
-        'MiddleView': __WEBPACK_IMPORTED_MODULE_1__components_middleView___default.a
-    },
-    data: function data() {
-        return {
-            title: "",
-            content: "",
-            cate: "",
-            id: "",
-            cate_id: "",
-            author: "",
-            time: "",
-            pv: "",
-            type: "",
-            subscribe: [],
-            share: false,
-            share3: false,
-            share4: false,
-            loadingShow: "",
-            loadingHide: ""
-        };
-    },
-    methods: {
-        getParam: function getParam(param) {
-            var reg = new RegExp("(^|&)" + param + "=([^&]*)(&|$)", "i");
-            var r = window.location.search.substr(1).match(reg);
-            var context = "";
-            if (r != null) context = r[2];
-            reg = null;
-            r = null;
-            return context == null || context == "" || context == "undefined" ? "" : context;
-        },
-        toPage: function toPage(id) {
-            var _this = this;
-            if (id) {
-                $.ajax({
-                    type: "post",
-                    url: '/qapi_3/toutiao/getDetailInfo',
-                    timeout: 15000,
-                    data: {
-                        id: id
-                    },
-                    headers: {
-                        'X-UA': window.localStorage.getItem("XUA")
-                    },
-                    dataType: 'JSON'
-                }).done(function (res) {
-                    _this.id = res.info.id;
-                    _this.title = res.info.title;
-                    _this.cate_id = res.info.cate_id;
-                    _this.content = res.info.content;
-                    _this.time = res.info.input_time;
-                    _this.type = res.info.type;
-                    _this.pv = res.info.pv;
-                    _this.author = res.info.author;
-                    _this.lastOne = res.info.lastOne;
-                    _this.nextOne = res.info.nextOne;
-                    _this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
-                }).fail(function () {}).always(function () {});
-            } else {
-                alert('没有相关数据');
-            }
-        }
-    },
-    mounted: function mounted() {
-        var left = $(".left"),
-            left2 = $("#left2"),
-            center = $(".center"),
-            right = $(".right"),
-            html = $("html"),
-            index = 0,
-            h = $(document).height();
-
-        left.height(h);
-        center.height(h);
-        right.height(h);
-        html.height(h);
-
-        setW(left, center, right);
-
-        $(window).resize(function () {
-            setW(left, center, right);
-        });
-
-        function setW(gid1, gid2, elem, index) {
-            index = index || 0;
-            var w = index === 1 ? $(document).width() - gid1.width() : $(document).width() - gid1.width() - gid2.width();
-            elem.width(w);
-        };
-        var _this = this;
-        var id = _this.getParam("id");
-        $.ajax({
-            type: "post",
-            url: '/qapi_3/toutiao/getDetailInfo',
-            data: {
-                id: id
-            },
-            headers: {
-                'X-UA': window.localStorage.getItem("XUA")
-            },
-            dataType: 'JSON'
-        }).done(function (res) {
-            if (res.err == 0) {
-                _this.id = res.info.id;
-                _this.title = res.info.title;
-                _this.cate_id = res.info.cate_id;
-                _this.content = res.info.content;
-                _this.time = res.info.input_time;
-                _this.type = res.info.type;
-                _this.pv = res.info.pv;
-                _this.author = res.info.author;
-                _this.lastOne = res.info.lastOne;
-                _this.nextOne = res.info.nextOne;
-                _this.subscribe = res.info.subscribe ? res.info.subscribe.slice(0, 8) : res.info.subscribe;
-            } else {}
-        }).fail(function () {}).always(function () {});
-    }
-
-});
 
 /***/ })
 
