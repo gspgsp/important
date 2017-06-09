@@ -96,7 +96,7 @@
         </ul>
         <!--set-top end-->    
     <!--list begin-->
-   <ul id="list" class="list" v-bind:class="{ padding1:isPadding1,padding2:isPadding2 }">   
+   <ul id="list" class="list" v-bind:class="{ padding1:true,padding2:false }">   
         <li class="static" v-show="condition" v-for="n in name" style="font-size:12px; height:67px; padding:11px 0; overflow:hidden; border-bottom:1px solid #ccc;  cursor:pointer; " v-on:click="personinfo(n.user_id)">
             <!--pic begin-->
             <div class="pic flt">
@@ -202,9 +202,9 @@ export default {
             bannerImg: "",
             filterShow:true,
             selected:'0',
-	selected1:'0',
-            isPadding1:"",
-            isPadding2:""
+	        selected1:'0',
+            isPadding1:"false",
+            isPadding2:"true"
         }
     },
     methods: {

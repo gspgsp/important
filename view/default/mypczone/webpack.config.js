@@ -64,35 +64,35 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/find/find.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/find']
+			chunks:['js/app','pages/find']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/supplybuy.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/supplybuy/supplybuy.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/supplybuy']
+			chunks:['js/app','pages/supplybuy']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/my.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/my/my.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/my']
+			chunks:['js/app','pages/my']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/indexinfo.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/indexinfo/indexinfo.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/index_info']
+			chunks:['js/app','pages/index_info']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/infosale.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/infosale/infosale.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/info_sale']
+			chunks:['js/app','pages/info_sale']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/infobuy.html'),
@@ -106,35 +106,35 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/login/login.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/login']
+			chunks:['js/app','pages/login']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/releasedetail.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/releasedetail/releasedetail.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/releasedetail']
+			chunks:['js/app','pages/releasedetail']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/findpwd.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/findpwd/findpwd.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/findpwd']
+			chunks:['js/app','pages/findpwd']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/register.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/register/register.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/register']
+			chunks:['js/app','pages/register']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/agreement.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/agreement/agreement.html'),
 			hash:true,
 			inject:true,
-			chunks:['pages/agreement']
+			chunks:['js/app','pages/agreement']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/headline.html'),
