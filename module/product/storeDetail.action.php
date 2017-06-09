@@ -92,7 +92,6 @@ class storeDetailAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		// showtrace();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
@@ -111,6 +110,7 @@ class storeDetailAction extends adminBaseAction {
 			$list['data'][$k]['collection'] = M("product:order")->getCollection($v['o_id']);
 			$list['data'][$k]['price_s'] = M('product:factory')->getNeighborSprice($v['p_id']);
 			$list['data'][$k]['order_name_id']= $order_name;
+			$list['data'][$k]['profit_type']= '2';
 		}
 		$msg="";
 		if($list['count']>0){
