@@ -456,9 +456,7 @@ function proChoose(e){
 	});
 }
 //追加销售明细(销库存)
-var profit_type_bt;
 function consumeStoreDetil(){
-	profit_type_bt = mini.get('profit_type');
 	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
 	mini.open({
@@ -506,7 +504,7 @@ function consumeStoreDetil(){
 				}
 				//根据订单自动带头信息
 				mini.get('order_name').setValue(data.o_name);
-				profit_type_bt.setValue(2);
+				$('#profit_type').val(data.profit_type);
 			}
 		}
 	});
