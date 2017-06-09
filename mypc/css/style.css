@@ -150,7 +150,7 @@ a{ text-decoration:none;}
 .edit{ height:auto; overflow:hidden;}
 .edit li{ height:43px; line-height:43px; overflow:hidden; border-bottom:1px solid #d9d9d9; text-indent:9px; position:relative;}
 .edit li.last{ border-bottom:none;}
-.edit li span{ position:absolute; right:0; top:0;}
+.edit li span{ position:absolute; right:15px; top:0;}
 
 .edit li span  b{ width:40px; height:15px; padding:9px; display:inline-block; border-radius:50px; background:#fff; box-shadow:inset 0 0 20px rgba(0,0,0,.2); cursor:pointer; position:relative; margin:5px 5px 0 0;}
 .edit li span  b i{ position:absolute; left:2px; top:2px; width:29px; height:29px; background:#FFF; box-shadow:0 0 2px rgba(0,0,0,.5),inset 0 -18px 15px -10px rgba(0,0,0,.05); border-radius:100px; z-index:999; }
@@ -167,7 +167,7 @@ a{ text-decoration:none;}
 .upload-card .card img{ margin:22px 0 0 50px; cursor:pointer;} */
 .upload-card .remark p{ line-height:22px; width:200px; margin:15px 0 0 20px;}
 
-.upload-card .card{ width: 133px; height: auto; background: url(../img/card.jpg) no-repeat; background-size: 100% 100%; display: inline-block; border: 2px solid #d9d9d9;}
+.upload-card .card{ width: 133px; height: auto; background: url(../img/card.jpg) no-repeat; background-size: 100% 100%; display: inline-block; border: 2px solid #d9d9d9; margin:25px 0 0 10px;}
 .upload-card .card2{ width: 133px; height: auto; display: inline-block; position: relative; background:#abcdef;}
 .upload-card .card img,.upload-card .card2 img{ width: 100%; height: 73px; margin: 0;}
 .card2upload{ width: 133px; height: 73px; background: url(../img/uploadcard.jpg) no-repeat; background-size: 100% 100%;}
