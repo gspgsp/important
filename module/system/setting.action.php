@@ -195,7 +195,8 @@ class settingAction extends adminBaseAction {
 			M('system:setting')->del_cache('setting_qapp_newest_version');
 			M('system:setting')->del_cache('setting');
 
-			$this->success('更新成功');
+			showTrace();
+			//$this->success('更新成功');
 		}
 
 		$setting=M('system:globalSetting')->getSetting();
