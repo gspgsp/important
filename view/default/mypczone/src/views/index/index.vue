@@ -144,7 +144,7 @@
     </ul>
     <loadingPage :loading="loadingShow"></loadingPage>
     <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
-    <div class="index-top-arrow" v-show="true" v-on:click="arrow"></div>
+    <div class="index-top-arrow" v-show="false" v-on:click="arrow"></div>
     <!--list end-->
 </div>
 </div>
@@ -510,7 +510,7 @@ export default {
             var scrollHeight = $(document).height();
             var windowHeight = $(this).height();	
             _this.loadingMore();
-            console.log( scrollTop );
+			//console.log( scrollTop );
             if(scrollTop > 600) {
                 _this.isArrow = true;
             } else {

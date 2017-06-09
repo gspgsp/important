@@ -3,7 +3,7 @@
  <Leftmodel></Leftmodel>
  <Centermodel></Centermodel>
   <div class="right flt">
-<div class="back"><a href="/mypczone/index/indexinfo"></a>查看TA的求购</div>
+<div class="back"><a v-bind:href="burl"></a>查看TA的求购</div>
 <!--back end-->
 <!--summary begin-->
 <div class="summary w96" style="padding-top:30px;">
@@ -65,6 +65,7 @@ export default {
         var _this = this;
 		var url = window.location.search;
 	    var lid = url.substring(url.lastIndexOf('=')+1, url.length);
+		_this.burl = url;
 		_this.lid = lid;
         try {
             var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);

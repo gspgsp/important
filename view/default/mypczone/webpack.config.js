@@ -85,7 +85,7 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/indexinfo/indexinfo.html'),
 			hash:true,
 			inject:true,
-			chunks:['js/app','pages/index_info']
+			chunks:['pages/index_info']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/infosale.html'),

@@ -197,6 +197,7 @@ export default {
     search: function() {
         var _this = this;
         if(this.keywords) {
+        alert(this.keywords);
             $.ajax({
                 url: '/qapi_3/toutiao/getSubscribe',
                 type: 'post',
@@ -204,7 +205,7 @@ export default {
                     keywords: _this.keywords,
                     page: 1,
                     subscribe: 1,
-                    token: window.localStorage.getItem("token")
+                    token: window.localStorage.getItem("token"),
                 },
                 headers: {
                 'X-UA': window.localStorage.getItem("XUA")

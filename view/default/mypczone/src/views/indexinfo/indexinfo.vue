@@ -18,7 +18,7 @@
             <span>发布需求：<b>{{buy}}</b></span>
         </p>
     </div>
-    <div class="opt no">
+    <div class="opt yes">
     	<a v-on:click="pay">{{status}}</a>
     </div>
 </div>
@@ -180,7 +180,6 @@ export default {
             },
             dataType: 'JSON'
         }).done(function(res) {
-		console.log(res);
             if(res.err == 0) {
                 _this.name = res.data.name;
                 _this.c_name = res.data.c_name;
@@ -217,7 +216,7 @@ export default {
 								}
 								   });
             } else if(res.err == 99) {
-                layer.confirm(res.msg,{icon: 3, title:['塑料圈通讯录','text-align:center;']}, function() {
+                layer.confirm(res.msg,{icon: 3, title:['塑料圈通讯录','text-align:center;']}, function(m) {
                     $.ajax({
                         url: version +"/friend/getZoneFriend",
                         type: 'post',
@@ -256,8 +255,8 @@ export default {
                                 _this.isMobile = false;
                             }
                         } else if(res.err == 100) {
-						layer.open({
-                        title: ["塑料圈通讯录", "text-align:center"],
+                            layer.open({
+                            title: ["塑料圈通讯录", "text-align:center"],
 								offset : "28%",
 								icon : 5,
 								content : res.msg,
@@ -269,9 +268,9 @@ export default {
 								   });
                         }
                     }, function() {
-
+					
                     });
-
+                layer.close(m);
                 }, function() {
                     window.history.back();
                 }, {
