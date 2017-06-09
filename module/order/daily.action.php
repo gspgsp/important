@@ -96,9 +96,13 @@ class dailyAction extends adminBaseAction {
 				$where .= " and (`s_customer_manager` in ($sons) or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
 		}
-		// p($where);die;
-		// --交易员所在战队写死，如有新增战队或者删除战队，就要修改这个in(里面的id)
-	$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
+		$team_arr = $this->db->model('admin')->getCol('SELECT r.`id` FROM p2p_admin AS a
+			LEFT JOIN p2p_adm_role_user AS u ON u.`user_id` = a.`admin_id`
+			LEFT JOIN p2p_adm_role AS r ON r.`id` = u.`role_id`
+			WHERE r.`pid` = 22
+			GROUP BY r.`id`');
+		$team_str = implode(',', $team_arr);
+	$list = $this->db->getAll("SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
 			pro.`model` AS s_model,
@@ -112,7 +116,7 @@ class dailyAction extends adminBaseAction {
 			o.`transport_time` AS s_transport_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -128,7 +132,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT o2.`transport_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_transport_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id` AND sale.`purchase_id` = pu.`id`
@@ -151,7 +155,7 @@ class dailyAction extends adminBaseAction {
 			o.`transport_time` AS s_transport_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -167,16 +171,16 @@ class dailyAction extends adminBaseAction {
 			(SELECT o2.`transport_time` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_transport_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id`  AND sale.`purchase_id` = pu.`id`
 		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`store_o_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2) bb ) AS cc  '.$where.$orderby.' limit '.($page)*$size.','.$size);
+		WHERE sale.p_id >0 AND o.`store_o_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2) bb ) AS cc  ".$where.$orderby.' limit '.($page)*$size.','.$size);
 	// showtrace();
-	$list_count = $this->db->getRow('SELECT count(*) as total,sum(s_xj) as s_xj,sum(s_num) as s_num,sum(profit) as profit,sum(ship) as ship,sum(p_num) as p_num,sum(p_xj) as p_xj from ( SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
+	$list_count = $this->db->getRow("SELECT count(*) as total,sum(s_xj) as s_xj,sum(s_num) as s_num,sum(profit) as profit,sum(ship) as ship,sum(p_num) as p_num,sum(p_xj) as p_xj from ( SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
 			pro.`model` AS s_model,
@@ -190,7 +194,7 @@ class dailyAction extends adminBaseAction {
 			o.`transport_time` AS s_transport_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -206,7 +210,7 @@ class dailyAction extends adminBaseAction {
 			(SELECT o2.`transport_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_transport_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` and sale.`p_id` = pu.`p_id` and sale.`purchase_id` = pu.`id`
@@ -229,7 +233,7 @@ class dailyAction extends adminBaseAction {
 			o.`transport_time` AS s_transport_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -245,14 +249,14 @@ class dailyAction extends adminBaseAction {
 			(SELECT o2.`transport_time` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_transport_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` and sale.`p_id` = pu.`p_id`  and sale.`purchase_id` = pu.`id`
 		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`store_o_id` > 0 and o.`order_status`=2 and o.`transport_status`=2) bb ) as cc '.$where);
+		WHERE sale.p_id >0 AND o.`store_o_id` > 0 and o.`order_status`=2 and o.`transport_status`=2) bb ) as cc ".$where);
 		// p($list_count);die;
 		foreach($list as &$value){
 			$value['s_input_time']=$value['s_transport_time']>1000 ? date("Y-m-d H:i:s",$value['s_transport_time']) : '-';
@@ -274,7 +278,7 @@ class dailyAction extends adminBaseAction {
 		$msg="";
 		if($list_count>0){
 			$maoli = price_format($list_count['profit']) + price_format($list_count['ship']);
-			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】利润:【".$maoli."】";
+			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】净利:【".price_format($list_count['profit'])."】利润:【".$maoli."】";
 		}
 		$result=array('total'=>$list_count['total'],'data'=>$list,'msg'=>$msg);
 		$this->json_output($result);

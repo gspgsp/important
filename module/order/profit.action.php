@@ -103,8 +103,14 @@ class profitAction extends adminBaseAction {
 				$where .= " and (`s_customer_manager` = {$_SESSION['adminid']} or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
 		}
+		$team_arr = $this->db->model('admin')->getCol('SELECT r.`id` FROM p2p_admin AS a
+			LEFT JOIN p2p_adm_role_user AS u ON u.`user_id` = a.`admin_id`
+			LEFT JOIN p2p_adm_role AS r ON r.`id` = u.`role_id`
+			WHERE r.`pid` = 22
+			GROUP BY r.`id`');
+		$team_str = implode(',', $team_arr);
 		// p($where);die;
-		$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
+		$list = $this->db->getAll("SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
 			pro.`model` AS s_model,
@@ -119,7 +125,7 @@ class profitAction extends adminBaseAction {
 			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -127,6 +133,7 @@ class profitAction extends adminBaseAction {
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_ordname,
 			(SELECT o2.order_sn FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS p_sn,
+			(SELECT `o2`.`profit_type` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `profit_type`,
 			pu.p_id AS p_pid,
 			pu.number AS p_num,
 			pu.remainder AS p_rem,
@@ -136,7 +143,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id` AND sale.`purchase_id` = pu.`id`
@@ -160,7 +167,7 @@ class profitAction extends adminBaseAction {
 			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS s_team_id,
 			IFNULL(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- IFNULL(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -168,6 +175,7 @@ class profitAction extends adminBaseAction {
 			(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id)=c_id) AS p_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_ordname,
 			(SELECT o2.order_sn FROM `p2p_order` o2 WHERE o2.o_id=o.store_o_id) AS p_sn,
+			(SELECT `o2`.`profit_type` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `profit_type`,
 			pu.p_id AS p_pid,
 			pu.number AS p_num,
 			pu.remainder AS p_rem,
@@ -177,14 +185,14 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id AND role.role_id IN (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` AND sale.`p_id` = pu.`p_id`  AND sale.`purchase_id` = pu.`id`
 		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`store_o_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) AS cc '.$where.$orderby);
+		WHERE sale.p_id >0 AND o.`store_o_id` > 0 AND o.`order_status`=2 AND o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) AS cc ".$where.$orderby);
 	// showtrace();
 		foreach($list as &$value){
 			$value['s_input_time']=$value['s_input_time']>1000 ? date("Y-m-d H:i:s",$value['s_input_time']) : '-';
@@ -200,21 +208,36 @@ class profitAction extends adminBaseAction {
 					$value['p_name'] = '******';
 				}
 			}
+			if($value['profit_type'] == 1){
+					//现销现采--利润对半分
+					$value['s_gross'] = $value['profit']/2;
+					$value['p_gross'] = $value['profit']/2;
+			}elseif($value['profit_type'] == 2){
+					//销库存--如果利润小于100，对半分。如果利润>100或者<0 采购承担，销售每吨6元提成
+				if($value['profit'] >= 100 or $value['profit'] < 0){
+					$value['s_gross'] = $value['s_num']*6;
+					$value['p_gross'] = $value['profit'];
+				}else{
+					$value['s_gross'] = $value['profit']/2;
+					$value['p_gross'] = $value['profit']/2;
+				}
+			}
 		}
 		$str = '<meta http-equiv="Content-Type" content="text/html; charset=utf8" /><table width="100%" border="1" cellspacing="0">';
 			$str .= '<tr><td>销售单号</td><td>客户</td><td>抬头</td><td>牌号</td>
 						<td>厂家</td><td>数量</td><td>未发数量</td><td>单价</td>
 						<td>小计</td><td>销售员</td><td>销售完款时间</td><td>运费</td>
-						<td>净利润</td><td>毛利润</td><td>采购单号</td><td>供应商</td>
-						<td>数量</td><td>未入数量</td><td>单价</td><td>小计</td>
-						<td>采购员</td><td>采购完款时间</td>
-					</tr>';
+						<td>净利润</td><td>毛利润</td><td>销提成</td><td>采提成</td>
+						<td>采购单号</td><td>供应商</td><td>数量</td><td>未入数量</td>
+						<td>单价</td><td>小计</td><td>采购员</td><td>采购完款时间</td>
+						</tr>';
 			foreach($list as $k=>$v){
 				$str .= "<tr><td style='vnd.ms-excel.numberformat:@'>".$v['s_sn']."</td><td>".$v['s_name']."</td>
 				<td>".$v['s_ordname']."</td><td>".$v['s_model']."</td><td>".$v['s_fname']."</td><td>".$v['s_num']."</td>
 				<td>".$v['s_rem']."</td><td>".$v['s_price']."</td><td>".$v['s_xj']."</td><td>".$v['s_uname']."</td>
 				<td style='vnd.ms-excel.numberformat:@'>".$v['s_input_time']."</td><td>".$v['ship']."</td>
-				<td>".$v['profit']."</td><td>".$v['gross']."</td><td style='vnd.ms-excel.numberformat:@'>".$v['p_sn']."</td>
+				<td>".$v['profit']."</td><td>".$v['gross']."</td><td>".$v['s_gross']."</td><td>".$v['p_gross']."</td>
+				<td style='vnd.ms-excel.numberformat:@'>".$v['p_sn']."</td>
 				<td>".$v['p_name']."</td><td>".$v['p_num']."</td>
 				<td>".$v['p_rem']."</td><td>".$v['p_price']."</td><td>".$v['p_xj']."</td><td>".$v['p_uname']."</td>
 				<td style='vnd.ms-excel.numberformat:@'>".$v['p_input_time']."</td>
@@ -302,9 +325,13 @@ class profitAction extends adminBaseAction {
 				$where .= " and (`s_customer_manager` in ($sons) or `p_customer_manager` = {$_SESSION['adminid']})  ";
 			}
 		}
-		// p($where);die;
-		// --交易员所在战队写死，如有新增战队或者删除战队，就要修改这个in(里面的id)
-	$list = $this->db->getAll('SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=o.`o_id`)=`s_cus`.`c_id`) AS `s_name`,
+		$team_arr = $this->db->model('admin')->getCol('SELECT r.`id` FROM p2p_admin AS a
+			LEFT JOIN p2p_adm_role_user AS u ON u.`user_id` = a.`admin_id`
+			LEFT JOIN p2p_adm_role AS r ON r.`id` = u.`role_id`
+			WHERE r.`pid` = 22
+			GROUP BY r.`id`');
+		$team_str = implode(',', $team_arr);
+	$list = $this->db->getAll("SELECT * FROM ( SELECT * FROM ( SELECT 	(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=o.`o_id`)=`s_cus`.`c_id`) AS `s_name`,
 			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`o_id`) AS `s_ordname`,
 			o.`order_sn` AS `s_sn`,
 			`pro`.`model` AS `s_model`,
@@ -319,7 +346,7 @@ class profitAction extends adminBaseAction {
 			`o`.`input_time` AS `sale_input_time`,
 			`sale`.`customer_manager` AS `s_customer_manager`,
 			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `sale`.`customer_manager`=`admin`.`admin_id`) AS `s_uname`,
-			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS `s_team_id`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (".$team_str.")) AS `s_team_id`,
 			IFNULL(`out`.`ship`,0) AS `ship`,
 		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`))- IFNULL(`out`.`ship`,0) AS `profit`,
 		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`)) AS `gross`,
@@ -327,6 +354,7 @@ class profitAction extends adminBaseAction {
 			(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`)=`c_id`) AS `p_name`,
 			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `p_ordname`,
 			(SELECT `o2`.`order_sn` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `p_sn`,
+			(SELECT `o2`.`profit_type` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `profit_type`,
 			`pu`.`p_id` AS `p_pid`,
 			`pu`.`number` AS `p_num`,
 			`pu`.`remainder` AS `p_rem`,
@@ -336,7 +364,7 @@ class profitAction extends adminBaseAction {
 			(SELECT `o2`.`input_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `buy_input_time`,
 			`pu`.`customer_manager` AS `p_customer_manager`,
 			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `pu`.`customer_manager`=`admin`.`admin_id`) AS `p_uname`,
-			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS `p_team_id`
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (".$team_str.")) AS `p_team_id`
 		FROM `p2p_sale_log` AS `sale` 
 		LEFT JOIN `p2p_order` AS `o` ON `sale`.`o_id` = `o`.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS `pu` ON `o`.`join_id` = `pu`.`o_id` AND `sale`.`p_id` = `pu`.`p_id` AND `sale`.`purchase_id` = `pu`.`id`
@@ -360,7 +388,7 @@ class profitAction extends adminBaseAction {
 			`o`.`input_time` AS `sale_input_time`,
 			`sale`.`customer_manager` AS `s_customer_manager`,
 			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `sale`.`customer_manager`=`admin`.`admin_id`) AS `s_uname`,
-			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS `s_team_id`,
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `sale`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (".$team_str.")) AS `s_team_id`,
 			IFNULL(`out`.`ship`,0) AS `ship`,
 		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`))- IFNULL(`out`.`ship`,0) AS `profit`,
 		    (`sale`.`number` * (`sale`.`unit_price` - `pu`.`unit_price`)) AS `gross`,
@@ -368,6 +396,7 @@ class profitAction extends adminBaseAction {
 			(SELECT `s_cus`.`c_name` FROM `p2p_customer` `s_cus` WHERE (SELECT `o2`.`c_id` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`)=`c_id`) AS `p_name`,
 			(SELECT `o2`.`order_name` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `p_ordname`,
 			(SELECT `o2`.`order_sn` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `p_sn`,
+			(SELECT `o2`.`profit_type` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`store_o_id`) AS `profit_type`,
 			`pu`.`p_id` AS `p_pid`,
 			`pu`.`number` AS `p_num`,
 			`pu`.`remainder` AS `p_rem`,
@@ -377,16 +406,16 @@ class profitAction extends adminBaseAction {
 			(SELECT `o2`.`input_time` FROM `p2p_order` `o2` WHERE `o2`.`o_id`=`o`.`join_id`) AS `buy_input_time`,
 			`pu`.`customer_manager` AS `p_customer_manager`,
 			(SELECT `admin`.`name` FROM `p2p_admin` `admin` WHERE `pu`.`customer_manager`=`admin`.`admin_id`) AS `p_uname`,
-			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS `p_team_id`
+			(SELECT `role`.`role_id` FROM `p2p_adm_role_user` `role` WHERE `pu`.`customer_manager`=`role`.`user_id` AND `role`.`role_id` IN (".$team_str.")) AS `p_team_id`
 		FROM `p2p_sale_log` AS `sale` 
 		LEFT JOIN `p2p_order` AS `o` ON `sale`.`o_id` = `o`.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS `pu` ON `o`.`store_o_id` = `pu`.`o_id` AND `sale`.`p_id` = `pu`.`p_id`  AND `sale`.`purchase_id` = `pu`.`id`
 		LEFT JOIN `p2p_product` AS `pro` ON `sale`.`p_id` = `pro`.`id`
 		LEFT JOIN `p2p_factory` AS `fac` ON `pro`.`f_id` = `fac`.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON `sale`.`id` = `out`.`sale_log_id`
-		WHERE `sale`.`p_id` >0 AND `o`.`store_o_id` > 0 AND `o`.`order_status`=2 AND `o`.`transport_status`=2 AND `o`.`collection_status` = 3 AND `o`.`payd_time` >0) `bb` ) AS `cc`  '.$where.$orderby.' limit '.($page)*$size.','.$size);
+		WHERE `sale`.`p_id` >0 AND `o`.`store_o_id` > 0 AND `o`.`order_status`=2 AND `o`.`transport_status`=2 AND `o`.`collection_status` = 3 AND `o`.`payd_time` >0) `bb` ) AS `cc`  ".$where.$orderby.' limit '.($page)*$size.','.$size);
 	// showtrace();
-	$list_count = $this->db->getRow('SELECT count(*) as total,sum(s_xj) as s_xj,sum(s_num) as s_num,sum(profit) as profit,sum(ship) as ship,sum(p_num) as p_num,sum(p_xj) as p_xj from ( SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
+	$list_count = $this->db->getRow("SELECT count(*) as total,sum(s_xj) as s_xj,sum(s_num) as s_num,sum(profit) as profit,sum(ship) as ship,sum(p_num) as p_num,sum(p_xj) as p_xj from ( SELECT * from ( SELECT 	(SELECT s_cus.`c_name` FROM `p2p_customer` s_cus WHERE (SELECT o2.`c_id` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id)=s_cus.c_id) AS s_name,
 			(SELECT o2.`order_name` FROM `p2p_order` o2 WHERE o2.o_id=o.o_id) AS s_ordname,
 			o.`order_sn` AS s_sn,
 			pro.`model` AS s_model,
@@ -401,7 +430,7 @@ class profitAction extends adminBaseAction {
 			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -418,7 +447,7 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`join_id` = pu.`o_id` and sale.`p_id` = pu.`p_id` and sale.`purchase_id` = pu.`id`
@@ -442,7 +471,7 @@ class profitAction extends adminBaseAction {
 			o.`input_time` AS sale_input_time,
 			sale.customer_manager AS s_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE sale.customer_manager=admin.admin_id) AS s_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS s_team_id,
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE sale.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS s_team_id,
 			ifnull(`out`.ship,0) AS ship,
 		    (sale.number * (sale.unit_price - pu.unit_price))- ifnull(out.ship,0) AS profit,
 		    (sale.number * (sale.unit_price - pu.unit_price)) AS gross,
@@ -459,14 +488,14 @@ class profitAction extends adminBaseAction {
 			(SELECT o2.`input_time` FROM `p2p_order` o2 WHERE o2.o_id=o.join_id) AS buy_input_time,
 			pu.customer_manager AS p_customer_manager,
 			(SELECT admin.`name` FROM `p2p_admin` admin WHERE pu.customer_manager=admin.admin_id) AS p_uname,
-			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (34,35,36,37,38,40,41,42,46,49,50,53,54)) AS p_team_id
+			(SELECT role.`role_id` FROM `p2p_adm_role_user` role WHERE pu.customer_manager=role.user_id and role.role_id in (".$team_str.")) AS p_team_id
 		FROM `p2p_sale_log` AS sale 
 		LEFT JOIN `p2p_order` AS o ON sale.`o_id` = o.`o_id`
 		LEFT JOIN `p2p_purchase_log` AS pu ON o.`store_o_id` = pu.`o_id` and sale.`p_id` = pu.`p_id`  and sale.`purchase_id` = pu.`id`
 		LEFT JOIN `p2p_product` AS pro ON sale.`p_id` = pro.`id`
 		LEFT JOIN `p2p_factory` AS fac ON pro.`f_id` = fac.`fid`
 		LEFT JOIN `p2p_out_log` AS `out` ON sale.`id` = `out`.`sale_log_id`
-		WHERE sale.p_id >0 AND o.`store_o_id` > 0 and o.`order_status`=2 and o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) as cc '.$where);
+		WHERE sale.p_id >0 AND o.`store_o_id` > 0 and o.`order_status`=2 and o.`transport_status`=2 AND o.`collection_status` = 3 AND o.payd_time >0) bb ) as cc ".$where);
 // showtrace();
 		// p($list_count);die;
 		foreach($list as &$value){
@@ -485,11 +514,25 @@ class profitAction extends adminBaseAction {
 					$value['p_name'] = '******';
 				}
 			}
+			if($value['profit_type'] == 1){
+					//现销现采--利润对半分
+					$value['s_gross'] = $value['profit']/2;
+					$value['p_gross'] = $value['profit']/2;
+			}elseif($value['profit_type'] == 2){
+					//销库存--如果利润小于100，对半分。如果利润>100或者<0 采购承担，销售每吨6元提成
+				if($value['profit'] >= 100 or $value['profit'] < 0){
+					$value['s_gross'] = $value['s_num']*6;
+					$value['p_gross'] = $value['profit'];
+				}else{
+					$value['s_gross'] = $value['profit']/2;
+					$value['p_gross'] = $value['profit']/2;
+				}
+			}
 		}
 		$msg="";
 		if($list_count>0){
 			$maoli = price_format($list_count['profit']) + price_format($list_count['ship']);
-			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】利润:【".$maoli."】";
+			$msg="[筛选结果]销售总金额:【".price_format($list_count['s_xj'])."】销售总吨数:【".$list_count['s_num']."】采购总金额:【".price_format($list_count['p_xj'])."】采购总吨数:【".$list_count['p_num']."】总运费:【".price_format($list_count['ship'])."】净利:【".price_format($list_count['profit'])."】利润:【".$maoli."】";
 		}
 		$result=array('total'=>$list_count['total'],'data'=>$list,'msg'=>$msg);
 		$this->json_output($result);
