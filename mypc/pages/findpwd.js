@@ -601,74 +601,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'app',
-	components: {
-		'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
-	},
-	data: function data() {
-		return {
-			mobile: "",
-			password: "",
-			code: "",
-			times: 60,
-			validCode: "获取验证码"
-		};
-	},
-
-	methods: {
-		login: function login() {
-			location.href = "login";
+		name: 'app',
+		components: {
+				'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
+		},
+		data: function data() {
+				return {
+						mobile: "",
+						password: "",
+						code: "",
+						times: 60,
+						validCode: "获取验证码"
+				};
 		},
 
-		sendCode: function sendCode() {
-			var _this = this,
-			    errorMsg = $(".error p");
-			if (this.mobile) {
-				$.ajax({
-					url: '/api/qapi1/sendmsg',
-					type: 'get',
-					data: {
-						mobile: _this.mobile,
-						type: 1
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						errorMsg.html(res.msg);
-					} else if (res.err == 1) {
-						errorMsg.html(res.msg);
-					}
-				}, function () {});
-			} else {
-				errorMsg.html("请填写手机号和密码");
-			}
-		},
+		methods: {
+				login: function login() {
+						location.href = "login";
+				},
 
-		resetPwd: function resetPwd() {
-			var _this = this,
-			    errorMsg = $(".error p");
-			if (this.mobile && this.password && this.code) {
-				$.ajax({
-					url: '/api/qapi1/finfMyPwd',
-					type: 'get',
-					data: {
-						mobile: _this.mobile,
-						password: _this.password,
-						code: _this.code
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						errorMsg.html(res.msg);
-					} else if (res.err == 1) {
-						errorMsg.html(res.msg);
-					}
-				}, function () {});
-			} else {
-				errorMsg.html("请把信息填写完整");
-			}
+				sendCode: function sendCode() {
+						var _this = this,
+						    errorMsg = $(".error p");
+						if (this.mobile) {
+								$.ajax({
+										url: '/api/qapi1/sendmsg',
+										type: 'get',
+										data: {
+												mobile: _this.mobile,
+												type: 1
+										},
+										dataType: 'JSON'
+								}).then(function (res) {
+										if (res.err == 0) {
+												errorMsg.html(res.msg);
+												var countStart = setInterval(function () {
+														_this.validCode = _this.times-- + '秒后重发';
+														if (_this.times < 0) {
+																clearInterval(countStart);
+																_this.validCode = "获取验证码";
+														}
+												}, 1000);
+										} else if (res.err == 1) {
+												errorMsg.html(res.msg);
+										}
+								}, function () {});
+						} else {
+								errorMsg.html("请填写手机号和密码");
+						}
+				},
+
+				resetPwd: function resetPwd() {
+						var _this = this,
+						    errorMsg = $(".error p");
+						if (this.mobile && this.password && this.code) {
+								$.ajax({
+										url: '/api/qapi1/finfMyPwd',
+										type: 'get',
+										data: {
+												mobile: _this.mobile,
+												password: _this.password,
+												code: _this.code
+										},
+										dataType: 'JSON'
+								}).then(function (res) {
+										if (res.err == 0) {
+												location.href = "/mypczone/index/login";
+										} else if (res.err == 1) {
+												errorMsg.html(res.msg);
+										}
+								}, function () {});
+						} else {
+								errorMsg.html("请把信息填写完整");
+						}
+				}
 		}
-	}
 });
 
 /***/ })

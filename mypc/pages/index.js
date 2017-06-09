@@ -182,8 +182,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             filterShow: true,
             selected: '0',
             selected1: '0',
-            isPadding1: "false",
-            isPadding2: "true"
+            isPadding1: "",
+            isPadding2: ""
         };
     },
     methods: {
@@ -818,7 +818,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("已置顶")])])]) : _vm._e()]), _vm._v(" "), _c('ul', {
     staticClass: "list",
     class: {
-      padding1: true, padding2: false
+      padding1: _vm.isPadding1, padding2: _vm.isPadding2
     },
     attrs: {
       "id": "list"

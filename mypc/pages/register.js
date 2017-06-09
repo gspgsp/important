@@ -263,6 +263,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 								}).then(function (res) {
 										if (res.err == 0) {
 												errMsg.html(res.msg);
+												var countStart = setInterval(function () {
+														_this.validCode = _this.times-- + '秒后重发';
+														if (_this.times < 0) {
+																clearInterval(countStart);
+																_this.validCode = "获取验证码";
+														}
+												}, 1000);
 										} else if (res.err == 1) {
 												errMsg.html(res.msg);
 										}
@@ -298,7 +305,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 												} else {
 														window.localStorage.setItem("commReg", 2);
 												}
-												errMsg.html(res.msg);
+												location.href = "/mypczone/index/login";
 										} else if (res.err == 1) {
 												errMsg.html(res.msg);
 										}
