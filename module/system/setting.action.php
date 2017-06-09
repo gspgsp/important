@@ -160,7 +160,7 @@ class settingAction extends adminBaseAction {
 /*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
 			$qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
 			$qapp_newest_version=stripslashes($_POST['qapp_newest_version']);*/
-
+			var_dump(000000);
 			$_data = array(
 				'qapp_newest_url'=>json_encode(array(
 					'ios'=>$_POST['qapp_newest_url_ios'],
