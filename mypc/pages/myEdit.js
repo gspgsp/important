@@ -603,7 +603,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "80px",
       "height": "80px",
       "position": "relative",
-      "float": "left"
+      "float": "left",
+      "margin": "0 15px 0 0"
     }
   }, [_c('div', {
     staticClass: "personAvator"
