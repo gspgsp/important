@@ -178,6 +178,7 @@ class settingAction extends adminBaseAction {
 				)),
 				'qapp_newest_version'=>$_POST['qapp_newest_version']
 			);
+
 		/*	$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_url','".$_data['qapp_newest_url']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_tip','".$_data['qapp_newest_tip']."')");
 			$db->execute("replace into ".$db->ftable." (code,value) values ('qapp_newest_version','".$_data['qapp_newest_version']."')");
@@ -191,7 +192,7 @@ class settingAction extends adminBaseAction {
 				M('system:globalSetting')->set($code,$val);
 			}
 
-
+			var_dump(1231432423);
 			$this->model('setting')->where("code='qapp_newest_version'")->update(array('value'=>$_POST['qapp_newest_version']));\
 			M('system:setting')->del_cache('setting_qapp_newest_version');
 			M('system:setting')->del_cache('setting');
