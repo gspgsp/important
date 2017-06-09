@@ -1,6 +1,594 @@
 webpackJsonp([1],{
 
-/***/ 150:
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_footer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_loadingPage__);
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'footerbar': __WEBPACK_IMPORTED_MODULE_1__components_footer___default.a,
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default.a
+	},
+	data: function data() {
+		return {
+			keywords: "",
+			page: 1,
+			release: [],
+			type: 0,
+			store_house: "",
+			model: "",
+			f_name: "",
+			deal_price: "",
+			remark: "",
+			show: false,
+			content: "",
+			id: "",
+			user_id: "",
+			selected: "",
+			isArrow: false,
+			sortfield1: "ALL",
+			sortfield2: "AUTO",
+			filter1: false,
+			filter2: true,
+			filter3: false,
+			filter4: false,
+			condition: null,
+			txt2: "全部",
+			filtershow: false,
+			mine: false,
+			on1: true,
+			errmsg: "",
+			loadingShow: "",
+			top: ""
+		};
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			$(window).on('scroll', function () {
+				vm.loadingMore();
+				var scrollTop = $(this).scrollTop();
+				var reliWidth = $("body").width();
+				console.log(reliWidth);
+				if (scrollTop > 90) {
+					$("#releaseTop").css({
+						'position': 'fixed',
+						'top': '90px',
+						'width': reliWidth + 'px'
+					});
+				} else {
+					$("#releaseTop").css({
+						'position': 'static',
+						'top': '0'
+					});
+				}
+			});
+		});
+	},
+	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+		var _this = this;
+		next(function () {});
+		$(window).off('scroll');
+	},
+	methods: {
+		selectAll: function selectAll() {
+			var _this = this;
+			weui.actionSheet([{
+				label: '全部',
+				onClick: function onClick() {
+					_this.txt2 = '全部';
+					_this.selected = 0;
+					$.ajax({
+						url: version + "/releaseMsg/getReleaseMsg",
+						type: 'post',
+						data: {
+							keywords: _this.keywords.toLocaleUpperCase(),
+							page: _this.page,
+							type: _this.selected,
+							sortField1: _this.sortfield1,
+							sortField2: _this.sortfield2,
+							token: window.localStorage.getItem("token"),
+							size: 10
+						},
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						console.log(res);
+						if (res.err == 0) {
+							_this.release = res.data;
+						} else if (res.err == 2) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						}
+					}, function () {});
+				}
+			}, {
+				label: '供给',
+				onClick: function onClick() {
+					_this.txt2 = '供给';
+					_this.selected = 2;
+					$.ajax({
+						url: version + "/releaseMsg/getReleaseMsg",
+						type: 'post',
+						data: {
+							keywords: _this.keywords.toLocaleUpperCase(),
+							page: _this.page,
+							type: _this.selected,
+							sortField1: _this.sortfield1,
+							sortField2: _this.sortfield2,
+							token: window.localStorage.getItem("token"),
+							size: 10
+						},
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						if (res.err == 0) {
+							_this.release = res.data;
+						} else if (res.err == 2) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						}
+					}, function () {});
+				}
+			}, {
+				label: '求购',
+				onClick: function onClick() {
+					_this.txt2 = '求购';
+					_this.selected = 1;
+					$.ajax({
+						url: version + "/releaseMsg/getReleaseMsg",
+						type: 'post',
+						data: {
+							keywords: _this.keywords.toLocaleUpperCase(),
+							page: _this.page,
+							type: _this.selected,
+							sortField1: _this.sortfield1,
+							sortField2: _this.sortfield2,
+							token: window.localStorage.getItem("token"),
+							size: 10
+						},
+						headers: {
+							'X-UA': window.localStorage.getItem("XUA")
+						},
+						dataType: 'JSON'
+					}).then(function (res) {
+						if (res.err == 0) {
+							_this.release = res.data;
+						} else if (res.err == 2) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 4) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 9) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 6) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 7) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						} else if (res.err == 8) {
+							_this.condition = res.err;
+							_this.errmsg = res.msg;
+							_this.release = [];
+							_this.top = null;
+						}
+					}, function () {});
+				}
+			}], [{
+				label: '取消',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		},
+		getRelease: function getRelease(cate) {
+			window.scrollTo(0, 0);
+			var _this = this;
+			var loading = weui.loading('加载中', {
+				className: 'custom-classname'
+			});
+			switch (cate) {
+				case 'all':
+					_this.filter1 = true;
+					_this.filter2 = false;
+					_this.filter3 = false;
+					_this.filter4 = false;
+					_this.mine = false;
+					_this.sortfield1 = "ALL";
+					_this.sortfield2 = "";
+					_this.condition = true;
+					_this.page = 1;
+					break;
+				case 'recommend':
+					_this.filter1 = false;
+					_this.filter2 = true;
+					_this.filter3 = false;
+					_this.filter4 = false;
+					_this.mine = false;
+					_this.sortfield1 = "";
+					_this.sortfield2 = "AUTO";
+					_this.condition = true;
+					_this.page = 1;
+					break;
+				case 'attention':
+					_this.filter1 = false;
+					_this.filter2 = false;
+					_this.filter3 = true;
+					_this.filter4 = false;
+					_this.mine = false;
+					_this.sortfield1 = "";
+					_this.sortfield2 = "CONCERN";
+					_this.condition = true;
+					_this.page = 1;
+					break;
+				case 'supplydemand':
+					_this.filter1 = false;
+					_this.filter2 = false;
+					_this.filter3 = false;
+					_this.filter4 = true;
+					_this.mine = true;
+					_this.sortfield1 = "";
+					_this.sortfield2 = "DEMANDORSUPPLY";
+					_this.condition = true;
+					_this.page = 1;
+				default:
+					break;
+			}
+			$.ajax({
+				url: version + "/releaseMsg/getReleaseMsg",
+				type: 'post',
+				data: {
+					keywords: _this.keywords.toLocaleUpperCase(),
+					page: _this.page,
+					type: _this.selected,
+					sortField1: _this.sortfield1,
+					sortField2: _this.sortfield2,
+					token: window.localStorage.getItem("token"),
+					size: 10
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					_this.release = res.data;
+					if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+						_this.top = null;
+					} else {
+						_this.top = res.top;
+					}
+				} else if (res.err == 2) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 4) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 9) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 6) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 7) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 8) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				}
+			}).fail(function () {}).always(function () {
+				loading.hide(function () {});
+			});
+		},
+		search: function search() {
+			var _this = this;
+			this.condition = true;
+			_this.filtershow = false;
+			_this.filtershow2 = false;
+			this.page = 1;
+			try {
+				var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+				piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
+			} catch (err) {}
+
+			$.ajax({
+				url: version + "/releaseMsg/getReleaseMsg",
+				type: 'post',
+				data: {
+					keywords: _this.keywords.toLocaleUpperCase(),
+					page: _this.page,
+					type: _this.selected,
+					sortField1: _this.sortfield1,
+					sortField2: _this.sortfield2,
+					token: window.localStorage.getItem("token"),
+					size: 10
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				console.log(res);
+				if (res.err == 0) {
+					_this.release = res.data;
+				} else if (res.err == 1) {
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function onClick() {
+								_this.$router.push({
+									name: 'login'
+								});
+							}
+						}]
+					});
+				} else if (res.err == 2) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 4) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 9) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 6) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 7) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				} else if (res.err == 8) {
+					_this.condition = res.err;
+					_this.errmsg = res.msg;
+					_this.release = [];
+					_this.top = null;
+				}
+			}, function () {});
+		},
+		arrow: function arrow() {
+			window.scrollTo(0, 0);
+		},
+		loadingMore: function loadingMore() {
+			var _this = this;
+			var scrollTop = $(window).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(window).height();
+			if (scrollTop + windowHeight == scrollHeight) {
+				_this.page++;
+				$.ajax({
+					type: "post",
+					url: version + "/releaseMsg/getReleaseMsg",
+					data: {
+						keywords: _this.keywords.toLocaleUpperCase(),
+						page: _this.page,
+						type: _this.selected,
+						sortField1: _this.sortfield1,
+						sortField2: _this.sortfield2,
+						token: window.localStorage.getItem("token"),
+						size: 10
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					if (res.err == 0) {
+						_this.release = _this.release.concat(res.data);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					} else if (res.err == 3) {
+						weui.topTips(res.msg, 3000);
+					}
+				}, function () {});
+			}
+		}
+	},
+	mounted: function mounted() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$(window).scroll(function () {
+			var scrollTop = $(this).scrollTop();
+			if (scrollTop > 600) {
+				_this.isArrow = true;
+			} else {
+				_this.isArrow = false;
+			}
+		});
+
+		_this.loadingShow = true;
+		$.ajax({
+			url: version + "/releaseMsg/getReleaseMsg",
+			type: 'post',
+			data: {
+				keywords: _this.keywords.toLocaleUpperCase(),
+				page: _this.page,
+				type: _this.selected,
+				sortField1: _this.sortfield1,
+				sortField2: _this.sortfield2,
+				token: window.localStorage.getItem("token"),
+				size: 10
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 0) {
+				_this.release = res.data;
+				if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
+					_this.top = null;
+				} else {
+					_this.top = res.top;
+				}
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else if (res.err == 2) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if (res.err == 4) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if (res.err == 5) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if (res.err == 6) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if (res.err == 7) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.top = null;
+			} else if (res.err == 8) {
+				_this.condition = res.err;
+				_this.errmsg = res.msg;
+				_this.release = [];
+				_this.top = null;
+			}
+		}).fail(function () {}).always(function () {
+			_this.loadingShow = false;
+		});
+	}
+});
+
+/***/ }),
+
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -620,14 +1208,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(47)(
+var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(99),
+  __webpack_require__(101),
   /* template */
-  __webpack_require__(150),
+  __webpack_require__(153),
   /* scopeId */
   null,
   /* cssModules */
@@ -655,7 +1243,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 47:
+/***/ 48:
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -713,7 +1301,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 48:
+/***/ 49:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -860,14 +1448,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 49:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(47)(
+var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(48),
+  __webpack_require__(49),
   /* template */
-  __webpack_require__(50),
+  __webpack_require__(51),
   /* scopeId */
   null,
   /* cssModules */
@@ -895,7 +1483,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 50:
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -967,7 +1555,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 51:
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -980,14 +1568,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 52:
+/***/ 53:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(47)(
+var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(51),
+  __webpack_require__(52),
   /* template */
-  __webpack_require__(53),
+  __webpack_require__(54),
   /* scopeId */
   null,
   /* cssModules */
@@ -1015,7 +1603,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 53:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1047,7 +1635,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 54:
+/***/ 55:
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
@@ -1055,609 +1643,21 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
-/***/ 59:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(60), __esModule: true };
-
-/***/ }),
-
 /***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
-var core  = __webpack_require__(54)
+module.exports = { "default": __webpack_require__(61), __esModule: true };
+
+/***/ }),
+
+/***/ 61:
+/***/ (function(module, exports, __webpack_require__) {
+
+var core  = __webpack_require__(55)
   , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
   return $JSON.stringify.apply($JSON, arguments);
 };
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_loadingPage__);
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_1__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_2__components_loadingPage___default.a
-	},
-	data: function data() {
-		return {
-			keywords: "",
-			page: 1,
-			release: [],
-			type: 0,
-			store_house: "",
-			model: "",
-			f_name: "",
-			deal_price: "",
-			remark: "",
-			show: false,
-			content: "",
-			id: "",
-			user_id: "",
-			selected: "",
-			isArrow: false,
-			sortfield1: "ALL",
-			sortfield2: "AUTO",
-			filter1: false,
-			filter2: true,
-			filter3: false,
-			filter4: false,
-			condition: null,
-			txt2: "全部",
-			filtershow: false,
-			mine: false,
-			on1: true,
-			errmsg: "",
-			loadingShow: "",
-			top: ""
-		};
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		next(function (vm) {
-			$(window).on('scroll', function () {
-				vm.loadingMore();
-				var scrollTop = $(this).scrollTop();
-				var reliWidth = $("body").width();
-				console.log(reliWidth);
-				if (scrollTop > 90) {
-					$("#releaseTop").css({
-						'position': 'fixed',
-						'top': '90px',
-						'width': reliWidth + 'px'
-					});
-				} else {
-					$("#releaseTop").css({
-						'position': 'static',
-						'top': '0'
-					});
-				}
-			});
-		});
-	},
-	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-		var _this = this;
-		next(function () {});
-		$(window).off('scroll');
-	},
-	methods: {
-		selectAll: function selectAll() {
-			var _this = this;
-			weui.actionSheet([{
-				label: '全部',
-				onClick: function onClick() {
-					_this.txt2 = '全部';
-					_this.selected = 0;
-					$.ajax({
-						url: version + "/releaseMsg/getReleaseMsg",
-						type: 'post',
-						data: {
-							keywords: _this.keywords.toLocaleUpperCase(),
-							page: _this.page,
-							type: _this.selected,
-							sortField1: _this.sortfield1,
-							sortField2: _this.sortfield2,
-							token: window.localStorage.getItem("token"),
-							size: 10
-						},
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						dataType: 'JSON'
-					}).then(function (res) {
-						console.log(res);
-						if (res.err == 0) {
-							_this.release = res.data;
-						} else if (res.err == 2) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 4) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 9) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 6) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 7) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 8) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						}
-					}, function () {});
-				}
-			}, {
-				label: '供给',
-				onClick: function onClick() {
-					_this.txt2 = '供给';
-					_this.selected = 2;
-					$.ajax({
-						url: version + "/releaseMsg/getReleaseMsg",
-						type: 'post',
-						data: {
-							keywords: _this.keywords.toLocaleUpperCase(),
-							page: _this.page,
-							type: _this.selected,
-							sortField1: _this.sortfield1,
-							sortField2: _this.sortfield2,
-							token: window.localStorage.getItem("token"),
-							size: 10
-						},
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						dataType: 'JSON'
-					}).then(function (res) {
-						if (res.err == 0) {
-							_this.release = res.data;
-						} else if (res.err == 2) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 4) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 9) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 6) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 7) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 8) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						}
-					}, function () {});
-				}
-			}, {
-				label: '求购',
-				onClick: function onClick() {
-					_this.txt2 = '求购';
-					_this.selected = 1;
-					$.ajax({
-						url: version + "/releaseMsg/getReleaseMsg",
-						type: 'post',
-						data: {
-							keywords: _this.keywords.toLocaleUpperCase(),
-							page: _this.page,
-							type: _this.selected,
-							sortField1: _this.sortfield1,
-							sortField2: _this.sortfield2,
-							token: window.localStorage.getItem("token"),
-							size: 10
-						},
-						headers: {
-							'X-UA': window.localStorage.getItem("XUA")
-						},
-						dataType: 'JSON'
-					}).then(function (res) {
-						if (res.err == 0) {
-							_this.release = res.data;
-						} else if (res.err == 2) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 4) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 9) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 6) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 7) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						} else if (res.err == 8) {
-							_this.condition = res.err;
-							_this.errmsg = res.msg;
-							_this.release = [];
-							_this.top = null;
-						}
-					}, function () {});
-				}
-			}], [{
-				label: '取消',
-				onClick: function onClick() {}
-			}], {
-				className: 'custom-classname'
-			});
-		},
-		getRelease: function getRelease(cate) {
-			window.scrollTo(0, 0);
-			var _this = this;
-			var loading = weui.loading('加载中', {
-				className: 'custom-classname'
-			});
-			switch (cate) {
-				case 'all':
-					_this.filter1 = true;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "ALL";
-					_this.sortfield2 = "";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'recommend':
-					_this.filter1 = false;
-					_this.filter2 = true;
-					_this.filter3 = false;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "AUTO";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'attention':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = true;
-					_this.filter4 = false;
-					_this.mine = false;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "CONCERN";
-					_this.condition = true;
-					_this.page = 1;
-					break;
-				case 'supplydemand':
-					_this.filter1 = false;
-					_this.filter2 = false;
-					_this.filter3 = false;
-					_this.filter4 = true;
-					_this.mine = true;
-					_this.sortfield1 = "";
-					_this.sortfield2 = "DEMANDORSUPPLY";
-					_this.condition = true;
-					_this.page = 1;
-				default:
-					break;
-			}
-			$.ajax({
-				url: version + "/releaseMsg/getReleaseMsg",
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).done(function (res) {
-				if (res.err == 0) {
-					_this.release = res.data;
-					if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-						_this.top = null;
-					} else {
-						_this.top = res.top;
-					}
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				}
-			}).fail(function () {}).always(function () {
-				loading.hide(function () {});
-			});
-		},
-		search: function search() {
-			var _this = this;
-			this.condition = true;
-			_this.filtershow = false;
-			_this.filtershow2 = false;
-			this.page = 1;
-			try {
-				var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-				piwikTracker.trackSiteSearch(this.keywords, "keywords", 20);
-			} catch (err) {}
-
-			$.ajax({
-				url: version + "/releaseMsg/getReleaseMsg",
-				type: 'post',
-				data: {
-					keywords: _this.keywords.toLocaleUpperCase(),
-					page: _this.page,
-					type: _this.selected,
-					sortField1: _this.sortfield1,
-					sortField2: _this.sortfield2,
-					token: window.localStorage.getItem("token"),
-					size: 10
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				console.log(res);
-				if (res.err == 0) {
-					_this.release = res.data;
-				} else if (res.err == 1) {
-					weui.alert(res.msg, {
-						title: '塑料圈通讯录',
-						buttons: [{
-							label: '确定',
-							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
-						}]
-					});
-				} else if (res.err == 2) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 4) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 9) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 6) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 7) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				} else if (res.err == 8) {
-					_this.condition = res.err;
-					_this.errmsg = res.msg;
-					_this.release = [];
-					_this.top = null;
-				}
-			}, function () {});
-		},
-		arrow: function arrow() {
-			window.scrollTo(0, 0);
-		},
-		loadingMore: function loadingMore() {
-			var _this = this;
-			var scrollTop = $(window).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(window).height();
-			if (scrollTop + windowHeight == scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: version + "/releaseMsg/getReleaseMsg",
-					data: {
-						keywords: _this.keywords.toLocaleUpperCase(),
-						page: _this.page,
-						type: _this.selected,
-						sortField1: _this.sortfield1,
-						sortField2: _this.sortfield2,
-						token: window.localStorage.getItem("token"),
-						size: 10
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					if (res.err == 0) {
-						_this.release = _this.release.concat(res.data);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 3) {
-						weui.topTips(res.msg, 3000);
-					}
-				}, function () {});
-			}
-		}
-	},
-	mounted: function mounted() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$(window).scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-		});
-
-		_this.loadingShow = true;
-		$.ajax({
-			url: version + "/releaseMsg/getReleaseMsg",
-			type: 'post',
-			data: {
-				keywords: _this.keywords.toLocaleUpperCase(),
-				page: _this.page,
-				type: _this.selected,
-				sortField1: _this.sortfield1,
-				sortField2: _this.sortfield2,
-				token: window.localStorage.getItem("token"),
-				size: 10
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 0) {
-				_this.release = res.data;
-				if (__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_json_stringify___default()(res.top) == '{}') {
-					_this.top = null;
-				} else {
-					_this.top = res.top;
-				}
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else if (res.err == 2) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 4) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 5) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 6) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 7) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.top = null;
-			} else if (res.err == 8) {
-				_this.condition = res.err;
-				_this.errmsg = res.msg;
-				_this.release = [];
-				_this.top = null;
-			}
-		}).fail(function () {}).always(function () {
-			_this.loadingShow = false;
-		});
-	}
-});
 
 /***/ })
 

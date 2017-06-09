@@ -1,13 +1,68 @@
-webpackJsonp([44],{
+webpackJsonp([35],{
 
-/***/ 167:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(47)(
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "buyWrap",
+    staticStyle: {
+      "padding": "0"
+    }
+  }, [_c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
+    }
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t\t塑料配资\n\t\t"), _c('a', {
+    staticClass: "configSobot",
+    attrs: {
+      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "configTel",
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": _vm.tel
+    }
+  })]), _vm._v(" "), _vm._m(0)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "configWrap"
+  }, [_c('ul', {
+    staticClass: "configUl"
+  }, [_c('li', [_c('div', {
+    staticClass: "configIco config1"
+  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "configIco config2"
+  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "configIco config3"
+  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3facb4f5", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(168),
+  __webpack_require__(89),
   /* template */
-  __webpack_require__(169),
+  __webpack_require__(148),
   /* scopeId */
   null,
   /* cssModules */
@@ -35,67 +90,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 168:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {};
-	},
-	methods: {},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-	}
-});
-
-/***/ }),
-
-/***/ 169:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "buyWrap"
-  }, [_c('header', {
-    attrs: {
-      "id": "bigCustomerHeader"
-    }
-  }, [_c('a', {
-    staticClass: "back",
-    attrs: {
-      "href": "javascript:window.history.back();"
-    }
-  }), _vm._v("\n\t\t塑料配资\n\t")]), _vm._v(" "), _c('div', {
-    staticClass: "configWrap"
-  }, [_c('ul', {
-    staticClass: "configUl"
-  }, [_c('li', [_c('div', {
-    staticClass: "configIco config1"
-  }), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "configIco config1"
-  }), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3facb4f5", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 47:
+/***/ 48:
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -150,6 +145,44 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ 89:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {};
+	},
+	methods: {
+		tel: function tel() {
+			weui.actionSheet([{
+				label: '<a style=" color:#0091ff;" href="tel:4006129965">400-6129-965</a>',
+				onClick: function onClick() {}
+			}, {
+				label: '<a style=" color:#0091ff;" href="tel:02161070985">021-61070985</a>',
+				onClick: function onClick() {}
+			}], [{
+				label: '<span style=" color:#0091ff;">取消</span>',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+});
 
 /***/ })
 
