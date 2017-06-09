@@ -59,8 +59,8 @@
 					<div field="month_consum" width="30" headerAlign="center" allowSort="true" align="center" align="center">月用量
 						<input property="editor" class="mini-textarea" style="width:100%;" minHeight="60"/>
 					</div>
-					<div field="name" width="30" headerAlign="center" align="center" >客户联系</div>
-					<div field="mobile" width="60" headerAlign="center"  align="center">强开</div>
+					<div field="name" width="30" headerAlign="center" align="center" renderer="contract_u">客户联系</div>
+					<div field="days" width="60" headerAlign="center"  align="center">强开</div>
 					<div field="remark" width="60" headerAlign="center"  align="center">匹配</div>
 				</div>
 			</div>
@@ -389,6 +389,11 @@ function republish(e){
 	var record = e.record,id=record.id,s='';
 	return s += '<a href="javascript:publish('+id+')">重新发布</a>';
 }
+//联系人拼接
+function contract_u(){
+	var record = e.record,name=record.name,mobile=record.mobile,s='';
+	return s += name+'</br>'+mobile;
+}
 //发送短信回调方法
 function publish(e){
 
@@ -506,7 +511,7 @@ function sarData(m){
 	var smodel = mini.get('smodel').setValue(m);
 	grid.load($("#csoform").serializeObject(),function(e){
 		$("#csearchMsg").html(e.msg);
-		mini.get('smodel').setValue('');
+		mini.get('smodel').setValue('0');
 	});
 }
 //查看产品相关信息
