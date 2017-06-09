@@ -133,21 +133,6 @@ a{ text-decoration:none;}
 .my-info li.quit{ font-size:16px; color:#ff5000; text-align:center;}
 /*my-info begin*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*change begin*/
 .border-wrap{ border:1px solid #d9d9d9; border-radius:4px; background:#fff;}
 .change-person{ font-size:16px; height:97px; overflow:hidden; margin-top:19px; position:relative;}
@@ -178,7 +163,17 @@ a{ text-decoration:none;}
 .edit.routine-set li p.hide{ display:none;}
 
 .upload-card{ height:130px;}
-.upload-card .card{ width:239px; height:130px; border-right:1px solid #d9d9d9;}
-.upload-card .card img{ margin:22px 0 0 50px; cursor:pointer;}
+/* .upload-card .card{ width:239px; height:130px; border-right:1px solid #d9d9d9;}
+.upload-card .card img{ margin:22px 0 0 50px; cursor:pointer;} */
 .upload-card .remark p{ line-height:22px; width:200px; margin:15px 0 0 20px;}
+
+.upload-card .card{ width: 133px; height: auto; background: url(../img/card.jpg) no-repeat; background-size: 100% 100%; display: inline-block; border: 2px solid #d9d9d9;}
+.upload-card .card2{ width: 133px; height: auto; display: inline-block; position: relative; background:#abcdef;}
+.upload-card .card img,.upload-card .card2 img{ width: 100%; height: 73px; margin: 0;}
+.card2upload{ width: 133px; height: 73px; background: url(../img/uploadcard.jpg) no-repeat; background-size: 100% 100%;}
+.card2success{ width: 133px; height: 73px; background: url(../img/uploadsuccess.jpg) no-repeat; background-size: 100% 100%;}
 /*change end*/
+
+.personAvator{ width: 80px; height: 80px; position: relative; margin: 0 auto; background: url(../img/logos.jpg) no-repeat; background-size: 100% 100%; border-radius: 6px; border: 1px solid #f88f5f; overflow: hidden;}
+.personAvator img{ width: 80px; height: 80px;}
+.personAvator .photo{ width: 25px; height: 25px; position: absolute; right: -5px; bottom: -5px; border-radius: 50%; border: 1px solid #eeeeee; background: url(../img/photo.png) no-repeat; background-size: 100% 100%;}
