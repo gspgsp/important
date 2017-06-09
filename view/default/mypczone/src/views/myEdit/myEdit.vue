@@ -8,7 +8,7 @@
                 <div class="blank"></div>
                 <!--change-person begin-->
                 <div class="change-person w96">
-                    <div style="width: 80px; height: 80px; position: relative; float: left;">
+                    <div style="width: 80px; height: 80px; position: relative; float: left; margin:0 15px 0 0;">
                         <div class="personAvator">
                             <input type="file" id="uploader" v-on:click="uploaderCard('uploader',1)" capture="camera" multiple="" style="width:80px; height: 80px; opacity: 0; position: absolute; top: 0; left: 0;">
                             <img width="80" height="80" v-bind:src="thumb">
