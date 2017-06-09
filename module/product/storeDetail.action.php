@@ -110,7 +110,6 @@ class storeDetailAction extends adminBaseAction {
 			$list['data'][$k]['collection'] = M("product:order")->getCollection($v['o_id']);
 			$list['data'][$k]['price_s'] = M('product:factory')->getNeighborSprice($v['p_id']);
 			$list['data'][$k]['order_name_id']= $order_name;
-			$list['data'][$k]['profit_type']= '2';
 		}
 		$msg="";
 		if($list['count']>0){
