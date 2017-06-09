@@ -1,21 +1,36 @@
 <template>
-<div class="buyWrap" style="padding: 45px 0 0 0;">
-	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
-		<header id="bigCustomerHeader">
-			<a class="back" href="javascript:window.history.back();"></a>
-			查别人
-		</header>
-	</div>
-	<div class="searchcompany"></div>
-	<h2 style="text-align: center; font-size: 30px; color: #333333; margin: 15px 0;">精准查询</h2>
-	<p style="text-align: center;">企业名称查询<br>自动关联企业相关数据</p>
-	<div class="searchfname">
-		<div class="searchfnameWrap" style="margin: 0;">
-		<div style=" width: auto; margin-right: 80px;">
-			<input type="text" v-model="fname" style=" width: 100%; line-height: 30px; float: left; border: none; padding: 5px 7px; background: none; font-size: 12px;" placeholder="请输入企业全称" />
-			<div class="searchbtn" v-on:click="search">查授信额度</div>
-		</div>	
+<div class="buyWrap" style="padding: 0;">
+	<header id="bigCustomerHeader">
+		<a class="back" href="javascript:window.history.back();"></a>
+			企业信用额度
+		<a class="configSobot" href="https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"></a>
+		<a class="configTel" href="javascript:;" v-on:click="tel"></a>
+	</header>
+	<div class="searchWrap">
+		<div class="searchWrapTitle">信用额度查询：</div>
+		<div class="searchfname">
+			<div class="searchfnameWrap">
+			<div style=" width: auto; margin-right: 80px;">
+				<input type="text" v-model="fname" style=" width: 100%; line-height: 22px; float: left; border: none; padding: 5px 7px; background: none; font-size: 12px;" placeholder="请输入企业名称" />
+				<div class="searchbtn" v-on:click="search">查询</div>
+			</div>	
+			</div>
 		</div>
+		<div class="belongFirm">
+			您所属企业：<a href="#">上海中晨电子商务</a>
+		</div>
+	</div>
+	<div class="configWrap">
+		<ul class="configUl">
+			<li>
+				<div class="configIco config1">Q：什么是塑料配资？</div>
+				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
+			</li>
+			<li>
+				<div class="configIco config2">Q：什么是塑料配资？</div>
+				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
+			</li>
+		</ul>
 	</div>
 	<ul class="searchli">
 		<li v-for="c in creditli">
@@ -33,6 +48,26 @@ export default{
 		}
 	},
 	methods:{
+		tel: function() {
+			weui.actionSheet([{
+				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
+				onClick: function() {
+
+				}
+			}, {
+				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
+				onClick: function() {
+
+				}
+			}], [{
+				label: '<span style=" color:#0091ff;">取消</span>',
+				onClick: function() {
+					
+				}
+			}], {
+				className: 'custom-classname'
+			});
+		},
 		search:function(){
 			var _this=this;
 			$.ajax({
@@ -70,7 +105,7 @@ export default{
 			});
 		}
 	},
-	mounted: function() {
+	activated: function() {
 		this.creditli=[];
 		this.fname="";
 		try {

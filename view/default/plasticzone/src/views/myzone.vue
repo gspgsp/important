@@ -71,7 +71,7 @@
 	</ul>
 	<ul class="myzoneUl">
 		<li>
-			<router-link :to="{name:'help'}"><i class="iconZone zone11"></i>企业信用额度
+			<router-link :to="{name:'searchcompany'}"><i class="iconZone zone11"></i>企业信用额度
 				<i class="icon2 rightArrow" style="right: 0; top: 8px;"></i></router-link>
 		</li>
 		<li>
