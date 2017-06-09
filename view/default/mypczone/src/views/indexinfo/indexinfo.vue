@@ -78,6 +78,9 @@
 
   </div>
 </template>
+<style type="text/css">
+.layui-layer-btn{ text-align:center;}
+</style>
 <script>
 import Leftmodel from "../../components/Leftmodel";
 import Centermodel from "../../components/Centermodel";
@@ -177,6 +180,7 @@ export default {
             },
             dataType: 'JSON'
         }).done(function(res) {
+		console.log(res);
             if(res.err == 0) {
                 _this.name = res.data.name;
                 _this.c_name = res.data.c_name;
@@ -213,7 +217,7 @@ export default {
 								}
 								   });
             } else if(res.err == 99) {
-                weui.confirm(res.msg, function() {
+                layer.confirm(res.msg,{icon: 3, title:['塑料圈通讯录','text-align:center;']}, function() {
                     $.ajax({
                         url: version +"/friend/getZoneFriend",
                         type: 'post',
@@ -252,19 +256,17 @@ export default {
                                 _this.isMobile = false;
                             }
                         } else if(res.err == 100) {
-						alert(1);
-                            /*weui.alert(res.msg, {
-                                title: '塑料圈通讯录',
-                                buttons: [{
-                                    label: '确定',
-                                    type: 'parimary',
-                                    onClick: function() {
-                                        _this.$router.push({
-                                            name: 'pointsrule'
-                                        });
-                                    }
-                                }]
-                            });*/
+						layer.open({
+                        title: ["塑料圈通讯录", "text-align:center"],
+								offset : "28%",
+								icon : 5,
+								content : res.msg,
+								btnAlign: 'c',
+									   anim : 2,
+									   yes : function () {
+									location.href = "/mypczone/index";		
+								}
+								   });
                         }
                     }, function() {
 

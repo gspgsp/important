@@ -2,7 +2,7 @@
   <div id="app">
  <Leftmodel></Leftmodel>
   <!--address-list begin-->
-  <div class="center flt">
+  <div class="center flt" style="position:relative;">
 <div class="address-list">
 	<!--fixed begin-->
     <div class="fixed">
@@ -144,7 +144,7 @@
     </ul>
     <loadingPage :loading="loadingShow"></loadingPage>
     <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
-    <div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
+    <div class="index-top-arrow" v-show="true" v-on:click="arrow"></div>
     <!--list end-->
 </div>
 </div>
@@ -510,6 +510,7 @@ export default {
             var scrollHeight = $(document).height();
             var windowHeight = $(this).height();	
             _this.loadingMore();
+            console.log( scrollTop );
             if(scrollTop > 600) {
                 _this.isArrow = true;
             } else {
