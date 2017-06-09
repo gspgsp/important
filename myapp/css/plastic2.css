@@ -684,10 +684,11 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .plasticsx{ width: 100%; height: 100%; z-index: 100; position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.8);}
 .plasticsxWrap{ margin: -160px 0 0 -150px; top: 50%; left: 50%; width: 300px; height: 320px; position: fixed; background: url(../img/plasticsx.png) no-repeat; background-size: 100% 100%;}
 
-.searchcompany{ width: 250px; height: 255px; margin: 25px auto 0 auto; background: url(../img/searchcompany.png) no-repeat; background-size: 100% 100%;}
 .searchfname{ width: auto; margin: 20px 5px 0 5px; position: relative;}
-.searchfnameWrap{ width: auto; height: 40px; overflow: hidden; border: 1px solid #ff5000; position: relative; border-radius: 5px; margin: 0 80px 0 0;}
-.searchbtn{ width: 80px; height: 40px; line-height: 40px; position: absolute; right: 0; text-align: center; font-size: 13px; color: #FFFFFF; background: #ff5000;}
+.searchfnameWrap{ width: auto; height: 32px; overflow: hidden; background: #FFFFFF; position: relative; border-radius: 3px; margin: 0;}
+.belongFirm{ width: 100%; height: 44px; padding: 0 10px; position: absolute; bottom: 0; left: 0; color: #333333; font-size: 15px; line-height: 44px; background: rgba(255,255,255,0.8);}
+.belongFirm a{ color: #ff4f00; text-decoration: underline;}
+.searchbtn{ width: 50px; height: 32px; line-height: 32px; position: absolute; right: 0; text-align: center; font-size: 13px; color: #FFFFFF; background: #267bd3;}
 .qcc{ float: right; width: 75px; position: absolute; top: 0; right: 0; border-radius: 5px; height: 40px; font-size: 13px; text-align: center; line-height: 40px; color: #FFFFFF; background: #00a0e9;}
 .searchli{ margin: 0; padding: 10px; list-style: none; font-size: 12px;}
 
@@ -913,3 +914,14 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 
 .configSobot{ position: absolute; top: 12px; right: 45px; width: 20px; height: 20px; width: 20px; height: 20px; background: url(../img/configSobot.png) no-repeat; background-size: 100% 100%;}
 .configTel{ position: absolute; top: 12px; right: 10px; width: 20px; height: 20px; width: 20px; height: 20px; background: url(../img/configTel.png) no-repeat; background-size: 100% 100%;}
+.searchWrap{ width: 100%; height: 160px; padding: 10px; position: relative; background: url(../img/searchWrap.jpg) no-repeat; background-size: 100% 100%;}
+.searchWrapTitle{ font-size: 17px; color: #FFFFFF;}
+
+
+
+
+
+
+
+
+

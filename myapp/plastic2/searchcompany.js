@@ -15,6 +15,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	methods: {
+		tel: function tel() {
+			weui.actionSheet([{
+				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
+				onClick: function onClick() {}
+			}, {
+				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
+				onClick: function onClick() {}
+			}], [{
+				label: '<span style=" color:#0091ff;">取消</span>',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		},
 		search: function search() {
 			var _this = this;
 			$.ajax({
@@ -50,7 +64,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}, function () {});
 		}
 	},
-	mounted: function mounted() {
+	activated: function activated() {
 		this.creditli = [];
 		this.fname = "";
 		try {
@@ -69,24 +83,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "buyWrap",
     staticStyle: {
-      "padding": "45px 0 0 0"
+      "padding": "0"
     }
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "searchcompany"
-  }), _vm._v(" "), _c('h2', {
-    staticStyle: {
-      "text-align": "center",
-      "font-size": "30px",
-      "color": "#333333",
-      "margin": "15px 0"
+  }, [_c('header', {
+    attrs: {
+      "id": "bigCustomerHeader"
     }
-  }, [_vm._v("精准查询")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+  }, [_c('a', {
+    staticClass: "back",
+    attrs: {
+      "href": "javascript:window.history.back();"
+    }
+  }), _vm._v("\n\t\t\t企业信用额度\n\t\t"), _c('a', {
+    staticClass: "configSobot",
+    attrs: {
+      "href": "https://www.sobot.com/chat/h5/index.html?sysNum=137f8799efcb49fea05534057318dde0"
+    }
+  }), _vm._v(" "), _c('a', {
+    staticClass: "configTel",
+    attrs: {
+      "href": "javascript:;"
+    },
+    on: {
+      "click": _vm.tel
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "searchWrap"
+  }, [_c('div', {
+    staticClass: "searchWrapTitle"
+  }, [_vm._v("信用额度查询：")]), _vm._v(" "), _c('div', {
     staticClass: "searchfname"
   }, [_c('div', {
-    staticClass: "searchfnameWrap",
-    staticStyle: {
-      "margin": "0"
-    }
+    staticClass: "searchfnameWrap"
   }, [_c('div', {
     staticStyle: {
       "width": "auto",
@@ -101,7 +129,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticStyle: {
       "width": "100%",
-      "line-height": "30px",
+      "line-height": "22px",
       "float": "left",
       "border": "none",
       "padding": "5px 7px",
@@ -110,7 +138,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "type": "text",
-      "placeholder": "请输入企业全称"
+      "placeholder": "请输入企业名称"
     },
     domProps: {
       "value": (_vm.fname)
@@ -126,7 +154,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }, [_vm._v("查授信额度")])])])]), _vm._v(" "), _c('ul', {
+  }, [_vm._v("查询")])])])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('ul', {
     staticClass: "searchli"
   }, _vm._l((_vm.creditli), function(c) {
     return _c('li', [_c('router-link', {
@@ -142,29 +170,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticStyle: {
-      "position": "fixed",
-      "top": "0",
-      "left": "0",
-      "width": "100%",
-      "z-index": "10"
-    }
-  }, [_c('header', {
+    staticClass: "belongFirm"
+  }, [_vm._v("\n\t\t\t您所属企业："), _c('a', {
     attrs: {
-      "id": "bigCustomerHeader"
+      "href": "#"
     }
-  }, [_c('a', {
-    staticClass: "back",
-    attrs: {
-      "href": "javascript:window.history.back();"
-    }
-  }), _vm._v("\n\t\t\t查别人\n\t\t")])])
+  }, [_vm._v("上海中晨电子商务")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("企业名称查询"), _c('br'), _vm._v("自动关联企业相关数据")])
+  return _c('div', {
+    staticClass: "configWrap"
+  }, [_c('ul', {
+    staticClass: "configUl"
+  }, [_c('li', [_c('div', {
+    staticClass: "configIco config1"
+  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
+    staticClass: "configIco config2"
+  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

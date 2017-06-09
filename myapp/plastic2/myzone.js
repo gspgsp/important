@@ -242,7 +242,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', [_c('router-link', {
     attrs: {
       "to": {
-        name: 'help'
+        name: 'searchcompany'
       }
     }
   }, [_c('i', {
