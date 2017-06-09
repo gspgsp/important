@@ -162,10 +162,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		tel: function tel() {
 			weui.actionSheet([{
-				label: '<a style=" color:#0091ff;" href="tel:4006129965">400-6129-965</a>',
+				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
 				onClick: function onClick() {}
 			}, {
-				label: '<a style=" color:#0091ff;" href="tel:02161070985">021-61070985</a>',
+				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
 				onClick: function onClick() {}
 			}], [{
 				label: '<span style=" color:#0091ff;">取消</span>',
