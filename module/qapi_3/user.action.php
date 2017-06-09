@@ -114,6 +114,12 @@ class userAction extends baseAction
             ) {
                 $this->_errCode (6);
             }
+
+            if(!eregi("[^\x80-\xff]","$c_name")){
+
+            }else{
+                $this->error ('请输入中文公司名');
+            }
             $name   = $this->clearStr ($name);
             $c_name = $this->clearStr ($c_name);
             if (mb_strlen ($c_name, 'UTF8') < 5) {
