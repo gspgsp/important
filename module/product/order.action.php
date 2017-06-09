@@ -12,6 +12,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('pay_method',L('pay_method')); //付款方式
 		$this->assign('transport_type',L('transport_type')); //运输方式
 		$this->assign('business_model',L('business_model')); //业务模式
+		$this->assign('profit_type',L('profit_type')); //利润模式
 		$this->assign('financial_records',L('financial_records')); //财务记录
 		$this->assign('order_status',L('order_status')); //订单审核
 		$this->assign('transport_status',L('transport_status')); //物流审核
@@ -398,6 +399,7 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
 		$info['creater']=M('rbac:adm')->getUserByCol($info['customer_manager']);
+		$info['profit_type']=L('profit_type')[$info['profit_type']];//利润类型
 		$this->assign('c_name',$c_name);
 		$this->assign('info',$info);//分配订单信息
 		if($o_type ==1){
@@ -532,6 +534,12 @@ class orderAction extends adminBaseAction {
 		$data['total_price']=$data['price'];
 		$data['financial_records']=2;//财务记录 默认否
 		$data['total_num']=$data['num'];
+		//利润类型
+		if($data['order_type'] == 1){
+			$data['profit_type'] = $data['s_profit_type']; //利润类型
+		}else{
+			$data['profit_type'] = $data['p_profit_type']; //利润类型
+		}
 			$this->db->startTrans(); //开启事务
 			$update_data=array(
 				'update_time'=>CORE_TIME,
@@ -644,6 +652,11 @@ class orderAction extends adminBaseAction {
 		$data['total_price']=$data['price']; //前台计算的所有明细总价
 		$data['total_num']=$data['num']; //所有明细总数
 		$data['order_source'] = 2; //订单默认来源ERP
+		if($data['order_type'] == 1){
+			$data['profit_type'] = $data['s_profit_type']; //利润类型
+		}else{
+			$data['profit_type'] = $data['p_profit_type']; //利润类型
+		}
 		//新增
 			$this->db->startTrans(); //开启事务
 			$partner_id = empty($data['partner']) ? $_SESSION['adminid'] : $data['partner'];
