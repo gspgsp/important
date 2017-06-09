@@ -563,7 +563,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         arrow: function arrow() {
-            window.scrollTo(0, 0);
+            $(".center").scrollTop(0, 0);
         },
         circle: function circle() {
             var _this = this;
@@ -590,7 +590,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this.name = res.persons;
                     _this.isCircle = false;
                     window.scrollTo(0, 0);
-                    if (res.show_msg) {}
+                    if (res.show_msg) {
+                        layer.open({
+                            title: false,
+                            offset: "28%",
+                            content: res.msg,
+                            closeBtn: false,
+                            btnAlign: 'c',
+                            anim: 2
+                        });
+                    }
                 } else if (res.err == 2) {
                     _this.condition = false;
                 }
@@ -676,7 +685,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     } else if (res.err == 2) {
                         _this.condition = false;
                     } else if (res.err == 3) {
-                        weui.topTips(res.msg, 3000);
+                        layer.open({
+                            title: false,
+                            offset: "28%",
+                            content: res.msg,
+                            closeBtn: false,
+                            btnAlign: 'c',
+                            anim: 2
+                        });
                     }
                 }, function () {});
             }
@@ -1002,9 +1018,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "info flt"
   }, [_c('p', [_c('span', {
     staticClass: "company",
-    attrs: {
-      "title": _vm.top.c_name
-    },
     domProps: {
       "innerHTML": _vm._s(_vm.top.c_name)
     }
@@ -1086,9 +1099,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('p', [_c('span', {
       staticClass: "company",
-      attrs: {
-        "title": n.c_name
-      },
       domProps: {
         "innerHTML": _vm._s(n.c_name)
       }
@@ -1151,7 +1161,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.isArrow),
       expression: "isArrow"
     }],
-    staticClass: "arrow",
+    staticClass: "index-top-arrow",
     on: {
       "click": _vm.arrow
     }
