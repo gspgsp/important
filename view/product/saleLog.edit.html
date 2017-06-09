@@ -12,7 +12,7 @@
 					<option value="p_id">牌号</option>
 					<option value="store_id">仓库</option>
 					<option value="customer_manager">交易员</option>
-					<option value="unit_price">采购价</option>	
+					<option value="unit_price">采购价</option>
 				</select>
 				<input name="keyword" class="mini-textbox" emptyText="" style="width:100px;" onenter="onKeyEnter"/>
 				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
@@ -52,17 +52,17 @@
 					</td>
 					<td>仓库<font style="color:red;"> * </font></td>
 					<td><input name="store_name" id="store" value="{$info.store_name}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
-					</td>	
-								
+					</td>
+
 				</tr>
-				<tr>	
+				<tr>
 					<td>批次</td>
 					<td><input name="lot_num" id="lot" value="{$info.lot_num}" textField="text" valueField="id" class="mini-textbox"    allowInput="false"  style="width:150px"/>
 					</td>
 					<td>采购价<font style="color:red;"> * </font></td>
 					<td><input name="purchase_price" id="p_price" value="{$info.purchase_price}" textField="text" valueField="id" class="mini-textbox"   allowInput="false"  required="true" style="width:150px"/>
 					</td>
-					
+
 				</tr>
 				<tr>
 					<td><font style="color:blue;">需求数量<font style="color:red;"> * </font></font></td>
@@ -91,6 +91,7 @@
 				<input class="mini-hidden" id="history_price" name="history_price" value=""/>
 				<input class="mini-hidden" id="purchase_id" name="purchase_id" value=""/>
 				<input class="mini-hidden" id="controlled_number" name="controlled_number" value=""/>
+				<input class="mini-hidden" id="profit_type" name="profit_type" value=""/>
 			</table>
 		</fieldset>
 	</div>
@@ -106,8 +107,8 @@
 				<a class="mini-button" iconcls="icon-cancel" onclick="onCancel">关闭</a><span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
 			</div>
 		{/if}
-			
-	
+
+
 <script type="text/javascript">
 mini.parse();
 var grid = mini.get("gridCell2");
@@ -117,7 +118,7 @@ function search() {
 	});
 
 }
-search();	
+search();
 function onKeyEnter(e) {
 	search();
 }
@@ -153,9 +154,9 @@ function viewOrdInfo(oid){
 	mini.open({
 		url: "/product/order/info?oid="+oid,
 		showMaxButton:true,
-		title: "查看订单相关信息", 
+		title: "查看订单相关信息",
 		width: 800, height:450
-	});		
+	});
 }
 //追加查看产品按钮
 function onLoadProduct(e){
@@ -168,15 +169,15 @@ function viewProInfo(pid){
 	mini.open({
 		url: "/product/product/info?pid="+pid,
 		showMaxButton:true,
-		title: "产品相关信息", 
+		title: "产品相关信息",
 		width: 250, height:250
-	});		
+	});
 }
 function setsupport(e){
 	"{if $type eq 'edit'}"
 	return false;
 	"{/if}"
-	var record = e.record, id=record.id, purchase_id=record.purchase_id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name,price_s=record.price_s,o_name=record.order_name_id;
+	var record = e.record, id=record.id, purchase_id=record.purchase_id, model=record.model, store=record.store_name, lot=record.lot_num, unit_price=record.unit_price, remainder=record.remainder, p_id=record.p_id, store_id=record.store_id,locknum=record.lock_number,controlled_number=record.controlled_number,o_id = record.o_id,f_name=record.f_name,price_s=record.price_s,o_name=record.order_name_id,profit_type=record.profit_type;
 	mini.get("model").setValue(model);
 	mini.get("m_f_name").setValue(f_name);
 	mini.get("store").setValue(store);
@@ -193,6 +194,7 @@ function setsupport(e){
 	mini.get("history_price").setValue(price_s);
 	mini.get("controlled_number").setValue(controlled_number);
 	mini.get("m_o_name").setValue(o_name);
+	mini.get('profit_type').setValue(profit_type);
 	$('#s_price').html(price_s);
 	$('#s_title').show();
 	$('#s_val').show();
