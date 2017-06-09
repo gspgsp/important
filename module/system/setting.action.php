@@ -193,8 +193,8 @@ class settingAction extends adminBaseAction {
 			}
 
 			var_dump(1231432423);
-			$this->model('setting')->where("code=qapp_newest_version")->update(array('value'=>$_POST['qapp_newest_version']));
-			echo $this->model('setting')->getLastSql();
+			$this->db->model('setting')->where("code=qapp_newest_version")->update(array('value'=>$_POST['qapp_newest_version']));
+			echo $this->db->model('setting')->getLastSql();
 			M('system:setting')->del_cache('setting_qapp_newest_version');
 			M('system:setting')->del_cache('setting');
 			var_dump(111111111);
