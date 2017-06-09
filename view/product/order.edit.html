@@ -473,6 +473,7 @@ function consumeStoreDetil(){
 				var data = iframe.contentWindow.GetData();
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
+				console.log(data);
 				if (data) {
 					obj={};
 					obj.store_name=data.store_name;
@@ -487,6 +488,7 @@ function consumeStoreDetil(){
 					obj.require_number=data.require_number;
 					obj.compare=data.unit_price < (data.history_price*0.99) ? 0 : 1;  //比较现在的不能比最近销售价格低1%
 					obj.remark=data.remark;
+					obj.profit_type=data.profit_type;
 					obj.inlog_id=data.inlog_id;
 					obj.m_p_price=data.m_p_price;
 					obj.time_price=(obj.unit_price*obj.require_number).toFixed(2);
