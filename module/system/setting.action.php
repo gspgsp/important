@@ -195,7 +195,7 @@ class settingAction extends adminBaseAction {
 			$this->model('setting')->where("code='qapp_newest_version'")->update(array('value'=>$_POST['qapp_newest_version']));\
 			M('system:setting')->del_cache('setting_qapp_newest_version');
 			M('system:setting')->del_cache('setting');
-
+			var_dump(111111111);
 			showTrace();
 			//$this->success('更新成功');
 		}
