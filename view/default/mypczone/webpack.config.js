@@ -120,14 +120,14 @@ module.exports = {
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/findpwd/findpwd.html'),
 			hash:true,
 			inject:true,
-			chunks:['js/app','pages/findpwd']
+			chunks:['pages/findpwd']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/register.html'),
 			template:path.join(__dirname, '../../../../www/view/default/mypczone/src/views/register/register.html'),
 			hash:true,
 			inject:true,
-			chunks:['js/app','pages/register']
+			chunks:['pages/register']
 		}),
 		new HtmlWebpackPlugin({
 			filename: path.join(__dirname, '../../../../www/view/default/mypczone/agreement.html'),

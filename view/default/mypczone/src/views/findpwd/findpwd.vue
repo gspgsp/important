@@ -67,16 +67,15 @@ export default {
 							},
 							dataType: 'JSON'
 						}).then(function(res) {
-							//alert( res.err + " " + res.msg );
 							if(res.err == 0) {
 									errorMsg.html( res.msg );
-								/*var countStart = setInterval(function() {
+									var countStart = setInterval(function() {
 									_this.validCode = _this.times-- + '秒后重发';
 									if(_this.times < 0) {
 										clearInterval(countStart);
 										_this.validCode = "获取验证码";
 									}
-								}, 1000);*/
+								}, 1000);
 							} else if(res.err == 1) {
 										errorMsg.html( res.msg );
 							}
@@ -103,9 +102,9 @@ export default {
 							},
 							dataType: 'JSON'
 						}).then(function(res) {
-							//alert( res.err + " " + res.msg );
+							//res.err == 0 重置成功
 							if(res.err == 0) {
-									errorMsg.html( res.msg );
+									location.href = "/mypczone/index/login";
 							} else if(res.err == 1) {
 									errorMsg.html( res.msg );
 							}

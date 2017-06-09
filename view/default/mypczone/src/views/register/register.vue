@@ -129,6 +129,13 @@ export default {
 							}).then(function(res) {
 									if(res.err == 0) {
 											errMsg.html( res.msg );
+											var countStart = setInterval(function() {
+												_this.validCode = _this.times-- + '秒后重发';
+												if(_this.times < 0) {
+													clearInterval(countStart);
+													_this.validCode = "获取验证码";
+												}
+											}, 1000);
 									} else if(res.err == 1) { 
 											errMsg.html( res.msg );
 									}
@@ -161,13 +168,14 @@ export default {
 									},
 									dataType: 'JSON'
 							}).then(function(res) {
+									//res.err == 0 注册成功
 									if(res.err == 0) {
 											if(window.localStorage.getItem("invite") != "undefined") {
 													window.localStorage.setItem("inviteReg", 1)
 											} else {
 													window.localStorage.setItem("commReg", 2)
 											}
-											errMsg.html( res.msg );
+											location.href = "/mypczone/index/login";
 									} else if(res.err == 1) {
 											errMsg.html( res.msg );
 									}
