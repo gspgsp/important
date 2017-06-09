@@ -10,15 +10,15 @@
 		</div>
 		<div class="registerInput2">
 			<div class="registerBox2">
-				<strong><span>*</span>手机号码:</strong>
+				<strong>手机号码:</strong>
 				<input type="tel" maxlength="11" v-model="mobile" placeholder="请输入您的手机号码" />
 			</div>
 			<div class="registerBox2">
-				<strong><span>*</span>设置密码:</strong>
+				<strong>设置密码:</strong>
 				<input type="password" maxlength="20" v-model="password" placeholder="请输入密码" />
 			</div>
 			<div class="registerBox2">
-				<strong><span>*</span>手机验证码:</strong>
+				<strong>手机验证码:</strong>
 				<input maxlength="6" v-model="code" type="tel" placeholder="请输入收到的验证码" />
 				<button class="validCode" v-on:click="sendCode">{{validCode}}</button>
 			</div>
@@ -28,15 +28,15 @@
 		</div>
 		<div class="registerInput2">
 			<div class="registerBox2">
-				<strong><span>*</span>姓名:</strong>
+				<strong>姓名:</strong>
 				<input type="text" v-model="name" placeholder="请输入您的姓名" />
 			</div>
 			<div class="registerBox2">
-				<strong><span>*</span>公司名称:</strong>
+				<strong>公司名称:</strong>
 				<input type="text" v-model="c_name" placeholder="请输入您的公司全称" />
 			</div>
 			<div class="registerBox2">
-				<strong><span>*</span>企业类型:</strong>
+				<strong>企业类型:</strong>
 				<input name="firm" type="radio" value="1" v-model="c_type" /><label>塑料制品厂</label>
 				<input name="firm" type="radio" value="2" v-model="c_type" /><label>原料供应商</label>
 				<input name="firm" type="radio" value="4" v-model="c_type" /><label>物流服务商</label>
