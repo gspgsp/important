@@ -68,6 +68,7 @@
 						<td class="cg hidden">
 							<input name="h_pur_cid" class="mini-buttonedit" onbuttonclick="usrChoose" value="{$info.h_pur_cid}" allowInput="false"  text="{$info.c_name_pur}"  style="width:125px;"  id="h_pur_cid" />
 						</td>
+						<input type="mini-hidden" id="profit_type" value="" name="profit_type">
 						{/if}
 					</tr>
 					<tr>
@@ -473,7 +474,6 @@ function consumeStoreDetil(){
 				var data = iframe.contentWindow.GetData();
 				data = mini.clone(data);    //必须
 				data = eval("(" + data + ")");
-				console.log(data);
 				if (data) {
 					obj={};
 					obj.store_name=data.store_name;
@@ -504,6 +504,7 @@ function consumeStoreDetil(){
 				}
 				//根据订单自动带头信息
 				mini.get('order_name').setValue(data.o_name);
+				mini.get('profit_type').setValue(data.profit_type);
 			}
 		}
 	});
