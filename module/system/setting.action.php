@@ -155,12 +155,10 @@ class settingAction extends adminBaseAction {
 		$db=$this->db->model('global_setting');
 
 		$action=sget('action','s');
-		var_dump($_POST);
 		if($_POST){
 /*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
 			$qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
 			$qapp_newest_version=stripslashes($_POST['qapp_newest_version']);*/
-			var_dump(000000);
 			$_data = array(
 				'qapp_newest_url'=>json_encode(array(
 					'ios'=>$_POST['qapp_newest_url_ios'],
@@ -192,14 +190,11 @@ class settingAction extends adminBaseAction {
 				M('system:globalSetting')->set($code,$val);
 			}
 
-			var_dump(1231432423);
-			$this->db->model('setting')->where("`code`='qapp_newest_version'")->update(array('value'=>$_POST['qapp_newest_version']));
-			echo $this->db->model('setting')->getLastSql();
+ 			$this->db->model('setting')->where("`code`='qapp_newest_version'")->update(array('value'=>$_POST['qapp_newest_version']));
 			M('system:setting')->del_cache('setting_qapp_newest_version');
 			M('system:setting')->del_cache('setting');
-			var_dump(111111111);
-			showTrace();
-			//$this->success('更新成功');
+
+			$this->success('更新成功');
 		}
 
 		$setting=M('system:globalSetting')->getSetting();
