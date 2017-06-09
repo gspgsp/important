@@ -35,12 +35,12 @@ export default {
 	methods: {
 		tel: function() {
 			weui.actionSheet([{
-				label: '<a style=" color:#0091ff;" href="tel:4006129965">400-6129-965</a>',
+				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
 				onClick: function() {
 
 				}
 			}, {
-				label: '<a style=" color:#0091ff;" href="tel:02161070985">021-61070985</a>',
+				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
 				onClick: function() {
 
 				}
