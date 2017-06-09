@@ -270,8 +270,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this.isMobile = false;
                 }
             } else if (res.err == 1) {
-                alert('无法查看相关信息，请您先登录！');
-                window.location.href = "http://www.bendi.com/mypczone/index/login";
+                layer.open({
+                    title: ["塑料圈通讯录", "text-align:center"],
+                    offset: "28%",
+                    icon: 5,
+                    content: res.msg,
+                    btnAlign: 'c',
+                    anim: 2,
+                    yes: function yes() {
+                        location.href = "/mypczone/index/login";
+                    }
+                });
             } else if (res.err == 99) {
                 weui.confirm(res.msg, function () {
                     $.ajax({

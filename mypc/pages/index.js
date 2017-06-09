@@ -361,6 +361,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         layer.open({
                             title: ["塑料圈通讯录", "text-align:center"],
                             offset: "28%",
+                            icon: 5,
                             content: res.msg,
                             btnAlign: 'c',
                             anim: 2,
