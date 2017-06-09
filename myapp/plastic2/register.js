@@ -155,7 +155,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "registerInput2"
   }, [_c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(2), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("手机号码:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -178,7 +178,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(3), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("设置密码:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -201,7 +201,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(4), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("手机验证码:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -227,11 +227,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.sendCode
     }
-  }, [_vm._v(_vm._s(_vm.validCode))])])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.validCode))])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "registerInput2"
   }, [_c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(6), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("姓名:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -253,7 +253,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(7), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("公司名称:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -275,7 +275,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "registerBox2"
-  }, [_vm._m(8), _vm._v(" "), _c('input', {
+  }, [_c('strong', [_vm._v("企业类型:")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -410,23 +410,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "arrowLeft"
   }), _vm._v("帐号信息\n\t\t")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("手机号码:")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("设置密码:")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("手机验证码:")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "registerTitle"
   }, [_c('i', {
     staticClass: "arrowLeft"
   }), _vm._v("更多信息\n\t\t")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("姓名:")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("公司名称:")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('strong', [_c('span', [_vm._v("*")]), _vm._v("企业类型:")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
