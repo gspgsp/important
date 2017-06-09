@@ -351,6 +351,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             reg = null;
             r = null;
             return context == null || context == "" || context == "undefined" ? "" : context;
+        },
+        delData: function delData(id) {
+            $.ajax({
+                url: "/qapi_3/releaseMsg/deleteMyMsg",
+                type: 'post',
+                data: {
+                    id: id,
+                    token: window.localStorage.getItem("token")
+                },
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                dataType: 'JSON'
+            }).then(function (res) {
+                if (res.err == 0) {
+                    alert('删除成功');
+                    window.location.reload();
+                }
+            }, function () {});
         }
     },
     mounted: function mounted() {
@@ -466,11 +485,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "time"
     }, [_c('b'), _c('span', [_vm._v(_vm._s(n.input_time))])]), _vm._v(" "), _c('div', {
       staticClass: "info"
-    }, [(n.type == 2) ? _c('span', [_vm._v("供给：")]) : (n.type == 1) ? _c('span', [_vm._v("求购：")]) : _vm._e(), _c('p', [_vm._v(_vm._s(n.contents))])]), _vm._v(" "), _vm._m(0, true)])]), _vm._v(" "), _c('div', {
+    }, [(n.type == 2) ? _c('span', [_vm._v("供给：")]) : (n.type == 1) ? _c('span', [_vm._v("求购：")]) : _vm._e(), _c('p', [_vm._v(_vm._s(n.contents))])]), _vm._v(" "), _c('p', {
+      staticClass: "del",
+      on: {
+        "click": function($event) {
+          _vm.delData(n.id)
+        }
+      }
+    }, [_c('b'), _c('span', [_vm._v("删除")])])])]), _vm._v(" "), _c('div', {
       staticClass: "my-wrap-bot"
     }, [_c('div', {
       staticClass: "w96"
-    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(0, true), _vm._v(" "), _c('div', {
       staticClass: "words"
     }, [_c('h3', [_vm._v("塑料圈友")]), _vm._v(" "), (n.says != '') ? _c('ul', [_vm._l((n.says), function(n2) {
       return (n2.rev_id == n.user_id) ? _c('li', [_c('span', [_vm._v(_vm._s(n2.user_name))]), _vm._v("说：" + _vm._s(n2.content))]) : _vm._e()
@@ -491,10 +517,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                没有相关数据\n            ")])], 2)], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticClass: "del"
-  }, [_c('b'), _c('span', [_vm._v("删除")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "msg"
   }, [_c('h3', [_vm._v("系统消息")]), _vm._v(" "), _c('p', [_vm._v("在信息库中，没有找到卖（买）此牌号的商家！")]), _vm._v(" "), _c('p', [_vm._v("参考价 ："), _c('span', [_vm._v("塑料圈查无此价格")])])])
