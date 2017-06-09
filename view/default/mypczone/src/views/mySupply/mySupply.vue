@@ -19,7 +19,7 @@
                         <div class="info"><span v-if="type == 2">供给：</span><span v-else>求购：</span><p>{{n.contents}}</p></div>
                         <!--info end-->
                         <!--del begin-->
-                        <p class="del"><b></b><span>删除</span></p>
+                        <p class="del" v-on:click="delData(n.id)"><b></b><span>删除</span></p>
                         <!--del end-->
                     </div>
                 </div>
@@ -86,6 +86,29 @@ export default{
               reg = null; 
               r = null; 
               return context == null || context == "" || context == "undefined" ? "" : context;
+        },
+        delData: function(id){
+            //
+            $.ajax({
+                    url: "/qapi_3/releaseMsg/deleteMyMsg",
+                    type: 'post',
+                    data: {
+                        id: id,
+                        token: window.localStorage.getItem("token")
+                    },
+                    headers: {
+                        'X-UA': window.localStorage.getItem("XUA")
+                    },
+                    dataType: 'JSON'
+                    }).then(function(res) {
+                        if(res.err == 0) {
+                            alert('删除成功');
+                            window.location.reload();
+                        }
+                    }, function() {
+    
+                    });
+            //
         }
     },
     mounted: function() {
