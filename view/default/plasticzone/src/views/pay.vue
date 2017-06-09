@@ -62,8 +62,8 @@ export default {
 					function(res) {
 						if(res.err_msg == "get_brand_wcpay_request:ok") {
 							
-							weui.alert('支付成功', {
-								title: '塑料圈通讯录',
+							weui.alert('您支付成功', {
+								title: '支付成功',
 								buttons: [{
 									label: '确定',
 									type: 'primary',
@@ -93,8 +93,8 @@ export default {
 						}
 						if(res.err_msg == "get_brand_wcpay_request:cancel") {
 							
-							weui.alert('支付取消', {
-								title: '塑料圈通讯录',
+							weui.alert('您已取消支付', {
+								title: '支付取消',
 								buttons: [{
 									label: '确定',
 									type: 'primary',
@@ -124,8 +124,8 @@ export default {
 						}
 						if(res.err_msg == "get_brand_wcpay_request:fail") {
 							
-							weui.alert('支付失败', {
-								title: '塑料圈通讯录',
+							weui.alert('请重新充值', {
+								title: '支付失败',
 								buttons: [{
 									label: '确定',
 									type: 'primary',
