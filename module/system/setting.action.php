@@ -155,6 +155,7 @@ class settingAction extends adminBaseAction {
 		$db=$this->db->model('global_setting');
 
 		$action=sget('action','s');
+		var_dump($_POST);
 		if($_POST){
 /*			$qapp_newest_url=stripslashes($_POST['qapp_newest_url']);
 			$qapp_newest_tip=stripslashes($_POST['qapp_newest_tip']);
