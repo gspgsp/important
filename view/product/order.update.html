@@ -32,9 +32,12 @@
 						<td>采购类型：</td>
 						<td>{$info.purchase_type}</td>
 					{/if}
-						<td>业务模式<font style="color:red;"> * </font></td>
-						<td><input name="business_model" class="mini-combobox" style="width:125px;" value="{$info.business_model}" data='{:setMiniConfig|$business_model}' required="true" textfield="name" valuefield="id"/></td>
-
+						<td><font style="color:red;">利润模式 * </font></td>
+					{if $order_type eq '2' }
+						<td><input name="p_profit_type" class="mini-combobox" style="width:125px;" value="{$info.profit_type}" data='{:setMiniConfig|$profit_type}' required="true" textfield="name" valuefield="id"/></td>
+					{else}
+						<td><input name="s_profit_type" class="mini-combobox" style="width:125px;" id="s_profit_type" value="{$info.profit_type}" data='{:setMiniConfig|$profit_type}' required="true" textfield="name" valuefield="id"/></td>
+					{/if}
 					</tr>
 					<tr>
 						<td>传真：</td>
@@ -205,6 +208,9 @@
 <script charset="utf-8" src="__JS__/kindeditor/lang/zh_CN.js"></script>
 <script type="text/javascript">
 mini.parse();
+"{if $order_type eq 1}"
+mini.get("s_profit_type").disable();
+"{/if}"
 var form = new mini.Form("#infoForm");
 var noStockData;
 var totalCounts={num:0,price:0};
