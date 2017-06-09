@@ -182,16 +182,4 @@ class pointsAction extends null2Action
         M("qapp:pointsBill")->commit();
         return array('err' => 0, 'msg' => '积分减少成功');
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
