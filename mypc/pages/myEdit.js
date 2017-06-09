@@ -309,7 +309,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-32a73169", module.exports)
   }
 }
 
@@ -363,7 +363,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             level: "",
             distinct: "",
             loadingShow: "",
-            isDisabled: true
+            isDisabled: true,
+            cardshow: false
         };
     },
     methods: {
@@ -428,6 +429,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 },
                 dataType: 'JSON'
             }).then(function (res) {}, function () {});
+        },
+        uploaderCard: function uploaderCard(obj, index) {
+            var _this = this,
+                action = '';
+            if (index == 1) {
+                action = '/api/qapi1/savePicToServer';
+            } else if (index == 2) {
+                action = '/api/qapi1/saveCardImg';
+            }
+            new AjaxUpload(obj, {
+                action: action,
+                name: 'image',
+                data: {
+                    token: window.localStorage.getItem("token")
+                },
+                onSubmit: function onSubmit(file, suffix) {
+                    var patrn = /^(jpg|jpeg|png)$/i;
+                    if (!patrn.test(suffix)) {
+                        alert('不支持上传 *.' + suffix + '格式的文件。');
+                        return false;
+                    }
+                },
+                onComplete: function onComplete(file, response) {
+                    var res = jQuery.parseJSON(response);
+                    if (res.err == 0) {
+                        if (index == 1) {
+                            _this.thumb = res.url;
+                        } else if (index == 2) {
+                            _this.cardImg = res.url;
+                            _this.cardshow = true;
+                        }
+                    } else {
+                        alert(res.msg);
+                    }
+                }
+            });
         }
     },
     mounted: function mounted() {
@@ -562,13 +599,42 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('div', {
     staticClass: "change-person w96"
   }, [_c('div', {
-    staticClass: "pic flt"
-  }, [_c('img', {
+    staticStyle: {
+      "width": "80px",
+      "height": "80px",
+      "position": "relative",
+      "float": "left"
+    }
+  }, [_c('div', {
+    staticClass: "personAvator"
+  }, [_c('input', {
+    staticStyle: {
+      "width": "80px",
+      "height": "80px",
+      "opacity": "0",
+      "position": "absolute",
+      "top": "0",
+      "left": "0"
+    },
     attrs: {
+      "type": "file",
+      "id": "uploader",
+      "capture": "camera",
+      "multiple": ""
+    },
+    on: {
+      "click": function($event) {
+        _vm.uploaderCard('uploader', 1)
+      }
+    }
+  }), _vm._v(" "), _c('img', {
+    attrs: {
+      "width": "80",
+      "height": "80",
       "src": _vm.thumb
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "change-pic"
+  })]), _vm._v(" "), _c('i', {
+    staticClass: "photo"
   })]), _vm._v(" "), _c('div', {
     staticClass: "change-info flt"
   }, [_c('p', {
@@ -822,15 +888,50 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])])]), _vm._v(" "), _c('div', {
     staticClass: "upload-card border-wrap w96"
   }, [_c('div', {
-    staticClass: "card flt"
+    staticClass: "card"
   }, [_c('img', {
     attrs: {
-      "src": _vm.cardImg,
-      "width": "139",
-      "height": "86"
+      "src": _vm.cardImg
     }
   })]), _vm._v(" "), _c('div', {
-    staticClass: "remark flt"
+    staticClass: "card2"
+  }, [_c('input', {
+    staticStyle: {
+      "width": "133px",
+      "height": "73px",
+      "opacity": "0",
+      "position": "absolute",
+      "top": "0",
+      "left": "0"
+    },
+    attrs: {
+      "type": "file",
+      "name": "upFile",
+      "id": "uploaderCard"
+    },
+    on: {
+      "click": function($event) {
+        _vm.uploaderCard('uploaderCard', 2)
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.cardshow),
+      expression: "!cardshow"
+    }],
+    staticClass: "card2upload"
+  }), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.cardshow),
+      expression: "cardshow"
+    }],
+    staticClass: "card2success"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "remark frt"
   }, [_c('p', [_vm._v("通讯录排序：您目前通讯录排名第" + _vm._s(_vm.rank) + "位，共" + _vm._s(_vm.total) + "名，按照粉丝数量、发布求购数量、发布供给数量进行排序。")])])])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
@@ -845,7 +946,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-ab343726", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-ab343726", module.exports)
   }
 }
 
@@ -1015,13 +1116,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
+Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\leftmodel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] leftmodel.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -1101,7 +1202,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-4190243a", module.exports)
   }
 }
 
@@ -1239,13 +1340,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\views\\myEdit\\myEdit.vue"
+Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\views\\myEdit\\myEdit.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myEdit.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -1274,13 +1375,13 @@ var Component = __webpack_require__(0)(
   /* cssModules */
   null
 )
-Component.options.__file = "E:\\xampp\\htdocs\\bendi\\branches\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
+Component.options.__file = "D:\\xampp\\htdocs\\gsp\\www\\view\\default\\mypczone\\src\\components\\myView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myView.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
