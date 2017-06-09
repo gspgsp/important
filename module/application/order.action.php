@@ -26,6 +26,7 @@ class orderAction extends adminBaseAction {
 		$this->assign('bile_type',L('bile_type'));		 	 	//票据类型
 		$this->assign('billing_type',L('billing_type'));    	//开票类型
 		$this->assign('c_fax',L('c_fax'));  //联系传真
+		$this->assign('profit_type',L('profit_type')); //利润模式
 	}
 	/**
 	* 订单信息
@@ -86,6 +87,7 @@ class orderAction extends adminBaseAction {
 		$info['payment_time']=date("Y-m-d",$info['payment_time']);
 		$info['partner']=M('rbac:adm')->getUserByCol($info['partner']);
 		$info['creater']=M('rbac:adm')->getUserByCol($info['customer_manager']);
+		$info['profit_type']=L('profit_type')[$info['profit_type']];//利润类型
 		if($info['h_pur_cid']>0){
 			$h_pur_cid = M("user:customer")->getColByName($info['h_pur_cid'],"c_name");//根据cid取客户名
 			$this->assign('h_pur_cid',$h_pur_cid);
