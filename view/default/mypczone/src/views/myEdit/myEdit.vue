@@ -8,10 +8,18 @@
                 <div class="blank"></div>
                 <!--change-person begin-->
                 <div class="change-person w96">
-                    <div class="pic flt">
-                        <img v-bind:src="thumb">
-                        <div class="change-pic"></div>
+                    <div style="width: 80px; height: 80px; position: relative; float: left;">
+                        <div class="personAvator">
+                            <input type="file" id="uploader" v-on:click="uploaderCard('uploader',1)" capture="camera" multiple="" style="width:80px; height: 80px; opacity: 0; position: absolute; top: 0; left: 0;">
+                            <img width="80" height="80" v-bind:src="thumb">
+                        </div>
+                        <i class="photo"></i>
                     </div>
+                    <!-- <div class="pic flt">
+                        <img v-bind:src="thumb">
+                        <input type="file" name="upFile" id="uploaderCard" v-on:click="uploaderCard('uploaderCard')">
+                        <div class="change-pic"></div>
+                    </div> -->
                     <!--change-info begin-->
                     <div class="change-info flt">
                         <p class="name">{{name}}</p>
@@ -93,8 +101,15 @@
                 <!--edit end-->
                 <!--upload-card begin-->
                 <div class="upload-card border-wrap w96">
-                    <div class="card flt"><img v-bind:src="cardImg" width="139" height="86"/></div>
-                    <div class="remark flt">
+                    <div class="card">
+                        <img v-bind:src="cardImg">
+                    </div>
+                    <div class="card2">
+                        <input type="file" name="upFile" style="width:133px; height: 73px; opacity: 0; position: absolute; top: 0; left: 0;" id="uploaderCard" v-on:click="uploaderCard('uploaderCard',2)">
+                        <div class="card2upload" v-show="!cardshow"></div>
+                        <div class="card2success" v-show="cardshow"></div>
+                    </div>
+                    <div class="remark frt">
                         <p>通讯录排序：您目前通讯录排名第{{rank}}位，共{{total}}名，按照粉丝数量、发布求购数量、发布供给数量进行排序。</p>
                     </div>
                 </div>
@@ -139,7 +154,8 @@ export default{
             level: "",
             distinct: "",
             loadingShow: "",
-            isDisabled:true
+            isDisabled:true,
+            cardshow:false
         }
     },
     methods: {
@@ -210,7 +226,44 @@ export default{
             }, function() {
 
             });
-        }
+        },
+        uploaderCard: function(obj,index){
+                var _this = this, action = '';
+                if(index == 1){
+                    action = '/api/qapi1/savePicToServer';
+                }else if(index == 2){
+                    action = '/api/qapi1/saveCardImg';
+                }
+                new AjaxUpload(obj, {
+                action: action,
+                name: 'image',
+                data: {
+                    token: window.localStorage.getItem("token")
+                },
+                onSubmit: function(file, suffix)
+                {
+                    // 'gif','jpg','jpeg','png','swf'
+                    var patrn = /^(jpg|jpeg|png)$/i;
+                    if (!patrn.test(suffix)) {
+                        alert('不支持上传 *.' + suffix + '格式的文件。')
+                        return false;
+                    }
+                },
+                onComplete: function(file, response) {
+                    var res = jQuery.parseJSON(response);
+                    if(res.err == 0) {
+                        if(index == 1){
+                            _this.thumb = res.url;
+                        }else if(index == 2){
+                            _this.cardImg = res.url;
+                            _this.cardshow = true;
+                        }
+                    } else {
+                        alert(res.msg);
+                    }
+                }
+                });
+           }
     },
     mounted: function() {
         var _this = this;
@@ -304,6 +357,9 @@ export default{
                 }, function() {
 
                 });
+        //
+        
+        //
     }
 }
 </script>
