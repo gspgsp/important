@@ -66,7 +66,7 @@
                 <!--info begin-->               
                 <div class="info flt">
                         <p>
-                                <span class="company" v-html="top.c_name" v-bind:title="top.c_name"></span>
+                                <span class="company" v-html="top.c_name"></span>
                                 <span class="name" v-html="top.name"></span>&nbsp;{{top.sex}}</p>
                         <p>
                             <span v-if="top.type==='1'">产品:{{top.main_product}}</span>
@@ -107,7 +107,7 @@
             <!--info begin-->
              <div class="info flt" style="width:242px;">
                 <p>
-                    <span class="company" v-html="n.c_name" v-bind:title="n.c_name"></span>
+                    <span class="company" v-html="n.c_name"></span>
                     <span class="name" v-html="n.name"></span>
                     <span v-html="n.sex"></span>
                 </p>
@@ -144,7 +144,7 @@
     </ul>
     <loadingPage :loading="loadingShow"></loadingPage>
     <div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
-    <div class="index-top-arrow" v-show="false" v-on:click="arrow"></div>
+    <div class="index-top-arrow" v-show="isArrow" v-on:click="arrow"></div>
     <!--list end-->
 </div>
 </div>
@@ -300,7 +300,7 @@ export default {
             }
         },
         arrow: function() {
-            window.scrollTo(0, 0);
+            $(".center").scrollTop(0,0);
         },
         circle: function() {
             var _this = this;
@@ -328,7 +328,14 @@ export default {
                     _this.isCircle = false;
                     window.scrollTo(0, 0);
                     if (res.show_msg) {
-                        /*weui.topTips(res.show_msg, 3000);*/
+                        layer.open({
+									title: false,
+									offset : "28%",
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2
+							});
                     }
                 } else if(res.err == 2) {
                     _this.condition = false;
@@ -424,7 +431,15 @@ export default {
                     } else if(res.err == 2) {
                         _this.condition = false;
                     } else if(res.err == 3) {
-                        weui.topTips(res.msg, 3000);
+                       //没有更多数据
+					   layer.open({
+									title: false,
+									offset : "28%",
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2
+							});
                     }
                 }, function() {
 
