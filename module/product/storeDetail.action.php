@@ -88,7 +88,7 @@ class storeDetailAction extends adminBaseAction {
 		}elseif(!empty($keyword)){
 			$where.=" and il.`$key_type`  like '%$keyword%' ";
 		}
-		$list=$this->db->select('il.*')->from('in_log il')->leftjoin('order o','o.o_id = il.o_id')->where($where)
+		$list=$this->db->select('il.*,o.profit_type')->from('in_log il')->leftjoin('order o','o.o_id = il.o_id')->where($where)
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
@@ -257,7 +257,7 @@ class storeDetailAction extends adminBaseAction {
 			//采购单撤销入库，减去信用额度
 			$purchase_log_res = $this->db->model('purchase_log')->select('o_id,unit_price')->where('id='.$inlogs['purchase_id'])->getRow();
             M('user:customer')->updateCreditLimit($purchase_log_res['o_id'],'-',$purchase_log_res['unit_price']*$inlogs['number']) OR $this->error('撤销入库信用额度更新失败');
-			//处理信用额度------E 
+			//处理信用额度------E
 		}
 		if($this->db->commit()){
 			$this->success('撤销成功');
