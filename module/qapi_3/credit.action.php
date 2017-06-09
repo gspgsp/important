@@ -18,39 +18,46 @@ class creditAction extends baseAction
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  url   apk下载地址
+     * @apiSuccess {String}  c_name   公司名称
+     * @apiSuccess {String}  data
      *
      * @apiSuccessExample {json} Success-Response:
-     * {
-        "err": 0,
-        "data": [
-        {
-        "q": "如何获得授信？",
-        "a": "你可以根据以下方式与我们联系：\\n邮箱：info@myplas.com\\n客服热线：400-6129-965\\n前台热线：021-61070985"
-        },
-        {
-        "q": "如何提升额度？",
-        "a": "一，在我的塑料网上形成交易，并确保交易信用良好\\n二，在塑料圈通讯录上多发布供求信息\\n为塑料圈通讯录引入新的塑料交易人员"
-        }
-        ]
-        }
+             * {
+            "err": 0,
+            "c_name": "上海晨达物流有限公司",
+            "data": [
+            {
+            "q": "<span>如何获得授信？</span>",
+            "a": "<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>"
+            },
+            {
+            "q": "<span>如何提升额度？</span>",
+            "a": "<span>一，在我的塑料网上形成交易，并确保交易信用良好</span><br/><span>二，在塑料圈通讯录上多发布供求信息</span><br><span>为塑料圈通讯录引入新的塑料交易人员</span>"
+            }
+            ]
+            }
      *
      *
      */
     public function creditPage()
     {
+        $user_id  = $this->checkAccount (0);
+
+        $c_name = $this->db->model('customer cus')->leftjoin('customer_contact con','con.c_id = cus.c_id')->select('cus.c_name')->where("con.user_id=$user_id")->getOne();
+
         $arr = array(
             array(
-                'q'=>'如何获得授信？',
-                'a'=>'你可以根据以下方式与我们联系：\n邮箱：info@myplas.com\n客服热线：400-6129-965\n前台热线：021-61070985'
+                'q'=>'<span>如何获得授信？</span>',
+                'a'=>'<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>'
             ),
             array(
-                'q'=>'如何提升额度？',
-                'a'=>'一，在我的塑料网上形成交易，并确保交易信用良好\n二，在塑料圈通讯录上多发布供求信息\n为塑料圈通讯录引入新的塑料交易人员'
+                'q'=>'<span>如何提升额度？</span>',
+                'a'=>'<span>一，在我的塑料网上形成交易，并确保交易信用良好</span><br/><span>二，在塑料圈通讯录上多发布供求信息</span><br><span>为塑料圈通讯录引入新的塑料交易人员</span>'
             ),
         );
         $this->json_output (array(
             'err'  => 0,
+            'c_name'=>$c_name,
             'data' => $arr,
         ));
 
@@ -66,22 +73,26 @@ class creditAction extends baseAction
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  url   apk下载地址
+     * @apiSuccess {String}  data
      *
      * @apiSuccessExample {json} Success-Response:
-     * {
-    "err": 0,
-    "data": [
-    {
-    "q": "如何获得授信？",
-    "a": "你可以根据以下方式与我们联系：\\n邮箱：info@myplas.com\\n客服热线：400-6129-965\\n前台热线：021-61070985"
-    },
-    {
-    "q": "如何提升额度？",
-    "a": "一，在我的塑料网上形成交易，并确保交易信用良好\\n二，在塑料圈通讯录上多发布供求信息\\n为塑料圈通讯录引入新的塑料交易人员"
-    }
-    ]
-    }
+     *      {
+            "err": 0,
+            "data": [
+            {
+            "q": "<span>什么是塑料配资？</span>",
+            "a": "<span>塑料行情上涨，但企业流动资金受限，我的塑料网可为用户垫付资金，进行代理采购</span>"
+            },
+            {
+            "q": "<span>费率是多少？</span>",
+            "a": "<span>方案一</span><br><span>：1.手续费：(交易金额-保证金)×1%</span><br/><span>2.资金使用率：（交易金额-保证金）×0.033%/天数，手续费按笔计算，资金使用费按天计算。</span><br/><span>方案二：按天计算，每天收取塑料交易单价的千分之一，10元起算</span>"
+            },
+            {
+            "q": "<span>如何申请？</span>",
+            "a": "<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>"
+            }
+            ]
+            }
      *
      *
      */
@@ -89,13 +100,17 @@ class creditAction extends baseAction
     {
         $arr = array(
             array(
-                'q'=>'什么是塑料配资？',
-                'a'=>'塑料行情上涨，但企业流动资金受限，我的塑料网可为用户垫付资金，进行代理采购'
+                'q'=>'<span>什么是塑料配资？</span>',
+                'a'=>'<span>塑料行情上涨，但企业流动资金受限，我的塑料网可为用户垫付资金，进行代理采购</span>'
             ),
             array(
-                'q'=>'费率是多少？',
-                'a'=>'方案一：\n1.手续费：()'
+                'q'=>'<span>费率是多少？</span>',
+                'a'=>'<span>方案一</span><br><span>：1.手续费：(交易金额-保证金)×1%</span><br/><span>2.资金使用率：（交易金额-保证金）×0.033%/天数，手续费按笔计算，资金使用费按天计算。</span><br/><span>方案二：按天计算，每天收取塑料交易单价的千分之一，10元起算</span>'
             ),
+            array(
+                'q'=>'<span>如何申请？</span>',
+                'a'=>'<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>'
+            )
         );
         $this->json_output (array(
             'err'  => 0,
