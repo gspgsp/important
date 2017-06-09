@@ -177,7 +177,7 @@ class pointsAction extends null2Action
         }
         if (!M("qapp:pointsBill")->decPoints($points, $user_id, 14 ,$gid =$other_id )) {
             M("qapp:pointsBill")->rollback();
-            return array('err' => 100, 'msg' => '积分不足');
+            return array('err' => 100, 'msg' => '塑豆不足');
         }
         M("qapp:pointsBill")->commit();
         return array('err' => 0, 'msg' => '积分减少成功');
