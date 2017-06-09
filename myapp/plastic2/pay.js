@@ -26,7 +26,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('div', {
       staticClass: "payBox"
-    }, [_c('span', [_vm._v(_vm._s(p.money) + "元")]), _c('br'), _vm._v(_vm._s(p.plasticBean) + "塑豆\n\t\t\t\t")])])
+    }, [_c('span', [_vm._v(_vm._s(p.money) + "元")]), _c('br'), _vm._v(_vm._s(p.plasticBean) + "塑豆\n\t\t\t\t\t")])])
   })), _vm._v(" "), _c('div', {
     staticClass: "payOther"
   }, [_c('span', [_vm._v("其他金额：")]), _vm._v(" "), _c('input', {
@@ -71,7 +71,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:window.history.back();"
     }
-  }), _vm._v("\n\t充值中心\n")])
+  }), _vm._v("\n\t\t充值中心\n\t")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "payWay"
@@ -79,7 +79,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "wxPay"
   }, [_c('i', {
     staticClass: "iconWxPay"
-  }), _vm._v("微信支付\n\t\t\t"), _c('i', {
+  }), _vm._v("微信支付\n\t\t\t\t"), _c('i', {
     staticClass: "iconWxRight"
   })])])
 }]}
@@ -212,10 +212,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		payMoney: function payMoney() {
 			var _this = this;
 			var jsApiParameters = {};
+
 			function onBridgeReady() {
 				console.log("11111");
 				WeixinJSBridge.invoke('getBrandWCPayRequest', jsApiParameters, function (res) {
 					if (res.err_msg == "get_brand_wcpay_request:ok") {
+
+						weui.alert('支付成功', {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'primary',
+								onClick: function onClick() {}
+							}]
+						});
+
 						$.ajax({
 							type: "post",
 							url: version + '/pay/updateOrderStatus',
@@ -231,6 +242,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						}).then(function (res) {}, function () {});
 					}
 					if (res.err_msg == "get_brand_wcpay_request:cancel") {
+
+						weui.alert('支付取消', {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'primary',
+								onClick: function onClick() {}
+							}]
+						});
+
 						$.ajax({
 							type: "post",
 							url: version + '/pay/updateOrderStatus',
@@ -246,6 +267,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						}).then(function (res) {}, function () {});
 					}
 					if (res.err_msg == "get_brand_wcpay_request:fail") {
+
+						weui.alert('支付失败', {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'primary',
+								onClick: function onClick() {}
+							}]
+						});
+
 						$.ajax({
 							type: "post",
 							url: version + '/pay/updateOrderStatus',
@@ -305,7 +336,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		payInput: function payInput() {
 			var _this = this;
 			this.eq = null;
-			if (this.inputMoney && this.inputMoney <= 10000) {
+			if (this.inputMoney == 0) {
+				this.inputMoney = "";
+				this.plasticBean = "";
+				this.paySelect(100, 10, 0);
+			} else if (this.inputMoney > 0 && this.inputMoney <= 10000) {
 				$.ajax({
 					type: "post",
 					url: version + "/pay/getExactAmount",
