@@ -456,8 +456,9 @@ function proChoose(e){
 	});
 }
 //追加销售明细(销库存)
+var profit_type_bt;
 function consumeStoreDetil(){
-	var profit_type_bt = mini.get('profit_type');
+	profit_type_bt = mini.get('profit_type');
 	var require_num  = parseInt(mini.get("require_number").getValue());
 	var btn = this;
 	mini.open({
