@@ -92,7 +92,7 @@ class storeDetailAction extends adminBaseAction {
 				->page($page+1,$size)
 				->order("$sortField $sortOrder")
 				->getPage();
-		showtrace();
+		// showtrace();
 		foreach($list['data'] as $k=>$v){
 			$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 			$list['data'][$k]['update_time']=$v['update_time']>1000 ? date("Y-m-d H:i:s",$v['update_time']) : '-';
