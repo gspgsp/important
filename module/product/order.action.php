@@ -659,8 +659,8 @@ class orderAction extends adminBaseAction {
 		}
 		//新增
 			$this->db->startTrans(); //开启事务
-			$partner_id = empty($data['partner']) ? $_SESSION['adminid'] : $data['partner'];
-			$partner_name = empty($data['partner']) ? $_SESSION['name'] : M('rbac:adm')->getUserByCol($data['partner']);
+			$partner_id = empty($data['partners']) ? $_SESSION['adminid'] : $data['partners'];
+			$partner_name = empty($data['partners']) ? $_SESSION['name'] : M('rbac:adm')->getUserByCol($data['partners']);
 			$add_data=array(
 				'input_time'=>CORE_TIME,
 				'input_admin'=>$_SESSION['name'],
