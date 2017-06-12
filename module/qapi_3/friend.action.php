@@ -42,7 +42,7 @@ class friendAction extends baseAction
      * @apiSuccess {json}  top   置顶展示信息
      *
      * @apiSuccessExample {json} Success-Response:
-             * {
+            {
             "err": 0,
             "persons": [
             {
@@ -263,9 +263,9 @@ class friendAction extends baseAction
             "banner_jump_url": "",
             "cover_url": "",
             "cover_jump_url": "",
-            "data": 1497255839,
+            "data": 1497255962,
             "show_ctype": 0,
-            "show_msg": "又有3317个用户入圈啦！",
+            "show_msg": "",
             "top": {
             "member_level": "列兵",
             "user_id": "53454",
