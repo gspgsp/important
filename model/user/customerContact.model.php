@@ -160,7 +160,15 @@ class customerContactModel extends model{
 			//新增客户流转记录日志----S
 			$new_info = $this->model('customer')->where("c_id = ".$info['c_id'])->getRow();
 			$diff = array_diff($new_info,$old_info);
-			p($diff);die;
+			unset($diff['update_time']);
+			$ood = '';
+			$nnw = '';
+			foreach($diff $kk=>$vv){
+				$nnw .= $kk.'修改为：'.$vv.' | ';
+				$ood .= $kk.'原来为'.$old_info[$kk].' | ';
+			}
+			p($nnw);
+			p($ood);die;
 			$remarks = "对客户操作：更新修改客户信息";// 更新客户信息
 			M('user:customerLog')->addLog($info['c_id'],'change',serialize($old_info),serialize($info),1,$remarks);
 			//新增客户流转记录日志----E
