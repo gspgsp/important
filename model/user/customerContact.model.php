@@ -158,7 +158,7 @@ class customerContactModel extends model{
 			//更新公司信息和联系人
 			$result = ($this->model('customer_contact')->where("user_id = ".$info['info_user_id'])->update($info_ext+$data) && $this->model('customer')->where("c_id = ".$info['c_id'])->update($info+$data));
 			//新增客户流转记录日志----S
-			$diff = array_diff($old_info,$info);
+			$diff = array_diff($info,$old_info);
 			p($diff);die;
 			$remarks = "对客户操作：更新修改客户信息";// 更新客户信息
 			M('user:customerLog')->addLog($info['c_id'],'change',serialize($old_info),serialize($info),1,$remarks);
