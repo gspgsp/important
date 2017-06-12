@@ -65,17 +65,18 @@
 				</div>
 			</div>
 		</div>
-		<div style="width: 100%; height: 100px; margin-bottom: 10px;">
+		<div style="width: 100%; height: 180px; margin-bottom: 10px;">
 			<table style="width:100%;">
 				<tr>
 					<td style="width:33%;">
-						<div class="mini-panel" title="每月指标完成情况" style="width:100%;height:100px;">
-							成交客户：50  私海：699 公海：2300000
-							目标：利润 39990，吨位 200000
-							执行：利润 19990，吨位 200000
-							今日执行：
-							呼出42，时长867分钟，匹配度86%
-							利润 4599，吨位8999
+						<div class="mini-panel" title="指标完成情况" style="width:100%;height:180px;">
+							成交客户：{$customer_info.hz_cus}  私海：{$customer_info.self_cus} 公海：{$customer_info.public_cus}<br>
+							<b>{$goal_info.name}，您本月情况如下，加油！</b><br>
+							目标：<font style="color:red;">利润 {$goal_info.month_profit_goal}，吨位 {$goal_info.month_num_goal}</font><br>
+							执行：利润 {$goal_info.month_profit_done}，吨位 {$goal_info.month_num_done}<br>
+							<b>今日执行：</b><br>
+							呼出{$goal_info.out_eff_match_num}，时长{$goal_info.out_time}，<font style="color:red;">匹配度{$goal_info.time_match_ratio}</font><br>
+							利润 {$goal_info.today_profit_done}，吨位{$goal_info.today_num_done}<br>
 						</div>
 					</td>
 				</tr>
@@ -113,7 +114,7 @@
 						</tr>
 					</table>
 				</div>
-				<div id="investGrid" class="mini-datagrid" style="width:auto;height:480px;" url="/product/storeDetail/init?action=grid&isAddSale=1" sizeList="[10,20,50,100]" pageSize="20">
+				<div id="investGrid" class="mini-datagrid" style="width:auto;height:400px;" url="/product/storeDetail/init?action=grid&isAddSale=1" sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="model" width="50" headerAlign="center" align="center" allowSort="true" renderer="onLoadProduct">牌号</div>
 						<div field="f_name" width="55" headerAlign="center" align="center" allowSort="true">厂家</div>
@@ -121,7 +122,7 @@
 						<div field="unit_price" width="60"  headerAlign="center" align="center" allowSort="true">采购价</div>
 						<div field="controlled_number" width="40" headerAlign="center" align="center" allowSort="true">可用数量</div>
 						<div field="customer_manager" width="35" headerAlign="center" align="center">采购人</div>
-						<div field="input_time" width="70" headerAlign="center" allowSort="true" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
+						<div field="input_time" width="70" headerAlign="center" allowSort="true" dateFormat="MM-dd" align="center">时间</div>
 						<div action="" width="50" headerAlign="center" align="center" renderer="send">操作</div>
 					</div>
 				</div>
@@ -148,14 +149,14 @@
 							</tr>
 						</table>
 					</div>
-				<div id="gridCell" class="mini-datagrid" style="width:auto;height:480px;" url="/wk/wk/getDatas"
+				<div id="gridCell" class="mini-datagrid" style="width:auto;height:400px;" url="/wk/wk/getDatas"
 					 sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="fmodel" width="50" headerAlign="center" align="center">牌号/厂家</div>
 						<div field="hinfo" width="50" headerAlign="center" align="center">价格/仓库</div>
 						<div field="ainfo" width="50" headerAlign="center" align="center">区域/吨数</div>
 						<div field="uname" width="40" headerAlign="center" align="center">采购人</div>
-						<div field="input_time" width="60" headerAlign="center"  align="center" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
+						<div field="input_time" width="60" headerAlign="center"  align="center" dateFormat="MM-dd" align="center">时间</div>
 						<div action="" width="30" headerAlign="center" align="center" renderer="republish">操作</div>
 						<div field="remark" width="30" headerAlign="center" align="center">备注</div>
 					</div>
@@ -183,68 +184,68 @@
 							</tr>
 						</table>
 					</div>
-				<div id="bjCell" class="mini-datagrid" style="width:auto;height:480px;" url="/wk/wk/getDatas?stype=2"
+				<div id="bjCell" class="mini-datagrid" style="width:auto;height:400px;" url="/wk/wk/getDatas?stype=2"
 					 sizeList="[10,20,50,100]" pageSize="20">
 					<div property="columns">
 						<div field="fmodel" width="50" headerAlign="center" align="center">需求信息</div>
 						<div field="sale_price" width="50" headerAlign="center" align="center">价格</div>
 						<div field="num" width="50" headerAlign="center" align="center">吨数</div>
 						<div field="uname" width="40" headerAlign="center" align="center">报价人</div>
-						<div field="input_time" width="60" headerAlign="center" align="center" dateFormat="yy-MM-dd HH:mm" align="center">时间</div>
+						<div field="input_time" width="60" headerAlign="center" align="center" dateFormat="MM-dd" align="center">时间</div>
 						<div action="" width="30" headerAlign="center" align="center" renderer="republish">操作</div>
 						<div field="remark" width="30" headerAlign="center" align="center">备注</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<fieldset style="width:643px;border:solid 1px #aaa;margin-top:8px;position:relative;">
+		<fieldset style="width:600px;border:solid 1px #aaa;margin-top:8px;position:relative;">
 			<legend><label><input id="rbl" name="stype" value="2" class="mini-radiobuttonlist" data="[{id: 1, text: '采购'}, {id: 2, text: '报价'}]"/></label></legend>
 			<div id="editForm1" style="padding:5px;width:640px;overflow: hidden;" >
 				<table style="width:570px;float: left;">
 					<tr>
-						<td style="width:50px;">牌号：<font style="color:red;">*</font></td>
-						<td style="width:100px;"><input name="model" class="mini-textbox" required="true"/></td>
-						<td style="width:50px;">厂家：<font style="color:red;">*</font></td>
-						<td style="width:100px;"><input name="factory" class="mini-textbox" required="true"/></td>
-						<td style="width:50px;">数量：<font style="color:red;">*</font></td>
-						<td style="width:100px;"><input name="num" class="mini-textbox" required="true"/></td>
+						<td style="width:30px;">牌号</td>
+						<td style="width:70px;"><input name="model" class="mini-textbox" required="true"/></td>
+						<td style="width:30px;">厂家</td>
+						<td style="width:70px;"><input name="factory" class="mini-textbox" required="true"/></td>
+						<td style="width:30px;">数量</td>
+						<td style="width:70px;"><input name="num" class="mini-textbox" required="true"/></td>
 					</tr>
 					<tr>
-						<td>价格：<font style="color:red;">*</font></td>
+						<td>价格</td>
 						<td><input name="sale_price" class="mini-textbox" required="true"/></td>
-						<td>备注：</td>
+						<td>备注</td>
 						<td>
 							<input name="remark" class="mini-textbox"/>
 							<input name="stype" value="2" class="mini-hidden"/>
 						</td>
 					</tr>
 				</table>
-				<div style="width: 30px;float: right;" borderStyle="border:0;">
-						<a class="mini-button" style="width:30px;" onClick="submitForm1()">发布</a>
+				<div style="width: 100px;" borderStyle="border:0;">
+						<a class="mini-button" style="width:100px; margin-left:40px;" onClick="submitForm1()">发布</a>
 				</div>
 			</div>
 			<div id="editForm2" style="padding:5px;width:640px;overflow: hidden;" class="hidden">
 				<table style="width:570px;float: left;">
 					<tr>
-						<td style="width:80px;">牌号：<font style="color:red;">*</font></td>
+						<td style="width:80px;">牌号</td>
 						<td style="width:60px;"><input name="model" class="mini-textbox" required="true" emptyText="牌号"/></td>
-						<td style="width:80px;">厂家：<font style="color:red;">*</font></td>
+						<td style="width:80px;">厂家</td>
 						<td style="width:60px;"><input name="factory" class="mini-textbox" required="true" emptyText="厂家"/></td>
 						<td style="width:100px;">相似牌号：</td>
 						<td style="width:60px;"><input name="smodel" class="mini-textbox" emptyText="相似牌号，该牌号也发信息，多个用空格分隔"/></td>
 					</tr>
 					<tr>
-						<td>数量：<font style="color:red;">*</font></td>
+						<td>数量</td>
 						<td><input name="num" class="mini-textbox" required="true"/></td>
-						<td>成本：<font style="color:red;">*</font></td>
+						<td>成本</td>
 						<td><input name="price" class="mini-textbox" required="true"/></td>
-						<td>销售价：<font style="color:red;">*</font></td>
+						<td>销售价</td>
 						<td><input name="sale_price" class="mini-textbox" required="true"/></td>
 					</tr>
 					<tr>
-						<td>仓库：<font style="color:red;">*</font></td>
+						<td>仓库</td>
 						<td><input name="store" class="mini-textbox" required="true"/></td>
-						<td>区域：<font style="color:red;">*</font></td>
+						<td>区域</td>
 						<td><input name="china_area" class="mini-combobox" data="[{id: 1, text: '华东'},{id: 2, text: '华北'},{id: 3, text: '华南'},{id: 4, text: '其他'}]" textField="text" valueField="id" required="true"/></td>
 						<td>备注：</td>
 						<td>
@@ -253,8 +254,8 @@
 						</td>
 					</tr>
 				</table>
-				<div style="width: 30px;float: right;" borderStyle="border:0;">
-						<a class="mini-button" style="width:30px;" onClick="submitForm2()">发布</a>
+				<div style="width: 100px;" borderStyle="border:0;">
+						<a class="mini-button" style="width:100px; margin-left:56px;" onClick="submitForm2()">发布</a>
 				</div>
 			</div>
 		</fieldset>
