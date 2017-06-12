@@ -666,14 +666,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('a', {
     attrs: {
       "target": "_blank",
-      "href": "http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q"
+      "href": "https://itunes.apple.com/cn/app/id1172762802"
     }
   }, [_vm._v("iphone版下载")])]), _vm._v(" "), _c('p', {
     staticClass: "opt2"
   }, [_c('a', {
     attrs: {
       "target": "_blank",
-      "href": "https://itunes.apple.com/cn/app/id1172762802"
+      "href": "http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q"
     }
   }, [_vm._v("Android版下载")])])]), _vm._v(" "), _c('div', {
     staticClass: "ewm frt"

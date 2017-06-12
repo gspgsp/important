@@ -403,8 +403,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 },
                 dataType: 'JSON'
             }).then(function (res) {
-                alert('更新成功');
-                window.location.reload();
+                layer.open({
+                    title: false,
+                    offset: "28%",
+                    content: res.msg,
+                    closeBtn: false,
+                    btnAlign: 'c',
+                    anim: 2
+                });
+                window.setTimeout("window.location.reload()", 2000);
             }, function () {});
         },
         msgActive: function msgActive(type) {
