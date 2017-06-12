@@ -1,15 +1,21 @@
 {layout file="public:mini_layout"}
-<!-- <div class="mini-toolbar" style="margin:3px 3px 0;">
+<div class="mini-toolbar" style="margin:3px 3px 0;">
     <table style="width:100%;">
         <tr>
             <td style="white-space:nowrap;">
-                <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a> -->
-                <!-- <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> -->
-                <!-- <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+                <!-- <a class="mini-button" iconCls="icon-add" onclick="add()" plain="true" tooltip="增加">增加</a>
+                <a class="mini-button" iconCls="icon-save" plain="true" onclick="saveData()">保存</a> 
+                <a class="mini-button" iconCls="icon-remove" plain="true" onclick="remove()">删除</a> -->
+                <form id="soform">
+                    用户名:
+                    <input name="keyword" class="mini-textbox" emptyText="请输入关键词" style="width:140px;" onenter="onKeyEnter"/>
+                    <a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                    <span id="searchMsg"></span>
+                </form>
             </td>
         </tr>
     </table>
-</div> -->
+</div>
 <div class="mini-fit" style="padding:1px 3px 3px;">
     <div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true" url="/useraction/conDo/init?action=grid" idField="admin_id" showFilterRow="true" multiSelect="true" allowCellSelect="true" allowCellEdit="true">
         <div property="columns">
@@ -35,6 +41,16 @@
 mini.parse();
 var grid = mini.get("gridCell");
 grid.load();
+//搜索
+function search() {
+    grid.load($("#soform").serializeObject(),function(e){
+        $("#searchMsg").html(e.msg);
+    });
+}
+search();
+function onKeyEnter(e) {
+    search();
+}
 /**
  * 查看详情
  * [ftrial description]
