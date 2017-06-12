@@ -500,6 +500,8 @@ class friendAction extends baseAction
                 'is_show_cover'   => 0,
                 'banner_url'      => '',
                 'banner_jump_url' => '',
+                'banner_jump_native'=>0,
+                'banner_jump_native_address'=>'',
                 'cover_url'       => '',
                 'cover_jump_url'  => '',
                 'data'            => CORE_TIME,
@@ -517,7 +519,7 @@ class friendAction extends baseAction
                 $arr['is_show_banner']  = 1;
                 $arr['is_show_focus']   = 0;
                 $arr['banner_url']      = $setting['qapp_banner']['url'];
-                $arr['banner_jump_native'] = $setting['qapp_banner']['jump_native'];
+                $arr['banner_jump_native'] = empty($setting['qapp_banner']['jump_native'])?false:true;
                 if(empty($arr['banner_jump_native'])) {
                     $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
                     $arr['banner_jump_native_address'] = '';
