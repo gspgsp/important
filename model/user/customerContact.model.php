@@ -163,7 +163,7 @@ class customerContactModel extends model{
 			unset($diff['update_time']);
 			$ood = '';
 			$nnw = '';
-			$comment = $this->db->model('customer')->query("SELECT COLUMN_NAME, COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = 'p2p_customer'");
+			// $comment = $this->db->model('customer')->query("SELECT COLUMN_NAME, COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE `table_name` = 'p2p_customer'");
 			p($comment);
 			foreach($diff as $kk=>$vv){
 				//获取字段说明：
