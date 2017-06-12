@@ -275,7 +275,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         search: function search() {
             var _this = this;
             if (this.keywords) {
-                alert(this.keywords);
                 $.ajax({
                     url: '/qapi_3/toutiao/getSubscribe',
                     type: 'post',
@@ -290,10 +289,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     },
                     dataType: 'JSON'
                 }).done(function (res) {
-                    console.log(res);
                     if (res.err == 0) {
                         _this.items = res.data.slice(0, 3);
                         console.log(_this.items);
+                    } else if (res.err == 2) {
+                        alert('没有相关数据');
                     }
                 }).fail(function () {}).always(function () {});
             } else {}
