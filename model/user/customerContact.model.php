@@ -150,8 +150,19 @@ class customerContactModel extends model{
 				$this->model('customer')->where("c_id = {$info['c_id']}")->update(array('contact_id'=>$info['user_id']));
 			}
 			$result = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->update($info+$data);
+
 				$remarks = "客户联系人修改:".date('Y-m-d H:i:s',time());
-				M('user:customerLog')->addLog($info['c_id'],'register',serialize($yanshi),serialize($info+$_data),1,$remarks);
+			$yanshi_n = $this->model('customer_contact')->where("user_id = ".$info['user_id'])->getRow();
+			$diff = array_diff($yanshi_n,$yanshi);
+			unset($diff['update_time']);
+			$ood = '';
+			$nnw = '';
+			foreach($diff as $kk=>$vv){
+				//获取字段说明：
+				$nnw .= $kk.'修改为：'.$vv.' | ';
+				$ood .= $kk.'原来为'.$yanshi["$kk"].' | ';
+			}
+			M('user:customerLog')->addLog($info['c_id'],'register',$nnw,$ood,1,$remarks);
 		}else if($info['ctype']==3 && $info['info_user_id']>0 && $info['c_id']>0){
 			if(empty($info['type'])) return array('err'=>1,'msg'=>'客户类型为必填选项');
 			$old_info = $this->model('customer')->where("c_id = ".$info['c_id'])->getRow();
@@ -170,10 +181,8 @@ class customerContactModel extends model{
 				$nnw .= $kk.'修改为：'.$vv.' | ';
 				$ood .= $kk.'原来为'.$old_info["$kk"].' | ';
 			}
-			p($nnw);
-			p($ood);die;
 			$remarks = "对客户操作：更新修改客户信息";// 更新客户信息
-			M('user:customerLog')->addLog($info['c_id'],'change',serialize($old_info),serialize($info),1,$remarks);
+			M('user:customerLog')->addLog($info['c_id'],'change',$nnw,$ood,1,$remarks);
 			//新增客户流转记录日志----E
 		}else{
 			// 添加客户和联系人
