@@ -195,8 +195,16 @@ export default{
                 },
                 dataType: 'JSON'
             }).then(function(res) {
-                alert('更新成功');
-                window.location.reload();
+                layer.open({
+									title: false,
+									offset : "28%",
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2
+							});
+				window.setTimeout("window.location.reload()",2000)			
+                //window.location.reload();
             }, function() {
 
             });

@@ -156,8 +156,8 @@
     <div class="default-bot">
         <!--opt begin-->
         <div class="opt flt">
-            <p class="opt1"><a target="_blank" href="http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q">iphone版下载</a></p>
-            <p class="opt2"><a target="_blank" href="https://itunes.apple.com/cn/app/id1172762802">Android版下载</a></p>
+            <p class="opt1"><a target="_blank" href="https://itunes.apple.com/cn/app/id1172762802">iphone版下载</a></p>
+            <p class="opt2"><a target="_blank" href="http://android.myapp.com/myapp/detail.htm?apkName=com.myplas.q">Android版下载</a></p>
         </div>
         <!--opt end-->
         <!--ewm begin-->

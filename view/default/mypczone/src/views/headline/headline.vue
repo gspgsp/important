@@ -215,7 +215,14 @@ export default {
                         _this.items = res.data.slice(0, 3);
                         console.log(_this.items);
                     }else if(res.err == 2){
-                            alert('没有相关数据');
+                    layer.open({
+									title: false,
+									offset : "28%",
+									content : res.msg,
+									closeBtn : false,
+									btnAlign: 'c',
+									anim : 2
+							});
                     }
                 }).fail(function(){
 
