@@ -35,8 +35,8 @@ class contractAction extends adminBaseAction {
 			{
 				$where .= " and `created_by` = {$this->role['user_id']}";
 			} */			
-		    //物流领导所属关系			
-		    if($_SESSION['adminid']>0&&$_SESSION['adminid']!=1){
+		    //物流领导所属关系（750：侯频，764：曹聪，他们能看所有运输合同）			
+		    if($_SESSION['adminid']>0&&$_SESSION['adminid']!=1&&$_SESSION['adminid']!=750&&$_SESSION['adminid']!=764){
 		        $sons = M('rbac:rbac')->getSons($_SESSION['adminid']);
 		        $where.=" and created_by in ($sons)";
 		    }
@@ -147,6 +147,9 @@ class contractAction extends adminBaseAction {
 	        }
 	        if(!empty($v['delivery_other'])&&!is_numeric($v['delivery_other'])){
 	            $this->json_output(array('err'=>1,'msg'=>'其它费用必须为数字！'));
+	        }
+			if($v['status']==3){
+	            $this->json_output(array('err'=>1,'msg'=>'审核通过的合同单价不能编辑！'));
 	        }
 	        $_data=array(
 	            'goods_num'=>number_format($v['goods_num'],'4','.',''),
@@ -351,7 +354,9 @@ class contractAction extends adminBaseAction {
 	            $count=$fee_list['0']*$v['goods_num']+$fee_list['1']+$fee_list['2'];
 	            $count_fee+=number_format($count,'2','.','');
 	        }
-	        M('public:common')->model('out_log')->where('o_id='.$o_id)->update(array('ship'=>$count_fee));//回传运输费用到出库信息
+			$idlist=M('public:common')->model('out_log')->select('id')->where(" `o_id`=$o_id and `del` = 0 ")->getCol();//根据订单号查询出库流水中的所有id
+	        $minid=min($idlist); 			
+	        M('public:common')->model('out_log')->where('id='.$minid)->update(array('ship'=>$count_fee));//回传运输费用到出库信息
 	        }
 	        $this->success('操作成功');
 	    }else{
