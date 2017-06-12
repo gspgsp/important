@@ -9,7 +9,7 @@
 /**
  * @apiDefine UAHeader
  *
- * @apiHeader {String} x-ua 拼接顺序为 平台(ios/android/weixin/pc)|屏幕尺寸|user_id|token|uuid|包名|系统获取的操作系统名称|操作系统版本号|内核版本号|浏览器名称|浏览器版本号|设备厂商|设备名称信息
+ * @apiHeader {String} x-ua 拼接顺序为 平台(ios/android/weixin/pc)|屏幕尺寸|user_id|token|uuid|包版本号|系统获取的操作系统名称|操作系统版本号|内核版本号|浏览器名称|浏览器版本号|设备厂商|设备名称信息
  *
  */
 class commonAction extends baseAction
@@ -98,7 +98,7 @@ class commonAction extends baseAction
             $version = sget ('version', 's');
         }
 
-        if($version == '3.1.0')
+        if($version == 'myplastic')
         {
             $version = 20;
         }
