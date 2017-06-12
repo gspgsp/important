@@ -53,26 +53,12 @@ export default {
 		payMoney: function() {
 			var _this = this;
 			var jsApiParameters = {};
-
 			function onBridgeReady() {
-				console.log("11111");
 				WeixinJSBridge.invoke(
 					'getBrandWCPayRequest',
 					jsApiParameters,
 					function(res) {
 						if(res.err_msg == "get_brand_wcpay_request:ok") {
-							
-							weui.alert('您支付成功', {
-								title: '支付成功',
-								buttons: [{
-									label: '确定',
-									type: 'primary',
-									onClick: function() {
-										
-									}
-								}]
-							});
-							
 							$.ajax({
 								type: "post",
 								url: version + '/pay/updateOrderStatus',
@@ -86,24 +72,35 @@ export default {
 								},
 								dataType: 'JSON'
 							}).then(function(res) {
+								if(res.err==0){
+									weui.alert('您支付成功', {
+										title: '支付成功',
+										buttons: [{
+											label: '确定',
+											type: 'primary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}else{
+									weui.alert(res.msg, {
+										title: '塑料圈通讯录',
+										buttons: [{
+											label: '确定',
+											type: 'parimary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}
 
 							}, function() {
 
 							});
 						}
 						if(res.err_msg == "get_brand_wcpay_request:cancel") {
-							
-							weui.alert('您已取消支付', {
-								title: '支付取消',
-								buttons: [{
-									label: '确定',
-									type: 'primary',
-									onClick: function() {
-										
-									}
-								}]
-							});
-
 							$.ajax({
 								type: "post",
 								url: version + '/pay/updateOrderStatus',
@@ -117,24 +114,34 @@ export default {
 								},
 								dataType: 'JSON'
 							}).then(function(res) {
-
+								if(res.err==0){
+									weui.alert('您已取消支付', {
+										title: '支付取消',
+										buttons: [{
+											label: '确定',
+											type: 'primary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}else{
+									weui.alert(res.msg, {
+										title: '塑料圈通讯录',
+										buttons: [{
+											label: '确定',
+											type: 'parimary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}
 							}, function() {
 
 							});
 						}
 						if(res.err_msg == "get_brand_wcpay_request:fail") {
-							
-							weui.alert('请重新充值', {
-								title: '支付失败',
-								buttons: [{
-									label: '确定',
-									type: 'primary',
-									onClick: function() {
-										
-									}
-								}]
-							});
-
 							$.ajax({
 								type: "post",
 								url: version + '/pay/updateOrderStatus',
@@ -148,7 +155,29 @@ export default {
 								},
 								dataType: 'JSON'
 							}).then(function(res) {
-
+								if(res.err==0){
+									weui.alert('请重新充值', {
+										title: '支付失败',
+										buttons: [{
+											label: '确定',
+											type: 'primary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}else{
+									weui.alert(res.msg, {
+										title: '塑料圈通讯录',
+										buttons: [{
+											label: '确定',
+											type: 'parimary',
+											onClick: function() {
+												
+											}
+										}]
+									});
+								}
 							}, function() {
 
 							});
@@ -185,8 +214,18 @@ export default {
 					} else {
 						onBridgeReady();
 					}
-				}
+				}else{
+					weui.alert(res.msg, {
+						title: '塑料圈通讯录',
+						buttons: [{
+							label: '确定',
+							type: 'parimary',
+							onClick: function() {
 
+							}
+						}]
+					});		
+				}
 			}).fail(function() {
 
 			});
@@ -281,8 +320,20 @@ export default {
 			if(res.err == 0) {
 				_this.pay = res.data;
 				_this.paySelect(res.data[0].plasticBean, res.data[0].money, 0);
+			}else if(res.err==1){
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
 			}
-
 		}, function() {
 
 		});

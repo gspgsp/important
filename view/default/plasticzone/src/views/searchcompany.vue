@@ -17,26 +17,27 @@
 			</div>
 		</div>
 		<div class="belongFirm">
-			您所属企业：<a href="#">上海中晨电子商务</a>
+			您所属企业：<router-link :to="{name:'credit'}">{{c_name}}</router-link>
 		</div>
 	</div>
 	<div class="configWrap">
 		<ul class="configUl">
-			<li>
-				<div class="configIco config1">Q：什么是塑料配资？</div>
-				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
-			</li>
-			<li>
-				<div class="configIco config2">Q：什么是塑料配资？</div>
-				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
+			<li v-for="(c,index) in configLi">
+				<div class="configIco" v-bind:class="{config1:0==index%3,config2:1==index%3,config3:2==index%3}">Q：<span v-html="c.q"></span></div>
+				A：<span v-html="c.a"></span>
 			</li>
 		</ul>
 	</div>
-	<ul class="searchli">
-		<li v-for="c in creditli">
-			<router-link :to="{name:'credit2',params:{id:c.contact_id}}">{{c.c_name}}</router-link></li>
-		</li>	
-	</ul>
+	<div class="searchComMask" v-if="maskShow" v-on:click="mask">
+		<div class="searchComWrap">
+			<ul>
+				<li v-for="c in creditli">
+					<router-link :to="{name:'credit2',params:{id:c.contact_id}}">{{c.c_name}}</router-link>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
 </div>
 </template>
 <script>
@@ -44,10 +45,16 @@ export default{
 	data: function() {
 		return {
 			fname:"",
-			creditli:[]
+			creditli:[],
+			c_name:"",
+			configLi:[],
+			maskShow:false
 		}
 	},
 	methods:{
+		mask:function(){
+			this.maskShow=false;
+		},
 		tel: function() {
 			weui.actionSheet([{
 				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
@@ -85,6 +92,7 @@ export default{
 				dataType: 'JSON'
 			}).then(function(res) {
 				if(res.err==0){
+					_this.maskShow=true;
 					_this.creditli=res.data;			
 				}else{
 					weui.alert(res.msg, {
@@ -93,9 +101,7 @@ export default{
 							label: '确定',
 							type: 'parimary',
 							onClick: function() {
-								_this.$router.push({
-									name: 'login'
-								});
+								
 							}
 						}]
 					});				
@@ -106,14 +112,45 @@ export default{
 		}
 	},
 	activated: function() {
-		this.creditli=[];
-		this.fname="";
 		try {
 		    var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 		    piwikTracker.trackPageView();
 		} catch( err ) {
 			
 		}
+		var _this=this;
+		$.ajax({
+			type: "post",
+			url: version+'/credit/creditPage',
+			data: {
+				
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function(res) {
+			if(res.err==0){
+				_this.configLi=res.data;
+				_this.c_name=res.c_name;
+			}else{
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});				
+			}
+		}, function() {
+
+		});
+		
 	}
 }
 </script>

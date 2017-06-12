@@ -256,7 +256,6 @@ export default {
 						headers: {
 							'X-UA': window.localStorage.getItem("XUA")
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,

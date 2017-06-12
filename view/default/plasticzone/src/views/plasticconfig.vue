@@ -8,17 +8,9 @@
 	</header>
 	<div class="configWrap">
 		<ul class="configUl">
-			<li>
-				<div class="configIco config1">Q：什么是塑料配资？</div>
-				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
-			</li>
-			<li>
-				<div class="configIco config2">Q：什么是塑料配资？</div>
-				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
-			</li>
-			<li>
-				<div class="configIco config3">Q：什么是塑料配资？</div>
-				A：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。
+			<li v-for="(c,index) in configLi">
+				<div class="configIco" v-bind:class="{config1:0==index%3,config2:1==index%3,config3:2==index%3}">Q：<span v-html="c.q"></span></div>
+				A：<span v-html="c.a"></span>
 			</li>
 		</ul>
 	</div>
@@ -28,7 +20,7 @@
 export default {
 	data: function() {
 		return {
-
+			configLi:[]
 		}
 	},
 	methods: {
@@ -61,7 +53,25 @@ export default {
 		} catch(err) {
 
 		}
+		
+		var _this=this;
+		$.ajax({
+			type: "post",
+			url: version+'/credit/creditLimitPage',
+			data: {
 
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function(res) {
+			if(res.err==0){
+				_this.configLi=res.data;			
+			}
+		}, function() {
+
+		});
 	}
 }
 </script>
