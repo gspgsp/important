@@ -165,7 +165,7 @@ class customerContactModel extends model{
 			$nnw = '';
 			foreach($diff as $kk=>$vv){
 				//获取字段说明：
-				$sql = "show full columns from p2p_customer";
+				$sql = "Select COLUMN_NAME, COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS Where table_name = 'p2p_customer';";
 				$comm = $this->db->model('customer')->getAll($sql);
 				p($comm);
 				$nnw .= $kk.'修改为：'.$vv.' | ';
