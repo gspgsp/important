@@ -91,13 +91,16 @@ class plasticAction extends homeBaseAction
 		 *
 		 * 我的塑料公众号的
 		 */
-		require_file(APP_LIB."class/WxpayAPI_php_v3/example/WxPay.JsApiPay.php");
 
-
+		$_platform = get_platform();
+		if($_platform['platform'] =='weixin'){
+			require_file(APP_LIB."class/WxpayAPI_php_v3/example/WxPay.JsApiPay.php");
 			$tools = new JsApiPay();
 			$openId = $tools->GetOpenid();
 
-		$this->OpenID = $openId;
+			$this->OpenID = $openId;
+		}
+
 
 
 		//p($_GET);p($_POST);exit;
