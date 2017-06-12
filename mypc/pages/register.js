@@ -835,6 +835,7 @@ $(function () {
 			case 'myComment':
 			case 'mySudou':
 			case 'myHelp':
+			case 'myEdit':
 				document.getElementById("left4").className = "hover";
 				break;
 			case 'login':
