@@ -165,7 +165,7 @@ class customerContactModel extends model{
 			$nnw = '';
 			foreach($diff $kk=>$vv){
 				$nnw .= $kk.'修改为：'.$vv.' | ';
-				$ood .= $kk.'原来为'.$old_info[$kk].' | ';
+				$ood .= $kk.'原来为'.$old_info["$kk"].' | ';
 			}
 			p($nnw);
 			p($ood);die;
