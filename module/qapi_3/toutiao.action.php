@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: sick
@@ -87,121 +88,121 @@ class toutiaoAction extends baseAction
      * @apiSuccess {Array} info   信息
      *
      * @apiSuccessExample Success-Response:
-             *    {
-            "err": 0,
-            "info": [
-            {
-            "id": "29334",
-            "title": "上游早报：原油及PE单体4月27日收盘价格",
-            "description": "上游早报：原油及PE单体4月19日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-28",
-            "type": "PE",
-            "pv": "711",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29332",
-            "title": "上游早报：原油及PP单体4月27日收盘价格",
-            "description": "上游早报：原油及PE单体4月19日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-28",
-            "type": "PP",
-            "pv": "738",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29327",
-            "title": "上游早报：原油及PVC单体4月27日收盘价格",
-            "description": "上游早报：原油及PVC单体4月27日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-28",
-            "type": "PVC",
-            "pv": "757",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29318",
-            "title": "4月27日国际原油价格下跌",
-            "description": "WTI原油期货收跌0.65美元，跌幅1.31%，报48.97美元/桶。布伦特原油期货收跌0.38美元...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-28",
-            "type": "PP",
-            "pv": "746",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29079",
-            "title": "上游早报：原油及PVC单体4月26日收盘价格",
-            "description": "上游早报：原油及PVC单体4月26日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-27",
-            "type": "PVC",
-            "pv": "858",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29077",
-            "title": "上游早报：原油及PP单体4月26日收盘价格",
-            "description": "上游早报：原油及PE单体4月19日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-27",
-            "type": "PP",
-            "pv": "765",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29076",
-            "title": "上游早报：原油及PE单体4月26日收盘价格",
-            "description": "上游早报：原油及PE单体4月19日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-27",
-            "type": "PE",
-            "pv": "740",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "29064",
-            "title": "4月26日国际原油价格涨跌不一",
-            "description": "WTI 6月原油期货收涨0.06美元，涨幅0.12%，报49.62美元/桶。\r\n布伦特6月原油期货收...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-27",
-            "type": "PP",
-            "pv": "890",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "28823",
-            "title": "上游早报：原油及PE单体4月25日收盘价格",
-            "description": "上游早报：原油及PE单体4月19日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-26",
-            "type": "PE",
-            "pv": "1336",
-            "cate_name": "塑料上游"
-            },
-            {
-            "id": "28822",
-            "title": "上游早报：原油及PVC单体4月25日收盘价格",
-            "description": "上游早报：原油及PVC单体4月25日收盘价格...",
-            "cate_id": "2",
-            "author": "",
-            "input_time": "2017-04-26",
-            "type": "PVC",
-            "pv": "1247",
-            "cate_name": "塑料上游"
-            }
-            ]
-            }
+     *    {
+     * "err": 0,
+     * "info": [
+     * {
+     * "id": "29334",
+     * "title": "上游早报：原油及PE单体4月27日收盘价格",
+     * "description": "上游早报：原油及PE单体4月19日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-28",
+     * "type": "PE",
+     * "pv": "711",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29332",
+     * "title": "上游早报：原油及PP单体4月27日收盘价格",
+     * "description": "上游早报：原油及PE单体4月19日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-28",
+     * "type": "PP",
+     * "pv": "738",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29327",
+     * "title": "上游早报：原油及PVC单体4月27日收盘价格",
+     * "description": "上游早报：原油及PVC单体4月27日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-28",
+     * "type": "PVC",
+     * "pv": "757",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29318",
+     * "title": "4月27日国际原油价格下跌",
+     * "description": "WTI原油期货收跌0.65美元，跌幅1.31%，报48.97美元/桶。布伦特原油期货收跌0.38美元...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-28",
+     * "type": "PP",
+     * "pv": "746",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29079",
+     * "title": "上游早报：原油及PVC单体4月26日收盘价格",
+     * "description": "上游早报：原油及PVC单体4月26日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-27",
+     * "type": "PVC",
+     * "pv": "858",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29077",
+     * "title": "上游早报：原油及PP单体4月26日收盘价格",
+     * "description": "上游早报：原油及PE单体4月19日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-27",
+     * "type": "PP",
+     * "pv": "765",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29076",
+     * "title": "上游早报：原油及PE单体4月26日收盘价格",
+     * "description": "上游早报：原油及PE单体4月19日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-27",
+     * "type": "PE",
+     * "pv": "740",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "29064",
+     * "title": "4月26日国际原油价格涨跌不一",
+     * "description": "WTI 6月原油期货收涨0.06美元，涨幅0.12%，报49.62美元/桶。\r\n布伦特6月原油期货收...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-27",
+     * "type": "PP",
+     * "pv": "890",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "28823",
+     * "title": "上游早报：原油及PE单体4月25日收盘价格",
+     * "description": "上游早报：原油及PE单体4月19日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-26",
+     * "type": "PE",
+     * "pv": "1336",
+     * "cate_name": "塑料上游"
+     * },
+     * {
+     * "id": "28822",
+     * "title": "上游早报：原油及PVC单体4月25日收盘价格",
+     * "description": "上游早报：原油及PVC单体4月25日收盘价格...",
+     * "cate_id": "2",
+     * "author": "",
+     * "input_time": "2017-04-26",
+     * "type": "PVC",
+     * "pv": "1247",
+     * "cate_name": "塑料上游"
+     * }
+     * ]
+     * }
      *
      *
      */
@@ -249,13 +250,15 @@ class toutiaoAction extends baseAction
                     }
                     $cache->set ('qcateListInfo'.$page.'_'.$cate_id, $data, 8);
                 }
-                $stmp_num = $cache->get('qcateListInfoNum'.'_'.$cate_id) + 0;
-                if(!empty($stmp_num) && $data['count'] > $stmp_num){
-                    $temp_show_msg = '更新了'.($data['count'] > $stmp_num+10 ? ($data['count'] - $stmp_num +5) : ($data['count'] - $stmp_num)).'条资讯';
-                }else{
+                $stmp_num = $cache->get ('qcateListInfoNum'.'_'.$cate_id) + 0;
+                if (!empty($stmp_num) && $data['count'] > $stmp_num) {
+                    $temp_show_msg = '更新了'.($data['count'] > $stmp_num + 10 ? ($data['count'] - $stmp_num + 5) : ($data['count'] - $stmp_num)).'条资讯';
+                } else {
                     $temp_show_msg = '';
                 }
-                if($page==1) $cache->set('qcateListInfoNum'.'_'.$cate_id,$data['count'],5);
+                if ($page == 1) {
+                    $cache->set ('qcateListInfoNum'.'_'.$cate_id, $data['count'], 5);
+                }
             } else {
                 $data = M ("qapp:news")->getqAppCateList ('public', $cate_id, array(), $page, $size);
                 if (empty($data['data']) && $page == 1) {
@@ -287,8 +290,8 @@ class toutiaoAction extends baseAction
                 $temp_show_msg = '';
             }
             $this->json_output (array(
-                'err'  => 0,
-                'info' => $data['data'],
+                'err'      => 0,
+                'info'     => $data['data'],
                 'show_msg' => $temp_show_msg,
             ));
         }
@@ -324,7 +327,7 @@ class toutiaoAction extends baseAction
             $id            = sget ('id', i);
             $this->checkAccount (0);
             if (empty($id)) {
-                $this->error (array( 'err' => 5, 'msg' => '参数错误，请稍后再试' ));
+                $this->error (array('err' => 5, 'msg' => '参数错误，请稍后再试'));
             }
             $cache = cache::startMemcache ();
             if (!$data = $cache->get ('qcateDetailInfo'.'_'.$id)) {
@@ -341,8 +344,12 @@ class toutiaoAction extends baseAction
                     $_tmp = M ("qapp:news")->getNewsOrderByPv ('', $key, '', 1, 1)[0];
 
                     //                    if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 3)[0];
-                                       if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 7)[0];
-                                       if(empty($_tmp)) $_tmp = M("qapp:news")->getNewsOrderByPv('', $key, '', 1, 0)[0];
+                    if (empty($_tmp)) {
+                        $_tmp = M ("qapp:news")->getNewsOrderByPv ('', $key, '', 1, 7)[0];
+                    }
+                    if (empty($_tmp)) {
+                        $_tmp = M ("qapp:news")->getNewsOrderByPv ('', $key, '', 1, 0)[0];
+                    }
                     if (empty($_tmp)) {
                         continue;
                     }
@@ -363,7 +370,9 @@ class toutiaoAction extends baseAction
                     }
                 }
                 array_multisort ($_idss, SORT_DESC, $data['subscribe']);
-                if(empty($data['subscribe'])) $data['subscribe'] = '';
+                if (empty($data['subscribe'])) {
+                    $data['subscribe'] = '';
+                }
                 $time               = $data['input_time'];
                 $data['input_time'] = $this->checkTime ($data['input_time']);
                 $data['author']     = empty($data['author']) ? '中晨' : $data['author'];
@@ -375,7 +384,7 @@ class toutiaoAction extends baseAction
                 //取出右键导航分类名称
                 $data['cate_name'] = $this->catesAll[$data['cate_id']];
                 if ($data['type'] == 'public') {
-                    $arr          = array( 'pe', 'pp', 'pvc' );
+                    $arr          = array('pe', 'pp', 'pvc');
                     $tmp          = array_rand ($arr, 1);
                     $data['type'] = 'pp';
                 }
@@ -402,11 +411,10 @@ class toutiaoAction extends baseAction
                 M ("qapp:news")->updateqAppPvByNum ($id, $data['pv'], $data['true_pv']);
             }
             $cache->set ('qcateDetailInfo'.'_'.$id, $data, 18);
-            $this->json_output (array( 'err' => 0, 'info' => $data ));
+            $this->json_output (array('err' => 0, 'info' => $data));
         }
         $this->_errCode (6);
     }
-
 
 
     /**
@@ -416,8 +424,10 @@ class toutiaoAction extends baseAction
      * @apiGroup toutiao
      * @apiUse UAHeader
      *
-     * @apiParam {String} token       token
-     * @apiParam {Number} id       文件id
+     * @apiParam {Number} type         // 1 set  2 get 3 getallCate
+     * @apiParam {Number} cate_id     品类ID
+     * @apiParam {Number} prop_id     物性ID
+     *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
      * @apiSuccess {Array} info   信息
@@ -437,21 +447,59 @@ class toutiaoAction extends baseAction
             $user_id       = $this->checkAccount ();
             $type          = sget ('type', 'i');// 1 set  2 get 3 getallCate
             if ($type == 1) {
-                $cate_id = sget ('cate_id', 'a');
-                if (empty($cate_id) || !is_array ($cate_id)) {
-                    $this->_errCode (6);
+                if (($this->platform == 'ios' && $this->app_version < 22) || ($this->platform == 'android' && $this->app_version < 87)) {
+                    $cate_id = sget ('cate_id', 'a');
+                    if (empty($cate_id) || !is_array ($cate_id)) {
+                        $this->_errCode (6);
+                    }
+                    if (M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $cate_id)) {
+                        $this->json_output (array(
+                            'err' => 0,
+                            'msg' => '成功',
+                        ));
+                    }
+                    $this->_errCode (101);
+                } else {
+                    //新版本
+                    $cate_id = sget ('cate_id', 's');
+                    $prop_id = sget ('cate_id', 's');
+
+                    $cate_id = explode (',', $cate_id);
+                    $prop_id = explode (',', $prop_id);
+
+                    if (empty($cate_id) || empty($prop_id)) {
+                        $this->_errCode (6);
+                    }
+
+                    $res1 = M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $cate_id);
+                    $res2 = M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $prop_id);
+
+                    if ($res1 && $res2) {
+                        $this->json_output (array(
+                            'err' => 0,
+                            'msg' => '成功',
+                        ));
+                    }
+                    $this->_errCode (101);
                 }
-                if (M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $cate_id)) {
-                    $this->json_output (array(
-                        'err' => 0,
-                        'msg' => '成功',
-                    ));
-                }
-                $this->_errCode (101);
             } elseif ($type == 2) {
-                $tmp = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
-                if (empty($tmp)) {
-                    $tmp = $this->newsSubscribeDefault;
+                if (($this->platform == 'ios' && $this->app_version < 22) || ($this->platform == 'android' && $this->app_version < 87)) {
+
+                    $tmp = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
+                    if (empty($tmp)) {
+                        $tmp = $this->newsSubscribeDefault;
+                    }
+                } else {
+                    $res1      = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
+                    $user_info = M ("user:userInfo")->getQappUserInfo ($user_id);
+                    $res2      = explode (',', $user_info['physical_subscribe']);
+                    if (empty($res1)) {
+                        $res1 = $this->newsSubscribeDefault;
+                    }
+                    $tmp = array(
+                        'subscribe' => $res1,
+                        'property'  => $res2,
+                    );
                 }
                 $this->json_output (array(
                     'err'  => 0,
@@ -555,10 +603,10 @@ class toutiaoAction extends baseAction
                     $row['type'] = strtoupper ($row['type']);
                 }
                 if (empty($data['data']) && $page == 1) {
-                    $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                    $this->json_output (array('err' => 2, 'msg' => '没有相关数据'));
                 }
                 $this->_checkLastPage ($data['count'], $page_size, $page);
-                $this->json_output (array( 'err' => 0, 'data' => $data['data'] ));
+                $this->json_output (array('err' => 0, 'data' => $data['data']));
             } elseif ($subscribe == 2) {
                 //现在所有的推荐就是
                 $tmp_new_cate_id = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
@@ -623,7 +671,7 @@ class toutiaoAction extends baseAction
                             shuffle ($all);
                             $stmp = array_rand ($all, $completeNum);
                             if (!is_array ($stmp)) {
-                                $stmp = array( $stmp );
+                                $stmp = array($stmp);
                             }
                             foreach ($stmp as $row) {
                                 $allNum[] = $all[$row];
@@ -658,7 +706,7 @@ class toutiaoAction extends baseAction
                     $left = $this->newsSubscribe - count ($allNum);
                     $stmp = array_rand ($tmp, $left);
                     if (!is_array ($stmp)) {
-                        $stmp = array( $stmp );
+                        $stmp = array($stmp);
                     }
                     $atmp = array();
                     foreach ($stmp as $row) {
@@ -672,7 +720,7 @@ class toutiaoAction extends baseAction
                 $size = $this->newsSubscribe;
                 $data = M ("qapp:news")->getqAppCateList ('public', '', $new_id, $page, $size);
                 if (empty($data['data']) && $page == 1) {
-                    $this->json_output (array( 'err' => 2, 'msg' => '没有相关数据' ));
+                    $this->json_output (array('err' => 2, 'msg' => '没有相关数据'));
                 }
                 $this->_checkLastPage ($data['count'], $size, $page);
                 //截取示例文章文字
@@ -683,7 +731,7 @@ class toutiaoAction extends baseAction
                     $data['data'][$key]['cate_name']  = M ("qapp:news")->getSubName ($v['cate_id']);
                     $data['data'][$key]['input_time'] = $this->checkTime ($v['input_time']);
                     if ($v['type'] == 'public') {
-                        $arr       = array( 'pe', 'pp', 'pvc' );
+                        $arr       = array('pe', 'pp', 'pvc');
                         $tmp       = array_rand ($arr, 1);
                         $v['type'] = 'pp';
                     }
@@ -691,7 +739,11 @@ class toutiaoAction extends baseAction
                     //unset($v['content']);
                 }
                 shuffle ($data['data']);
-                $this->json_output (array( 'err' => 0, 'data' => $data['data'] ,'show_msg'=>count($data['data']) > 0 ?'更新了'.count($data['data']).'条数据':''));
+                $this->json_output (array(
+                    'err'      => 0,
+                    'data'     => $data['data'],
+                    'show_msg' => count ($data['data']) > 0 ? '更新了'.count ($data['data']).'条数据' : '',
+                ));
             }
         }
     }

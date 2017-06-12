@@ -206,9 +206,9 @@ class baseAction extends null2Action
                 {
                     if(empty($thumb['sex']))
                     {
-                        $thumb['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        $thumb['thumb'] = FILE_URL."/myapp/img/male.jpg";
                     }else{
-                        $thumb['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        $thumb['thumb'] = FILE_URL."/myapp/img/female.jpg";
                     }
                 } else {
                     $thumb['thumb'] = FILE_URL . "/upload/" . $thumb['thumb'];
