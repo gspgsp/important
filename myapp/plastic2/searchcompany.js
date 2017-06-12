@@ -11,10 +11,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			fname: "",
-			creditli: []
+			creditli: [],
+			c_name: "",
+			configLi: [],
+			maskShow: false
 		};
 	},
 	methods: {
+		mask: function mask() {
+			this.maskShow = false;
+		},
 		tel: function tel() {
 			weui.actionSheet([{
 				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
@@ -46,6 +52,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				dataType: 'JSON'
 			}).then(function (res) {
 				if (res.err == 0) {
+					_this.maskShow = true;
 					_this.creditli = res.data;
 				} else {
 					weui.alert(res.msg, {
@@ -53,11 +60,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						buttons: [{
 							label: '确定',
 							type: 'parimary',
-							onClick: function onClick() {
-								_this.$router.push({
-									name: 'login'
-								});
-							}
+							onClick: function onClick() {}
 						}]
 					});
 				}
@@ -65,12 +68,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	activated: function activated() {
-		this.creditli = [];
-		this.fname = "";
 		try {
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 			piwikTracker.trackPageView();
 		} catch (err) {}
+		var _this = this;
+		$.ajax({
+			type: "post",
+			url: version + '/credit/creditPage',
+			data: {},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.configLi = res.data;
+				_this.c_name = res.c_name;
+			} else {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			}
+		}, function () {});
 	}
 });
 
@@ -154,9 +183,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }, [_vm._v("查询")])])])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('ul', {
-    staticClass: "searchli"
-  }, _vm._l((_vm.creditli), function(c) {
+  }, [_vm._v("查询")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "belongFirm"
+  }, [_vm._v("\n\t\t\t您所属企业："), _c('router-link', {
+    attrs: {
+      "to": {
+        name: 'credit'
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.c_name))])], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "configWrap"
+  }, [_c('ul', {
+    staticClass: "configUl"
+  }, _vm._l((_vm.configLi), function(c, index) {
+    return _c('li', [_c('div', {
+      staticClass: "configIco",
+      class: {
+        config1: 0 == index % 3, config2: 1 == index % 3, config3: 2 == index % 3
+      }
+    }, [_vm._v("Q："), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(c.q)
+      }
+    })]), _vm._v("\n\t\t\t\tA："), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(c.a)
+      }
+    })])
+  }))]), _vm._v(" "), (_vm.maskShow) ? _c('div', {
+    staticClass: "searchComMask",
+    on: {
+      "click": _vm.mask
+    }
+  }, [_c('div', {
+    staticClass: "searchComWrap"
+  }, [_c('ul', _vm._l((_vm.creditli), function(c) {
     return _c('li', [_c('router-link', {
       attrs: {
         "to": {
@@ -167,26 +228,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v(_vm._s(c.c_name))])], 1)
-  }))])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "belongFirm"
-  }, [_vm._v("\n\t\t\t您所属企业："), _c('a', {
-    attrs: {
-      "href": "#"
-    }
-  }, [_vm._v("上海中晨电子商务")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "configWrap"
-  }, [_c('ul', {
-    staticClass: "configUl"
-  }, [_c('li', [_c('div', {
-    staticClass: "configIco config1"
-  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "configIco config2"
-  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])
-}]}
+  }))])]) : _vm._e()])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

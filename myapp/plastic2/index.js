@@ -955,7 +955,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						headers: {
 							'X-UA': window.localStorage.getItem("XUA")
 						},
-
 						data: {
 							keywords: "",
 							page: _this.page,

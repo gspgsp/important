@@ -31,20 +31,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.tel
     }
-  })]), _vm._v(" "), _vm._m(0)])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  })]), _vm._v(" "), _c('div', {
     staticClass: "configWrap"
   }, [_c('ul', {
     staticClass: "configUl"
-  }, [_c('li', [_c('div', {
-    staticClass: "configIco config1"
-  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "configIco config2"
-  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")]), _vm._v(" "), _c('li', [_c('div', {
-    staticClass: "configIco config3"
-  }, [_vm._v("Q：什么是塑料配资？")]), _vm._v("\n\t\t\t\tA：塑料行情上涨，但企业流动资金受限，“我的塑料网”可为用户垫付资金，进行代理采购。\n\t\t\t")])])])
-}]}
+  }, _vm._l((_vm.configLi), function(c, index) {
+    return _c('li', [_c('div', {
+      staticClass: "configIco",
+      class: {
+        config1: 0 == index % 3, config2: 1 == index % 3, config3: 2 == index % 3
+      }
+    }, [_vm._v("Q："), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(c.q)
+      }
+    })]), _vm._v("\n\t\t\t\tA："), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(c.a)
+      }
+    })])
+  }))])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -157,7 +164,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
-		return {};
+		return {
+			configLi: []
+		};
 	},
 	methods: {
 		tel: function tel() {
@@ -181,6 +190,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 			piwikTracker.trackPageView();
 		} catch (err) {}
+
+		var _this = this;
+		$.ajax({
+			type: "post",
+			url: version + '/credit/creditLimitPage',
+			data: {},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.configLi = res.data;
+			}
+		}, function () {});
 	}
 });
 
