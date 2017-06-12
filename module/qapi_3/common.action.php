@@ -98,6 +98,11 @@ class commonAction extends baseAction
             $version = sget ('version', 's');
         }
 
+        if($version == '3.1.0')
+        {
+            $version = 20;
+        }
+
         if (!in_array ($platform, array(
                 'ios',
                 'android',
