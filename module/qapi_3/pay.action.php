@@ -85,7 +85,7 @@ class payAction extends baseAction
 
 
         if($type == 1 && $this->platform =="weixin"){
-            if(empty($open_id)) $this->json_output(array('err'=>1,'msg'=>'请在微信内打开塑料圈再支付'));
+            if(empty($open_id)) $this->json_output(array('err'=>1,'msg'=>'请在微信内打开'));
             $res = $this->payment->getJsOrder($open_id,$order_id,$send_amount);
             $order = M ('order:onlineOrder');
             $_data = json_decode($res['data']);
