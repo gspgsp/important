@@ -196,6 +196,7 @@ export default{
                 dataType: 'JSON'
             }).then(function(res) {
                 alert('更新成功');
+                window.location.reload();
             }, function() {
 
             });
