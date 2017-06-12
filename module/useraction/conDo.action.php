@@ -30,9 +30,11 @@ class conDoAction extends adminBaseAction
 	private function _grid(){
 		$page = sget("pageIndex",'i',0); //页码
 		$size = sget("pageSize",'i',20); //每页数
-		$sortField = sget("sortField",'s','admin_id'); //排序字段
-		$sortOrder = sget("sortOrder",'s','asc'); //排序
+		$sortField = sget("sortField",'s','chkco'); //排序字段
+		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$keyword = sget("keyword",'s');
 		$where = "1";
+		if(!empty($keyword)) $where .=" and a.name like '%$keyword%' ";
 		$list = $this->db->select('a.admin_id,a.name,count(la.id) chkco,sum(la.conti_time) conti_t')
 		->from('admin a')
 		->leftjoin('log_admin la','la.admin_id = a.admin_id')

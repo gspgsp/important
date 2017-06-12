@@ -49,13 +49,16 @@ class orderDoAction extends adminBaseAction
 				$ids[] = substr($matchs[0],4);
 			}
 		}
-		$where = "1";
+		$where = "1 and ord.order_sn !='' ";
+		$keyword = sget("keyword",'s');
+		if(!empty($keyword)) $where .=" and ord.order_sn like '%$keyword%'";
 		$list = $this->db->select('ord.o_id,ord.order_sn')
 		->from('order ord')
 		->page($page+1,$size)
 		->where($where)
 		->order("$sortField $sortOrder")
 		->getPage();
+		$temp = array();
 		// /application/order/info oid=33206&o_type=2 oid=32056&o_type=undefined
 		foreach ($list['data'] as &$value) {
 			foreach ($ids as $k => $v) {
@@ -68,9 +71,44 @@ class orderDoAction extends adminBaseAction
 			if(sizeof($value) == 2){
 				$value['conti_t'] = 0;
 				$value['chkco'] = 0;
+				$temp['data'][] = $value;
 			}
 		}
-		$result=array('total'=>$list['count'],'data'=>$list['data']);
+		//求差(去重)
+		$arr1 = $list['data'];
+		$arr2 = $temp['data'];
+		$list['data'] = array_filter($arr1, function($v) use ($arr2) { return ! in_array($v, $arr2);});
+		$list['count'] = count($arr1) - count($arr2);
+		$arr3 = array();
+		foreach ($list['data'] as $key => $value) {
+			$arr3[] = $value;
+		}
+		//去重
+		// function array_unique_fb($array2D){
+		//     foreach ($array2D as $v){
+		//         $v=join(',',$v);//降维,也可以用implode,将一维数组转换为用逗号连接的字符串
+		//         $temp[]=$v;
+		//     }
+		//     $temp=array_unique($temp);//去掉重复的字符串,也就是重复的一维数组
+
+		//     foreach ($temp as $k => $v){
+
+		//         $temp[$k]=explode(',',$v);//再将拆开的数组重新组装
+
+		//     }
+		//     return $temp;
+		// }
+		// $arr3 = array_unique_fb($arr3);
+		//
+		// $temp = array();
+		// foreach ($arr3 as $ke => $val) {
+		// 	$temp[]['o_id'] = $val[0];
+		// 	$temp[]['order_sn'] = $val[1];
+		// 	$temp[]['chkco'] = $val[2];
+		// 	$temp[]['conti_t'] = $val[3];
+		// }
+		//
+		$result=array('total'=>$list['count'],'data'=>$arr3);
 		$this->json_output($result);
 	}
 	/**

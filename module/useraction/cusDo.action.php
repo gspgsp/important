@@ -48,12 +48,15 @@ class cusDoAction extends adminBaseAction
 		// $ids_count = array_count_values($ids);
 		// $ids = implode(',',$ids);
 		$where = "1";
+		$keyword = sget("keyword",'s');
+		if(!empty($keyword)) $where .=" and cus.c_name like '%$keyword%' ";
 		$list = $this->db->select('cus.c_id,cus.c_name')
 		->from('customer cus')
 		->page($page+1,$size)
 		->where($where)
 		->order("$sortField $sortOrder")
 		->getPage();
+		$temp = array();
 		///user/customer/info id=50308
 		foreach ($list['data'] as &$value) {
 			foreach ($ids as $k => $v) {
@@ -66,9 +69,20 @@ class cusDoAction extends adminBaseAction
 			if(sizeof($value) == 2){
 				$value['conti_t'] = 0;
 				$value['chkco'] = 0;
+				$temp['data'][] = $value;
 			}
 		}
-		$result=array('total'=>$list['count'],'data'=>$list['data']);
+		//
+		$arr1 = $list['data'];
+		$arr2 = $temp['data'];
+		$list['data'] = array_filter($arr1, function($v) use ($arr2) { return ! in_array($v, $arr2);});
+		$list['count'] = count($arr1) - count($arr2);
+		$arr3 = array();
+		foreach ($list['data'] as $key => $value) {
+			$arr3[] = $value;
+		}
+		//
+		$result=array('total'=>$list['count'],'data'=>$arr3);
 		$this->json_output($result);
 	}
 	/**
