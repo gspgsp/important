@@ -261,9 +261,11 @@ class friendAction extends baseAction
             "is_show_cover": 0,
             "banner_url": "",
             "banner_jump_url": "",
+            "banner_jump_native": 0,
+            "banner_jump_native_address": "",
             "cover_url": "",
             "cover_jump_url": "",
-            "data": 1497255962,
+            "data": 1497256198,
             "show_ctype": 0,
             "show_msg": "",
             "top": {
