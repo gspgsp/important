@@ -267,5 +267,18 @@ class userInfoModel extends model{
 	public function addUserCommission($data){
 		return $this->model('user_commission')->add($data);
 	}
+
+	/**
+	 * 获得与塑料圈相关的用户信息
+	 */
+	public function getQappUserInfo($user_id)
+	{
+		return $this->model('customer_contact con')
+			->leftjoin('customer cus')
+			->leftjoin('contact_info cin')
+			->select("con.*,cin.*,cus.c_name")
+			->where("con.user_id=".$user_id)
+			->getRow();
+	}
 }
 ?>

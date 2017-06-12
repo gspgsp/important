@@ -31,9 +31,9 @@ class plasticIntroductionModel extends model
                     {
                         if(empty($value['sex']))
                         {
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                         }else{
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                         }
                     } else {
                         $value['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
@@ -71,9 +71,9 @@ class plasticIntroductionModel extends model
                     {
                         if(empty($value['sex']))
                         {
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                         }else{
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                         }
                     } else {
                         $value['thumb'] = FILE_URL . "/upload/" . $data['thumb'];
@@ -190,9 +190,9 @@ class plasticIntroductionModel extends model
                 {
                     if(empty($data['sex']))
                     {
-                        $data['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        $data['thumb'] = FILE_URL."/myapp/img/male.jpg";
                     }else{
-                        $data['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        $data['thumb'] = FILE_URL."/myapp/img/female.jpg";
                     }
                 } else {
                     $data['thumb'] = FILE_URL . "/upload/" . $data['thumb'];

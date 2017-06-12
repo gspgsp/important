@@ -48,6 +48,15 @@ class newsSubscribeModel extends model
 
         return true;
     }
+
+    public function setPhysicalSubscribeByUserid($user_id = 0, $prop_id = array())
+    {
+        $prop_id = join(',',$prop_id);
+        $res = $this->model('contact_info')->where('user_id='.$user_id)->update(array('physical_subscribe'=>$prop_id));
+
+        return $res;
+    }
+
 }
 
 ?>

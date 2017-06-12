@@ -52,9 +52,9 @@ class plasticPersonModel extends model
             if (!strstr ($value['thumb'], 'http'))  {
                 if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                     if (empty($data['sex'])) {
-                        $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                        $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                     } else {
-                        $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                        $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                     }
                 } else {
                     $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
@@ -179,9 +179,9 @@ class plasticPersonModel extends model
                     if (!strstr ($value['thumb'], 'http'))  {
                         if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                             if (empty($value['sex'])) {
-                                $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                                $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                             } else {
-                                $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                                $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                             }
                         } else {
                             $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
@@ -388,9 +388,9 @@ class plasticPersonModel extends model
                         if (!strstr ($value['thumb'], 'http'))  {
                             if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                                 if (empty($value['sex'])) {
-                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                                    $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                                 } else {
-                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                                    $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                                 }
                             } else {
                                 $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
@@ -619,9 +619,9 @@ class plasticPersonModel extends model
                         if (!strstr ($value['thumb'], 'http'))  {
                             if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                                 if (empty($value['sex'])) {
-                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                                    $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                                 } else {
-                                    $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                                    $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                                 }
                             } else {
                                 $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
@@ -726,9 +726,9 @@ class plasticPersonModel extends model
                 if (!strstr ($value['thumb'], 'http')) {
                     if (empty($value['thumb']) || $value['thumb'] == "16/09/02/logos.jpg") {
                         if (empty($value['sex'])) {
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/male.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/male.jpg";
                         } else {
-                            $value['thumb'] = "http://statics.myplas.com/myapp/img/female.jpg";
+                            $value['thumb'] = FILE_URL."/myapp/img/female.jpg";
                         }
                     } else {
                         $value['thumb'] = FILE_URL."/upload/".$value['thumb'];
