@@ -164,6 +164,10 @@ class customerContactModel extends model{
 			$ood = '';
 			$nnw = '';
 			foreach($diff as $kk=>$vv){
+				//获取字段说明：
+				$sql = "show full columns from p2p_customer";
+				$comm = $this->db->model('customer')->getAll($sql);
+				p($comm);
 				$nnw .= $kk.'修改为：'.$vv.' | ';
 				$ood .= $kk.'原来为'.$old_info["$kk"].' | ';
 			}
