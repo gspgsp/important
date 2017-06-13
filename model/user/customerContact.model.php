@@ -182,7 +182,7 @@ class customerContactModel extends model{
 				$ood .= L('customer')["$kk"].'原来为'.$old_info["$kk"].' | ';
 			}
 			$remarks = "对客户操作：更新修改客户信息";// 更新客户信息
-			M('user:customerLog')->addLog($info['c_id'],'change',$nnw,$ood,1,$remarks);
+			M('user:customerLog')->addLog($info['c_id'],'change',$ood,$nnw,1,$remarks);
 			//新增客户流转记录日志----E
 		}else{
 			// 添加客户和联系人
