@@ -146,8 +146,9 @@ class creditAction extends baseAction
      */
     public function getQiChaCha ()
     {
-        if ($_POST['token'] && $_POST['name']) {
-            $user_id = $this->checkAccount ();
+        $user_id = $this->checkAccount ();
+        if ($user_id&&$_POST['name']) {
+
             $name    = sget ('name', 's');
             $name    = $this->clearStr ($name);
             if (empty($name)) {
@@ -160,15 +161,15 @@ class creditAction extends baseAction
     }
 
     /**
-     * 获取证书
-     * @api {post} /qapi_3/credit/creditCertificate 获取证书
+     * 获取授信额度
+     * @api {post} /qapi_3/credit/creditCertificate 获取授信额度
      * @apiVersion 3.2.0
      * @apiName  creditCertificate
      * @apiGroup Credit
      * @apiUse UAHeader
      *
      * @apiParam   {String} fname  公司名称
-     * @apiParam   {Number} link_id  token qwre3123123121swqsq
+     * @apiParam   {Number} link_id 自己的USER_ID
      * @apiParam   {Number} page   页码
      * @apiParam   {Number} type   1 精确  2 模糊
      *
