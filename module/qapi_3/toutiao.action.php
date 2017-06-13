@@ -426,7 +426,7 @@ class toutiaoAction extends baseAction
      *
      * @apiParam {Number} type         // 1 set  2 get 3 getallCate
      * @apiParam {Number} cate_id     品类ID 逗号分隔
-     * @apiParam {Number} prop_id     物性ID 逗号分隔      1=>'高压重包', 2=>'高压涂覆',3=>'高压吹膜', 4=>'低压拉丝', 5=>'低压注塑', 6=>'低压中空',  7=>'低压薄膜', 8=>'线型',9=>'管材',10=>'均聚拉丝',11=>'茂金属',12=>'共聚注塑',
+     * @apiParam {Number} prop_id     物性ID 逗号分隔      1=>'高压重包', 2=>'高压涂覆',3=>'高压吹膜', 4=>'低压拉丝', 5=>'低压注塑', 6=>'低压中空',  7=>'低压薄膜', 8=>'线型',9=>'管材',10=>'均聚拉丝',11=>'茂金属',12=>'共聚注塑',13=>'其他'
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
