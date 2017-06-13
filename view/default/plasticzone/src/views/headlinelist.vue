@@ -1,13 +1,11 @@
 <template>
 <div style="padding: 45px 0 70px 0;">
 <header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 100;">
-<div class="plasticSearch" style="margin:0 12px;">
+<div class="plasticSearch">
 <i class="searchIcon" style="position: absolute; top: 16px; left: 5px; margin: 0;"></i>
-<form action="javascript:;">
-<input style="width: 100%; border: 1px solid #FFFFFF;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
-</form>
+<input style="width: 100%;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </div>
-<div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; height: 30px; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 10px; right: 10px; text-align: center;">搜索</div>
+<div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; height: 30px; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
 
 </header>
 <loadingPage :loading="loadingShow"></loadingPage>
@@ -75,7 +73,8 @@
 			<h3>{{i.type}}{{i.title}}</h3>
 			<p>{{i.description}}</p>
 			<p style="text-align: right; margin: 5px 0 0 0;">
-				{{i.author}}&nbsp;<i class="headicon"></i>{{i.input_time}}&nbsp;<i class="headicon2"></i><span style=" color: #ff5000;">{{i.pv}}</span>
+				{{i.author}}<i class="headicon"></i>{{i.input_time}}
+				<i class="headicon2"></i><span style=" color: #ff5000;">{{i.pv}}</span>
 			</p>
 		</router-link>
 	</li>
