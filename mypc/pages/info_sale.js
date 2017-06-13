@@ -182,7 +182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
         var url = window.location.search;
         var lid = url.substring(url.lastIndexOf('=') + 1, url.length);
-        _this.burl = url;
+        _this.burl = '/mypczone/index/indexinfo' + url;
         _this.lid = lid;
         try {
             var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             url: version + "/friend/getTaPur",
             type: 'post',
             data: {
-                user_id: lid,
+                userid: lid,
                 type: 2,
                 page: _this.page,
                 token: window.localStorage.getItem("token"),
@@ -493,6 +493,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         onSelectChange: function onSelectChange() {
+            $(".center").scrollTop(0, 0);
             var _this = this;
             var selected = _this.selected;
             console.log(selected);
@@ -524,6 +525,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).fail(function () {}).always(function () {});
         },
         onSelectChange1: function onSelectChange1() {
+            $(".center").scrollTop(0, 0);
             var _this = this;
             var selected1 = _this.selected1;
             _this.page = 1;
@@ -627,8 +629,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         page: _this.page,
                         token: window.localStorage.getItem("token"),
                         size: 10,
-                        region: _this.region,
-                        c_type: _this.c_type
+                        region: _this.selected,
+                        c_type: _this.selected1
                     },
                     dataType: 'JSON'
                 }).done(function (res) {
@@ -639,9 +641,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this.condition = false;
                     }
                 }).fail(function () {}).always(function () {});
-            } else {
-                window.location.reload();
-            }
+            } else {}
         },
         loadingMore: function loadingMore() {
             var _this = this;
@@ -684,14 +684,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         });
                     } else if (res.err == 2) {
                         _this.condition = false;
-                    } else if (res.err == 3) {
+                    } else if (res.err == 3 && scrollTop + windowHeight - scrollHeight >= 5) {
                         layer.open({
                             title: false,
                             offset: "28%",
                             content: res.msg,
                             closeBtn: false,
                             btnAlign: 'c',
-                            anim: 2
+                            anim: 2,
+                            time: 2000,
+                            btn: 0
                         });
                     }
                 }, function () {});
@@ -702,6 +704,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         payfans: function payfans() {
             location.href = "/mypczone/index/myIntro?type=2";
+        },
+        paysudu: function paysudu() {
+            location.href = "/mypczone/index/mySudou";
         },
         personinfo: function personinfo(user_id) {
             var user_id = user_id;
@@ -977,7 +982,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('p', {
     staticClass: "thumb thumb1"
-  }), _c('span', [_vm._v("关注我的人")])])])]) : _vm._e(), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('ul', {
+  }), _c('span', [_vm._v("关注我的人")])])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "banner",
+    staticStyle: {
+      "cursor": "pointer"
+    },
+    on: {
+      "click": function($event) {
+        _vm.paysudu()
+      }
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": "http://pic.myplas.com/mypc/img/banner.jpg",
+      "width": "309",
+      "height": "66"
+    }
+  })])]), _vm._v(" "), _c('ul', {
     staticClass: "list set-top"
   }, [(_vm.top) ? _c('li', {
     staticStyle: {
@@ -1166,17 +1187,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.arrow
     }
   })], 1)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "banner"
-  }, [_c('img', {
-    attrs: {
-      "src": "http://pic.myplas.com/mypc/img/banner.jpg",
-      "width": "309",
-      "height": "66"
-    }
-  })])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
