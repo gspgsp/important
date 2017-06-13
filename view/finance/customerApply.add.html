@@ -1,0 +1,275 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	<div id="infoForm" class="form">
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>公司：</td>
+				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="CustomerChoose" valueField="c_id"  value="{$info.c_id}" allowInput="false"  style="width:170px" required="true" id="usrId"/></td>
+			</tr>
+			<tr>
+				<td >联系人：</td>
+				<td><input name="contact_id" class="mini-buttonedit" onbuttonclick="usrChoose" allowInput="false"  style="width:170px" required="true" id="contactId"/></td>
+			</tr>
+			<tr>
+				<td>金融产品：</td>
+                <td colspan="2"><input name="product_id" class="mini-radiobuttonlist" width="300px" required="true"  onvaluechanged="changordertype" data="[{ id: 1, text: '塑料代采' }, { id: 2, text: '塑料白条'}, { id: 3, text: '仓单融资'}]"/></td>
+			</tr>
+		</table>
+		<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="sldc">
+					<legend>塑料代采</legend>
+					<div id="editForm2" style="padding:5px;" >
+					<div class="detail">
+						    	<div id="gridCell1" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
+								<div field="model" width="100" headerAlign="center">牌号 </div>
+								<div field="product_type" width="100" headerAlign="center">品种</div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div>
+								<div field="factory" width="80" class="mini-hidden" headerAlign="center" >厂家id</div>
+								<div field="total" width="80" headerAlign="center" >金额</div>
+								<div field="percent" width="80" headerAlign="center" >保证金比例(%)</div>
+								<div field="day" width="80" headerAlign="center" >预计赎期(天)</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</fieldset>
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="slbt">
+					<legend>塑料白条</legend>
+					<div id="editForm3" style="padding:5px;" >
+					<div class="detail">
+						<div id="gridCell2" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
+								<div field="model" width="100" headerAlign="center">牌号</div>
+								<div field="product_type" width="100" headerAlign="center">品种</div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div>
+								<div field="factory" width="80" class="mini-hidden" headerAlign="center" >厂家id</div>
+								<div field="total" width="80" headerAlign="center" >金额</div>
+								<div field="day" width="80" headerAlign="center" >预计赎期(天)</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</fieldset>
+				<fieldset style="width:800px;border:solid 1px #aaa;margin-top:8px;position:relative;display:none;" id="cdrz">
+					<legend>仓单融资</legend>
+					<div id="editForm4" style="padding:5px;" >
+					<div class="detail">
+						<div id="gridCell3" class="mini-datagrid" style="width:100%;height:100px" showFooter=false allowCellSelect="true" allowCellEdit="true" idField="id" multiSelect="true">
+							<div property="columns">
+								<div field="model" width="100" headerAlign="center">牌号</div>
+								<div field="product_type" width="100" headerAlign="center">品种</div>
+								<div field="f_name" width="80" headerAlign="center" >厂家</div>
+								<div field="factory" width="80" class="mini-hidden" headerAlign="center" >厂家id</div>
+								<div field="total" width="80" headerAlign="center" >金额</div>
+								<div field="rzbl" width="80" headerAlign="center" >融资比例</div>
+								<!-- <div field="storage" width="80" headerAlign="center" >仓库</div> -->
+								<div field="day" width="80" headerAlign="center" >预计赎期(天)</div>
+								<div name="action" width="80" headerAlign="center" align="center" cellStyle="padding:0;" renderer="onLoadDetail">操作</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</fieldset>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-add"  data-type="0" id="addSaleType" onclick="message">添加牌号</a>
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+var noStockData;
+var gridCell;
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var datas=gridCell.getData();
+	// console.log(datas);	
+	if(datas == false){
+		$("#returnMsg").text('请选择牌号信息');return;
+	}
+	$.extend(o, {detail:datas});
+	var json = mini.encode(o);
+	// console.log(json);return;
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/finance/apply/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+//处理金融产品 单选显示不同明细方式
+function changordertype(e){
+	var val = e.value;
+	// console.log(val);return;
+	var addSaleType = mini.get("addSaleType");
+	// var sales_type= mini.get("sales_type");
+	noStockData=[]; //切换订单类型时清空
+	//1:塑料代采2塑料白条3:仓单融资
+	if(val == 1){
+		gridCell=mini.get('gridCell1');
+		$("#returnMsg").text('');
+		addSaleType.on("click",saleDetil).un("click",message);
+		$("#addSaleType").attr('data-type', '1');
+
+		$("#slbt").hide();
+		$("#cdrz").hide();
+		$("#sldc").show();
+	}
+	if(val == 2){
+		gridCell=mini.get('gridCell2');
+		$("#returnMsg").text('');
+		addSaleType.on("click",saleDetil).un("click",message);
+		$("#addSaleType").attr('data-type', '2');
+		$("#sldc").hide();
+		$("#cdrz").hide();
+		$("#slbt").show();
+	}
+	if(val == 3){
+		gridCell=mini.get('gridCell3');
+		$("#returnMsg").text('');
+		addSaleType.on("click",saleDetil).un("click",message);
+		$("#addSaleType").attr('data-type', '3');
+		$("#slbt").hide();
+		$("#sldc").hide();
+		$("#cdrz").show();
+	}
+}
+function message(){
+	$("#returnMsg").text('请选择金融产品');
+}
+//处理删除申请的牌号
+function onLoadDetail(e){
+	var index=e.record._index;
+	s='<a href="javascript:delDetail('+index+')">删除</a>';
+	return s;
+}
+function delDetail(index){
+	noStockData.splice(index,1);
+	gridCell.setData(noStockData);
+	// totalCount(noStockData);
+}
+//追加销售明细(不销库存)
+function saleDetil(){
+	var btn = this;
+	var _type = $("#addSaleType").attr('data-type');
+	gridCell=mini.get('gridCell'+_type);//获取金融产品类型
+	// console.log(_type);
+	mini.open({
+		url: "/finance/apply/addModel?type="+_type,
+		title: "新增产品信息",
+		width: 500,
+		height: 500,
+		onload: function () {
+			// var data=e.sender.getValue();
+			// top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				data = eval("(" + data + ")");
+				if (data) {
+					obj={};
+					obj.model=data.model;
+					obj.f_name=data.f_name;
+					obj.factory=data.factory;
+					obj.product_type=data.p_type;
+					obj.total=data.total;
+					obj.day=data.day;
+					if(_type == 1){
+						obj.percent=data.percent;
+					}
+					if(_type == 3){
+						obj.rzbl=data.rzbl;
+					}
+					noStockData.push(obj);
+					gridCell.setData(noStockData);
+				}
+			}
+		}
+	});
+}
+
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+function onValidMobile(e){
+	 if (e.isValid) {
+		 if(!utils.isMobile(e.value)){
+			 e.errorText = "错误的手机号";
+				e.isValid = false;
+		 }
+	 }
+}
+//强制选择归属公司
+function CustomerChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		// onload: function () {
+		// 	var iframe = this.getIFrameEl();
+		// 	iframe.contentWindow.SetData();
+		// },
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					$("#"+btn.id+"\\$value").val(data.c_id);
+				}
+			}
+		}
+	});         
+}
+//强制选择联系人
+function usrChoose(e){
+	var btn2 = this;
+		mini.open({
+		url: "/user/contact/init?do=search",
+		title: "选择联系人",
+		width: 1200,
+		height: 550,
+		// onload: function () {
+		// 	var iframe = this.getIFrameEl();
+		// 	iframe.contentWindow.SetData();
+		// },
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn2.setValue(data.user_id);
+					btn2.setText(data.name);
+					$("#"+btn2.id+"\\$value").val(data.user_id);
+				}
+			}
+		}
+	});         
+}
+</script>

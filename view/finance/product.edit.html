@@ -1,0 +1,133 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	  <div title="基本信息" class="form" id="editForm">
+		<table width="100%" border="0" cellpadding="1" cellspacing="2">
+			<input class="mini-hidden" id="hidden_model" name="model" value=""/>
+			<input class="mini-hidden" id="hidden_type" name="product_type" value=""/>
+			<input class="mini-hidden" id="hidden_factory" name="factory" value=""/>
+			<tr>
+				<td>牌号<font style="color:red;"> * </font></td>
+				<td>
+					<input name="p_id" class="mini-buttonedit" onbuttonclick="proChoose" value="" allowInput="false" required="true" text=""  style="width:100px" id="usrId"/>
+				</td>
+			</tr>
+			<tr>
+				<td>厂家<font style="color:red;"></td>
+				<td id="f_name"></td>
+				<input class="mini-hidden" name="f_name" id="ff_name" value=""/>
+			</tr>
+			<tr>
+				<td>品种<font style="color:red;"></td>
+				<td id="p_type"></td>
+				<input class="mini-hidden" name="p_type" id="pp_type" value=""/>
+			</tr>
+			<tr>
+				<td>金额<font style="color:red;"> * </font></td>
+				<td><input name="total" class="mini-textbox" style="width:100px" vtype="float" required="true" value=""></td>
+			</tr>
+		{if $type eq 1}
+			<tr>
+				<td>保证金比例<font style="color:red;"> * </font></td>
+				<td><input name="percent" class="mini-textbox" style="width:100px" vtype="float" required="true" value=""></td>
+			</tr>
+		{elseif $type eq 3}
+			<tr>
+				<td>融资比例<font style="color:red;"> * </font></td>
+				<td><input name="rzbl" class="mini-textbox" style="width:100px" vtype="float" required="true" value=""></td>
+			</tr>
+			<!-- <tr>
+				<td>仓库<font style="color:red;"> * </font></td>
+				<td><input name="storage" class="mini-textbox" style="width:100px" required="true" value=""></td>
+			</tr> -->
+		{/if}
+			<tr>
+				<td>预计赎期<font style="color:red;"> * </font></td>
+				<td><input name="day" class="mini-textbox" style="width:100px" vtype="int" required="true" value=""></td>
+			</tr>
+			</table>
+			</div>
+			<div align="center" style="margin-top:10px;margin-bottom:10px;">
+				<a class="mini-button" style="width:60px;" onClick="onComfirm()">确定</a>
+			<span style="display:inline-block;width:25px;"></span>
+				<a class="mini-button" style="width:60px;" onClick="onCancel()">取消</a>
+			</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+//增加后提交数据(保存)
+function submitForm() {
+	var form = new mini.Form("#editForm");
+	var o = form.getData();
+	var json = mini.encode(o);
+	var callback=function(data){
+	if(data.err!='0'){
+	alert(data.msg);
+	return false;
+	}else{
+	CloseWindow('save');
+	}
+	}
+  utils.ajax('/product/product/ajaxSave?action=edit',{data:json},callback,"POST","json");
+}
+//强制选择归属产品
+function proChoose(e){
+	var btn = this;
+	var model = mini.get('hidden_model');
+	var product_type = mini.get('hidden_type');
+	var factory = mini.get('hidden_factory');
+		mini.open({
+		url: "/product/product/init?ischecked=checked",
+		title: "选择产品",
+		width: 1250,
+		height: 550,
+		onload: function () {
+			var data=e.sender.getValue();
+			top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+					model.setValue(data.model);
+					product_type.setValue(data.product_type);
+					factory.setValue(data.f_id);
+
+					$('#f_name').html(data.f_name);
+					var ff_name = mini.get('ff_name');
+					ff_name.setValue(data.f_name);
+					$('#p_type').html(data.product_type);
+					var pp_type = mini.get('pp_type');
+					pp_type.setValue(data.product_type);
+				}
+			}
+		}
+	});         
+}
+function onCancel(e) {
+  CloseWindow("cancel");
+}
+function CloseWindow(action) {
+  if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+  else window.close();
+}
+//确定并获取数据
+function onComfirm() {
+	var form = new mini.Form("#editForm");
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	CloseWindow("ok");
+}
+function GetData() {
+	var form = new mini.Form("#editForm");
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	return json;
+}
+</script>

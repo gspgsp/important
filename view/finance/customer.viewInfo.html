@@ -1,0 +1,214 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">
+		{if $viewType neq 'risk_customer_info' }	
+		<div title="客户详细信息">
+			<div style="height:450px">
+				<table width="100%">
+					<caption><strong>基本信息</strong></caption>
+					<tr>
+						<td width="30%">客户名称：{$info.c_name}</td>
+						<td width="35%">客户类别：{$type.$info.type}</td>
+						<td width="35%">省份：{$regionList.$info.company_province}</td>
+					</tr>
+					<tr>
+						<td>成立日期：{$info.fund_date}</td>
+						<td>注册资本：{$info.registered_capital}</td>
+						<td>城市：{$regionList.$info.company_city}</td>
+					</tr>
+					<tr>
+						<td>客户来源：{$chanel.$info.chanel}</td>
+						<td>客户规模：{$level.$info.level}</td>
+						<td>地址：{$info.address}</td>
+					</tr>
+					<tr>
+						<td>所有者：</td>
+						<td>信用等级：{$credit_level.$info.credit_level}</td>
+						<td>邮编：{$info.zip}</td>
+					</tr>
+					<tr>
+						<td>企业法人姓名：{$info.legal_person}</td>
+						<td>企业法人身份证号：{$info.legal_idcard}</td>
+						<td>公司电话：</td>
+					</tr><tr>
+						<td>营业执照号：{$info.business_licence}</td>
+						<td>组织机构代码证号：{$info.organization_code}</td>
+						<td>状态：{$status.$info.status}</td>
+					</tr>
+					<tr>
+						<td>税务登记证号：{$info.tax_registration}</td>
+						<td>创建者：{$info.input_admin}</td>
+						<td>创建时间：{$info.input_time}</td>
+					</tr>
+					<tr>
+						<td>修改时间：{$iofo.update_time}</td>
+						<td colspan="2">备注：
+							<input type="text" style="width:670px;" name="remark" id="">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">主营产品：
+							<input type="text" style="width:1000px;" name="main_product" id="">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">所需牌号：
+							<input type="text" style="width:1000px;" name="" id="" value="{$info.need_product}">
+						</td>
+					</tr>
+					{if $viewType eq 'apply'}
+					<tr>
+						<td colspan="3">审核说明：
+							<input type="text" style="width:1000px;" name="review_info" required="required" value="{$review_info}" id="">
+						</td>
+						
+					</tr>
+					{/if}
+					<table width="100%" border="1" style="border-collapse:collapse;">
+						<caption><strong>联系人信息</strong></caption>
+						<tr>
+							<td width="5%" align="center" >姓名</td>
+							<td width="3%" align="center" >性别</td>
+							<td width="5%" align="center" >电话</td>
+							<td width="5%" align="center" >手机</td>
+							<td width="5%" align="center" >QQ</td>
+							<td width="5%" align="center" >传真</td>
+							<td width="6%" align="center" >邮箱</td>
+							<td width="6%" align="center" >状态</td>
+							<td width="6%" align="center" >是否默认</td>
+							<td width="7%" align="center" >备注</td>
+						</tr>
+						<tr>
+							<td>{$contact.name}</td>
+							<td>{if $contact.sex eq 0}男{else}女{/if}</td>
+							<td>{$contact.tel}</td>
+							<td>{$contact.mobile}</td>
+							<td>{$contact.qq}</td>
+							<td>{$contact.fax}</td>
+							<td>{$contact.email}</td>
+							<td>{if $contact.status eq 1}正常
+								{elseif $contact.status eq 2}冻结
+								{elseif $contact.status eq 3}关闭
+								{elseif $contact.status eq 9}删除
+								{/if}
+							</td>
+							<td>{if $contact.is_default eq 0}否{else}是{/if}</td>
+							<td>{$contact.remark}</td>
+						</tr>
+					</table>
+				</table>
+			</div>
+			{if $viewType eq 'apply'}
+			<div align="center" style="margin-top:10px;">
+				{if $review_info eq ''}
+				<a class="mini-button" iconCls="icon-ok" onclick="submitchange({$aid},2)">转入风控</a>
+				<a class="mini-button" iconCls="icon-no" onclick="submitchange({$aid},3)">拒绝</a>
+				{/if}
+				<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+				<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+			</div>
+		</div>
+		
+		<div title="审核状态列表">
+			<div id="investGrid" class="mini-datagrid" style="width:auto;height:420px;" idField="id"  url="/finance/apply/verifyList?aid={$aid}" sizeList="[10,20,50,100]" pageSize="20">
+				<div property="columns">
+					<div field="modify_user" width="50" headerAlign="center" renderer="onLoadHandle" align="center">审核人</div>
+					<div field="status" width="50" headerAlign="center" align="center">审核状态</div>
+					<div field="modify_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">审核时间</div>
+					<div field="review_info" width="60" headerAlign="center"  align="center">审核意见</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+		
+		{/if}
+		{if $viewType eq 'risk_customer_info' }	
+		<div title="审核状态列表">
+			<div id="investGrid" class="mini-datagrid" style="width:auto;height:420px;" idField="id"  url="/finance/riskin/verifyList?c_id={$c_id}" sizeList="[10,20,50,100]" pageSize="20">
+				<div property="columns">
+					<div field="modify_user" width="50" headerAlign="center" renderer="onLoadHandle" align="center">审核人</div>
+					<div field="status" width="50" headerAlign="center" align="center">审核状态</div>
+					<div field="modify_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">审核时间</div>
+					<div field="content" width="60" headerAlign="center"  align="center">审核意见</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+		</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var investGrid=mini.get("investGrid");
+	function changeTab(e){
+		var tab=e.tab;
+		if(tab.title=='审核状态列表'){
+			var data=investGrid.getData();
+			if(data.length<1){
+				investGrid.load();
+			}
+		}
+	}
+//转入风控或拒绝
+function submitchange(_a_id,_status){
+	var _review_info = $('input[name="review_info"]').val();
+	if(_review_info == ''){
+		$('input[name="review_info"]').css("border-color","red");
+		 alert('请填写审核说明');return false;
+	}else{
+		$('input[name="review_info"]').css("border-color","");
+	}
+	$.post('/finance/apply/changeToRisk', {
+		id: _a_id,
+		status: _status,
+		review_info: _review_info
+	}, function(data) {
+		// console.log(data);return;
+		var data = $.parseJSON(data);
+		if(data.err!=0){
+			alert(data.msg);
+			CloseWindow("save");
+			return false;
+		}else{
+			alert(data.msg);
+			CloseWindow("save");
+		}
+	});
+}
+//关闭打开的窗口
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+//关闭按钮
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+	//查看订单相关信息
+	function viewOrdInfo(oid,o_type){
+		mini.open({
+			url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+			showMaxButton:true,
+			title: "查看订单相关信息", 
+			width: 800, height:460
+		});
+	}
+	// function search() {
+	// 	buy_log.load($("#soform").serializeObject(),function(e){
+	// 		$("#searchMsg").html(e.msg);
+	// 	});
+	// }
+	// function search2() {
+	// 	sale_log.load($("#soform1").serializeObject(),function(e){
+	// 		$("#searchMsg1").html(e.msg);
+	// 	});
+	// }
+	// search();
+	// search2();
+	function onKeyEnter(e) {
+		search();
+	}
+	function onKeyEnter1(e) {
+		search2();
+	}
+
+</script>
