@@ -24,7 +24,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "searchIcon",
     staticStyle: {
       "position": "absolute",
-      "top": "16px",
+      "top": "8px",
       "left": "5px",
       "margin": "0"
     }
@@ -35,9 +35,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.keywords),
       expression: "keywords"
     }],
-    staticStyle: {
-      "width": "100%"
-    },
     attrs: {
       "type": "text",
       "placeholder": "搜你想搜的"
