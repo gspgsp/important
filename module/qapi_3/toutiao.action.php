@@ -473,8 +473,6 @@ class toutiaoAction extends baseAction
 
                     $res1 = M ("qapp:newsSubscribe")->setSubscribeByUserid ($user_id, $cate_id);
                     $res2 = M ("qapp:newsSubscribe")->setPhysicalSubscribeByUserid ($user_id, $prop_id);
-                    file_put_contents('/tmp/xielei.txt',print_r($res1,true)."\n",FILE_APPEND);
-                    file_put_contents('/tmp/xielei.txt',print_r($res2,true)."\n",FILE_APPEND);
 
                     if ($res1 && $res2) {
                         $this->json_output (array(
@@ -488,17 +486,15 @@ class toutiaoAction extends baseAction
                 if (($this->platform == 'ios' && $this->app_version < 22) || ($this->platform == 'android' && $this->app_version < 87)) {
 
                     $tmp = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
+
                     if (empty($tmp)) {
                         $tmp = $this->newsSubscribeDefault;
                     }
                 } else {
                     $res1      = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
-                    file_put_contents('/tmp/xielei.txt',print_r($res1,true)."\n",FILE_APPEND);
                     $user_info = M ("user:userInfo")->getQappUserInfo ($user_id);
-                    file_put_contents('/tmp/xielei.txt',print_r($user_info,true)."\n",FILE_APPEND);
 
                     $res2      = explode (',', $user_info['physical_subscribe']);
-                    file_put_contents('/tmp/xielei.txt',print_r($res2,true)."\n",FILE_APPEND);
                     if (empty($res1)) {
                         $res1 = $this->newsSubscribeDefault;
                     }
