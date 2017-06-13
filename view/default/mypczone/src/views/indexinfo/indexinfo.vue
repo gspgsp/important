@@ -287,7 +287,7 @@ export default {
             url: version +"/friend/getTaPur",
             type: 'post',
             data: {
-                user_id: lid,
+                userid: lid,
                 page: 1,
                 size: 5,
                 type: 1,

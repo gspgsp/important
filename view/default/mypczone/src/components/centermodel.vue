@@ -47,7 +47,7 @@
         </div>
       <!--concern end-->
       <!--banner begin-->
-        <div class="banner"><img src="http://pic.myplas.com/mypc/img/banner.jpg" width="309" height="66"/></div>
+        <div class="banner" v-on:click="paysudu()" style="cursor:pointer"><img src="http://pic.myplas.com/mypc/img/banner.jpg" width="309" height="66"/></div>
       <!--banner end-->
       
     </div>
@@ -182,6 +182,7 @@ export default {
     },
     methods: {
 	    onSelectChange:function(){
+		            $(".center").scrollTop(0,0);
 		            var _this = this;
 					var selected = _this.selected;
 					console.log(selected);
@@ -217,6 +218,7 @@ export default {
 					});
                 },
 		onSelectChange1:function(){
+		            $(".center").scrollTop(0,0);
 		            var _this = this;
 					var selected1 = _this.selected1;
 					_this.page = 1;
@@ -341,8 +343,8 @@ export default {
                         page: _this.page,
                         token: window.localStorage.getItem("token"),
                         size: 10,
-                        region: _this.region,
-                        c_type: _this.c_type
+                        region: _this.selected,
+                        c_type: _this.selected1
                     },
                     dataType: 'JSON'
                 }).done(function(res) {
@@ -358,7 +360,7 @@ export default {
 
                 });
             } else {
-                window.location.reload();
+                //window.location.reload();
             }
         },
         loadingMore: function() {
@@ -402,7 +404,7 @@ export default {
 								   });
                     } else if(res.err == 2) {
                         _this.condition = false;
-                    } else if(res.err == 3) {
+                    } else if(res.err == 3&&scrollTop + windowHeight - scrollHeight>= 5) {
                         //没有更多数据
 					   layer.open({
 									title: false,
@@ -410,7 +412,9 @@ export default {
 									content : res.msg,
 									closeBtn : false,
 									btnAlign: 'c',
-									anim : 2
+									anim : 2,
+									time:2000,
+									btn : 0,
 							});
                     }
                 }, function() {
@@ -424,7 +428,10 @@ export default {
     },
     payfans: function() {
         location.href="/mypczone/index/myIntro?type=2";
-    },		
+    },
+    paysudu: function() {
+        location.href="/mypczone/index/mySudou";
+    },	
 	personinfo: function(user_id) {
 	    var user_id = user_id;
         location.href="/mypczone/index/indexinfo?id="+user_id;

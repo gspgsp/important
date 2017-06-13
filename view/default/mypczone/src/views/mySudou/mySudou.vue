@@ -262,9 +262,9 @@ export default{
                             dataType: 'JSON'
                         }).then(function(res) {
                             if(res.err == 0) {
-                                alert('兑换成功');
+                                layer.msg(res.msg);
                             }else{
-                                alert("wrong");
+                                layer.msg(res.msg);
                             }
                     })
             },

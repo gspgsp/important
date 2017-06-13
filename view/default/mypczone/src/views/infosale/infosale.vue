@@ -65,7 +65,7 @@ export default {
         var _this=this;
 		var url = window.location.search;
 	    var lid = url.substring(url.lastIndexOf('=')+1, url.length);
-		_this.burl = url;
+		_this.burl = '/mypczone/index/indexinfo'+url;
 		_this.lid = lid;
         try {
             var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
@@ -77,7 +77,7 @@ export default {
             url: version +"/friend/getTaPur",
             type: 'post',
             data: {
-                user_id:lid,
+                userid:lid,
                 type:2,
                 page: _this.page,
                 token: window.localStorage.getItem("token"),
