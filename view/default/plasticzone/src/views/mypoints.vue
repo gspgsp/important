@@ -14,7 +14,7 @@
 		<router-link v-if="wechat" style=" color: #ff5000;" :to="{name:'pay'}">
 			<i class="shopIcon iconRecord"></i>充值塑豆
 		</router-link>		
-		<router-link v-else style=" color: #ff5000;" :to="{name:'recharge'}">
+		<router-link v-if="!wechat" style=" color: #ff5000;" :to="{name:'recharge'}">
 			<i class="shopIcon iconRecord"></i>充值塑豆
 		</router-link>
 	</div>
