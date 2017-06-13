@@ -7,7 +7,7 @@
 <input style="width: 100%; border: none;" type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </form>
 </div>
-<div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
+<div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; height: 30px; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
 
 </header>
 <loadingPage :loading="loadingShow"></loadingPage>
