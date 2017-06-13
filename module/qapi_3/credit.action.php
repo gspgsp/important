@@ -131,13 +131,38 @@ class creditAction extends baseAction
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {String}  err   错误码
-     * @apiSuccess {String}  url   apk下载地址
+     * @apiSuccess {json}    data   数据
      *
      * @apiSuccessExample {json} Success-Response:
      *      {
-     *      "err":0
-     *      "msg":"密码重置成功"
-     *      }
+        "err": 0,
+        "data": {
+        "id": "3",
+        "name": "上海中晨电子商务股份有限公司",
+        "register_no": "",
+        "belong_org": "上海市工商局",
+        "oper_name": "李铁道",
+        "start_date": "2007-04-11",
+        "end_date": "0",
+        "status": "存续（在营、开业、在册）",
+        "province": "SH",
+        "update_date": "2017-06-08",
+        "credit_code": "91310000660746422P",
+        "register_capi": "3456.620900",
+        "econkind": "股份有限公司（非上市、自然人投资或控股）",
+        "industry": "批发和零售业",
+        "sub_industry": "批发业",
+        "address": "上海市广灵二路122号415室",
+        "scope": "以电子商务方式从事塑料材料、金属材料及制品、化工原料（除危险品）、建筑装潢材料及制品、橡胶制品、木材、五金交电的销售，计算机软件、网络技术的开发，网络系统集成，广告的设计，利用自有媒体发布广告，会展服务，市场信息咨询与调查（不得从事是社会调查、社会调研、民意调查、民意测验），从事货物及技术的进出口业务，企业管理咨询，投资咨询，企业形象策划，市场营销策划，电信业务（第二类增值电信业务中的信息服务业务（仅限互联网信息服务））。\r\n【依法须经批准的项目，经相关部门批准后方可开展经营活动】",
+        "term_start": "2007-04-11",
+        "term_end": "0",
+        "check_date": "2007-04-11",
+        "phone_number": "021-60295176",
+        "email": "83080667@qq.com",
+        "website_name": "",
+        "website_url": "www.myplas.com"
+        }
+        }
      * @apiErrorExample {json} Error-Response:
      *     {
      *       "err": 2,
