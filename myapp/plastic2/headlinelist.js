@@ -43,7 +43,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "keywords"
     }],
     staticStyle: {
-      "width": "100%"
+      "width": "100%",
+      "border": "1px solid #FFFFFF"
     },
     attrs: {
       "type": "text",
@@ -73,7 +74,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "background": "#802800",
       "color": "#FFFFFF",
       "position": "absolute",
-      "top": "9px",
+      "top": "10px",
       "right": "10px",
       "text-align": "center"
     },
