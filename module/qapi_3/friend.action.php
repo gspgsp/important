@@ -33,7 +33,8 @@ class friendAction extends baseAction
      * @apiSuccess {json}  is_show_focus   是否显示我关注的人 1显示 0不显示
      * @apiSuccess {json}  is_show_cover   是否显示封面蒙层   1显示 0不显示
      * @apiSuccess {String}  banner_url      banner显示的图片地址
-     * @apiSuccess {String}  banner_jump_url   banner的跳转url地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  banner_jump_url   banner的跳转url地址 不再需要拼接路径地址
+     * @apiSuccess {String}  banner_jump_url   banner的跳转url的title
      * @apiSuccess {String}  is_banner_jump_native   banner是否跳转原生页面 0/1
      * @apiSuccess {String}  banner_jump_native_addreess   banner跳转原生页面回调地址
      * @apiSuccess {String}  cover_url      cover显示的图片地址
