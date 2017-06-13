@@ -232,13 +232,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "nameinfo"
-  }, [_c('router-link', {
-    attrs: {
-      "to": {
-        name: 'personinfo',
-        params: {
-          id: _vm.top.user_id
-        }
+  }, [_c('a', {
+    on: {
+      "click": function($event) {
+        _vm.toPerson(_vm.top.user_id)
       }
     }
   }, [_c('p', {
@@ -295,7 +292,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('i', {
     staticClass: "icon2 rightArrow"
-  })])], 1), _vm._v(" "), _c('span', {
+  })])]), _vm._v(" "), _c('span', {
     staticClass: "toFixed"
   }, [_vm._v("已置顶")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.name), function(n) {
     return _c('li', {
@@ -326,13 +323,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })]), _vm._v(" "), _c('div', {
       staticClass: "nameinfo"
-    }, [_c('router-link', {
-      attrs: {
-        "to": {
-          name: 'personinfo',
-          params: {
-            id: n.user_id
-          }
+    }, [_c('a', {
+      on: {
+        "click": function($event) {
+          _vm.toPerson(n.user_id)
         }
       }
     }, [_c('p', {
@@ -389,7 +383,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })]) : _vm._e(), _vm._v(" "), _c('i', {
       staticClass: "icon2 rightArrow"
-    })])], 1)])
+    })])])])
   }), _vm._v(" "), _c('li', {
     directives: [{
       name: "show",
@@ -884,6 +878,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	methods: {
+		toPerson: function toPerson(userid) {
+			var _this = this;
+			if (window.localStorage.getItem("token")) {
+				$.ajax({
+					url: version + '/friend/getZoneFriend',
+					type: 'post',
+					data: {
+						user_id: userid,
+						showType: 1,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function (res) {
+					if (res.err == 0) {
+						_this.$router.push({
+							name: 'personinfo',
+							params: { id: userid }
+						});
+					} else if (res.err == 99) {
+						weui.dialog({
+							title: '塑料圈通讯录',
+							content: res.msg,
+							className: 'custom-classname',
+							buttons: [{
+								label: '取消',
+								type: 'default',
+								onClick: function onClick() {}
+							}, {
+								label: '确定',
+								type: 'primary',
+								onClick: function onClick() {
+									$.ajax({
+										url: version + '/friend/getZoneFriend',
+										type: 'post',
+										data: {
+											user_id: userid,
+											showType: 5,
+											token: window.localStorage.getItem("token")
+										},
+										headers: {
+											'X-UA': window.localStorage.getItem("XUA")
+										},
+										dataType: 'JSON'
+									}).done(function (res) {
+										if (res.err == 0) {
+											_this.$router.push({
+												name: 'personinfo',
+												params: { id: userid }
+											});
+										} else if (res.err == 100) {
+											_this.$router.push({
+												name: 'pointsrule'
+											});
+										}
+									}).fail(function () {});
+								}
+							}]
+						});
+					}
+				}).fail(function () {});
+			} else {
+				weui.confirm('您未登录塑料圈,无法查看企业及个人信息', function () {
+					_this.$router.push({
+						name: 'login'
+					});
+				}, function () {}, {
+					title: '塑料圈通讯录'
+				});
+			}
+		},
 		downloadClose: function downloadClose() {
 			this.download = false;
 		},

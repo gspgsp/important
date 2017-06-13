@@ -71,7 +71,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.search
     }
   }, [_vm._v("搜索")]), _vm._v(" "), _c('div', {
-    staticClass: "plasticnav"
+    staticClass: "plasticnav",
+    staticStyle: {
+      "margin": "5px 0 0 0"
+    }
   }, [_c('div', {
     staticClass: "swiper-container"
   }, [_c('div', {
