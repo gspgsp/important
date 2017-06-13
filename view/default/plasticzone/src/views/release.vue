@@ -2,9 +2,8 @@
 <div style=" padding: 90px 0 60px 0;">
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 6;">
 		<header id="bigCustomerHeader">
-			<span class="releaseinfo">供求信息</span>
 			<div style="padding: 7px 0 0 0;">
-				<div class="releasesearch" style="text-align: left; margin: 0 90px 0 75px;">
+				<div class="releasesearch" style="text-align: left; margin: 0 90px 0 10px;">
 					<form action="javascript:;">
 						<input v-on:keydown.enter="search" type="text" placeholder="请输入厂家或牌号" v-model="keywords" />
 					</form>

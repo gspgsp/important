@@ -62,27 +62,27 @@
 					</span>-->
 				</td>
 			</tr>
-			<tr v-if="isType">
+			<tr v-if="c_type==1">
 				<td style="padding: 0 0 0 15px;">产品：</td>
 				<td style="padding: 0 15px 0 7px;">
 					<span v-if="isDisabled">{{main_product}}</span>
 					<input v-if="!isDisabled" v-bind:disabled="isDisabled" type="text" v-model="main_product" />
 				</td>
 			</tr>
-			<tr v-if="isType">
+			<tr v-if="c_type==1">
 				<td style="padding: 0 0 0 15px;">月用量：</td>
 				<td style="padding: 0 15px 0 7px;">
 					<span v-if="isDisabled">{{month_consum}}</span>
 					<input v-if="!isDisabled" v-bind:disabled="isDisabled" type="text" v-model="month_consum" />
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="c_type==1||c_type==2||c_type==4">
 				<td style="padding: 0 0 0 15px;">我的主营：</td>
 				<td style="padding: 0 15px 0 0;">
 					<input v-bind:disabled="isDisabled" type="text" v-model="need_product" />
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="c_type==1||c_type==2">
 				<td style="padding: 0 0 0 15px;">关注的牌号：</td>
 				<td style="padding: 0 15px 0 0;">
 					<input v-bind:disabled="isDisabled" type="text" v-model="need_ph" />
@@ -178,13 +178,6 @@ export default{
 	methods: {
 		editor:function(){
 			this.isDisabled=false;
-		},
-		ctypeShow:function(){
-			if(this.c_type=="1"){
-				this.isType=true;
-			}else{
-				this.isType=false;
-			}		
 		},
 		save:function(){
 			var _this=this;

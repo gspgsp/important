@@ -1,6 +1,7 @@
 <template>
 <div>
 	<header id="bigCustomerHeader" style=" position: fixed; top: 0; left: 0; z-index: 5;">
+		<a class="headerMenu4" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
 		我的塑料圈
 		<a class="detailShare" href="javascript:;" v-on:click="shareshow"></a>
 	</header>

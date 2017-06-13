@@ -2,7 +2,6 @@
 <div class="buyWrap" style="padding: 90px 0 60px 0;">
 	<div style="position: fixed; top: 0; left: 0; width: 100%; z-index: 10;">
 		<header id="bigCustomerHeader">
-			<a class="headerMenu4" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
 			塑料圈通讯录({{member}}人) 
 			<a v-on:click="toLogin" class="headerMenu"></a>
 		</header>
@@ -22,6 +21,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div v-if="isFocus" class="payfans">
 		<router-link :to="{name:'mypay'}">
 			<div style=" display: inline-block; margin: 4px 0 0 0;">
@@ -33,8 +33,20 @@
 				<div class="payfansImg2"></div><span>关注我的人</span>
 			</div>
 		</router-link>
+		<div class="downloadAppIndex" v-if="download">
+			<div class="indexApp">
+				<a class="downloadLink" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
+				<div class="downloadClose" v-on:click="downloadClose"></div>
+			</div>
+		</div>
 	</div>
 	<div v-else class="payfans" style="background: #ff854d;">
+		<div class="downloadAppIndex" v-if="download">
+			<div class="indexApp">
+				<a class="downloadLink" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
+				<div class="downloadClose" v-on:click="downloadClose"></div>
+			</div>
+		</div>
 		<router-link style="width: 100%;" :to="{name:'mypoints'}">
 		<!--<a style="width: 100%;" href="http://q.myplas.com/#/mypoints"></a>-->
 		<img width="100%" v-bind:src="bannerImg" />
@@ -147,10 +159,14 @@ export default {
 			isFocus: true,
 			bannerLink: "",
 			bannerImg: "",
-			filterShow:true
+			filterShow:true,
+			download:true
 		}
 	},
 	methods: {
+		downloadClose:function(){
+			this.download=false;
+		},
 		focusShow:function(){
 			this.filterShow=false;
 		},

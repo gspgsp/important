@@ -1,7 +1,7 @@
 <template>
 <div class="buyWrap" style="padding-bottom: 70px;">
 	<header id="bigCustomerHeader">
-		<a style="position: absolute;top: 9px; left: 10px;width: 30px;height: 30px;line-height: 30px; color: #ffffff;font-size: 13px;" href="http://q.myplas.com/">首页</a>
+		<a href="javascript:window.history.back();" class="back"></a>
 		企业信用信息
 	</header>
 	<div v-show="creditshow">
