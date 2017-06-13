@@ -39,6 +39,7 @@ class friendAction extends baseAction
      * @apiSuccess {String}  banner_jump_native_addreess   banner跳转原生页面回调地址
      * @apiSuccess {String}  cover_url      cover显示的图片地址
      * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
+     * @apiSuccess {String}  cover_jump_url_title   cover的跳转title
      * @apiSuccess {String}  data   系统执行时间
      * @apiSuccess {int}  show_ctype   显示企业类型
      * @apiSuccess {json}  top   置顶展示信息
@@ -514,6 +515,7 @@ class friendAction extends baseAction
                 'banner_jump_native_address' => '',
                 'cover_url'                  => '',
                 'cover_jump_url'             => '',
+                'cover_jump_url_title'       => '',
                 'data'                       => CORE_TIME,
                 'show_ctype'                 => $c_type,
                 'show_msg'                   => $stemp_info,
@@ -545,6 +547,7 @@ class friendAction extends baseAction
                 $arr['is_show_cover']  = 1;
                 $arr['cover_url']      = $setting['qapp_cover']['url'];
                 $arr['cover_jump_url'] = $setting['qapp_cover']['jump_url'];
+                $arr['cover_jump_url_title'] = $setting['qapp_cover']['jump_url_title'];
             }
             $this->json_output ($arr);
         }
