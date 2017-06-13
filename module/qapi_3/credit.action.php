@@ -198,6 +198,19 @@ class creditAction extends baseAction
      * @apiParam   {Number} page   页码
      * @apiParam   {Number} type   1 精确  2 模糊
      *
+     * @apiSuccessExample {json} Success-Response:
+             * {
+            "err": 0,
+            "data": {
+            "user_id": "40418",
+            "c_name": "上海中晨电子商务股份有限公司",
+            "credit_level": "AAAAA",
+            "credit_limit": 6000000,
+            "is_credit": "1",
+            "pre_credit_limit": 6000000,
+            "credit_time": "1488357059"
+            }
+            }
      */
     public function creditCertificate ()
     {
