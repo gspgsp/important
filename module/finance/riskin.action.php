@@ -81,8 +81,9 @@ class riskinAction extends adminBaseAction {
 		$status = sget("status",'i'); //审核状态
 		if($status!='') $where.=" and pro_in.status=".$status;
 		$list=$this->db->model('finance_product_in pro_in')
-					->select('pro_in.*,pro.model,pro.product_type')
+					->select('pro_in.*,pro.model,pro.product_type,fac.f_name')
 					->leftjoin('product pro','pro.id=pro_in.p_id')
+					->leftjoin('factory fac','fac.fid=pro.f_id')
 					->where($where)->page($page+1,$size)
 					->order("$sortField $sortOrder")
 					->getPage();
@@ -364,12 +365,11 @@ class riskinAction extends adminBaseAction {
 			'modify_date'=>date('Y-m-d H:i:s',CORE_TIME),
 			'modify_user'=>$_SESSION['adminid'],
 		);
-		if(!empty($data['p_id'])){
+		if(!empty($data['pid'])){
 			$res = $this->db->model('finance_product_in')->where('p_id='.$data['pid'])->update($_data);
 		}elseif(!empty($data['store_id'])){
 			$res = $this->db->model('finance_store_in')->where('store_id='.$data['store_id'])->update($_data);
 		}
-		// showtrace();
 		if($res){
 			$this->success('操作成功');
 		}else{

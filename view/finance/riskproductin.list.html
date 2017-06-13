@@ -31,6 +31,7 @@
 			<div type="checkcolumn"></div>
 			<div field="product_type" width="75" headerAlign="center" allowSort="true" align="center">品类</div>
 			<div field="model" width="40" headerAlign="center" align="center">牌号</div>
+			<div field="f_name" width="40" headerAlign="center" align="center">厂家</div>
 			<div field="status" width="30" headerAlign="center" align="center">状态</div>
 			<div field="create_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">准入时间</div>
 			<div field="modify_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
@@ -55,7 +56,7 @@ function onKeyEnter(e) {
 }
 //新增商品信息
 function add(){	
-	var width=600,height=200;
+	var width=200,height=150;
 	title='新增商品信息';
 	mini.open({
 		url: "/finance/riskin/addButton?type=product",
