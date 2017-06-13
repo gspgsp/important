@@ -531,8 +531,8 @@ class friendAction extends baseAction
                 $arr['is_show_banner']        = 1;
                 $arr['is_show_focus']         = 0;
                 $arr['banner_url']            = $setting['qapp_banner']['url'];
-                $arr['is_banner_jump_native'] = empty($setting['qapp_banner']['is_jump_native']) ? 0 : 1;
-                if (empty($arr['banner_jump_native'])) {
+                $arr['is_banner_jump_native'] = empty($setting['qapp_banner']['jump_native']) ? 0 : 1;
+                if (empty($arr['is_banner_jump_native'])) {
                     $arr['banner_jump_url']            = $setting['qapp_banner']['jump_url'];
                     $arr['banner_jump_url_title']      = $setting['qapp_banner']['jump_url_title'];
                     $arr['banner_jump_native_address'] = '';
