@@ -43,8 +43,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "keywords"
     }],
     staticStyle: {
-      "width": "100%",
-      "border": "none"
+      "width": "100%"
     },
     attrs: {
       "type": "text",
