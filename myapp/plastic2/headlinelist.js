@@ -6,7 +6,7 @@ webpackJsonp([3],{
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticStyle: {
-      "padding": "45px 0 70px 0"
+      "padding": "88px 0 70px 0"
     }
   }, [_c('header', {
     staticStyle: {
@@ -70,15 +70,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.search
     }
-  }, [_vm._v("搜索")])]), _vm._v(" "), _c('loadingPage', {
-    attrs: {
-      "loading": _vm.loadingShow
-    }
-  }), _vm._v(" "), _c('errorPage', {
-    attrs: {
-      "loading": _vm.loadingHide
-    }
-  }), _vm._v(" "), _c('div', {
+  }, [_vm._v("搜索")]), _vm._v(" "), _c('div', {
     staticClass: "plasticnav"
   }, [_c('div', {
     staticClass: "swiper-container"
@@ -194,7 +186,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 22
     }
-  }, [_vm._v("\r\n\t\t\t\t\t独家解读\r\n\t\t\t\t")])])])])]), _vm._v(" "), _c('ul', {
+  }, [_vm._v("\r\n\t\t\t\t\t独家解读\r\n\t\t\t\t")])])])])])]), _vm._v(" "), _c('loadingPage', {
+    attrs: {
+      "loading": _vm.loadingShow
+    }
+  }), _vm._v(" "), _c('errorPage', {
+    attrs: {
+      "loading": _vm.loadingHide
+    }
+  }), _vm._v(" "), _c('ul', {
     staticClass: "headlineUl3"
   }, _vm._l((_vm.items), function(i) {
     return _c('li', [_c('router-link', {
