@@ -36,12 +36,14 @@
 		<table  border="1"  width="100%" id="tba">
 			<tr align="center">
 				<td>牌号&厂家</td>
+				<td>吨数</td>
 				<td>单价</td>
 				<td>仓库</td>
 				<!-- <td>操作</td> -->
 			</tr>
 			<tr class="info">
 				<td><input id="tbl1" class="mini-textboxlist" name="pid1" required="true" style="width:400px;" url="/user/plastic/getPrdoucts" valueField="id" textField="model"/></td>
+				<td><input name="number1" class="mini-textbox" value="" style="width:110px;" required="true"/></td>
 				<td><input name="price1" class="mini-textbox" value="" style="width:110px;" required="true"/></td>
 				<td><input name="store1" class="mini-textbox" value="" style="width:110px;" required="true"/></td>
 				<!-- <td><a href = "javascript:del()"></a></td> -->
@@ -78,6 +80,7 @@ $(function(){
 		num += 1;
 		var html = '<tr class="info">';
 			html +='<td><input id="tbl'+num+'" class="mini-textboxlist" name="pid'+num+'" required="true" style="width:400px;" url="/user/plastic/getPrdoucts" valueField="id" textField="model"/></td>';
+			html +='<td><input name="number'+num+'" class="mini-textbox" value="" style="width:110px;" required="true"/></td>';
 			html +='<td><input name="price'+num+'" class="mini-textbox" value="" style="width:110px;" required="true"/></td>';
 			html +='<td><input name="store'+num+'" class="mini-textbox" value="" style="width:110px;" required="true"/></td>';
 			// html +='<td><a class="del" href = "javascript:;">删除</a></td>'

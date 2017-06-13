@@ -246,6 +246,7 @@ class interfaceAction extends adminBaseAction {
 				$arr[$i]['pid'] = $data['pid'.$i];
 				$arr[$i]['price'] =$data['price'.$i];
 				$arr[$i]['store'] =$data['store'.$i];
+				$arr[$i]['number'] =$data['number'.$i];
 			}
 		}
 		//删除原始行
@@ -257,6 +258,7 @@ class interfaceAction extends adminBaseAction {
 					 unset($row['id']);
 				}
 				$row['store_house'] = $v['store'];
+				$row['number'] = $v['number'];
 				$row['unit_price'] = $v['price'];
 				$row['p_id'] = $v['pid'];
 				$row['input_time'] = CORE_TIME;
