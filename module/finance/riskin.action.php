@@ -261,7 +261,7 @@ class riskinAction extends adminBaseAction {
 			//查询准入列表，如果存在该商品，则不添加
 			$store_id = $this->db->model('finance_store_in')->select('store_id')->where('store_id='.$data['store_id'])->getOne();
 			if($store_id){
-				$this->error('该商品已在准入列表中，无需再次添加');
+				$this->error('该仓库已在准入列表中，无需再次添加');
 			}
 			$data['status']=1;
 			$data['create_date']=date('Y-m-d H:i:s',time());
