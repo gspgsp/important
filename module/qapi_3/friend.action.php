@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: sick
@@ -42,254 +43,254 @@ class friendAction extends baseAction
      * @apiSuccess {json}  top   置顶展示信息
      *
      * @apiSuccessExample {json} Success-Response:
-            {
-            "err": 0,
-            "persons": [
-            {
-            "user_id": "53453",
-            "name": "娟***",
-            "c_id": "50383",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://pic.myplas.com/upload/17/06/02/59311fdc9437f.jpg",
-            "thumbqq": "http://pic.myplas.com/upload/17/06/02/59311fdc9437f.jpg",
-            "c_name": "上海晨达物流有限公司",
-            "need_product": "7000F",
-            "month_consum": "963",
-            "main_product": "2119",
-            "type": "1",
-            "fans": "7",
-            "gender": "1",
-            "buy_count": "16",
-            "sale_count": "10"
-            },
-            {
-            "user_id": "53452",
-            "name": "小***",
-            "c_id": "50382",
-            "sex": "男",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "c_name": "上海新村电子商务股份有限公司",
-            "need_product": "7000F",
-            "month_consum": "129",
-            "main_product": "2119",
-            "type": "1",
-            "fans": "3",
-            "gender": "0",
-            "buy_count": "0",
-            "sale_count": "0"
-            },
-            {
-            "user_id": "53451",
-            "name": "小***",
-            "c_id": "50382",
-            "sex": "男",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "c_name": "上海新村电子商务股份有限公司",
-            "need_product": "7000F",
-            "month_consum": "129",
-            "main_product": "2119",
-            "type": "1",
-            "fans": "1",
-            "gender": "0",
-            "buy_count": "0",
-            "sale_count": "0"
-            },
-            {
-            "user_id": "53446",
-            "name": "小***",
-            "c_id": "50382",
-            "sex": "男",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "c_name": "上海新村电子商务股份有限公司",
-            "need_product": "7000F",
-            "month_consum": "129",
-            "main_product": "2119",
-            "type": "1",
-            "fans": 0,
-            "gender": "0",
-            "buy_count": "0",
-            "sale_count": "0"
-            },
-            {
-            "user_id": "53441",
-            "name": "韩***",
-            "c_id": "50377",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
-            "thumbqq": "",
-            "c_name": "中国能之光新材料科技股份有限公司（宁波分公司）",
-            "need_product": "7000F",
-            "month_consum": "120吨",
-            "main_product": "2769",
-            "type": "1",
-            "fans": "3",
-            "gender": "1",
-            "buy_count": "20",
-            "sale_count": "10"
-            },
-            {
-            "user_id": "53398",
-            "name": "刘***",
-            "c_id": "50310",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
-            "thumbqq": null,
-            "c_name": "上海塑料制品企业",
-            "need_product": "X M2 T24",
-            "month_consum": "0.00",
-            "main_product": "de",
-            "type": "1",
-            "fans": "6",
-            "gender": "1",
-            "buy_count": "6",
-            "sale_count": "0"
-            },
-            {
-            "user_id": "53395",
-            "name": "张***",
-            "c_id": "50307",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
-            "thumbqq": null,
-            "c_name": "成都商业塑料加工厂",
-            "need_product": "TG-1000S OPE792",
-            "month_consum": "140吨",
-            "main_product": "???",
-            "type": "1",
-            "fans": "7",
-            "gender": "1",
-            "buy_count": "4",
-            "sale_count": "5"
-            },
-            {
-            "user_id": "41013",
-            "name": "黄***",
-            "c_id": "38505",
-            "sex": "男",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://pic.myplas.com/upload/17/05/26/5927d9a957fcd.jpg",
-            "thumbqq": "http://pic.myplas.com/upload/17/05/26/5927d9a957fcd.jpg",
-            "c_name": "余姚市万信塑染有限公司",
-            "need_product": "生产/销售：色母粒、填充料厂家",
-            "month_consum": "1231",
-            "main_product": "pp",
-            "type": "1",
-            "fans": "2",
-            "gender": "0",
-            "buy_count": "0",
-            "sale_count": "0"
-            },
-            {
-            "user_id": "28922",
-            "name": "王***",
-            "c_id": "50395",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://pic.myplas.com/upload/17/06/08/5938c9fdae099.jpg",
-            "thumbqq": "http://pic.myplas.com/upload/17/06/08/5938c9fdae099.jpg",
-            "c_name": "石家庄塑料编织有限司",
-            "need_product": "",
-            "month_consum": "0.00",
-            "main_product": "",
-            "type": "1",
-            "fans": "19",
-            "gender": "1",
-            "buy_count": "16",
-            "sale_count": "44"
-            },
-            {
-            "user_id": "53459",
-            "name": "阿***",
-            "c_id": "50389",
-            "sex": "男",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "c_name": "上海自晨电子商务有限公司",
-            "need_product": "",
-            "month_consum": "0.00",
-            "main_product": "",
-            "type": "1",
-            "fans": "2",
-            "gender": "0",
-            "buy_count": "1",
-            "sale_count": "2"
-            },
-            {
-            "user_id": "53397",
-            "name": "郑***",
-            "c_id": "50309",
-            "sex": "女",
-            "member_level": "列兵",
-            "is_pass": "0",
-            "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
-            "thumbqq": null,
-            "c_name": "阿尔法信息有限公司",
-            "need_product": "DG-1300 DG-700",
-            "month_consum": "130T",
-            "main_product": "7000F",
-            "type": "2",
-            "fans": "7",
-            "gender": "1",
-            "buy_count": "19",
-            "sale_count": "15"
-            }
-            ],
-            "member": 3317,
-            "is_show_banner": 0,
-            "is_show_focus": 1,
-            "is_show_cover": 0,
-            "banner_url": "",
-            "banner_jump_url": "",
-            "banner_jump_native": 0,
-            "banner_jump_native_address": "",
-            "cover_url": "",
-            "cover_jump_url": "",
-            "data": 1497256198,
-            "show_ctype": 0,
-            "show_msg": "",
-            "top": {
-            "member_level": "列兵",
-            "user_id": "53454",
-            "name": "姐姐",
-            "c_id": "50384",
-            "is_pass": "0",
-            "mobile": "13812345678",
-            "sex": "女",
-            "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
-            "thumbqq": "",
-            "thumbcard": "http://pic.myplas.com/upload/17/06/02/593138efe0a7c.jpg",
-            "c_name": "胖墩后果不堪设想。呵呵呵",
-            "need_product": "2119",
-            "address": "哦哦",
-            "main_product": "",
-            "month_consum": "0.00",
-            "type": "4",
-            "buy_count": "1",
-            "sale_count": "1",
-            "fans": "1"
-            }
-            }
+     * {
+     * "err": 0,
+     * "persons": [
+     * {
+     * "user_id": "53453",
+     * "name": "娟***",
+     * "c_id": "50383",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://pic.myplas.com/upload/17/06/02/59311fdc9437f.jpg",
+     * "thumbqq": "http://pic.myplas.com/upload/17/06/02/59311fdc9437f.jpg",
+     * "c_name": "上海晨达物流有限公司",
+     * "need_product": "7000F",
+     * "month_consum": "963",
+     * "main_product": "2119",
+     * "type": "1",
+     * "fans": "7",
+     * "gender": "1",
+     * "buy_count": "16",
+     * "sale_count": "10"
+     * },
+     * {
+     * "user_id": "53452",
+     * "name": "小***",
+     * "c_id": "50382",
+     * "sex": "男",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "c_name": "上海新村电子商务股份有限公司",
+     * "need_product": "7000F",
+     * "month_consum": "129",
+     * "main_product": "2119",
+     * "type": "1",
+     * "fans": "3",
+     * "gender": "0",
+     * "buy_count": "0",
+     * "sale_count": "0"
+     * },
+     * {
+     * "user_id": "53451",
+     * "name": "小***",
+     * "c_id": "50382",
+     * "sex": "男",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "c_name": "上海新村电子商务股份有限公司",
+     * "need_product": "7000F",
+     * "month_consum": "129",
+     * "main_product": "2119",
+     * "type": "1",
+     * "fans": "1",
+     * "gender": "0",
+     * "buy_count": "0",
+     * "sale_count": "0"
+     * },
+     * {
+     * "user_id": "53446",
+     * "name": "小***",
+     * "c_id": "50382",
+     * "sex": "男",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "c_name": "上海新村电子商务股份有限公司",
+     * "need_product": "7000F",
+     * "month_consum": "129",
+     * "main_product": "2119",
+     * "type": "1",
+     * "fans": 0,
+     * "gender": "0",
+     * "buy_count": "0",
+     * "sale_count": "0"
+     * },
+     * {
+     * "user_id": "53441",
+     * "name": "韩***",
+     * "c_id": "50377",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
+     * "thumbqq": "",
+     * "c_name": "中国能之光新材料科技股份有限公司（宁波分公司）",
+     * "need_product": "7000F",
+     * "month_consum": "120吨",
+     * "main_product": "2769",
+     * "type": "1",
+     * "fans": "3",
+     * "gender": "1",
+     * "buy_count": "20",
+     * "sale_count": "10"
+     * },
+     * {
+     * "user_id": "53398",
+     * "name": "刘***",
+     * "c_id": "50310",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
+     * "thumbqq": null,
+     * "c_name": "上海塑料制品企业",
+     * "need_product": "X M2 T24",
+     * "month_consum": "0.00",
+     * "main_product": "de",
+     * "type": "1",
+     * "fans": "6",
+     * "gender": "1",
+     * "buy_count": "6",
+     * "sale_count": "0"
+     * },
+     * {
+     * "user_id": "53395",
+     * "name": "张***",
+     * "c_id": "50307",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
+     * "thumbqq": null,
+     * "c_name": "成都商业塑料加工厂",
+     * "need_product": "TG-1000S OPE792",
+     * "month_consum": "140吨",
+     * "main_product": "???",
+     * "type": "1",
+     * "fans": "7",
+     * "gender": "1",
+     * "buy_count": "4",
+     * "sale_count": "5"
+     * },
+     * {
+     * "user_id": "41013",
+     * "name": "黄***",
+     * "c_id": "38505",
+     * "sex": "男",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://pic.myplas.com/upload/17/05/26/5927d9a957fcd.jpg",
+     * "thumbqq": "http://pic.myplas.com/upload/17/05/26/5927d9a957fcd.jpg",
+     * "c_name": "余姚市万信塑染有限公司",
+     * "need_product": "生产/销售：色母粒、填充料厂家",
+     * "month_consum": "1231",
+     * "main_product": "pp",
+     * "type": "1",
+     * "fans": "2",
+     * "gender": "0",
+     * "buy_count": "0",
+     * "sale_count": "0"
+     * },
+     * {
+     * "user_id": "28922",
+     * "name": "王***",
+     * "c_id": "50395",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://pic.myplas.com/upload/17/06/08/5938c9fdae099.jpg",
+     * "thumbqq": "http://pic.myplas.com/upload/17/06/08/5938c9fdae099.jpg",
+     * "c_name": "石家庄塑料编织有限司",
+     * "need_product": "",
+     * "month_consum": "0.00",
+     * "main_product": "",
+     * "type": "1",
+     * "fans": "19",
+     * "gender": "1",
+     * "buy_count": "16",
+     * "sale_count": "44"
+     * },
+     * {
+     * "user_id": "53459",
+     * "name": "阿***",
+     * "c_id": "50389",
+     * "sex": "男",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "c_name": "上海自晨电子商务有限公司",
+     * "need_product": "",
+     * "month_consum": "0.00",
+     * "main_product": "",
+     * "type": "1",
+     * "fans": "2",
+     * "gender": "0",
+     * "buy_count": "1",
+     * "sale_count": "2"
+     * },
+     * {
+     * "user_id": "53397",
+     * "name": "郑***",
+     * "c_id": "50309",
+     * "sex": "女",
+     * "member_level": "列兵",
+     * "is_pass": "0",
+     * "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
+     * "thumbqq": null,
+     * "c_name": "阿尔法信息有限公司",
+     * "need_product": "DG-1300 DG-700",
+     * "month_consum": "130T",
+     * "main_product": "7000F",
+     * "type": "2",
+     * "fans": "7",
+     * "gender": "1",
+     * "buy_count": "19",
+     * "sale_count": "15"
+     * }
+     * ],
+     * "member": 3317,
+     * "is_show_banner": 0,
+     * "is_show_focus": 1,
+     * "is_show_cover": 0,
+     * "banner_url": "",
+     * "banner_jump_url": "",
+     * "banner_jump_native": 0,
+     * "banner_jump_native_address": "",
+     * "cover_url": "",
+     * "cover_jump_url": "",
+     * "data": 1497256198,
+     * "show_ctype": 0,
+     * "show_msg": "",
+     * "top": {
+     * "member_level": "列兵",
+     * "user_id": "53454",
+     * "name": "姐姐",
+     * "c_id": "50384",
+     * "is_pass": "0",
+     * "mobile": "13812345678",
+     * "sex": "女",
+     * "thumb": "http://static.svnonline.com/myapp/img/female.jpg",
+     * "thumbqq": "",
+     * "thumbcard": "http://pic.myplas.com/upload/17/06/02/593138efe0a7c.jpg",
+     * "c_name": "胖墩后果不堪设想。呵呵呵",
+     * "need_product": "2119",
+     * "address": "哦哦",
+     * "main_product": "",
+     * "month_consum": "0.00",
+     * "type": "4",
+     * "buy_count": "1",
+     * "sale_count": "1",
+     * "fans": "1"
+     * }
+     * }
      * @apiErrorExample {json} Error-Response:
      *     {
      *       "err": 2,
@@ -315,15 +316,15 @@ class friendAction extends baseAction
         $version   = sget ('version', 's');//版本号
         $platform  = $this->checkPlatform ()['platform'];
         $region    = sget ('region', 'i', 0);
-        $c_type    = sget ('c_type', 'i',0);
+        $c_type    = sget ('c_type', 'i', 0);
 
         // 1 工厂 2 贸易商 3 工贸一体 4 服务商  5 其他  0全部
-        if (!empty($c_type)&&$page!=1&&!in_array ($c_type, array(
+        if (!empty($c_type) && $page != 1 && !in_array ($c_type, array(
                 0,
                 1,
                 2,
                 4,
-                5
+                5,
             ))
         ) {
             $this->json_output (array(
@@ -398,21 +399,21 @@ class friendAction extends baseAction
 
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
 
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region, $c_type);
 
                     }
                 } else {
                     if (!$data['data'] = $cache->get ('qgetPlasticPerson0_'.$sortField.$sortOrder.$page.':'.$size.':'.$region.':'.$c_type)) {
-                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+                        $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region, $c_type);
 
                     }
                 }
             } else {
-                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+                $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region, $c_type);
 
             }
         } else {
-            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region,$c_type);
+            $data = M ('qapp:plasticPerson')->getPlasticPerson ($user_id, $keywords, $page, $size, $region, $c_type);
 
         }
         if (empty($data['data']) && $page == 1) {
@@ -438,7 +439,8 @@ class friendAction extends baseAction
 
         if ($user_id > 0) {
             $dayTime = strtotime (date ("Y-m-d"));
-            if ($page == 1 && !$this->db->from ('log_login')->select ('input_time')
+            if ($page == 1 && !$this->db->from ('log_login')
+                                        ->select ('input_time')
                                         ->where ("input_time >".$dayTime." and chanel =6 and quan_type = $quan_type and user_id=$user_id")
                                         ->getOne ()
             ) {
@@ -450,11 +452,15 @@ class friendAction extends baseAction
                     'chanel'     => $chanel,
                     'quan_type'  => $quan_type,
                 );
-                $this->db->model ("log_login")->add ($arr);
+                $this->db->model ("log_login")
+                         ->add ($arr);
             };
         }
 
-        $goods_id = $this->db->model ("points_goods")->select ('id')->where (" type =2 and status =1")->getOne ();
+        $goods_id = $this->db->model ("points_goods")
+                             ->select ('id')
+                             ->where (" type =2 and status =1")
+                             ->getOne ();
 
         $pointsOrder = M ("points:pointsOrder");
         $contact_id  = $pointsOrder->get_supply_demand_top ($goods_id);
@@ -488,27 +494,28 @@ class friendAction extends baseAction
                 }
             }
 
-            $members = M ('qapp:plasticPersonalInfo')->getAllMembers ();
-            $cacheMembers = $this->cache->get('qappsgetAllMember'.$user_id);
-            $this->cache->set('qappsgetAllMember'.$user_id,$members,1800);
-            $stemp_info = $members > $cacheMembers?'又有'.($members - $cacheMembers).'个用户入圈啦！':'';
-            $members = empty($members) ? 0 : $members;
-            $arr = array(
-                'err'             => 0,
-                'persons'         => $data['data'],
-                'member'          => $members,
-                'is_show_banner'  => 0,
-                'is_show_focus'   => 1,
-                'is_show_cover'   => 0,
-                'banner_url'      => '',
-                'banner_jump_url' => '',
-                'is_banner_jump_native'=>0,
-                'banner_jump_native_address'=>'',
-                'cover_url'       => '',
-                'cover_jump_url'  => '',
-                'data'            => CORE_TIME,
-                'show_ctype'       => $c_type,
-                'show_msg'     =>  $stemp_info
+            $members      = M ('qapp:plasticPersonalInfo')->getAllMembers ();
+            $cacheMembers = $this->cache->get ('qappsgetAllMember'.$user_id);
+            $this->cache->set ('qappsgetAllMember'.$user_id, $members, 1800);
+            $stemp_info = $members > $cacheMembers ? '又有'.($members - $cacheMembers).'个用户入圈啦！' : '';
+            $members    = empty($members) ? 0 : $members;
+            $arr        = array(
+                'err'                        => 0,
+                'persons'                    => $data['data'],
+                'member'                     => $members,
+                'is_show_banner'             => 0,
+                'is_show_focus'              => 1,
+                'is_show_cover'              => 0,
+                'banner_url'                 => '',
+                'banner_jump_url'            => '',
+                'banner_jump_url_title'      => '',
+                'is_banner_jump_native'      => 0,
+                'banner_jump_native_address' => '',
+                'cover_url'                  => '',
+                'cover_jump_url'             => '',
+                'data'                       => CORE_TIME,
+                'show_ctype'                 => $c_type,
+                'show_msg'                   => $stemp_info,
             );
             if (!empty($top)) {
                 $arr['top'] = $top;
@@ -518,15 +525,17 @@ class friendAction extends baseAction
             $setting = M ("system:globalSetting")->getSetting ();
 
             if (!empty($setting['qapp_banner']) && !empty($setting['qapp_banner']['start_time']) && !empty($setting['qapp_banner']['end_time']) && !empty($setting['qapp_banner']['url']) && CORE_TIME > $setting['qapp_banner']['start_time'] && CORE_TIME < $setting['qapp_banner']['end_time']) {
-                $arr['is_show_banner']  = 1;
-                $arr['is_show_focus']   = 0;
-                $arr['banner_url']      = $setting['qapp_banner']['url'];
-                $arr['is_banner_jump_native'] = empty($setting['qapp_banner']['is_jump_native'])?0:1;
-                if(empty($arr['banner_jump_native'])) {
-                    $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
+                $arr['is_show_banner']        = 1;
+                $arr['is_show_focus']         = 0;
+                $arr['banner_url']            = $setting['qapp_banner']['url'];
+                $arr['is_banner_jump_native'] = empty($setting['qapp_banner']['is_jump_native']) ? 0 : 1;
+                if (empty($arr['banner_jump_native'])) {
+                    $arr['banner_jump_url']            = $setting['qapp_banner']['jump_url'];
+                    $arr['banner_jump_url_title']      = $setting['qapp_banner']['jump_url_title'];
                     $arr['banner_jump_native_address'] = '';
-                }else{
-                    $arr['banner_jump_url'] = '';
+                } else {
+                    $arr['banner_jump_url']            = '';
+                    $arr['banner_jump_url_title']      = '';
                     $arr['banner_jump_native_address'] = $setting['qapp_banner']['jump_native_address'];
                 }
             }
@@ -548,6 +557,7 @@ class friendAction extends baseAction
         }
         $this->json_output ($arr);
     }
+
     /**
      * 获取ta的求购或供给
      * @api {post} /qapi_3/friend/getTaPur  获取ta的求购或供给
@@ -567,65 +577,65 @@ class friendAction extends baseAction
      * @apiSuccess {String}  data  数据
      *
      * @apiSuccessExample {json} Success-Response:
-             {
-        "err": 0,
-        "data": [
-        {
-        "id": "73494",
-        "p_id": "8907",
-        "user_id": "9266",
-        "model": "500F",
-        "unit_price": "12500.00",
-        "store_house": "上海",
-        "f_name": "沙特",
-        "input_time": "02-22 11:04",
-        "type": "2",
-        "content": "",
-        "name": "成平",
-        "is_pass": "0",
-        "c_name": "上海梓辰实业有限公司",
-        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
-        "contents": "价格12500.00元左右/500F/沙特/上海",
-        "says": []
-        },
-        {
-        "id": "73461",
-        "p_id": "8039",
-        "user_id": "9266",
-        "model": "7042",
-        "unit_price": "30000.00",
-        "store_house": "上海",
-        "f_name": "上海",
-        "input_time": "02-22 10:23",
-        "type": "2",
-        "content": "",
-        "name": "成平",
-        "is_pass": "0",
-        "c_name": "上海梓辰实业有限公司",
-        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
-        "contents": "价格30000.00元左右/7042/上海/上海",
-        "says": []
-        },
-        {
-        "id": "25302",
-        "p_id": "5666",
-        "user_id": "9266",
-        "model": "7000F",
-        "unit_price": "9550.00",
-        "store_house": "上海",
-        "f_name": "泰国石化",
-        "input_time": "09-29 18:22",
-        "type": "2",
-        "content": "特价",
-        "name": "成平",
-        "is_pass": "0",
-        "c_name": "上海梓辰实业有限公司",
-        "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
-        "contents": "价格9550.00元左右/7000F/泰国石化/上海/特价",
-        "says": []
-        }
-        ]
-        }
+     * {
+     * "err": 0,
+     * "data": [
+     * {
+     * "id": "73494",
+     * "p_id": "8907",
+     * "user_id": "9266",
+     * "model": "500F",
+     * "unit_price": "12500.00",
+     * "store_house": "上海",
+     * "f_name": "沙特",
+     * "input_time": "02-22 11:04",
+     * "type": "2",
+     * "content": "",
+     * "name": "成平",
+     * "is_pass": "0",
+     * "c_name": "上海梓辰实业有限公司",
+     * "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+     * "contents": "价格12500.00元左右/500F/沙特/上海",
+     * "says": []
+     * },
+     * {
+     * "id": "73461",
+     * "p_id": "8039",
+     * "user_id": "9266",
+     * "model": "7042",
+     * "unit_price": "30000.00",
+     * "store_house": "上海",
+     * "f_name": "上海",
+     * "input_time": "02-22 10:23",
+     * "type": "2",
+     * "content": "",
+     * "name": "成平",
+     * "is_pass": "0",
+     * "c_name": "上海梓辰实业有限公司",
+     * "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+     * "contents": "价格30000.00元左右/7042/上海/上海",
+     * "says": []
+     * },
+     * {
+     * "id": "25302",
+     * "p_id": "5666",
+     * "user_id": "9266",
+     * "model": "7000F",
+     * "unit_price": "9550.00",
+     * "store_house": "上海",
+     * "f_name": "泰国石化",
+     * "input_time": "09-29 18:22",
+     * "type": "2",
+     * "content": "特价",
+     * "name": "成平",
+     * "is_pass": "0",
+     * "c_name": "上海梓辰实业有限公司",
+     * "thumb": "http://statics.myplas.com/upload/16/10/25/580ebd01ea3db.png",
+     * "contents": "价格9550.00元左右/7000F/泰国石化/上海/特价",
+     * "says": []
+     * }
+     * ]
+     * }
      * @apiErrorExample {json} Error-Response:
      *     {
      *       "err": 2,
@@ -657,6 +667,7 @@ class friendAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 关注或取消关注
      * @api {post} /qapi_3/friend/focusOrCancel    关注或取消关注
@@ -683,6 +694,7 @@ class friendAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 塑料圈联系人的-发送消息
      * @api {post} /qapi_3/friend/sendZoneContactMsg   塑料圈联系人的-发送消息
@@ -699,10 +711,10 @@ class friendAction extends baseAction
      * @apiSuccess {String}  data  数据
      *
      * @apiSuccessExample {json} Success-Response:
-         *{
-        "err": 0,
-        "msg": "消息发送成功"
-        }
+     *{
+     * "err": 0,
+     * "msg": "消息发送成功"
+     * }
      *
      */
     public function sendZoneContactMsg ()
@@ -739,29 +751,29 @@ class friendAction extends baseAction
      * @apiSuccess {String}  data  数据
      *
      * @apiSuccessExample {json} Success-Response:
-            {
-            "err": 0,
-            "data": {
-            "user_id": "56211",
-            "name": "林少剑",
-            "c_id": "52732",
-            "is_pass": "0",
-            "mobile": "13162719631",
-            "sex": "男",
-            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "thumbcard": "",
-            "c_name": "上海凰玺贸易有限公司",
-            "need_product": "赛科PE|PP料\n线性|0220KJ；0220AA\n中空HDPE.|5520FA；540AA\n拉丝丙|S1003；纤维丙S2040\n低融共聚K8003；高融共聚K7929",
-            "address": "",
-            "main_product": "贸易商 PP PE",
-            "month_consum": "100吨",
-            "type": "1",
-            "buy": 0,
-            "sale": "1",
-            "status": "关注"
-            }
-            }
+     * {
+     * "err": 0,
+     * "data": {
+     * "user_id": "56211",
+     * "name": "林少剑",
+     * "c_id": "52732",
+     * "is_pass": "0",
+     * "mobile": "13162719631",
+     * "sex": "男",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "thumbcard": "",
+     * "c_name": "上海凰玺贸易有限公司",
+     * "need_product": "赛科PE|PP料\n线性|0220KJ；0220AA\n中空HDPE.|5520FA；540AA\n拉丝丙|S1003；纤维丙S2040\n低融共聚K8003；高融共聚K7929",
+     * "address": "",
+     * "main_product": "贸易商 PP PE",
+     * "month_consum": "100吨",
+     * "type": "1",
+     * "buy": 0,
+     * "sale": "1",
+     * "status": "关注"
+     * }
+     * }
      *
      */
 
@@ -772,36 +784,40 @@ class friendAction extends baseAction
             $user_id = $this->checkAccount ();
             $userid  = sget ('user_id', 'i');//当前联系人的id
 
-            if($userid <= 0) $this->_errCode(6);
+            if ($userid <= 0) {
+                $this->_errCode (6);
+            }
 
-            $showType = sget('showType','i'); // 5  不显示 99
-            if($showType!=5){
+            $showType = sget ('showType', 'i'); // 5  不显示 99
+            if ($showType != 5) {
                 if ($user_id != $userid) {
-                    $_tmp = M ("qapp:infoList")->where ("user_id= $user_id and other_id = $userid")
-                        ->order ("info_list_id desc")->getRow ();
+                    $_tmp = M ("qapp:infoList")
+                        ->where ("user_id= $user_id and other_id = $userid")
+                        ->order ("info_list_id desc")
+                        ->getRow ();
                     if (!$_tmp) {
                         $this->_errCode (99);
                     }
                 }
-            }else{
-                $_errTmp = A("api:points")->desScoreByTongxulu($user_id, $userid);
-               if($_errTmp['err']>0){
-                   if($_errTmp['err'] == 100) $this->json_output($_errTmp);
-                   $this->json_output (array(
-                       'err' => 7,
-                       'msg' => '服务器繁忙,请稍后再试！',
-                   ));
-               }
+            } else {
+                $_errTmp = A ("api:points")->desScoreByTongxulu ($user_id, $userid);
+                if ($_errTmp['err'] > 0) {
+                    if ($_errTmp['err'] == 100) {
+                        $this->json_output ($_errTmp);
+                    }
+                    $this->json_output (array(
+                        'err' => 7,
+                        'msg' => '服务器繁忙,请稍后再试！',
+                    ));
+                }
             }
-
-
 
 
             /**
              * 添加记录
              * -4避免descScore第一次出现相同的记录
              */
-            if($_tmp['input_time']< ( CORE_TIME - 4)){
+            if ($_tmp['input_time'] < (CORE_TIME - 4)) {
                 M ("qapp:infoList")->add (array(
                     'user_id'    => $user_id,
                     'other_id'   => $userid,
