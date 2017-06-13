@@ -54,7 +54,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "shopIcon iconRecord"
-  }), _vm._v("充值塑豆\n\t\t")]) : _vm._e(), _vm._v(" "), (!_vm.wechat) ? _c('router-link', {
+  }), _vm._v("充值塑豆\n\t\t")]) : _c('router-link', {
     staticStyle: {
       "color": "#ff5000"
     },
@@ -65,7 +65,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "shopIcon iconRecord"
-  }), _vm._v("充值塑豆\n\t\t")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+  }), _vm._v("充值塑豆\n\t\t")])], 1), _vm._v(" "), _c('div', {
     staticClass: "pointsWrap"
   }, [_c('div', {
     staticClass: "pointsTitle"
@@ -896,6 +896,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			piwikTracker.trackPageView();
 		} catch (err) {}
 
+		var ua = navigator.userAgent.toLowerCase();
 		if (ua.match(/MicroMessenger/i) == "micromessenger") {
 			this.wechat = true;
 		} else {
