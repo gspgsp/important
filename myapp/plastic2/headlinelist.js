@@ -19,10 +19,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "bigCustomerHeader"
     }
   }, [_c('div', {
-    staticClass: "plasticSearch",
-    staticStyle: {
-      "margin": "0 12px"
-    }
+    staticClass: "plasticSearch"
   }, [_c('i', {
     staticClass: "searchIcon",
     staticStyle: {
@@ -31,11 +28,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "left": "5px",
       "margin": "0"
     }
-  }), _vm._v(" "), _c('form', {
-    attrs: {
-      "action": "javascript:;"
-    }
-  }, [_c('input', {
+  }), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -43,8 +36,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "keywords"
     }],
     staticStyle: {
-      "width": "100%",
-      "border": "1px solid #FFFFFF"
+      "width": "100%"
     },
     attrs: {
       "type": "text",
@@ -63,7 +55,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.keywords = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('div', {
     staticStyle: {
       "width": "50px",
       "border-radius": "0 3px 3px 0",
@@ -74,7 +66,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "background": "#802800",
       "color": "#FFFFFF",
       "position": "absolute",
-      "top": "10px",
+      "top": "9px",
       "right": "10px",
       "text-align": "center"
     },
@@ -222,9 +214,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "text-align": "right",
         "margin": "5px 0 0 0"
       }
-    }, [_vm._v("\r\n\t\t\t\t" + _vm._s(i.author) + " "), _c('i', {
+    }, [_vm._v("\r\n\t\t\t\t" + _vm._s(i.author)), _c('i', {
       staticClass: "headicon"
-    }), _vm._v(_vm._s(i.input_time) + " "), _c('i', {
+    }), _vm._v(_vm._s(i.input_time) + "\r\n\t\t\t\t"), _c('i', {
       staticClass: "headicon2"
     }), _c('span', {
       staticStyle: {

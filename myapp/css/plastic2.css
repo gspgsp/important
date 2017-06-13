@@ -498,8 +498,8 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .headlineUl3 li{ border-bottom: 1px solid #CCCCCC; border-top: 1px solid #ffffff; padding: 10px 0;}
 .headlineUl3 h3{ font-size: 15px; color: #333333; line-height: 18px; margin: 0 0 5px 0;}
 .headlineUl3 p{ font-size: 13px; color: #999999; margin: 0; line-height: 16px;}
-.headicon{ width: 16px; height: 16px; display: inline-block; position: relative; top: 4px; left: -5px; background: url(../img/headicon.png) no-repeat; background-size: 100% 100%;}
-.headicon2{ width: 24px; height: 16px; display: inline-block; position: relative; top: 4px; left: -5px; background: url(../img/headicon2.png) no-repeat; background-size: 100% 100%;}
+.headicon{ width: 16px; height: 16px; display: inline-block; margin: 0 5px; position: relative; top: 4px; left: -5px; background: url(../img/headicon.png) no-repeat; background-size: 100% 100%;}
+.headicon2{ width: 24px; height: 16px; display: inline-block; margin: 0 5px; position: relative; top: 4px; left: -5px; background: url(../img/headicon2.png) no-repeat; background-size: 100% 100%;}
 
 .headlinecontent{ padding: 10px;}
 .headlinetitle h3{ font-size: 15px; color: #272435; font-weight: normal; margin: 0 0 10px 0;}
@@ -692,8 +692,8 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .qcc{ float: right; width: 75px; position: absolute; top: 0; right: 0; border-radius: 5px; height: 40px; font-size: 13px; text-align: center; line-height: 40px; color: #FFFFFF; background: #00a0e9;}
 .searchli{ margin: 0; padding: 10px; list-style: none; font-size: 12px;}
 
-.plasticSearch{ margin: 0 0 0 75px; position: relative;}
-.plasticSearch input{ border: 1px solid rgba(0, 0, 0, .2); border-radius: 3px; outline: none; margin: 0; text-indent: 15px; padding: 5px 7px; font-weight: normal; font-size: 12px; height: 30px; line-height: 30px;}
+.plasticSearch{ margin: 0 12px; position: relative;}
+.plasticSearch input{ border: none; box-sizing: border-box; border-radius: 3px; outline: none; margin: 0; text-indent: 15px; padding: 5px 7px; font-weight: normal; font-size: 12px; height: 30px; line-height: 30px;}
 
 .slqBanner{ padding: 0 12px; overflow: hidden;}
 .slqCompanySearch{ border: 1px solid #4fa19f; margin: 0 12px; position: relative; background: #FFFFFF;}
