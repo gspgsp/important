@@ -502,7 +502,7 @@ class friendAction extends baseAction
                 'is_show_cover'   => 0,
                 'banner_url'      => '',
                 'banner_jump_url' => '',
-                'banner_jump_native'=>0,
+                'is_banner_jump_native'=>0,
                 'banner_jump_native_address'=>'',
                 'cover_url'       => '',
                 'cover_jump_url'  => '',
