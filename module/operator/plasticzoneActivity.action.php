@@ -345,10 +345,14 @@ class plasticzoneActivityAction extends adminBaseAction{
                     'end_time'=>strtotime($_POST['qapp_banner_end_time']),
                     'url'=>$_POST['qapp_banner_url'],
                     'jump_url'=>$_POST['qapp_banner_jump_url'],
+                    'jump_url_title'=>$_POST['qapp_banner_jump_url_title'],
+                    'jump_native'=>$_POST['qapp_banner_jump_native'],
+                    'jump_native_address'=>$_POST['qapp_banner_jump_native_address'],
                 )),
                 'qapp_cover'=>json_encode(array(
                     'start_time'=>strtotime($_POST['qapp_cover_start_time']),
                     'end_time'=>strtotime($_POST['qapp_cover_end_time']),
+                    'jump_url_title'=>$_POST['qapp_cover_jump_url_title'],
                     'url'=>$_POST['qapp_cover_url'],
                     'jump_url'=>$_POST['qapp_cover_jump_url'],
                 ))
@@ -360,7 +364,7 @@ class plasticzoneActivityAction extends adminBaseAction{
             $this->success('更新成功');
         }
 
-        $setting=M('system:setting')->getSetting();
+        $setting=M('system:globalSetting')->getSetting();
         if(!empty($setting)){
             $qapp_banner=$setting['qapp_banner'];
             $qapp_banner['start_time']=date("Y-m-d H:i:s",$qapp_banner['start_time']);

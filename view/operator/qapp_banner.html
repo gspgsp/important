@@ -19,6 +19,11 @@
                     <td>
                         <p>图片url：<input name="qapp_banner_url" value="{$qapp_banner.url}" class="mini-textbox" style="width:500px;"/> </p>
                         <p>跳转URL：<input name="qapp_banner_jump_url" value="{$qapp_banner.jump_url}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>跳转URL_TITLE：<input name="qapp_banner_jump_url_title" value="{$qapp_banner.jump_url_title}" class="mini-textbox" style="width:500px;"/> </p>
+
+                        <p>是否跳转native：<input name="qapp_banner_jump_native" value="{$qapp_banner.jump_native}" class="mini-radiobuttonlist" textfield="text" value="0"  valuefield="id"  data="[{id: 0, text: '否'}, {id: 1, text: '是'}]"/> </p>
+                        <p>跳转native地址：<input name="qapp_banner_jump_native_address" value="{$qapp_banner.jump_native_address}" class="mini-textbox" style="width:500px;"/> </p>
+
                     </td>
                 </tr>
                 <tr>
@@ -34,6 +39,8 @@
                     <td>
                         <p>图片url：<input name="qapp_cover_url" value="{$qapp_cover.url}" class="mini-textbox" style="width:500px;"/> </p>
                         <p>跳转URL：<input name="qapp_cover_jump_url" value="{$qapp_cover.jump_url}" class="mini-textbox" style="width:500px;"/> </p>
+                        <p>跳转URL_TITLE：<input name="qapp_cover_jump_url_title" value="{$qapp_cover.jump_url_title}" class="mini-textbox" style="width:500px;"/> </p>
+
                     </td>
                 </tr>
                 </tbody>
