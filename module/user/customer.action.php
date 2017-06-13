@@ -129,6 +129,7 @@ class customerAction extends adminBaseAction {
 		$pt = sget("pt",'i',2);
 		$sortField = sget("sortField",'s','c_id'); //排序字段
 		$sortOrder = sget("sortOrder",'s','desc'); //排序
+		$status = sget("status",'s',''); //状态
 		$where = ' 1 ';
 		$where .= ' and `status` != 10 ';
 		// 筛选合作客户
@@ -139,12 +140,11 @@ class customerAction extends adminBaseAction {
 		if(sget('privated','i',0) == 1) $where .= ' and `is_pur` = 0 and  `is_sale` = 0  and `customer_manager` > 0 ';
 		// if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8';
 		// pt主要标示黄名单客户的一些信息（8代表黄明单）
-		if($pt ==2) $where .= ' and `status` != 9 and  `status` != 8 and `status` !=4 and `status` != 3 ';
-		if($pt ==1) $where .= ' and `status` != 9 and `status` !=4 and `status` != 3 ';
+		if($pt ==2 && $status=='') $where .= ' and `status` != 9 and  `status` != 8 and `status` !=4 and `status` != 3 ';
+		if($pt ==1 && $status=='') $where .= ' and `status` != 9 and `status` !=4 and `status` != 3 ';
 		$where .= $this->public == 0 ? ' and `customer_manager` != 0 ' : ' and `customer_manager` = 0 ';
 		$sTime = sget("sTime",'s','input_time'); //搜索时间类型
 		$where.=getTimeFilter($sTime); //时间筛选
-		$status = sget("status",'s',''); //状态
 		if($status!=''){
 			$where.=" and status='$status' ";
 		}else{
