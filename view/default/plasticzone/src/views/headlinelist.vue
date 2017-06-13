@@ -1,15 +1,11 @@
 <template>
-<div style="padding: 45px 0 70px 0;">
+<div style="padding: 88px 0 70px 0;">
 <header id="bigCustomerHeader" style="position: fixed; top: 0; left: 0; z-index: 100;">
 <div class="plasticSearch">
 <i class="searchIcon" style="position: absolute; top: 8px; left: 5px; margin: 0;"></i>
 <input type="text" v-on:keydown.enter="search" v-model="keywords" placeholder="搜你想搜的" />
 </div>
 <div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; height: 30px; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
-
-</header>
-<loadingPage :loading="loadingShow"></loadingPage>
-<errorPage :loading="loadingHide"></errorPage>
 
 <div class="plasticnav">
 	<div class="swiper-container">
@@ -67,6 +63,10 @@
 		</div>
 	</div>
 </div>
+
+</header>
+<loadingPage :loading="loadingShow"></loadingPage>
+<errorPage :loading="loadingHide"></errorPage>
 <ul class="headlineUl3">
 	<li v-for="i in items">
 		<router-link :to="{name:'headlinedetail',params:{id:i.id}}">
