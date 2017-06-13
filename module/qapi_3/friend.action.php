@@ -33,7 +33,7 @@ class friendAction extends baseAction
      * @apiSuccess {json}  is_show_cover   是否显示封面蒙层   1显示 0不显示
      * @apiSuccess {String}  banner_url      banner显示的图片地址
      * @apiSuccess {String}  banner_jump_url   banner的跳转url地址 平台需要在之后拼接？platform=ios/android
-     * @apiSuccess {String}  banner_jump_native   banner是否跳转原生页面
+     * @apiSuccess {String}  is_banner_jump_native   banner是否跳转原生页面 0/1
      * @apiSuccess {String}  banner_jump_native_addreess   banner跳转原生页面回调地址
      * @apiSuccess {String}  cover_url      cover显示的图片地址
      * @apiSuccess {String}  cover_jump_url   cover的跳转地址 平台需要在之后拼接？platform=ios/android
@@ -521,7 +521,7 @@ class friendAction extends baseAction
                 $arr['is_show_banner']  = 1;
                 $arr['is_show_focus']   = 0;
                 $arr['banner_url']      = $setting['qapp_banner']['url'];
-                $arr['banner_jump_native'] = empty($setting['qapp_banner']['jump_native'])?0:1;
+                $arr['is_banner_jump_native'] = empty($setting['qapp_banner']['is_jump_native'])?0:1;
                 if(empty($arr['banner_jump_native'])) {
                     $arr['banner_jump_url'] = $setting['qapp_banner']['jump_url'];
                     $arr['banner_jump_native_address'] = '';
