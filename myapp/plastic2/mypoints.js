@@ -13,7 +13,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": "javascript:window.history.back();"
     }
-  }), _vm._v("\n\t塑豆商城\n\t"), _c('router-link', {
+  }), _vm._v("\n\t\t塑豆商城\n\t\t"), _c('router-link', {
     staticStyle: {
       "position": "absolute",
       "right": "5px",
@@ -43,7 +43,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "shopIcon iconIntro"
-  }), _vm._v("购买记录")]), _vm._v(" "), _c('router-link', {
+  }), _vm._v("购买记录")]), _vm._v(" "), (_vm.wechat) ? _c('router-link', {
     staticStyle: {
       "color": "#ff5000"
     },
@@ -54,7 +54,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "shopIcon iconRecord"
-  }), _vm._v("充值塑豆")])], 1), _vm._v(" "), _c('div', {
+  }), _vm._v("充值塑豆\n\t\t")]) : _c('router-link', {
+    staticStyle: {
+      "color": "#ff5000"
+    },
+    attrs: {
+      "to": {
+        name: 'recharge'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "shopIcon iconRecord"
+  }), _vm._v("充值塑豆\n\t\t")])], 1), _vm._v(" "), _c('div', {
     staticClass: "pointsWrap"
   }, [_c('div', {
     staticClass: "pointsTitle"
@@ -74,7 +85,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), (_vm.daySelected.length == 0) ? _c('div', {
     staticClass: "productNum"
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t\t"), _c('i', {
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t\t\t"), _c('i', {
     staticClass: "iconSelect",
     on: {
       "click": _vm.calendarShow
@@ -101,7 +112,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "productCost"
-  }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.daySelected.length))]), _vm._v("件\n\t\t\t\t"), _c('div', {
+  }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.daySelected.length))]), _vm._v("件\n\t\t\t\t\t"), _c('div', {
     staticClass: "exchange",
     on: {
       "click": _vm.proExchange
@@ -123,7 +134,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "line-height": "45px"
     }
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选择置顶供求信息：\n\t\t\t\t"), _c('i', {
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选择置顶供求信息：\n\t\t\t\t\t"), _c('i', {
     staticClass: "iconSelect",
     on: {
       "click": _vm.releaseWrapShow
@@ -137,14 +148,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "color": "#333333"
     }
-  }, [_vm._v("已选择：")]), _vm._v(_vm._s(_vm.selectedTxt) + "\n\t\t\t\t"), _c('i', {
+  }, [_vm._v("已选择：")]), _vm._v(_vm._s(_vm.selectedTxt) + "\n\t\t\t\t\t"), _c('i', {
     staticClass: "iconSelect",
     on: {
       "click": _vm.releaseWrapShow
     }
   })]), _vm._v(" "), (_vm.daySelected2.length == 0) ? _c('div', {
     staticClass: "productNum"
-  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t\t"), _c('i', {
+  }, [_c('span', [_vm._v("*")]), _vm._v("请选置顶日期：\n\t\t\t\t\t"), _c('i', {
     staticClass: "iconSelect",
     on: {
       "click": _vm.calendarShow2
@@ -174,7 +185,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "productCost"
-  }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.daySelected2.length))]), _vm._v("件\n\t\t\t\t"), _c('div', {
+  }, [_vm._v("共"), _c('span', [_vm._v(_vm._s(_vm.daySelected2.length))]), _vm._v("件\n\t\t\t\t\t"), _c('div', {
     staticClass: "exchange",
     on: {
       "click": _vm.proExchange2
@@ -360,7 +371,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.selected = m.id
         }
       }
-    }), _vm._v(" " + _vm._s(m.input_time) + "\r\n\t\t\t\t"), _c('br'), _vm._v(" 供求：\r\n\t\t\t\t"), _c('span', [_vm._v(_vm._s(m.contents))])])
+    }), _vm._v(" " + _vm._s(m.input_time) + "\n\t\t\t\t\t"), _c('br'), _vm._v(" 供求：\n\t\t\t\t\t"), _c('span', [_vm._v(_vm._s(m.contents))])])
   })), _vm._v(" "), _c('div', {
     staticClass: "calendarSelected",
     staticStyle: {
@@ -506,6 +517,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
+			wechat: false,
 			p1: "",
 			p2: "",
 			points: 0,
@@ -883,6 +895,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 			piwikTracker.trackPageView();
 		} catch (err) {}
+
+		if (ua.match(/MicroMessenger/i) == "micromessenger") {
+			this.wechat = true;
+		} else {
+			this.wechat = false;
+		}
 
 		$.ajax({
 			type: "post",

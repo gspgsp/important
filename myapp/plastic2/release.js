@@ -608,9 +608,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "bigCustomerHeader"
     }
-  }, [_c('span', {
-    staticClass: "releaseinfo"
-  }, [_vm._v("供求信息")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
     staticStyle: {
       "padding": "7px 0 0 0"
     }
@@ -618,7 +616,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "releasesearch",
     staticStyle: {
       "text-align": "left",
-      "margin": "0 90px 0 75px"
+      "margin": "0 90px 0 10px"
     }
   }, [_c('form', {
     attrs: {

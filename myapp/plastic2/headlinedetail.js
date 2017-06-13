@@ -695,7 +695,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				});
 				wx.ready(function () {
 					wx.onMenuShareTimeline({
-						title: _this.type + _this.title,
+						title: _this.type + _this.title + "阅读 " + _this.pv,
 						link: "http://q.myplas.com/#/headlinedetail/" + _this.id,
 						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',
 						success: function success() {
@@ -716,7 +716,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						cancel: function cancel() {}
 					});
 					wx.onMenuShareAppMessage({
-						title: _this.type + _this.title,
+						title: _this.type + _this.title + "阅读 " + _this.pv,
 						desc: "我的塑料网-塑料圈通讯录",
 						link: "http://q.myplas.com/#/headlinedetail/" + _this.id,
 						imgUrl: 'http://statics.myplas.com/myapp/img/shareLogo.png',

@@ -56,12 +56,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "bigCustomerHeader"
     }
-  }, [_c('a', {
-    staticClass: "headerMenu4",
-    attrs: {
-      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
-    }
-  }), _vm._v("\n\t\t\t塑料圈通讯录(" + _vm._s(_vm.member) + "人) \n\t\t\t"), _c('a', {
+  }, [_vm._v("\n\t\t\t塑料圈通讯录(" + _vm._s(_vm.member) + "人) \n\t\t\t"), _c('a', {
     staticClass: "headerMenu",
     on: {
       "click": _vm.toLogin
@@ -157,12 +152,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "payfansImg2"
-  }), _c('span', [_vm._v("关注我的人")])])])], 1) : _c('div', {
+  }), _c('span', [_vm._v("关注我的人")])])]), _vm._v(" "), (_vm.download) ? _c('div', {
+    staticClass: "downloadAppIndex"
+  }, [_c('div', {
+    staticClass: "indexApp"
+  }, [_c('a', {
+    staticClass: "downloadLink",
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "downloadClose",
+    on: {
+      "click": _vm.downloadClose
+    }
+  })])]) : _vm._e()], 1) : _c('div', {
     staticClass: "payfans",
     staticStyle: {
       "background": "#ff854d"
     }
-  }, [_c('router-link', {
+  }, [(_vm.download) ? _c('div', {
+    staticClass: "downloadAppIndex"
+  }, [_c('div', {
+    staticClass: "indexApp"
+  }, [_c('a', {
+    staticClass: "downloadLink",
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "downloadClose",
+    on: {
+      "click": _vm.downloadClose
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('router-link', {
     staticStyle: {
       "width": "100%"
     },
@@ -856,10 +879,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			isFocus: true,
 			bannerLink: "",
 			bannerImg: "",
-			filterShow: true
+			filterShow: true,
+			download: true
 		};
 	},
 	methods: {
+		downloadClose: function downloadClose() {
+			this.download = false;
+		},
 		focusShow: function focusShow() {
 			this.filterShow = false;
 		},

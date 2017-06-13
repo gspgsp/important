@@ -277,7 +277,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "padding": "0 15px 0 7px"
     }
-  }, [_c('span', [_vm._v(_vm._s(_vm.c_nametype))])])]), _vm._v(" "), (_vm.isType) ? _c('tr', [_c('td', {
+  }, [_c('span', [_vm._v(_vm._s(_vm.c_nametype))])])]), _vm._v(" "), (_vm.c_type == 1) ? _c('tr', [_c('td', {
     staticStyle: {
       "padding": "0 0 0 15px"
     }
@@ -305,7 +305,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.main_product = $event.target.value
       }
     }
-  }) : _vm._e()])]) : _vm._e(), _vm._v(" "), (_vm.isType) ? _c('tr', [_c('td', {
+  }) : _vm._e()])]) : _vm._e(), _vm._v(" "), (_vm.c_type == 1) ? _c('tr', [_c('td', {
     staticStyle: {
       "padding": "0 0 0 15px"
     }
@@ -333,7 +333,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.month_consum = $event.target.value
       }
     }
-  }) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c('tr', [_c('td', {
+  }) : _vm._e()])]) : _vm._e(), _vm._v(" "), (_vm.c_type == 1 || _vm.c_type == 2 || _vm.c_type == 4) ? _c('tr', [_c('td', {
     staticStyle: {
       "padding": "0 0 0 15px"
     }
@@ -361,7 +361,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.need_product = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('td', {
+  })])]) : _vm._e(), _vm._v(" "), (_vm.c_type == 1 || _vm.c_type == 2) ? _c('tr', [_c('td', {
     staticStyle: {
       "padding": "0 0 0 15px"
     }
@@ -389,7 +389,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.need_ph = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('ul', {
+  })])]) : _vm._e()]), _vm._v(" "), _c('ul', {
     attrs: {
       "id": "shortmsg"
     }
@@ -1006,13 +1006,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		editor: function editor() {
 			this.isDisabled = false;
-		},
-		ctypeShow: function ctypeShow() {
-			if (this.c_type == "1") {
-				this.isType = true;
-			} else {
-				this.isType = false;
-			}
 		},
 		save: function save() {
 			var _this = this;

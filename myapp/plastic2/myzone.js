@@ -14,7 +14,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "id": "bigCustomerHeader"
     }
-  }, [_vm._v("\r\n\t\t我的塑料圈\r\n\t\t"), _c('a', {
+  }, [_c('a', {
+    staticClass: "headerMenu4",
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  }), _vm._v("\r\n\t\t我的塑料圈\r\n\t\t"), _c('a', {
     staticClass: "detailShare",
     attrs: {
       "href": "javascript:;"

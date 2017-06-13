@@ -46,7 +46,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .appQuery2{ position: absolute; right: 15px; top: 15px; width: 22px; height: 22px; background: url(../img/appQuery22.png) no-repeat; background-size: 100% 100%;}
 .appQuery{ position: absolute; right: 8px; top: 4px; width: 25px; height: 25px; background: url(../img/appQuery22.png) no-repeat; background-size: 100% 100%;}
 
-.payfans{ width: 100%; height: 50px; overflow: hidden; background: #FFFFFF; text-align: center; margin: 0 0 10px 0; border-bottom: 1px solid #d9d9d9;}
+.payfans{ width: 100%; height: 50px; position: relative; overflow: hidden; background: #FFFFFF; text-align: center; margin: 0 0 10px 0; border-bottom: 1px solid #d9d9d9;}
 .payfans a{ width: 50%; float: left; font-size: 17px; color: #333333;}
 .payfans span{ float: left; margin: 0 0 0 5px; line-height: 42px;}
 .payfansImg{ width: 40px; height: 40px; padding: 3px 0 0 2px; float: left; background: url(../img/fansimg.png) no-repeat center center #e0e0e0; background-size: 100% 100%; border: 1px solid #ff9566; border-radius: 3px;}
@@ -279,7 +279,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .myinfotb tr:last-of-type{ border-bottom: none;}
 .myinfotb td{ height: 50px;}
 .myinfotb input[type=radio]{ position: relative; top: 3px;}
-.myinfotb input[type=text]{ padding: 5px 7px; margin: 0; height: 30px; font-size: 12px;}
+.myinfotb input[type=text]{ padding: 5px 7px; margin: 0; height: 30px; border: 1px solid #d1d1d1; font-size: 12px;}
 .myinfotb input[type="text"]:disabled { background: #FFFFFF; border: none;}
 
 .releaseWrap{ overflow: hidden; border-bottom: 1px solid #E7E7E7; padding: 10px; background: #FFFFFF;}
@@ -922,6 +922,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .searchComWrap ul li{ width: 100%; height: 43px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-bottom: 1px solid #d6d7dc; text-align: left; padding: 0 10px; line-height: 43px; font-size: 17px;}
 .searchComWrap a{ color: #0091ff;}
 
-
-
-
+.downloadAppIndex{ position: absolute; top: 0; left: 0; text-align: center; width: 100%; height: 50px; background: #7f7f7f;}
+.indexApp{ width: 100%; height: 40px; margin: 5px 0 0 0; position: relative; display: inline-block; max-width: 375px; background: url(../img/downloadApp.jpg) no-repeat; background-size: 100% 100%;}
+.downloadLink{ width: 100%; height: 40px; display: inline-block; max-width: 375px;}
+.downloadClose{ width: 20px; height: 20px; position: absolute; right: 10px; top: 10px;}

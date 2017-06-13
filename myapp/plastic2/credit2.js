@@ -91,20 +91,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "bigCustomerHeader"
     }
   }, [_c('a', {
-    staticStyle: {
-      "position": "absolute",
-      "top": "9px",
-      "left": "10px",
-      "width": "30px",
-      "height": "30px",
-      "line-height": "30px",
-      "color": "#ffffff",
-      "font-size": "13px"
-    },
+    staticClass: "back",
     attrs: {
-      "href": "http://q.myplas.com/"
+      "href": "javascript:window.history.back();"
     }
-  }, [_vm._v("首页")]), _vm._v("\r\n\t\t企业信用信息\r\n\t")])
+  }), _vm._v("\r\n\t\t企业信用信息\r\n\t")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
