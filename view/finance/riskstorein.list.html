@@ -1,0 +1,132 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+	<table style="width:100%;">
+		<tr>
+			<td>
+				<a class="mini-button" iconCls="icon-add" onclick="add()">新增</a> 
+			</td>
+			<td style="white-space:nowrap;">
+			<form id="soform">
+				仓库名称
+				<input name="store_name" type="mini-textbox" emptyText="请输入仓库名称" style="width:100px;" onenter="onKeyEnter">
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					<option value="1">启用</option>
+					<option value="2">停用</option>
+				</select>   
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+     			<span id="searchMsg"></span>
+		   </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/finance/riskin/store?action=grid&do={$doact}" idField=""  onrowdblclick="onRowDblClick">
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="store_name" width="75" headerAlign="center" allowSort="true" align="center" renderer="onLoadHandle">仓库名称</div>
+			<div field="store_address" width="40" headerAlign="center" align="center">仓库地址</div>
+			<div field="status" width="30" headerAlign="center" align="center">状态</div>
+			<div field="create_user" width="40" headerAlign="center" align="center">添加人</div>
+			<div field="create_date" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">添加时间</div>
+			<div field="modify_user" width="40" headerAlign="center" align="center">修改人</div>
+			<div field="modify_date" width="60" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+			<div field="remark" width="50" headerAlign="center"  align="center">备注</div>
+			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+//新增客户信息
+function add(){	
+	// console.log(id,ctype);return;
+	var width=600,height=200;
+	title='新增仓库信息';
+	mini.open({
+		url: "/finance/riskin/addButton?type=store",
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//操作
+function onLoadFllow(e) {
+	var record = e.record,store_id=record.store_id, status=record.status,s='';
+	console.log(record);
+	if(status == '已启用'){
+		s += '<a href="javascript:operate('+store_id+',2)">禁用</a>';
+	}else{
+		s += '<a href="javascript:operate('+store_id+',1)">启用</a>';
+	}
+	return s;
+}
+function operate(store_id,status){
+	grid.loading('数据处理中，请稍后......');
+	var callback = function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.unmask();
+			alert(data.msg);
+			grid.reload();
+		}
+	}
+	utils.ajax('/finance/riskin/operate',{store_id:store_id,status:status},callback,"POST","json");	
+}
+//查看客户相关信息
+function viewCusinfo(c_id){
+	mini.open({
+		url: "/finance/apply/info?id="+c_id,
+		width:1000,height:800,
+		showMaxButton:true,
+		title: "查看客户相关信息", 
+		width: 1200, height:650
+	});		
+}
+
+//筛选数据
+function CloseWindow(action) {
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();
+}
+function onComfirm() {
+	CloseWindow("ok");
+}
+function onCancel() {
+	CloseWindow("cancel");
+}
+function GetData() {
+	var row = grid.getSelected();
+	return row;
+}
+
+//选择框根据传入值选择
+top['win']=window;
+function setDvalue(a){
+	console.log(a);
+   var row=grid.findRow(function(row){
+     if(row.c_id==a) return true;
+   })
+   grid.select(row);
+}
+</script>

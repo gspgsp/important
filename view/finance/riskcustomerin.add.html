@@ -1,0 +1,102 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	<div id="infoForm" class="form">
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>公司：</td>
+				<td><input name="c_id" class="mini-buttonedit" onbuttonclick="CustomerChoose" valueField="c_id"  value="{$info.c_id}" allowInput="false"  style="width:170px" required="true" id="usrId"/></td>
+			</tr>
+			<tr>
+				<td >联系人：</td>
+				<td><input name="contact_id" class="mini-buttonedit" onbuttonclick="usrChoose" allowInput="false"  style="width:170px" required="true" id="contactId"/></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/finance/riskin/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+//强制选择归属公司
+function CustomerChoose(e){
+	var btn = this;
+		mini.open({
+		url: "/user/customer/init?do=search",
+		title: "选择公司",
+		width: 1200,
+		height: 550,
+		// onload: function () {
+		// 	var iframe = this.getIFrameEl();
+		// 	iframe.contentWindow.SetData();
+		// },
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.c_id);
+					btn.setText(data.c_name);
+					$("#"+btn.id+"\\$value").val(data.c_id);
+				}
+			}
+		}
+	});         
+}
+//强制选择联系人
+function usrChoose(e){
+	var btn2 = this;
+		mini.open({
+		url: "/user/contact/init?do=search",
+		title: "选择联系人",
+		width: 1200,
+		height: 550,
+		// onload: function () {
+		// 	var iframe = this.getIFrameEl();
+		// 	iframe.contentWindow.SetData();
+		// },
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn2.setValue(data.user_id);
+					btn2.setText(data.name);
+					$("#"+btn2.id+"\\$value").val(data.user_id);
+				}
+			}
+		}
+	});         
+}
+</script>

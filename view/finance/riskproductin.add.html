@@ -1,0 +1,86 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+	<div id="infoForm" class="form">
+		<table border="0" cellpadding="1" cellspacing="2">
+			<tr>
+				<td>商品：</td>
+				<td><input name="p_id" class="mini-buttonedit" onbuttonclick="ProductChoose" allowInput="false"  style="width:170px" required="true"/></td>
+			</tr>
+		</table>
+		<div align="center" style="margin-top:10px;">
+			<a class="mini-button" iconCls="icon-ok" onclick="submitForm">确定</a>
+			<a class="mini-button" iconCls="icon-cancel" onclick="onCancel">关闭</a>
+			<span id="returnMsg" style="padding-left:5px; color:#F00;"></span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var form = new mini.Form("#infoForm");
+function submitForm(){
+	form.validate();
+	if(form.isValid() == false) return;
+	//提交数据
+	var o = form.getData();
+	var json = mini.encode(o);
+	// console.log(json);return;
+	$("#returnMsg").text('');
+	form.loading("数据提交中，请稍后......");
+	var urlstr = '/finance/riskin/addSubmit';
+	$.post(urlstr,{data:json},function(data){
+		form.unmask();
+		$("#returnMsg").text(data.msg);
+		// console.log(data);return;
+		if(data.err=='0'){
+			CloseWindow("save");
+		}else{
+			return false;
+		}
+	},'json');
+}
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+//强制选择归属产品
+function ProductChoose(e){
+	var btn = this;
+	// var model = mini.get('hidden_model');
+	// var product_type = mini.get('hidden_type');
+	// var factory = mini.get('hidden_factory');
+		mini.open({
+		url: "/product/product/init?ischecked=checked",
+		title: "选择产品",
+		width: 1250,
+		height: 550,
+		onload: function () {
+			// var data=e.sender.getValue();
+			// top['win'].setDvalue(data);  //去调用子页面的方法。
+		},
+		ondestroy: function (action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var data = iframe.contentWindow.GetData();
+				data = mini.clone(data);    //必须
+				if (data) {
+					btn.setValue(data.id);
+					btn.setText(data.model);
+					// model.setValue(data.model);
+					// product_type.setValue(data.product_type);
+					// factory.setValue(data.f_id);
+
+					// $('#f_name').html(data.f_name);
+					// var ff_name = mini.get('ff_name');
+					// ff_name.setValue(data.f_name);
+					// $('#p_type').html(data.product_type);
+					// var pp_type = mini.get('pp_type');
+					// pp_type.setValue(data.product_type);
+				}
+			}
+		}
+	});         
+}
+</script>

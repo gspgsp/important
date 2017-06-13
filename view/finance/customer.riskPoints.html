@@ -1,0 +1,126 @@
+{layout file="public:mini_layout"}
+<div style="padding:5px;">
+<div class="mini-tabs" activeIndex="0" plain="false" onactivechanged="changeTab">	
+		<div title="客户详细信息">
+			<div style="height:450px">
+				<table width="100%">
+					<caption><strong>{$info.c_name}-风控要点</strong></caption>
+					<tr>
+						<td width="30%">客户注册时间：{$info.input_time}</td>
+					</tr>
+					<tr>
+						<td width="35%">客户注册时长：{$info.register_length}</td>
+					</tr>
+					<tr>
+						<td>订单总数：{$info.total_num}个,&nbsp;&nbsp;其中销售订单：{$info.sale_num}个,采购订单：{$info.buy_num}个</td>
+					</tr>
+					<tr>
+						<td>订单总额：{$info.total_price}万元,&nbsp;&nbsp;其中销售订单：{$info.sale_price}万元,采购订单：{$info.buy_price}万元</td>
+					</tr>
+					<tr>
+						<td>末次交易时间：{$info.last_time}</td>
+					</tr>
+					<tr>
+						<td>注册资本：{$info.registered_capital}</td>
+					</tr>
+					<tr>
+						<td>实到资本：{$info.real_capital}</td>
+					</tr>
+					</table>
+			</div>
+		</div>
+</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	var dStatus=[{ id: 1, text: '正常'}, { id: 2, text: '冻结' }, { id: 3, text: '关闭' }];
+	var investGrid=mini.get("investGrid"), gridCell  =mini.get("gridCell"), buy_log  =mini.get("buy_log"), sale_log  =mini.get("sale_log");
+	function changeTab(e){
+		var tab=e.tab;
+		if(tab.title=='联系人列表'){
+			var data=investGrid.getData();
+			if(data.length<1){
+				investGrid.load();
+			}
+		}
+		if(tab.title=='跟进列表'){
+			var data=gridCell.getData();
+			if(data.length<1){
+				gridCell.load();
+			}
+		}
+		if(tab.title=='采购记录'){
+			var data=buy_log.getData();
+			if(data.length<1){
+				buy_log.load();
+			}
+		}
+		if(tab.title=='销售记录'){
+			var data=sale_log.getData();
+			if(data.length<1){
+				sale_log.load();
+			}
+		}
+	}
+//转入风控或拒绝
+function submitchange(_c_id,_status){
+	var _review_info = $('input[name="review_info"]').val();
+	if(_review_info == ''){
+		$('input[name="review_info"]').css("border-color","red");
+		 alert('请填写审核说明');return false;
+	}else{
+		$('input[name="review_info"]').css("border-color","");
+	}
+	$.post('/finance/apply/changeToRisk', {
+		c_id: _c_id,
+		status: _status,
+		review_info: _review_info
+	}, function(data) {
+		// console.log(data);return;
+		var data = $.parseJSON(data);
+		if(data.err!=0){
+			alert(data.msg);
+			return false;
+		}else{
+			alert(data.msg);
+		}
+	});
+}
+//关闭打开的窗口
+function CloseWindow(action) {            
+	if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+	else window.close();            
+}
+//关闭按钮
+function onCancel(e) {
+	CloseWindow("cancel");
+}
+	//查看订单相关信息
+	function viewOrdInfo(oid,o_type){
+		mini.open({
+			url: "/application/order/info?oid="+oid+'&o_type='+o_type,
+			showMaxButton:true,
+			title: "查看订单相关信息", 
+			width: 800, height:460
+		});
+	}
+	// function search() {
+	// 	buy_log.load($("#soform").serializeObject(),function(e){
+	// 		$("#searchMsg").html(e.msg);
+	// 	});
+	// }
+	// function search2() {
+	// 	sale_log.load($("#soform1").serializeObject(),function(e){
+	// 		$("#searchMsg1").html(e.msg);
+	// 	});
+	// }
+	// search();
+	// search2();
+	function onKeyEnter(e) {
+		search();
+	}
+	function onKeyEnter1(e) {
+		search2();
+	}
+
+</script>

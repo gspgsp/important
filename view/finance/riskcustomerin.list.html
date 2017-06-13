@@ -1,0 +1,202 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+	<table style="width:100%;">
+		<tr>
+			<td style="white-space:nowrap;">
+			<form id="soform">
+				客户名称
+				<input name="c_name" type="mini-textbox" emptyText="请输入客户名称" style="width:100px;" onenter="onKeyEnter">
+				<!-- 订单号 -->
+				<!-- <input name="order_sn" type="mini-textbox" style="width:100px;" onenter="onKeyEnter"> -->
+				客户类型
+				<select name="company_type" id="soType">
+					<option value="" selected="selected">全部</option>
+					{html_options options=$type}
+				</select>
+				审核状态
+				<select name="dispose_status" id="soStatus">
+					<option value="" selected="selected">全部</option>
+					{html_options options=$riskin_status}
+				</select>    
+				<select name="sTime">
+					<option value="create_date">准入日期</option>
+					<option value="modify_date">处理日期</option>
+				</select> 
+				<input name="startTime" class="mini-datepicker" style="width:100px;"/> -
+				<input name="endTime" class="mini-datepicker" style="width:100px;"/>
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+                 			<span id="searchMsg"></span>
+			   </form>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a class="mini-button" iconCls="icon-add" onclick="add()">新增</a> 
+				<a class="mini-button" onclick="dispose(1)">交易员审核</a> 
+				<a class="mini-button" onclick="dispose(2)">销售总监审核</a> 
+				<a class="mini-button" onclick="dispose(3)">金融主管审核</a> 
+				<a class="mini-button" onclick="dispose(5)">拒绝</a> 
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/finance/riskin/customer?action=grid&do={$doact}" idField="">
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div name="id" field="id" headerAlign="center" align="center">自增id</div>
+			<div name="contact_id" field="contact_id" width="" headerAlign="center" align="center">联系人id</div>
+			<div field="c_name" width="75" headerAlign="center" align="center">客户名称</div>
+			<div field="company_type" width="30" headerAlign="center" align="center">客户类型</div>
+			<div field="create_date" width="40" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">准入时间</div>
+			<div field="modify_date" width="40" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">处理时间</div>
+			<div field="status" width="30" headerAlign="center" align="center">审核状态</div>
+			<div field="remark" width="30" headerAlign="center" align="center">审核说明</div>
+			<div field="limit" width="60" headerAlign="center" align="center">客户融资总额</div>
+			<div field="remain" width="29" headerAlign="center"  align="center">客户融资余额</div>
+			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+		</div>
+	</div>
+</div>
+<div id="operate" class="mini-window" title="客户审核" style="width:300px;" showModal="true" allowResize="true" allowDrag="true">
+	<div id="replaceForm" class="form" >
+		<table style="width:100%;">
+			<tr>
+				<td style="text-align:center;" id="c_name"></td>
+				<input name="c_id"  class="mini-hidden" id="c_id" value="">
+				<input name="id"  class="mini-hidden" id="id" value="">
+				<input name="ctype"  class="mini-hidden" id="ctype" value="">
+			</tr>
+			<tr class='limit'>
+				<td colspan="2">
+					融资总额:<input id='limit' name="limit" class="mini-Textbox" value=""/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input id='remark' name="remark" class="mini-textarea" style="width:100%; height:70px" emptyText="您的意见"/>
+				</td>	
+			</tr>
+			<tr>
+			<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">
+				<a class="mini-button" iconCls="icon-save" plain="true" href="javascript:submitchange()">提交</a>
+			</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+grid.hideColumn("contact_id");
+grid.hideColumn("id");
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+//操作
+function onLoadFllow(e) {
+	var record = e.record,cid=record.c_id,id=record.id, c_id,contact_id=record.contact_id,status=record.status,s='';
+	s += '<a href="javascript:viewCusinfo('+cid+','+contact_id+',\'risk_flow_info\')">客户详情</a>|<a href="javascript:risk('+cid+')">风控要点</a>|<a href="javascript:viewCusinfo('+cid+','+contact_id+',\'risk_customer_info\','+id+')">流程查看</a>';
+	return s;
+}
+//查看企业相关信息
+function viewCusinfo(c_id,contact_id,type,id){
+	mini.open({
+		url: "/finance/apply/info?cid="+c_id+"&contact_id="+contact_id+"&viewType="+type,
+		width:1000,height:800,
+		showMaxButton:true,
+		title: "查看客户相关信息", 
+		width: 1200, height:650
+	});		
+}
+//拒绝
+
+//客户审核（1业务员/2销售总监/3金融主管）
+var operateInfo = mini.get("operate");
+function dispose(ctype){
+	var rows = grid.getSelecteds();
+	if(ctype == 1){
+		if(rows[0]['status'] != '待交易员审核'){
+			alert('该客户您已审核');return;
+		}
+	}else if(ctype == 2){
+		if(rows[0]['status'] == '待金融主管审核' || rows[0]['status'] == '通过'){
+			alert('该客户您已审核');return;
+		}
+	}else if(ctype == 3){
+		if(rows[0]['status'] == '通过'){
+			alert('该客户您已审核');return;
+		}
+	}
+	// console.log(rows);return;
+	$('#c_name').html(rows[0]['c_name']);
+	mini.get('c_id').setValue(rows[0]['c_id']);
+	mini.get('id').setValue(rows[0]['id']);
+	mini.get('limit').setValue(rows[0]['limit']);
+	mini.get('ctype').setValue(ctype);
+	if(ctype == 5){
+		$('.limit').hide();
+	}else{	
+		$('.limit').show();
+	}
+	operateInfo.show();
+}
+//提交处理结果
+function submitchange(){
+	var form = new mini.Form('operate');
+	form.validate();
+	if(form.validate() == false) return;
+	var o = form.getData();
+	// console.log(o);return false;
+	grid.loading('数据处理中，请稍后......');
+	var json = mini.encode(o);
+	var callback = function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			mini.get('remark').setValue('');
+			operateInfo.hide();
+			return false;
+		}else{
+			alert(data.msg);
+			mini.get('remark').setValue('');
+			operateInfo.hide();
+			grid.reload();
+		}
+	}
+	utils.ajax('/finance/riskin/verify',{data:json},callback,"POST","json");	
+}
+//风控要点
+function risk(cid){
+	mini.open({
+		url:"/finance/riskin/riskPoints?id="+cid,
+		width:600,height:400,
+		showMaxButton:true,
+		title:"风控要点",
+	});
+}
+//新增客户信息
+function add(){	
+	// console.log(id,ctype);return;
+	var width=600,height=200;
+	title='新增客户信息';
+	mini.open({
+		url: "/finance/riskin/addButton?type=customer",
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+</script>

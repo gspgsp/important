@@ -1,0 +1,97 @@
+{layout file="public:mini_layout"}
+<div class="mini-toolbar" style="margin:3px 3px 0;">
+<style>table p{padding:0; margin:0; padding-top:3px;}</style>
+	<table style="width:100%;">
+		<tr>
+			<td>
+				<a class="mini-button" iconCls="icon-add" onclick="add()">新增</a> 
+			</td>
+			<td style="white-space:nowrap;">
+			<form id="soform">
+				品类
+				<input name="product_type" type="mini-textbox" emptyText="请输入客户名称" style="width:100px;" onenter="onKeyEnter">
+				牌号
+				<input name="model" type="mini-textbox" style="width:100px;" onenter="onKeyEnter">
+				<select name="status" id="soStatus">
+					<option value="" selected="selected">=状态=</option>
+					<option value="1">允许</option>
+					<option value="2">不允许</option>
+				</select>    
+				<a class="mini-button" iconCls="icon-search" onclick="search()">查询</a>
+     			<span id="searchMsg"></span>
+		   </form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="mini-fit" style="padding:1px 3px 3px;">
+	<div id="gridCell" class="mini-datagrid" style="width:100%;height:100%;"  sizeList="[10,20,50,100]" pageSize="20" allowCellWrap="true"
+		url="/finance/riskin/product?action=grid&do={$doact}" idField="">
+		<div property="columns">    
+			<div type="checkcolumn"></div>
+			<div field="product_type" width="75" headerAlign="center" allowSort="true" align="center">品类</div>
+			<div field="model" width="40" headerAlign="center" align="center">牌号</div>
+			<div field="status" width="30" headerAlign="center" align="center">状态</div>
+			<div field="create_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">准入时间</div>
+			<div field="modify_date" width="50" headerAlign="center" align="center" dateFormat="yyyy-MM-dd HH:mm">修改时间</div>
+			<div field="create_user" width="29" headerAlign="center"  align="center">准入人</div>
+			<div field="modify_user" width="29" headerAlign="center"  align="center">修改人</div>
+			<!-- <div field="remark" width="29" headerAlign="center"  align="center">备注</div> -->
+			<div field="" width="45" headerAlign="center"  align="center" renderer="onLoadFllow">操作</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+mini.parse();
+var grid = mini.get("gridCell");
+grid.load();
+function search() {
+	grid.load($("#soform").serializeObject(),function(e){
+		$("#searchMsg").html(e.msg);
+	});
+}
+function onKeyEnter(e) {
+	search();
+}
+//新增商品信息
+function add(){	
+	var width=600,height=200;
+	title='新增商品信息';
+	mini.open({
+		url: "/finance/riskin/addButton?type=product",
+		showMaxButton:true,
+		title: title, width: width, height:height,
+		ondestroy: function (action) {
+			if(action=='save'){ //重新加载
+				grid.reload();
+			}
+		}
+	});	
+}
+//操作
+function onLoadFllow(e) {
+	var record = e.record,pid=record.p_id, status=record.status,s='';
+	// console.log(status);
+	if(status == '允许'){
+		s += '<a href="javascript:operate('+pid+',2)">停用</a>';
+	}else{
+		s += '<a href="javascript:operate('+pid+',1)">启用</a>';
+	}
+	return s;
+}
+function operate(pid,status){
+	grid.loading('数据处理中，请稍后......');
+	var callback = function(data){
+		if(data.err!='0'){
+			grid.unmask();
+			alert(data.msg);
+			return false;
+		}else{
+			grid.unmask();
+			alert(data.msg);
+			grid.reload();
+		}
+	}
+	utils.ajax('/finance/riskin/operate',{pid:pid,status:status},callback,"POST","json");	
+}
+</script>
