@@ -67,6 +67,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "width": "50px",
       "border-radius": "0 3px 3px 0",
+      "height": "30px",
       "line-height": "30px",
       "font-size": "12px",
       "font-weight": "normal",
