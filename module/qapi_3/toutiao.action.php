@@ -425,8 +425,8 @@ class toutiaoAction extends baseAction
      * @apiUse UAHeader
      *
      * @apiParam {Number} type         // 1 set  2 get 3 getallCate
-     * @apiParam {Number} cate_id     品类ID
-     * @apiParam {Number} prop_id     物性ID
+     * @apiParam {Number} cate_id     品类ID 逗号分隔
+     * @apiParam {Number} prop_id     物性ID 逗号分隔
      *
      * @apiSuccess {String}  msg   描述
      * @apiSuccess {Boolean} err   错误码
