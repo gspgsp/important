@@ -27,11 +27,11 @@ class creditAction extends baseAction
             "c_name": "上海晨达物流有限公司",
             "data": [
             {
-            "q": "<span>如何获得授信？</span>",
+            "q": "如何获得授信？",
             "a": "<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>"
             },
             {
-            "q": "<span>如何提升额度？</span>",
+            "q": "如何提升额度？",
             "a": "<span>一，在我的塑料网上形成交易，并确保交易信用良好</span><br/><span>二，在塑料圈通讯录上多发布供求信息</span><br><span>为塑料圈通讯录引入新的塑料交易人员</span>"
             }
             ]
@@ -47,11 +47,11 @@ class creditAction extends baseAction
 
         $arr = array(
             array(
-                'q'=>'<span>如何获得授信？</span>',
+                'q'=>'如何获得授信？',
                 'a'=>'<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>'
             ),
             array(
-                'q'=>'<span>如何提升额度？</span>',
+                'q'=>'如何提升额度？',
                 'a'=>'<span>一，在我的塑料网上形成交易，并确保交易信用良好</span><br/><span>二，在塑料圈通讯录上多发布供求信息</span><br><span>为塑料圈通讯录引入新的塑料交易人员</span>'
             ),
         );
@@ -80,15 +80,15 @@ class creditAction extends baseAction
             "err": 0,
             "data": [
             {
-            "q": "<span>什么是塑料配资？</span>",
+            "q": '什么是塑料配资？',,
             "a": "<span>塑料行情上涨，但企业流动资金受限，我的塑料网可为用户垫付资金，进行代理采购</span>"
             },
             {
-            "q": "<span>费率是多少？</span>",
+            "q": '什么是塑料配资？',,
             "a": "<span>方案一</span><br><span>：1.手续费：(交易金额-保证金)×1%</span><br/><span>2.资金使用率：（交易金额-保证金）×0.033%/天数，手续费按笔计算，资金使用费按天计算。</span><br/><span>方案二：按天计算，每天收取塑料交易单价的千分之一，10元起算</span>"
             },
             {
-            "q": "<span>如何申请？</span>",
+            "q": '什么是塑料配资？',
             "a": "<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>"
             }
             ]
@@ -100,15 +100,15 @@ class creditAction extends baseAction
     {
         $arr = array(
             array(
-                'q'=>'<span>什么是塑料配资？</span>',
+                'q'=>'什么是塑料配资？',
                 'a'=>'<span>塑料行情上涨，但企业流动资金受限，我的塑料网可为用户垫付资金，进行代理采购</span>'
             ),
             array(
-                'q'=>'<span>费率是多少？</span>',
+                'q'=>'费率是多少？',
                 'a'=>'<span>方案一</span><br><span>：1.手续费：(交易金额-保证金)×1%</span><br/><span>2.资金使用率：（交易金额-保证金）×0.033%/天数，手续费按笔计算，资金使用费按天计算。</span><br/><span>方案二：按天计算，每天收取塑料交易单价的千分之一，10元起算</span>'
             ),
             array(
-                'q'=>'<span>如何申请？</span>',
+                'q'=>'如何申请？',
                 'a'=>'<span>你可以根据以下方式与我们联系：</span><br/><span>邮箱：info@myplas.com</span><br/><span>客服热线：400-6129-965</span><br/><span>前台热线：021-61070985</span>'
             )
         );
