@@ -7,7 +7,7 @@
 </div>
 <div v-on:click="search" style="width: 50px; border-radius: 0 3px 3px 0; height: 30px; line-height: 30px; font-size: 12px; font-weight: normal; background: #802800; color: #FFFFFF; position: absolute; top: 9px; right: 10px; text-align: center;">搜索</div>
 
-<div class="plasticnav">
+<div class="plasticnav" style="margin: 5px 0 0 0;">
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
 			<div class="swiper-slide" v-on:click="changeCate(999)">

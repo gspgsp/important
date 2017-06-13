@@ -62,7 +62,7 @@
 					<i class="iconV" v-bind:class="{'v1':top.is_pass==1,'v2':top.is_pass==0}"></i>
 				</div>
 				<div class="nameinfo">
-					<router-link :to="{name:'personinfo',params:{id:top.user_id}}">
+					<a v-on:click="toPerson(top.user_id)">
 						<p class="first"><i class="icon wxGs"></i><span v-html="top.c_name"></span><i class="icon wxName"></i><span v-html="top.name"></span>&nbsp;{{top.sex}}</p>
 						<p class="second">
 							<span v-if="top.type==='1'">产品:{{top.main_product}}</span>
@@ -83,7 +83,7 @@
 							主营产品：<b style="color: #666666; font-weight: normal;" v-html="top.main_product"></b>
 						</p>
 						<i class="icon2 rightArrow"></i>
-					</router-link>
+					</a>
 				</div>
 				<span class="toFixed">已置顶</span>
 			</div>
@@ -96,7 +96,7 @@
 				<i class="iconV" v-bind:class="{'v1':n.is_pass==1,'v2':n.is_pass==0}"></i>
 			</div>
 			<div class="nameinfo">
-				<router-link :to="{name:'personinfo',params:{id:n.user_id}}">
+				<a v-on:click="toPerson(n.user_id)">
 					<p class="first"><i class="icon wxGs"></i><span v-html="n.c_name"></span><i class="icon wxName"></i><span v-html="n.name"></span>&nbsp;{{n.sex}}</p>
 					<p class="second">
 						<span v-if="n.type==='1'">产品:{{n.main_product}}</span>
@@ -116,9 +116,8 @@
 					<p v-if="n.type==='4'" style="color: #666666;">
 						主营产品：<b style="color: #666666; font-weight: normal;" v-html="n.main_product"></b>
 					</p>
-					
 					<i class="icon2 rightArrow"></i>
-				</router-link>
+				</a>
 			</div>
 		</li>
 		<li v-show="!condition" style="text-align: center;">
@@ -164,6 +163,87 @@ export default {
 		}
 	},
 	methods: {
+		toPerson:function(userid){
+			var _this=this;
+			if (window.localStorage.getItem("token")) {
+				$.ajax({
+					url: version + '/friend/getZoneFriend',
+					type: 'post',
+					data: {
+						user_id: userid,
+						showType: 1,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).done(function(res) {
+					if(res.err == 0){
+						_this.$router.push({
+							name: 'personinfo',
+							params:{id:userid}
+						});				
+					}else if(res.err == 99) {
+						weui.dialog({
+						    title: '塑料圈通讯录',
+						    content: res.msg,
+						    className: 'custom-classname',
+						    buttons: [{
+						        label: '取消',
+						        type: 'default',
+						        onClick: function () {
+
+						        }
+						    }, {
+						        label: '确定',
+						        type: 'primary',
+						        onClick: function () {
+						        	$.ajax({
+										url: version + '/friend/getZoneFriend',
+										type: 'post',
+										data: {
+											user_id: userid,
+											showType: 5,
+											token: window.localStorage.getItem("token")
+										},
+										headers: {
+											'X-UA': window.localStorage.getItem("XUA")
+										},
+										dataType: 'JSON'
+									}).done(function(res) {
+										if(res.err == 0) {
+											_this.$router.push({
+												name: 'personinfo',
+												params:{id:userid}
+											});				
+										}else if(res.err==100){
+											_this.$router.push({
+												name: 'pointsrule'
+											});								
+										}
+									}).fail(function(){
+										
+									});			        
+						        }
+						    }]
+						});
+					}
+				}).fail(function() {
+		
+				})		
+			} else{
+				weui.confirm('您未登录塑料圈,无法查看企业及个人信息', function(){
+					_this.$router.push({
+						name: 'login'
+					});
+				}, function(){
+					
+				}, {
+				    title: '塑料圈通讯录'
+				});							
+			}
+		},
 		downloadClose:function(){
 			this.download=false;
 		},
