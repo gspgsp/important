@@ -43,6 +43,7 @@ class recordAction extends adminBaseAction {
 				$c_ids = M('user:customer')->getLikeCidByCname($c_name);
 				$where.=" and `c_id` in ($c_ids) ";
 			}
+			// p($where);die;
 			$list=$this->db->where($where)
 						->page($page+1,$size)
 						->order("$sortField $sortOrder")

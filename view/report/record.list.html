@@ -3,7 +3,7 @@
   <table style="width:100%;">
     <tr>
       <td style="white-space:nowrap;"><form id="soform">
-          <select name="operation_type">
+          <select name="action_type">
             <option value="" selected="selected">=操作类型=</option>
 
         {html_options options=$action_type}
@@ -41,7 +41,14 @@
 mini.parse();
 var grid = mini.get("gridCell");
 grid.load();
-
+function search() {
+  grid.load($("#soform").serializeObject(),function(e){
+    $("#searchMsg").html(e.msg);
+  });
+}
+function onKeyEnter(e) {
+  search();
+}
 //查看公司信息
   function viewCustomer(e) {
     var record = e.record,c_id=record.c_id, c_name=record.c_name, s='';
