@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 126);
+/******/ 	return __webpack_require__(__webpack_require__.s = 128);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,6 +141,96 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+		name: 'app',
+		components: {
+				'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
+		},
+		data: function data() {
+				return {
+						mobile: "",
+						password: "",
+						code: "",
+						times: 60,
+						validCode: "获取验证码"
+				};
+		},
+
+		methods: {
+				login: function login() {
+						location.href = "login";
+				},
+
+				sendCode: function sendCode() {
+						var _this = this,
+						    errorMsg = $(".error p");
+						if (this.mobile) {
+								$.ajax({
+										url: '/api/qapi1/sendmsg',
+										type: 'get',
+										data: {
+												mobile: _this.mobile,
+												type: 1
+										},
+										dataType: 'JSON'
+								}).then(function (res) {
+										if (res.err == 0) {
+												errorMsg.html(res.msg);
+												var countStart = setInterval(function () {
+														_this.validCode = _this.times-- + '秒后重发';
+														if (_this.times < 0) {
+																clearInterval(countStart);
+																_this.validCode = "获取验证码";
+														}
+												}, 1000);
+										} else if (res.err == 1) {
+												errorMsg.html(res.msg);
+										}
+								}, function () {});
+						} else {
+								errorMsg.html("请填写手机号和密码");
+						}
+				},
+
+				resetPwd: function resetPwd() {
+						var _this = this,
+						    errorMsg = $(".error p");
+						if (this.mobile && this.password && this.code) {
+								$.ajax({
+										url: '/api/qapi1/finfMyPwd',
+										type: 'get',
+										data: {
+												mobile: _this.mobile,
+												password: _this.password,
+												code: _this.code
+										},
+										dataType: 'JSON'
+								}).then(function (res) {
+										if (res.err == 0) {
+												location.href = "/mypczone/index/login";
+										} else if (res.err == 1) {
+												errorMsg.html(res.msg);
+										}
+								}, function () {});
+						} else {
+								errorMsg.html("请把信息填写完整");
+						}
+				}
+		}
+});
+
+/***/ }),
+
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -211,14 +301,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 128:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__findpwd_vue__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__findpwd_vue__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__findpwd_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__findpwd_vue__);
 
 
@@ -231,7 +321,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 179:
+/***/ 182:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -521,14 +611,14 @@ $(function () {
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(99),
+  __webpack_require__(101),
   /* template */
-  __webpack_require__(179),
+  __webpack_require__(182),
   /* scopeId */
   null,
   /* cssModules */
@@ -588,96 +678,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Leftmodel__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-		name: 'app',
-		components: {
-				'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_Leftmodel___default.a
-		},
-		data: function data() {
-				return {
-						mobile: "",
-						password: "",
-						code: "",
-						times: 60,
-						validCode: "获取验证码"
-				};
-		},
-
-		methods: {
-				login: function login() {
-						location.href = "login";
-				},
-
-				sendCode: function sendCode() {
-						var _this = this,
-						    errorMsg = $(".error p");
-						if (this.mobile) {
-								$.ajax({
-										url: '/api/qapi1/sendmsg',
-										type: 'get',
-										data: {
-												mobile: _this.mobile,
-												type: 1
-										},
-										dataType: 'JSON'
-								}).then(function (res) {
-										if (res.err == 0) {
-												errorMsg.html(res.msg);
-												var countStart = setInterval(function () {
-														_this.validCode = _this.times-- + '秒后重发';
-														if (_this.times < 0) {
-																clearInterval(countStart);
-																_this.validCode = "获取验证码";
-														}
-												}, 1000);
-										} else if (res.err == 1) {
-												errorMsg.html(res.msg);
-										}
-								}, function () {});
-						} else {
-								errorMsg.html("请填写手机号和密码");
-						}
-				},
-
-				resetPwd: function resetPwd() {
-						var _this = this,
-						    errorMsg = $(".error p");
-						if (this.mobile && this.password && this.code) {
-								$.ajax({
-										url: '/api/qapi1/finfMyPwd',
-										type: 'get',
-										data: {
-												mobile: _this.mobile,
-												password: _this.password,
-												code: _this.code
-										},
-										dataType: 'JSON'
-								}).then(function (res) {
-										if (res.err == 0) {
-												location.href = "/mypczone/index/login";
-										} else if (res.err == 1) {
-												errorMsg.html(res.msg);
-										}
-								}, function () {});
-						} else {
-								errorMsg.html("请把信息填写完整");
-						}
-				}
-		}
-});
 
 /***/ })
 

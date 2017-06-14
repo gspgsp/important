@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "__MYPC__/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 125);
+/******/ 	return __webpack_require__(__webpack_require__.s = 127);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -141,14 +141,54 @@ e.data.ref!==t.data.ref&&(Jt(e,!0),Jt(t))},destroy:function(e){Jt(e,!0)}},ha=new
 
 /***/ }),
 
-/***/ 125:
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'app',
+    components: {
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a
+    },
+    data: function data() {
+        return {
+            msg: ""
+        };
+    },
+    mounted: function mounted() {
+        if (!window.localStorage.getItem("token")) {
+            layer.open({
+                title: false,
+                offset: "28%",
+                icon: 5,
+                content: "您未登录塑料圈,无法查看企业及个人信息",
+                closeBtn: false,
+                btnAlign: 'c',
+                anim: 2,
+                yes: function yes() {
+                    location.href = "/mypczone/index/login?find";
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__find_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__find_vue__);
 
 
@@ -161,7 +201,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 /***/ }),
 
-/***/ 190:
+/***/ 193:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -544,14 +584,14 @@ if (false) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(98),
+  __webpack_require__(100),
   /* template */
-  __webpack_require__(190),
+  __webpack_require__(193),
   /* scopeId */
   null,
   /* cssModules */
@@ -576,46 +616,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_leftmodel__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'app',
-    components: {
-        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a
-    },
-    data: function data() {
-        return {
-            msg: ""
-        };
-    },
-    mounted: function mounted() {
-        if (!window.localStorage.getItem("token")) {
-            layer.open({
-                title: false,
-                offset: "28%",
-                icon: 5,
-                content: "您未登录塑料圈,无法查看企业及个人信息",
-                closeBtn: false,
-                btnAlign: 'c',
-                anim: 2,
-                yes: function yes() {
-                    location.href = "/mypczone/index/login?find";
-                }
-            });
-        }
-    }
-});
 
 /***/ })
 
