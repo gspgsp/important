@@ -53,8 +53,7 @@
 			<div field="status" width="50" align="center" headerAlign="center" renderer="LoadStatus">状态</div>
 			<div field="last_login" width="80" headerAlign="center" dateFormat="yyyy-MM-dd HH:mm:ss" align="center">最后登录</div>
 			<div field="login_times" width="50" headerAlign="center" align="center">登录</div>
-			<div field="is_super" width="50" align="center" headerAlign="center" renderer="onLoadSuper">超管</div>
-			<div field="user_ip" width="80" headerAlign="center">用户IP</div>
+			<div field="input_time" width="80" headerAlign="center" dateFormat="yyyy-MM-dd" align="center">创建时间</div>
 			{else}
 			<div field="username" width="80" align="center" headerAlign="center">用户名</div>
 			<div field="name" width="70" align="center" headerAlign="center">姓名</div>
@@ -127,6 +126,10 @@
 							<td>帐户状态：</td>
 							<td><input name="status" class="mini-combobox" data='[{"id":0,"name":"禁用"},{"id":1,"name":"正常"}]' textField="name" valueField="id" style="width:90px;" required="true"/>
 						</td>
+						<tr>
+							<td>添加时间<span style="color:red">*</span></td>
+							<td><input  class="mini-datepicker"  name="input_time" format="yyyy-MM-dd HH:mm" value=""/></td>
+						</tr>
 						</tr>
 						<tr>
 							<td style="text-align:right;padding-top:5px;padding-right:20px;" colspan="2">

@@ -51,6 +51,7 @@ class admAction extends adminBaseAction {
 						->getPage();
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 				$list['data'][$k]['leader'] = M('rbac:adm')->getUserByCol($v['pid']);
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -108,6 +109,7 @@ class admAction extends adminBaseAction {
 						->getPage();
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 				$list['data'][$k]['leader'] = M('rbac:adm')->getUserByCol($v['pid']);
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -148,6 +150,7 @@ class admAction extends adminBaseAction {
 						->getPage();
 			foreach($list['data'] as $k=>$v){
 				$list['data'][$k]['last_login']=$v['last_login']>1000 ? date("Y-m-d H:i:s",$v['last_login']) : '-';
+				$list['data'][$k]['input_time']=$v['input_time']>1000 ? date("Y-m-d H:i:s",$v['input_time']) : '-';
 				$list['data'][$k]['login_status']=$v['login_fail_count']==5 ? '锁定4小时': '-';
 			}
 			$result=array('total'=>$list['count'],'data'=>$list['data']);
@@ -193,7 +196,6 @@ class admAction extends adminBaseAction {
 			'tel'=>$data['tel'],
 			'pid'=>$data['pid'],
 			'pic'=>$data['pic'],
-			'input_time'=>CORE_TIME,
 			'position'=>$data['position'],
 		);
 		if(!empty($data['password'])){
@@ -204,9 +206,16 @@ class admAction extends adminBaseAction {
 			$_data['status']=intval($data['status']);
 		}
 		if($id>0){
-			$this->db->model('admin')->wherePk($id)->update($_data);
+			$_update = array('update_admin'=>$_SESSION['username'],'update_time'=>CORE_TIME);
+			//start 处理添加时间，处理后删除
+			if(!empty($data['input_time'])){
+				$_update += array('input_admin'=>$_SESSION['username'],'input_time'=>strtotime($data['input_time']));
+			}
+			//end
+			$this->db->model('admin')->wherePk($id)->update($_data+$_update);
 		}else{
-			$this->db->model('admin')->add($_data);
+			$_add = array('input_admin'=>$_SESSION['username'],'input_time'=>CORE_TIME);
+			$this->db->model('admin')->add($_data+$_add);
 		}
 		$this->success('操作成功');
 	}
