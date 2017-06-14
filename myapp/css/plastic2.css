@@ -476,16 +476,32 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .headlineUl{ list-style: none; margin: 0; padding: 20px 0 0 0; border-bottom: 1px solid #CCCCCC; background: #FFFFFF; overflow: hidden;}
 .headlineUl li{ float: left; width: 20%; height: 70px; margin: 0 0 20px 0; font-size: 12px; color: #333333; text-align: center;}
 .headlineUl li a{ color: #4b4946;}
-.headlineicon{ width: 43px; height: 43px; display: inline-block;}
-.headlineicon.hicon{ background: url(../img/head.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon2{ background: url(../img/head2.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon3{ background: url(../img/head3.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon4{ background: url(../img/head4.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon5{ background: url(../img/head5.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon6{ background: url(../img/head6.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon7{ background: url(../img/head7.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon8{ background: url(../img/head8.png) no-repeat; background-size: 100% 100%;}
-.headlineicon.hicon9{ background: url(../img/head9.png) no-repeat; background-size: 100% 100%;}
+.headlineicon{ width: 85px; height: 85px; display: inline-block;}
+.headlineicon.hicon{ background: url(../img/head.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon2{ background: url(../img/head2.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon3{ background: url(../img/head3.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon4{ background: url(../img/head4.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon5{ background: url(../img/head5.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon6{ background: url(../img/head6.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon7{ background: url(../img/head7.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon8{ background: url(../img/head8.jpg) no-repeat; background-size: 100% 100%;}
+.headlineicon.hicon9{ background: url(../img/head9.jpg) no-repeat; background-size: 100% 100%;}
+
+.propertyicon{ width: 85px; height: 85px; display: inline-block;}
+.propertyicon.hicon{ background: url(../img/property.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon2{ background: url(../img/property2.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon3{ background: url(../img/property3.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon4{ background: url(../img/property4.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon5{ background: url(../img/property5.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon6{ background: url(../img/property6.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon7{ background: url(../img/property7.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon8{ background: url(../img/property8.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon9{ background: url(../img/property9.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon10{ background: url(../img/property10.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon11{ background: url(../img/property11.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon12{ background: url(../img/property12.jpg) no-repeat; background-size: 100% 100%;}
+.propertyicon.hicon13{ background: url(../img/property13.jpg) no-repeat; background-size: 100% 100%;}
+
 
 .headlineUl2{ list-style: none; border-bottom: 1px solid #CCCCCC; border-top: none; background: #FFFFFF; margin: 0; padding: 0 10px;}
 .headlineUl2 li{ border-bottom: 1px solid #CCCCCC; padding: 10px 0;}
@@ -661,13 +677,14 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .plasticIcon.picon7{background: url(../img/plasticIcon7.png) no-repeat; background-size: 100% 100%;}
 
 .subscribe{ width: 40px; height: 41px; background: url(../img/plasticsubscribe.png) no-repeat center center; background-size: 50% 50%; box-shadow: -1px 0px 1px #b9b9b9; border-left: 1px solid #D9D9D9; position: absolute; right: 0; top: 0;}
-.subscribelayer{ width: 100%; overflow-y: scroll; position: fixed; top: 45px; bottom: 0; left: 0; z-index: 100; background: rgba(0,0,0,0.8);}
-.subscribetitle{ font-size: 15px; font-weight: normal; margin: 18px 8px; color: #FFFFFF;}
-.mysubscribe{ margin: 0; padding: 0; list-style: none; overflow: hidden;}
-.mysubscribe li{ width: 33.33333%; float: left; margin-bottom: 10px; text-align: center; font-size: 12px; color: #FFFFFF;}
-.subscribecheckbox{ position: relative; top: 3px;}
-.subscribebtn{ text-align: center; margin: 0 0 10px 0;}
-.subplasticbtn{ display: inline-block; border-radius: 3px; font-size: 12px; color: #000000; width: 65px; height: 25px; line-height: 25px; background: #FFFFFF;}
+.subscribelayer{ overflow-y: scroll; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 100; background: #FFFFFF;}
+.subscribetitle{ font-size: 15px; font-weight: normal; margin: 10px; color: #e64748;}
+.mysubscribe{ margin: 0; padding: 0; list-style: none;}
+.mysubscribe li{ width: 33.33333%; float: left; margin-bottom: 10px; text-align: center; position: relative;}
+.cateCheckbox{ position: absolute; top: -5px; right: 3px; width: 27px; height: 27px; background: url(../img/cateRight.png) no-repeat; background-size: 100% 100%;}
+.mysubscribe li.on .cateCheckbox{ background: url(../img/cateRightOn.png) no-repeat; background-size: 100% 100%;}
+.mysubscribe li.disabled .cateCheckbox{ pointer-events: none; background: url(../img/cateRightOn.png) no-repeat; background-size: 100% 100%;}
+.subscribebtn{ width: 20px; height: 20px; top: 2px; right: 0; position: absolute; background: url(../img/selectCate.jpg) no-repeat; background-size: 100% 100%;}
 
 .plasticdefine{ width: 100%; height: 100%; z-index: 100; position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.8);}
 .plasticdefineWrap{ margin: -135px 0 0 -150px; top: 50%; left: 50%; width: 300px; height: 270px; position: fixed; background: url(../img/plasticdefine.png) no-repeat; background-size: 100% 100%;}

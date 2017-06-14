@@ -126,7 +126,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("查看更多>>")])], 1), _vm._v(" "), _c('ul', {
     staticClass: "supplydemandul"
-  }, _vm._l((_vm.buylist), function(b) {
+  }, [_vm._l((_vm.buylist), function(b) {
     return _c('li', [_c('span', {
       staticStyle: {
         "color": "#999999"
@@ -136,7 +136,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "color": "#ec8000"
       }
     }, [_vm._v("求购")]), _vm._v(":" + _vm._s(b.contents) + "\n\t\t\t\t")])
-  }))]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), (_vm.buylist.length == 0) ? _c('li', {
+    staticStyle: {
+      "line-height": "30px",
+      "text-align": "center"
+    }
+  }, [_vm._v("\n\t\t\t\t\t没有更多求购信息\n\t\t\t\t")]) : _vm._e()], 2)]), _vm._v(" "), _c('div', {
     staticClass: "personInfoList"
   }, [_c('h3', {
     staticClass: "supplydemandtitle",
@@ -157,7 +162,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("查看更多>>")])], 1), _vm._v(" "), _c('ul', {
     staticClass: "supplydemandul"
-  }, _vm._l((_vm.supplylist), function(s) {
+  }, [_vm._l((_vm.supplylist), function(s) {
     return _c('li', [_c('span', {
       staticStyle: {
         "color": "#999999"
@@ -167,7 +172,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "color": "#63769d"
       }
     }, [_vm._v("供给")]), _vm._v(":" + _vm._s(s.contents) + "\n\t\t\t\t")])
-  }))])]), _vm._v(" "), _c('loadingPage', {
+  }), _vm._v(" "), (_vm.supplylist.length == 0) ? _c('li', {
+    staticStyle: {
+      "line-height": "30px",
+      "text-align": "center"
+    }
+  }, [_vm._v("\n\t\t\t\t\t没有更多供给信息\n\t\t\t\t")]) : _vm._e()], 2)])]), _vm._v(" "), _c('loadingPage', {
     attrs: {
       "loading": _vm.loadingShow
     }

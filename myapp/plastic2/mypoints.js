@@ -775,7 +775,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					}
 				});
 			}
-			console.log(this.daySelected2);
 		},
 		formatDate: function formatDate(date) {
 			var _year = date.getFullYear();

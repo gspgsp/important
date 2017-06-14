@@ -76,6 +76,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "margin": "5px 0 0 0"
     }
   }, [_c('div', {
+    staticClass: "subscribe",
+    on: {
+      "click": _vm.subscribeClick
+    }
+  }), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "auto",
+      "margin": "0 40px 0 0"
+    }
+  }, [_c('div', {
     staticClass: "swiper-container"
   }, [_c('div', {
     staticClass: "swiper-wrapper"
@@ -90,7 +100,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 999
     }
-  }, [_vm._v("\r\n\t\t\t\t\t推荐\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t推荐\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -101,7 +111,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 2
     }
-  }, [_vm._v("\r\n\t\t\t\t\t塑料上游\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t塑料上游\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -112,7 +122,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 1
     }
-  }, [_vm._v("\r\n\t\t\t\t\t早盘预报\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t早盘预报\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -123,7 +133,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 9
     }
-  }, [_vm._v("\r\n\t\t\t\t\t企业动态\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t企业动态\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -134,7 +144,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 4
     }
-  }, [_vm._v("\r\n\t\t\t\t\t中晨塑说\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t中晨塑说\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -145,7 +155,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 5
     }
-  }, [_vm._v("\r\n\t\t\t\t\t美金市场\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t美金市场\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -156,7 +166,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 21
     }
-  }, [_vm._v("\r\n\t\t\t\t\t期货资讯\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t期货资讯\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -167,7 +177,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 11
     }
-  }, [_vm._v("\r\n\t\t\t\t\t装置动态\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t装置动态\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -178,7 +188,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 13
     }
-  }, [_vm._v("\r\n\t\t\t\t\t期刊报告\r\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t期刊报告\r\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "swiper-slide",
     on: {
       "click": function($event) {
@@ -189,7 +199,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       on: _vm.cateid == 22
     }
-  }, [_vm._v("\r\n\t\t\t\t\t独家解读\r\n\t\t\t\t")])])])])])]), _vm._v(" "), _c('loadingPage', {
+  }, [_vm._v("\r\n\t\t\t\t\t\t\t\t独家解读\r\n\t\t\t\t\t\t\t")])])])])])])]), _vm._v(" "), _c('loadingPage', {
     attrs: {
       "loading": _vm.loadingShow
     }
@@ -214,9 +224,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "text-align": "right",
         "margin": "5px 0 0 0"
       }
-    }, [_vm._v("\r\n\t\t\t\t" + _vm._s(i.author)), _c('i', {
+    }, [_vm._v("\r\n\t\t\t\t\t" + _vm._s(i.author)), _c('i', {
       staticClass: "headicon"
-    }), _vm._v(_vm._s(i.input_time) + "\r\n\t\t\t\t"), _c('i', {
+    }), _vm._v(_vm._s(i.input_time) + "\r\n\t\t\t\t\t"), _c('i', {
       staticClass: "headicon2"
     }), _c('span', {
       staticStyle: {
@@ -224,6 +234,324 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v(_vm._s(i.pv))])])])], 1)
   })), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.subscribeshow),
+      expression: "subscribeshow"
+    }],
+    staticClass: "subscribelayer"
+  }, [_c('h3', {
+    staticClass: "subscribetitle",
+    staticStyle: {
+      "position": "relative"
+    }
+  }, [_vm._v("订阅栏目："), _c('div', {
+    staticClass: "subscribebtn",
+    on: {
+      "click": _vm.subscribeClose
+    }
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "mysubscribe",
+    staticStyle: {
+      "border-bottom": "1px solid #D1D1D1"
+    }
+  }, [_c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(2) !== -1, disabled: _vm.unsubscribe.indexOf(2) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(2)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(1) !== -1, disabled: _vm.unsubscribe.indexOf(1) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon2"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(9) !== -1, disabled: _vm.unsubscribe.indexOf(9) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(9)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon3"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(4) !== -1, disabled: _vm.unsubscribe.indexOf(4) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(4)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon4"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(20) !== -1, disabled: _vm.unsubscribe.indexOf(20) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(20)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon5"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(21) !== -1, disabled: _vm.unsubscribe.indexOf(21) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(21)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon6"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(11) !== -1, disabled: _vm.unsubscribe.indexOf(11) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(11)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon7"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(13) !== -1, disabled: _vm.unsubscribe.indexOf(13) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(13)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon8"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.subscribe.indexOf(22) !== -1, disabled: _vm.unsubscribe.indexOf(22) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate(22)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "headlineicon hicon9"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "width": "100%",
+      "clear": "both"
+    }
+  })]), _vm._v(" "), _c('h3', {
+    staticClass: "subscribetitle"
+  }, [_vm._v("制品分类：(推送至推荐栏目下)")]), _vm._v(" "), _c('ul', {
+    staticClass: "mysubscribe"
+  }, [_c('li', {
+    class: {
+      on: _vm.property.indexOf(1) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(2) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(2)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon2"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(3) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(3)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon3"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(4) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(4)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon4"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(5) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(5)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon5"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(6) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(6)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon6"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(7) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(7)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon7"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(8) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(8)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon8"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(9) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(9)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon9"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(10) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(10)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon10"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(11) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(11)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon11"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(12) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(12)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon12"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })]), _vm._v(" "), _c('li', {
+    class: {
+      on: _vm.property.indexOf(13) !== -1
+    },
+    on: {
+      "click": function($event) {
+        _vm.chooseCate2(13)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "propertyicon hicon13"
+  }), _c('i', {
+    staticClass: "cateCheckbox"
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "refresh",
     class: {
       circle: _vm.isCircle
@@ -751,7 +1079,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			isArrow: false,
 			keywords: "",
 			loadingShow: "",
-			loadingHide: ""
+			loadingHide: "",
+			subscribeshow: false,
+			subscribe: [],
+			property: [],
+			unsubscribe: []
 		};
 	},
 	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
@@ -764,8 +1096,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.loadingHide = false;
 	},
 	methods: {
+		chooseCate: function chooseCate(id) {
+			var _this = this;
+			if (this.subscribe.indexOf(id) == -1) {
+				this.subscribe.push(id);
+			} else {
+				var index = _this.subscribe.indexOf(id);
+				this.subscribe.splice(index, 1);
+			}
+		},
+		chooseCate2: function chooseCate2(id) {
+			var _this = this;
+			if (this.property.indexOf(id) == -1) {
+				this.property.push(id);
+			} else {
+				var index = _this.property.indexOf(id);
+				this.property.splice(index, 1);
+			}
+		},
 		arrow: function arrow() {
 			window.scrollTo(0, 0);
+		},
+		subscribeClick: function subscribeClick() {
+			var _this = this;
+			this.subscribeshow = true;
+			$.ajax({
+				type: "post",
+				url: version + '/toutiao/getSelectCate',
+				data: {
+					token: window.localStorage.getItem("token"),
+					type: 2
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).done(function (res) {
+				if (res.err == 0) {
+					_this.subscribe = res.data.subscribe;
+					_this.property = res.data.property;
+					_this.unsubscribe = res.data.unconcealed_subscribe;
+				} else {}
+			}).fail(function () {}).always(function () {});
+		},
+		subscribeClose: function subscribeClose() {
+			var _this = this;
+			this.subscribeshow = false;
+			$.ajax({
+				type: "post",
+				url: version + '/toutiao/getSelectCate',
+				data: {
+					token: window.localStorage.getItem("token"),
+					cate_id: _this.subscribe.join(),
+					prop_id: _this.property.join(),
+					type: 1
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {}, function () {});
 		},
 		getList: function getList(id) {
 			var _this = this;
