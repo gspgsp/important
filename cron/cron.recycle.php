@@ -48,7 +48,12 @@ class cronRecycle{
 							$cooper =  time()-intval($rule['cooperation_days'])*86400;//已合作强开
 							foreach ($cus as $cu) {
 								//获取对应交易员的所有客户强开（需要满足的条件 1本交易员 2 时间超时 3为处理过 4 有跟踪记录）
-								$customers = $this->db->model('customer')->select("`c_id`,`last_follow`,`last_sale`,`last_no_sale`,`is_sale`,`is_pur`")->where("`customer_manager` = $cu AND ((`last_follow` < $follow and `last_follow` > 1 AND `is_pur` = 0 AND `is_sale` =0 ) or (`last_sale` < $cooper  and `last_sale` > 1 AND `is_sale` = 1) or  (`last_no_sale` < $uncooper and `last_no_sale` > 1 AND `is_pur` = 0 AND `is_sale` = 0))")->getAll();
+								$customers = $this->db->model('customer c')
+								->select("`c_id`,a.`name`,`last_follow`,`last_sale`,`last_no_sale`,`is_sale`,`is_pur`")
+								->leftjoin('admin a','a.admin_id = c.customer_manager')
+								->where("`customer_manager` = $cu AND ((`last_follow` < $follow and `last_follow` > 1 AND `is_pur` = 0 AND `is_sale` =0 ) or (`last_sale` < $cooper  and `last_sale` > 1 AND `is_sale` = 1) or  (`last_no_sale` < $uncooper and `last_no_sale` > 1 AND `is_pur` = 0 AND `is_sale` = 0))")
+								->getAll();
+								// showtrace();
 								//print_r($customers);
 								//print_r($this->db->getLastSql());
 								// print_r($rule['private_uncooperation_days']);
@@ -70,7 +75,7 @@ class cronRecycle{
 												//新增客户流转记录日志----S--	//打log
 												$remarks = "对客户操作：私海客户未合作超时，系统自动处理至公海";
 											}
-											M('user:customerLog')->addLog($cinfo['c_id'],'check','私海客户','公海客户',1,$remarks);
+											M('user:customerLog')->addLog($cinfo['c_id'],'dismiss',$cinfo['name'].'--私海客户','公海客户',1,$remarks);
 											//新增客户流转记录日志----E
 											// 处理3天以内老交易员不能认领自己之前的客户
 											$_key = $cinfo['c_id'].'_'.$cu;
@@ -83,7 +88,7 @@ class cronRecycle{
 											$this->db->model('customer')->where("`c_id` = {$cinfo['c_id']}")->update(array('last_sale'=>1,'customer_manager'=>0));
 											//新增客户流转记录日志----S--	//打log
 											$remarks = "对客户操作：已合作客户超过规则没有订单，根据强开规则，系统自动处理至公海";
-											M('user:customerLog')->addLog($cinfo['c_id'],'check','已合作私海客户','公海客户',1,$remarks);
+											M('user:customerLog')->addLog($cinfo['c_id'],'dismiss',$cinfo['name'].'--已合作私海客户','公海客户',1,$remarks);
 											//新增客户流转记录日志----E
 											// 处理3天以内老交易员不能认领自己之前的客户
 											$_key = $cinfo['c_id'].'_'.$cu;
@@ -96,7 +101,7 @@ class cronRecycle{
 										//	$this->db->model('customer')->where("`c_id` = {$cinfo['c_id']}")->update(array('last_no_sale'=>1,'customer_manager'=>0));
 											//新增客户流转记录日志----S--	//打log
 										//	$remarks = "对客户操作：未合作客户超过强开规则，系统自动处理至公海";
-										//	M('user:customerLog')->addLog($cinfo['c_id'],'check','未合作私海客户','公海客户',1,$remarks);
+										//	M('user:customerLog')->addLog($cinfo['c_id'],'dismiss',$cinfo['name'].'--未合作私海客户','公海客户',1,$remarks);
 											//新增客户流转记录日志----E
 											// 处理3天以内老交易员不能认领自己之前的客户
 										//	$_key = $cinfo['c_id'].'_'.$cu;
