@@ -6,10 +6,10 @@
 .my-wrap .my-wrap-top .time b{ display:inline-block; width:12px; height:12px; overflow:hidden; background:url(../img/icons.png) no-repeat -62px -464px; margin:0 5px 0 0; float:left;}
 .my-wrap .my-wrap-top .time span{ float:left;}
 .my-wrap .my-wrap-top .info{ width:100%; height:auto; overflow:hidden; margin:0 auto;}
-.my-wrap .my-wrap-top .info span{ width:11%; height:14px; line-height:14px; overflow:hidden; display:block; float:left; background:url(../img/icons.png) no-repeat; padding:0 0 0 24px;}
+.my-wrap .my-wrap-top .info span{ height:14px; line-height:14px; overflow:hidden; display:block; float:left; background:url(../img/icons.png) no-repeat; padding:0 0 0 24px; display:block; float:left;}
 .my-wrap.sell .my-wrap-top .info span{ color:#62759e; background-position:-30px -248px;}
 .my-wrap.buy .my-wrap-top .info span{ color:#ea8010; background-position:-30px -234px;}
-.my-wrap .my-wrap-top .info p{ width:80%; float:left; word-break:break-all;}
+.my-wrap .my-wrap-top .info p{ width:80%; float:left; word-break:break-all; display:block;  line-height:14px;}
 .my-wrap .my-wrap-top .del{ position:absolute; right:9px; top:0; cursor:pointer;}
 .my-wrap.sell .my-wrap-top .del{ color:#62759e;}
 .my-wrap.sell .my-wrap-top .del b{ background-position:-74px -464px;}
