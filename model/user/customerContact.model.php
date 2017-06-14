@@ -132,7 +132,10 @@ class customerContactModel extends model{
 			'input_time'=>CORE_TIME,
 			'input_admin'=>$_SESSION['name'],
 			'depart'=>$_SESSION['depart'],
-			'customer_manager'=>$_SESSION['adminid']
+			'customer_manager'=>$_SESSION['adminid'],
+			'last_follow'=>CORE_TIME,
+			'last_sale'=>CORE_TIME,
+			'last_no_sale'=>CORE_TIME,
 		);
 		$data = array(
 			'update_time'=>CORE_TIME,
