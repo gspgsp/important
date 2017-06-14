@@ -4,7 +4,7 @@
     <div class="left flt">
     	<!--pic begin-->
         <div class="pic">
-            <img src="http://pic.myplas.com/mypc/img/female.jpg"/>
+            <img v-bind:src="leftpi"onerror="this.src='http://pic.myplas.com/mypc/img/female.jpg'">
             <div class="authen no">V</div>
         </div>
         <!--pic end-->
@@ -105,7 +105,7 @@ export default {
   name: 'leftmodel',
   data () {
     return {
-      msg: ''
+      leftpi: window.localStorage.getItem("leftpi")
     }
   },
   mounted: function() {

@@ -57,7 +57,7 @@
                         <!--use begin-->
                         <div class="use flt">总塑豆：{{count1 * p1.points}}</div>
                         <!--use end-->
-                        <button v-on:click="proExchange">提交兑换</button>
+                        <button v-on:click="proExchange(pro.id)">提交兑换</button>
                     </div>
                     <!--opt end-->
                 </div>
@@ -118,7 +118,7 @@
                         <!--use begin-->
                         <div class="use flt">总塑豆：{{p2.points * count2}}</div>
                         <!--use end-->
-                        <button v-on:click="proExchange">提交兑换</button>
+                        <button v-on:click="proExchange(pro2.id)">提交兑换</button>
                     </div>
                     <!--opt end-->
                 </div>
@@ -225,7 +225,7 @@ export default{
                     _this.choseData.push(choseid);
                 }
         },
-        proExchange: function() {
+        proExchange: function(goods_id) {
                     var _this = this;
                     Date.prototype.Format = function(fmt)   
                     { //author: meizz   
@@ -252,7 +252,7 @@ export default{
                             url: "/qapi_3/product/newExchangeSupplyOrDemand",
                             data: {
                                 token: window.localStorage.getItem("token"),
-                                goods_id: _this.pro.id,
+                                goods_id: goods_id,
                                 dates:selectTime,
                                 pur_id: _this.choseData[0]
                             },

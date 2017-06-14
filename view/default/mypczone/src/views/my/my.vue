@@ -255,6 +255,7 @@ export default {
             if(res.err == 0) {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
+			  window.localStorage.setItem("leftpi", "");
                layer.open({
                     title: false,
                     offset : "28%",
@@ -269,6 +270,7 @@ export default {
             } else {
               window.localStorage.setItem("token", "");
               window.localStorage.setItem("userid", "");
+			  window.localStorage.setItem("leftpi", "");
             }
           }, function() {
 
@@ -308,6 +310,7 @@ export default {
             dataType: 'JSON'
         }).done(function(res) {
                 console.log( res );
+				window.localStorage.setItem("leftpi",res.data.thumb);
                 _this.name = res.data.name;
                 _this.c_name = res.data.c_name;
                 _this.mobile = res.data.mobile;

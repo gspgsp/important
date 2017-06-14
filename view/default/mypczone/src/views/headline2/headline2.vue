@@ -104,13 +104,16 @@ export default {
                 _this.lastOne = res.info.lastOne;
                 _this.nextOne = res.info.nextOne;
                 _this.subscribe = res.info.subscribe?res.info.subscribe.slice(0, 8):res.info.subscribe;
+                $('.right').animate({scrollTop:0});
             }).fail(function() {
 
             }).always(function() {
 
             })
         }else{
-            alert('没有相关数据');
+            layer.msg('没有相关数据',{time:500,icon:2},function(){
+                $('.right').animate({scrollTop:0});
+            });
         }
     }
     },

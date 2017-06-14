@@ -430,7 +430,7 @@ export default {
 								btnAlign: 'c',
 									   anim : 2,
 									   yes : function () {
-									location.href = "/mypczone/index/login";		
+									location.href = "/mypczone/index/login?init";		
 								}
 								   });
                     } else if(res.err == 2) {
