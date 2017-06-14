@@ -504,12 +504,19 @@ class toutiaoAction extends baseAction
                         21,
                         26,
                     );
+                    function convertInt($v)
+                    {
+                        return(integer)$v;
+                    }
+
+                    array_map("convertInt",$res1);
+                    array_map("convertInt",$res2);
+
                     $tmp         = array(
-                        'subscribe'   => array_values (array_filter ($res1)),
+                        'subscribe'   => array_values(array_filter ($res1)),
                         'unconcealed_subscribe' => $unconcealed,
                         'property'    => array_values (array_filter ($res2)),
                     );
-                    $tmp = 123456;
                 }
                 $this->json_output (array(
                     'err'  => 0,
