@@ -424,7 +424,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.choseData.push(choseid);
             }
         },
-        proExchange: function proExchange() {
+        proExchange: function proExchange(goods_id) {
             var _this = this;
             Date.prototype.Format = function (fmt) {
                 var o = {
@@ -447,7 +447,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 url: "/qapi_3/product/newExchangeSupplyOrDemand",
                 data: {
                     token: window.localStorage.getItem("token"),
-                    goods_id: _this.pro.id,
+                    goods_id: goods_id,
                     dates: selectTime,
                     pur_id: _this.choseData[0]
                 },
@@ -632,7 +632,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "use flt"
   }, [_vm._v("总塑豆：" + _vm._s(_vm.count1 * _vm.p1.points))]), _vm._v(" "), _c('button', {
     on: {
-      "click": _vm.proExchange
+      "click": function($event) {
+        _vm.proExchange(_vm.pro.id)
+      }
     }
   }, [_vm._v("提交兑换")])])]), _vm._v(" "), _c('div', {
     staticClass: "mall-info"
@@ -700,7 +702,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "use flt"
   }, [_vm._v("总塑豆：" + _vm._s(_vm.p2.points * _vm.count2))]), _vm._v(" "), _c('button', {
     on: {
-      "click": _vm.proExchange
+      "click": function($event) {
+        _vm.proExchange(_vm.pro2.id)
+      }
     }
   }, [_vm._v("提交兑换")])])])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -841,7 +845,7 @@ $(function () {
 	name: 'leftmodel',
 	data: function data() {
 		return {
-			msg: ''
+			leftpi: window.localStorage.getItem("leftpi")
 		};
 	},
 
@@ -927,8 +931,6 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "leftmodel"
   }, [_c('div', {
@@ -937,11 +939,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pic"
   }, [_c('img', {
     attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+      "src": _vm.leftpi,
+      "onerror": "this.src='http://pic.myplas.com/mypc/img/female.jpg'"
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+  }, [_vm._v("V")])]), _vm._v(" "), _vm._m(0)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', [_c('li', {
     attrs: {
       "id": "left1"
     }
@@ -981,7 +986,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])])])])])
+  }), _vm._v("我的")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

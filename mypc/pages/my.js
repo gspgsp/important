@@ -329,134 +329,137 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    name: 'app',
-    'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a
-  },
-  data: function data() {
-    return {
-      buy: "",
-      supply: "",
-      points: "",
-      fans: "",
-      pay: "",
-      invite: "",
-      msg: "",
-      msg2: "",
-      c_name: "",
-      name: "",
-      mobile: "",
-      mobile2: "",
-      thumb: "",
-      is_pass: "",
-      share: false,
-      share3: false,
-      loadingShow: ""
-    };
-  },
-  methods: {
-    toNext: function toNext(type) {
-      window.location.href = "/mypczone/index/mySupply?type=" + type;
+    components: {
+        name: 'app',
+        'Leftmodel': __WEBPACK_IMPORTED_MODULE_0__components_leftmodel___default.a
     },
-    toIntro: function toIntro(type) {
-      window.location.href = "/mypczone/index/myIntro?type=" + type;
+    data: function data() {
+        return {
+            buy: "",
+            supply: "",
+            points: "",
+            fans: "",
+            pay: "",
+            invite: "",
+            msg: "",
+            msg2: "",
+            c_name: "",
+            name: "",
+            mobile: "",
+            mobile2: "",
+            thumb: "",
+            is_pass: "",
+            share: false,
+            share3: false,
+            loadingShow: ""
+        };
     },
-    toComment: function toComment(type) {
-      window.location.href = "/mypczone/index/myComment?type=" + type;
-    },
-    toMsg: function toMsg() {
-      window.location.href = "/mypczone/index/myMsg";
-    },
-    toSudou: function toSudou() {
-      window.location.href = "/mypczone/index/mySudou";
-    },
-    toHelp: function toHelp() {
-      window.location.href = "/mypczone/index/myHelp";
-    },
-    logout: function logout() {
-      var _this = this;
-      $.ajax({
-        url: '/qapi_3/user/logout',
-        type: 'post',
-        data: {
-          token: window.localStorage.getItem("token")
+    methods: {
+        toNext: function toNext(type) {
+            window.location.href = "/mypczone/index/mySupply?type=" + type;
         },
-        headers: {
-          'X-UA': window.localStorage.getItem("XUA")
+        toIntro: function toIntro(type) {
+            window.location.href = "/mypczone/index/myIntro?type=" + type;
         },
-        dataType: 'JSON'
-      }).then(function (res) {
-        console.log(res.err);
-        if (res.err == 0) {
-          window.localStorage.setItem("token", "");
-          window.localStorage.setItem("userid", "");
-          layer.open({
-            title: false,
-            offset: "28%",
-            content: "退出登录成功！",
-            closeBtn: false,
-            btnAlign: 'c',
-            anim: 2,
-            yes: function yes() {
-              location.href = "/mypczone/index";
-            }
-          });
-        } else {
-          window.localStorage.setItem("token", "");
-          window.localStorage.setItem("userid", "");
+        toComment: function toComment(type) {
+            window.location.href = "/mypczone/index/myComment?type=" + type;
+        },
+        toMsg: function toMsg() {
+            window.location.href = "/mypczone/index/myMsg";
+        },
+        toSudou: function toSudou() {
+            window.location.href = "/mypczone/index/mySudou";
+        },
+        toHelp: function toHelp() {
+            window.location.href = "/mypczone/index/myHelp";
+        },
+        logout: function logout() {
+            var _this = this;
+            $.ajax({
+                url: '/qapi_3/user/logout',
+                type: 'post',
+                data: {
+                    token: window.localStorage.getItem("token")
+                },
+                headers: {
+                    'X-UA': window.localStorage.getItem("XUA")
+                },
+                dataType: 'JSON'
+            }).then(function (res) {
+                console.log(res.err);
+                if (res.err == 0) {
+                    window.localStorage.setItem("token", "");
+                    window.localStorage.setItem("userid", "");
+                    window.localStorage.setItem("leftpi", "");
+                    layer.open({
+                        title: false,
+                        offset: "28%",
+                        content: "退出登录成功！",
+                        closeBtn: false,
+                        btnAlign: 'c',
+                        anim: 2,
+                        yes: function yes() {
+                            location.href = "/mypczone/index";
+                        }
+                    });
+                } else {
+                    window.localStorage.setItem("token", "");
+                    window.localStorage.setItem("userid", "");
+                    window.localStorage.setItem("leftpi", "");
+                }
+            }, function () {});
+        },
+        editInfo: function editInfo() {
+            window.location.href = "/mypczone/index/myEdit";
         }
-      }, function () {});
     },
-    editInfo: function editInfo() {
-      window.location.href = "/mypczone/index/myEdit";
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
+    mounted: function mounted() {
+        var _this = this;
 
-    if (!window.localStorage.getItem("token")) {
-      layer.open({
-        title: false,
-        offset: "28%",
-        icon: 5,
-        content: "您未登录塑料圈,无法查看企业及个人信息",
-        closeBtn: false,
-        btnAlign: 'c',
-        anim: 2,
-        yes: function yes() {
-          location.href = "/mypczone/index/login?my";
+        if (!window.localStorage.getItem("token")) {
+            layer.open({
+                title: false,
+                offset: "28%",
+                icon: 5,
+                content: "您未登录塑料圈,无法查看企业及个人信息",
+                closeBtn: false,
+                btnAlign: 'c',
+                anim: 2,
+                yes: function yes() {
+                    location.href = "/mypczone/index/login?my";
+                }
+            });
         }
-      });
-    }
 
-    $.ajax({
-      url: '/qapi_3/myInfo/myZone',
-      type: 'post',
-      data: {
-        token: window.localStorage.getItem("token")
-      },
-      headers: {
-        'X-UA': window.localStorage.getItem("XUA")
-      },
-      dataType: 'JSON'
-    }).done(function (res) {
-      console.log(res);
-      _this.name = res.data.name;
-      _this.c_name = res.data.c_name;
-      _this.mobile = res.data.mobile;
-      _this.mobile2 = res.data.mobile;
-      _this.thumb = res.data.thumb;
-      _this.is_pass = res.data.is_pass;
-      _this.buy = res.s_in_count;
-      _this.supply = res.s_out_count;
-      _this.points = res.points;
-      _this.msg = res.leaveword;
-      _this.msg2 = res.message;
-      _this.invite = res.introduction;
-      _this.fans = res.myfans;
-      _this.pay = res.myconcerns;
-    });
-  }
+        $.ajax({
+            url: '/qapi_3/myInfo/myZone',
+            type: 'post',
+            data: {
+                token: window.localStorage.getItem("token")
+            },
+            headers: {
+                'X-UA': window.localStorage.getItem("XUA")
+            },
+            dataType: 'JSON'
+        }).done(function (res) {
+            console.log(res);
+            window.localStorage.setItem("leftpi", res.data.thumb);
+            _this.name = res.data.name;
+            _this.c_name = res.data.c_name;
+            _this.mobile = res.data.mobile;
+            _this.mobile2 = res.data.mobile;
+            _this.thumb = res.data.thumb;
+            _this.is_pass = res.data.is_pass;
+            _this.buy = res.s_in_count;
+            _this.supply = res.s_out_count;
+            _this.points = res.points;
+            _this.msg = res.leaveword;
+            _this.msg2 = res.message;
+            _this.invite = res.introduction;
+            _this.fans = res.myfans;
+            _this.pay = res.myconcerns;
+        });
+    }
 });
 
 /***/ }),
@@ -800,7 +803,7 @@ $(function () {
 	name: 'leftmodel',
 	data: function data() {
 		return {
-			msg: ''
+			leftpi: window.localStorage.getItem("leftpi")
 		};
 	},
 
@@ -886,8 +889,6 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "leftmodel"
   }, [_c('div', {
@@ -896,11 +897,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pic"
   }, [_c('img', {
     attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+      "src": _vm.leftpi,
+      "onerror": "this.src='http://pic.myplas.com/mypc/img/female.jpg'"
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+  }, [_vm._v("V")])]), _vm._v(" "), _vm._m(0)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', [_c('li', {
     attrs: {
       "id": "left1"
     }
@@ -940,7 +944,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])])])])])
+  }), _vm._v("我的")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

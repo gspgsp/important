@@ -212,8 +212,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "leftmodel"
   }, [_c('div', {
@@ -222,11 +220,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pic"
   }, [_c('img', {
     attrs: {
-      "src": "http://pic.myplas.com/mypc/img/female.jpg"
+      "src": _vm.leftpi,
+      "onerror": "this.src='http://pic.myplas.com/mypc/img/female.jpg'"
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "authen no"
-  }, [_vm._v("V")])]), _vm._v(" "), _c('ul', [_c('li', {
+  }, [_vm._v("V")])]), _vm._v(" "), _vm._m(0)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', [_c('li', {
     attrs: {
       "id": "left1"
     }
@@ -266,7 +267,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('span', {
     staticClass: "menu4"
-  }), _vm._v("我的")])])])])])
+  }), _vm._v("我的")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -531,7 +532,7 @@ $(function () {
 	name: 'leftmodel',
 	data: function data() {
 		return {
-			msg: ''
+			leftpi: window.localStorage.getItem("leftpi")
 		};
 	},
 
