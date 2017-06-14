@@ -193,6 +193,7 @@ class admAction extends adminBaseAction {
 			'tel'=>$data['tel'],
 			'pid'=>$data['pid'],
 			'pic'=>$data['pic'],
+			'input_time'=>CORE_TIME,
 			'position'=>$data['position'],
 		);
 		if(!empty($data['password'])){
