@@ -509,8 +509,8 @@ class toutiaoAction extends baseAction
                         return intval($v);
                     }
 
-                    array_map("convertInt",$res1);
-                    array_map("convertInt",$res2);
+                    $res1 = array_map("convertInt",$res1);
+                    $res2 = array_map("convertInt",$res2);
 
                     $tmp         = array(
                         'subscribe'   => array_values(array_filter ($res1)),
