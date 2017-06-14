@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: sick
  * Date: 17-5-3
  * Time: 上午10:48
  */
-
 class releaseMsgAction extends baseAction
 {
 
@@ -31,232 +31,232 @@ class releaseMsgAction extends baseAction
      * @apiSuccess {String}   data   数据
      *
      * @apiSuccessExample {json} Success-Response:
-             *     {
-            "err": 0,
-            "data": [
-            {
-            "id": "98174",
-            "p_id": "0",
-            "user_id": "20380",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:38",
-            "type": "2",
-            "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
-            "c_name": "临沂泓盛达塑化",
-            "name": "赵清兵",
-            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-            "thumbqq": null,
-            "sex": "0",
-            "mobile_province": null,
-            "is_pass": "0",
-            "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98173",
-            "p_id": "0",
-            "user_id": "9942",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:37",
-            "type": "2",
-            "content": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
-            "c_name": "临沂市明泽进出口有限公司",
-            "name": "王瑞",
-            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-            "thumbqq": null,
-            "sex": "0",
-            "mobile_province": null,
-            "is_pass": "0",
-            "contents": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98172",
-            "p_id": "0",
-            "user_id": "29985",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:36",
-            "type": "2",
-            "content": "出PC1100 PC1220",
-            "c_name": "上海景程化工科技有限公司",
-            "name": "王玉",
-            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "sex": "0",
-            "mobile_province": "山东",
-            "is_pass": "0",
-            "contents": "出PC1100 PC1220",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98171",
-            "p_id": "0",
-            "user_id": "28981",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:35",
-            "type": "2",
-            "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
-            "c_name": "临沂市明泽进出口有限公司",
-            "name": "娄兴隆",
-            "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
-            "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
-            "sex": "0",
-            "mobile_province": "山东",
-            "is_pass": "0",
-            "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98169",
-            "p_id": "0",
-            "user_id": "40199",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:33",
-            "type": "2",
-            "content": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
-            "c_name": "青岛聚福工程塑胶有限公司",
-            "name": "唐勇松",
-            "thumb": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
-            "thumbqq": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
-            "sex": "0",
-            "mobile_province": "山东",
-            "is_pass": "0",
-            "contents": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98168",
-            "p_id": "0",
-            "user_id": "60738",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:33",
-            "type": "2",
-            "content": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
-            "c_name": "河北精瑞包装材料有限",
-            "name": "姜女士",
-            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
-            "thumbqq": "",
-            "sex": "1",
-            "mobile_province": "河北",
-            "is_pass": "0",
-            "contents": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98167",
-            "p_id": "0",
-            "user_id": "32905",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:33",
-            "type": "2",
-            "content": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
-            "c_name": "北京秋硕金隆塑料制品有限公司",
-            "name": "王艳",
-            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
-            "thumbqq": "",
-            "sex": "1",
-            "mobile_province": "北京",
-            "is_pass": "0",
-            "contents": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98166",
-            "p_id": "0",
-            "user_id": "41176",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:32",
-            "type": "2",
-            "content": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
-            "c_name": "临沂中诚贸易有限公司",
-            "name": "罗小莉",
-            "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
-            "thumbqq": "",
-            "sex": "1",
-            "mobile_province": "山东",
-            "is_pass": "0",
-            "contents": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98165",
-            "p_id": "0",
-            "user_id": "29810",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:30",
-            "type": "2",
-            "content": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
-            "c_name": "武汉汉帆塑料有限公司",
-            "name": "张剑",
-            "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-            "thumbqq": "",
-            "sex": "0",
-            "mobile_province": "湖北",
-            "is_pass": "0",
-            "contents": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            },
-            {
-            "id": "98164",
-            "p_id": "0",
-            "user_id": "28981",
-            "model": null,
-            "unit_price": "0.00",
-            "store_house": "",
-            "f_name": null,
-            "input_time": "05-15 09:28",
-            "type": "2",
-            "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
-            "c_name": "临沂市明泽进出口有限公司",
-            "name": "娄兴隆",
-            "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
-            "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
-            "sex": "0",
-            "mobile_province": "山东",
-            "is_pass": "0",
-            "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
-            "saysCount": 0,
-            "deliverPriceCount": 0
-            }
-            ],
-            "top": {}
-            }
+     *     {
+     * "err": 0,
+     * "data": [
+     * {
+     * "id": "98174",
+     * "p_id": "0",
+     * "user_id": "20380",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:38",
+     * "type": "2",
+     * "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+     * "c_name": "临沂泓盛达塑化",
+     * "name": "赵清兵",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "thumbqq": null,
+     * "sex": "0",
+     * "mobile_province": null,
+     * "is_pass": "0",
+     * "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98173",
+     * "p_id": "0",
+     * "user_id": "9942",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:37",
+     * "type": "2",
+     * "content": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
+     * "c_name": "临沂市明泽进出口有限公司",
+     * "name": "王瑞",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "thumbqq": null,
+     * "sex": "0",
+     * "mobile_province": null,
+     * "is_pass": "0",
+     * "contents": "天津出：中沙5502\r\n淄博出：7151U    M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n????????????????????????????墨西哥高压ZLF002\r\n临沂出：伊朗52518、BL3、美国低压拉丝副牌\r\n08P??????????????????????????墨西哥低压膜ZHF001、高压ZLF002\r\n电话：13954456191",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98172",
+     * "p_id": "0",
+     * "user_id": "29985",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:36",
+     * "type": "2",
+     * "content": "出PC1100 PC1220",
+     * "c_name": "上海景程化工科技有限公司",
+     * "name": "王玉",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "sex": "0",
+     * "mobile_province": "山东",
+     * "is_pass": "0",
+     * "contents": "出PC1100 PC1220",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98171",
+     * "p_id": "0",
+     * "user_id": "28981",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:35",
+     * "type": "2",
+     * "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+     * "c_name": "临沂市明泽进出口有限公司",
+     * "name": "娄兴隆",
+     * "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+     * "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+     * "sex": "0",
+     * "mobile_province": "山东",
+     * "is_pass": "0",
+     * "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98169",
+     * "p_id": "0",
+     * "user_id": "40199",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:33",
+     * "type": "2",
+     * "content": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
+     * "c_name": "青岛聚福工程塑胶有限公司",
+     * "name": "唐勇松",
+     * "thumb": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
+     * "thumbqq": "http://statics.myplas.com/upload/17/02/21/58abf0f570dc1.jpg",
+     * "sex": "0",
+     * "mobile_province": "山东",
+     * "is_pass": "0",
+     * "contents": "P0M现货20吨，价格11600一吨不含税自提，欢迎来电17685866822微信同号",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98168",
+     * "p_id": "0",
+     * "user_id": "60738",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:33",
+     * "type": "2",
+     * "content": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
+     * "c_name": "河北精瑞包装材料有限",
+     * "name": "姜女士",
+     * "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+     * "thumbqq": "",
+     * "sex": "1",
+     * "mobile_province": "河北",
+     * "is_pass": "0",
+     * "contents": "本公司专业制作流延CPE      其具有透明度好，薄厚均匀，走机速度快",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98167",
+     * "p_id": "0",
+     * "user_id": "32905",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:33",
+     * "type": "2",
+     * "content": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
+     * "c_name": "北京秋硕金隆塑料制品有限公司",
+     * "name": "王艳",
+     * "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+     * "thumbqq": "",
+     * "sex": "1",
+     * "mobile_province": "北京",
+     * "is_pass": "0",
+     * "contents": "上海出：2426H(泰国) \r\n黄岛出：2426H(泰国)\r\n            FJ00952(沙特）    \r\n电话：13331051968",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98166",
+     * "p_id": "0",
+     * "user_id": "41176",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:32",
+     * "type": "2",
+     * "content": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
+     * "c_name": "临沂中诚贸易有限公司",
+     * "name": "罗小莉",
+     * "thumb": "http://statics.myplas.com/myapp/img/female.jpg",
+     * "thumbqq": "",
+     * "sex": "1",
+     * "mobile_province": "山东",
+     * "is_pass": "0",
+     * "contents": "青岛出:\r\n高压:15803托姆\r\n       801YY马来大腾涂覆\r\n       2119伊朗\r\n       LDF0823巴西0.8重包\r\n    BF2021巴西溶质2不开口\r\n茂金属：3518CB\r\n拉丝276-73俄卢克石油\r\n??????????????W50A009A印度\r\n?",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98165",
+     * "p_id": "0",
+     * "user_id": "29810",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:30",
+     * "type": "2",
+     * "content": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
+     * "c_name": "武汉汉帆塑料有限公司",
+     * "name": "张剑",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "thumbqq": "",
+     * "sex": "0",
+     * "mobile_province": "湖北",
+     * "is_pass": "0",
+     * "contents": "上海出：阿塞15803  宝山现货\r\n上海求：伊朗2420H  宝山塑托现货一柜",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * },
+     * {
+     * "id": "98164",
+     * "p_id": "0",
+     * "user_id": "28981",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "input_time": "05-15 09:28",
+     * "type": "2",
+     * "content": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+     * "c_name": "临沂市明泽进出口有限公司",
+     * "name": "娄兴隆",
+     * "thumb": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+     * "thumbqq": "http://statics.myplas.com/myapp/weixin/1475032231.jpg",
+     * "sex": "0",
+     * "mobile_province": "山东",
+     * "is_pass": "0",
+     * "contents": "天津出：中沙5502\r\n淄博出：滚塑7151U、M04\r\n黄岛出：伊朗9450F、中空BL3、注塑62N07\r\n              墨西哥高压ZLF002\r\n临沂出：伊朗52518/BL3/2420H、低压拉丝副牌\r\n              墨西哥低压膜ZHF001、高压ZLF002\r\n",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0
+     * }
+     * ],
+     * "top": {}
+     * }
      * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 2,
@@ -321,15 +321,14 @@ class releaseMsgAction extends baseAction
             // 检测是否有标准格式供求
 
             if ($page == 1 && $sortField2 == 'AUTO' && empty($keywords)) {
-                $has_purchase = M ('qapp:plasticRelease')->checkPurchase ($user_id,2);
-                if(empty($has_purchase))
-                {
+                $has_purchase = M ('qapp:plasticRelease')->checkPurchase ($user_id, 2);
+                if (empty($has_purchase)) {
                     $this->json_output (array(
                         'err' => 7,
                         'msg' => '您最近5天内未发布供求信息,暂无推荐！赶紧点击按钮去发布哦～',
                     ));
                 }
-                $has_standard = M ('qapp:plasticRelease')->checkPurchase ($user_id,1);
+                $has_standard = M ('qapp:plasticRelease')->checkPurchase ($user_id, 1);
                 if (empty($has_standard)) {
                     $this->json_output (array(
                         'err' => 7,
@@ -384,7 +383,9 @@ class releaseMsgAction extends baseAction
                 ));
             }
             $this->_checkLastPage ($data['count'], $size, $page);
-            $goods_id    = $this->db->model ("points_goods")->select ('id')->where (" type =1 and status =1")
+            $goods_id    = $this->db->model ("points_goods")
+                                    ->select ('id')
+                                    ->where (" type =1 and status =1")
                                     ->getOne ();
             $pointsOrder = M ("points:pointsOrder");
 
@@ -393,7 +394,7 @@ class releaseMsgAction extends baseAction
             //只有在有置顶头条并且页面是首页或者智能推荐时候有效
             if ($info0 && ($sortField1 == 'ALL' || $sortField2 == 'AUTO')) {
 
-                $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($info0['pur_id'],$info0['uid']);
+                $top      = M ('qapp:plasticRelease')->getReleaseMsgDetail ($info0['pur_id'], $info0['uid']);
                 $personal = M ('qapp:plasticPersonalInfo')->getMyOwnInfo ($info0['uid']);
                 $_tmp     = $top['info'];
                 unset($top['info']);
@@ -423,16 +424,17 @@ class releaseMsgAction extends baseAction
 
             }
 
-            if($page == 1 && $sortField1 == 'ALL'){
-                $stmp_releaseMsgNum = $this->cache->get('qappsreleaseMsgNum'.$user_id);
-                $this->cache->set('qappsreleaseMsgNum'.$user_id,$data['count'],1800);
-                $arr['show_msg'] = $data['count'] >$stmp_releaseMsgNum ? '更新了'.($data['count'] - $stmp_releaseMsgNum).'条数据':'';
+            if ($page == 1 && $sortField1 == 'ALL') {
+                $stmp_releaseMsgNum = $this->cache->get ('qappsreleaseMsgNum'.$user_id);
+                $this->cache->set ('qappsreleaseMsgNum'.$user_id, $data['count'], 1800);
+                $arr['show_msg'] = $data['count'] > $stmp_releaseMsgNum ? '更新了'.($data['count'] - $stmp_releaseMsgNum).'条数据' : '';
             }
 
             $this->json_output ($arr);
         }
         $this->_errCode (6);
     }
+
     /**
      * (中间供求信息)获取供求发布(详情)
      * @api {post} /qapi_3/releaseMsg/getReleaseMsgDetail (中间供求信息)获取供求发布(详情)
@@ -450,38 +452,38 @@ class releaseMsgAction extends baseAction
      *
      * @apiSuccessExample {json} Success-Response:
      *{
-    "err": 0,
-    "data": {
-    "id": "98174",
-    "p_id": "0",
-    "user_id": "20380",
-    "model": null,
-    "unit_price": "0.00",
-    "store_house": "",
-    "f_name": null,
-    "type": "2",
-    "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
-    "input_time": "05-15 09:38",
-    "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
-    "b_and_s": "",
-    "deal_price": "",
-    "saysCount": 0,
-    "deliverPriceCount": 0,
-    "info": {
-    "name": "",
-    "c_name": "",
-    "need_product": "",
-    "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
-    "fans": 0,
-    "member_level": null,
-    "sex": null,
-    "buy_count": "",
-    "sale_count": "",
-    "status": "关注"
-    }
-    }
-    }
-     *  @apiErrorExample {json} Error-Response:
+     * "err": 0,
+     * "data": {
+     * "id": "98174",
+     * "p_id": "0",
+     * "user_id": "20380",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "type": "2",
+     * "content": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+     * "input_time": "05-15 09:38",
+     * "contents": "临沂出伊朗2119\r\n\r\n求 伊朗2119  2102TX00\r\n阿赛 托母15803\r\n\r\n电话：13290209006\r\n     0539-7168803",
+     * "b_and_s": "",
+     * "deal_price": "",
+     * "saysCount": 0,
+     * "deliverPriceCount": 0,
+     * "info": {
+     * "name": "",
+     * "c_name": "",
+     * "need_product": "",
+     * "thumb": "http://statics.myplas.com/myapp/img/male.jpg",
+     * "fans": 0,
+     * "member_level": null,
+     * "sex": null,
+     * "buy_count": "",
+     * "sale_count": "",
+     * "status": "关注"
+     * }
+     * }
+     * }
+     * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 6,
      *       "msg": "参数错误"
@@ -520,37 +522,37 @@ class releaseMsgAction extends baseAction
      * @apiSuccess {String}   data   数据
      *
      * @apiSuccessExample {json} Success-Response:
-    {
-    "err": 0,
-    "data": {
-    "count": "1",
-    "data": [
-    {
-    "id": "1740",
-    "rev_id": "3259",
-    "user_id": "37848",
-    "is_read": "0",
-    "content": "要埃克森的什么牌号？2045G   1018HA",
-    "input_time": "3小时前",
-    "info": {
-    "user_id": "37848",
-    "name": "高鹏",
-    "c_id": "28963",
-    "is_pass": "0",
-    "mobile": "18369517155",
-    "sex": "男",
-    "thumb": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
-    "thumbqq": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
-    "thumbcard": "",
-    "c_name": "临沂国际商品交易中心",
-    "need_product": "PP拉丝 7042 2102TN26 2100TN0 中沙6010 6098 9085 LD100AC F5606 F5608",
-    "address": "山东省临沂市兰山区"
-    }
-    }
-    ]
-    }
-    }
-     *  @apiErrorExample {json} Error-Response:
+     * {
+     * "err": 0,
+     * "data": {
+     * "count": "1",
+     * "data": [
+     * {
+     * "id": "1740",
+     * "rev_id": "3259",
+     * "user_id": "37848",
+     * "is_read": "0",
+     * "content": "要埃克森的什么牌号？2045G   1018HA",
+     * "input_time": "3小时前",
+     * "info": {
+     * "user_id": "37848",
+     * "name": "高鹏",
+     * "c_id": "28963",
+     * "is_pass": "0",
+     * "mobile": "18369517155",
+     * "sex": "男",
+     * "thumb": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
+     * "thumbqq": "http://statics.myplas.com/upload/17/05/03/5909ab447abc2.jpg",
+     * "thumbcard": "",
+     * "c_name": "临沂国际商品交易中心",
+     * "need_product": "PP拉丝 7042 2102TN26 2100TN0 中沙6010 6098 9085 LD100AC F5606 F5608",
+     * "address": "山东省临沂市兰山区"
+     * }
+     * }
+     * ]
+     * }
+     * }
+     * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 2,
      *       "msg": "没有相关的数据"
@@ -579,6 +581,7 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 供求消息中的出价
      * @api {post} /qapi_3/releaseMsg/deliverPrice 供求消息中的出价
@@ -645,6 +648,7 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 获取供求消息的出价
      * @api {post} /qapi_3/releaseMsg/getDeliverPrice 获取供求消息的出价
@@ -695,8 +699,8 @@ class releaseMsgAction extends baseAction
     }
 
     /**
-     * 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
-     * @api {post} /qapi_3/releaseMsg/pub 判断提交的发布报价(采购1、报价2)数据/user/mypurchase/pub(现已修改到下面的方法)
+     * 判断提交的发布报价(采购1、报价2)数据
+     * @api {post} /qapi_3/releaseMsg/pub 判断提交的发布报价(采购1、报价2)
      * @apiVersion 3.1.0
      * @apiName  pub
      * @apiGroup releaseMsg
@@ -712,6 +716,7 @@ class releaseMsgAction extends baseAction
      *     {
      *       "err": 0,
      *       "msg": "提交成功"
+     *       "pur_id":21312
      *      }
      * @apiErrorExample {json} Error-Response:
      *      {
@@ -728,8 +733,8 @@ class releaseMsgAction extends baseAction
             $content = $data[0]['content'];//客户直接填写的求购内容，无格式
 
             //检测100字
-            if(mb_strlen($content,'utf-8')>100){
-                $this->_errCode(121);
+            if (mb_strlen ($content, 'utf-8') > 100) {
+                $this->_errCode (121);
             }
             //$cargo_type = $data[0]['cargo_type'];//现货、期货
             $type      = $data[0]['type'];//采购1、报价2
@@ -737,8 +742,10 @@ class releaseMsgAction extends baseAction
             $pur_model = M ('product:purchase');
             $fac_model = M ('product:factory');
             $pro_model = M ('product:product');
-            $soms      = M ('plasticzone:plasticPerson')->select ('c_id,customer_manager')->where ('user_id='.$user_id)
-                                                        ->getRow ();
+            $soms      = M ('plasticzone:plasticPerson')
+                ->select ('c_id,customer_manager')
+                ->where ('user_id='.$user_id)
+                ->getRow ();
             $content   = str_replace (PHP_EOL, '', $content);
             //判断是否只有content
             if (empty($data[0]['model']) && empty($data[0]['f_name']) && empty($data[0]['store_house'])) {
@@ -766,7 +773,7 @@ class releaseMsgAction extends baseAction
                     }
                     $pur_id = $pur_model->getLastID ();
                     //非标准发布
-                    if (A("api:points")->addScoreByPur($type,2,$user_id)['err'] > 0) {
+                    if (A ("api:points")->addScoreByPur ($type, 2, $user_id)['err'] > 0) {
                         throw new Exception("系统错误 pubpur:3");
                     }
 
@@ -782,8 +789,11 @@ class releaseMsgAction extends baseAction
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
                 $tmpContent = "您关注的";
-                $tmpContent .= M ("public:common")->model ('customer_contact')->select ('name')
-                                                  ->where ("user_id=".$user_id)->getOne ();
+                $tmpContent .= M ("public:common")
+                    ->model ('customer_contact')
+                    ->select ('name')
+                    ->where ("user_id=".$user_id)
+                    ->getOne ();
                 $tmpContent .= "发布了1条";
                 if ($type == 1) {
                     $tmpContent .= "求购";
@@ -802,10 +812,13 @@ class releaseMsgAction extends baseAction
             //
             foreach ($data as $key => $value) {
                 //是否已有该产品
-                $model = $this->db->from ('product p')->join ('factory f', 'p.f_id=f.fid');
+                $model = $this->db->from ('product p')
+                                  ->join ('factory f', 'p.f_id=f.fid');
                 //                 $where="p.model='{$value['model']}' and p.product_type={$value['product_type']} and f.f_name='{$value['f_name']}'";
                 $where          = "p.model='{$value['model']}'  and f.f_name='{$value['f_name']}'";
-                $pid            = $model->where ($where)->select ('p.id')->getOne ();
+                $pid            = $model->where ($where)
+                                        ->select ('p.id')
+                                        ->getOne ();
                 $value['price'] = sprintf ("%.2f", $value['price']);
                 $value['model'] = $this->clearStr ($value['model']);
                 $value['model'] = trim ($value['model']);
@@ -860,7 +873,9 @@ class releaseMsgAction extends baseAction
                     $pur_model->startTrans ();
                     try {
                         // 是否已有厂家
-                        $f_id = $fac_model->where ("f_name='{$value['f_name']}'")->select ('fid')->getOne ();
+                        $f_id = $fac_model->where ("f_name='{$value['f_name']}'")
+                                          ->select ('fid')
+                                          ->getOne ();
                         if (!$f_id) {
                             //创建新厂家
                             $_factory = array(
@@ -909,8 +924,11 @@ class releaseMsgAction extends baseAction
                 //robot表插入消息
                 $tmpFuns    = M ("qapp:plasticIntroduction")->getMyFunsId ($user_id, 1);
                 $tmpContent = "您关注的";
-                $tmpContent .= M ("public:common")->model ('customer_contact')->select ('name')
-                                                  ->where ("user_id=".$user_id)->getOne ();
+                $tmpContent .= M ("public:common")
+                    ->model ('customer_contact')
+                    ->select ('name')
+                    ->where ("user_id=".$user_id)
+                    ->getOne ();
                 $tmpContent .= "发布了1条";
                 if ($type == 1) {
                     $tmpContent .= "求购";
@@ -920,8 +938,8 @@ class releaseMsgAction extends baseAction
                 $tmpContent .= "信息，信息内容为:";
                 $tmpContent .= '价格'.$value['price'].'元左右/'.$value['model'].'/'.$value['f_name'].'/'.$value['store_house'];
                 //标准发布加积分
-                if (A("api:points")->addScoreByPur($type,1,$user_id)['err'] > 0) {
-                    $this->_errCode(7);
+                if (A ("api:points")->addScoreByPur ($type, 1, $user_id)['err'] > 0) {
+                    $this->_errCode (7);
                 }
                 if (!empty($tmpFuns)) {
                     foreach ($tmpFuns as $v) {
@@ -946,14 +964,21 @@ class releaseMsgAction extends baseAction
                     'create_time' => date ("Y-m-d H:i:s"),
                     'pur_type'    => $data[0]['type'],
                 );
-                M ("public:common")->model ('suggestion_model')->add ($suggestion_model_arr);
+                M ("public:common")
+                    ->model ('suggestion_model')
+                    ->add ($suggestion_model_arr);
             }
 
-
-            $this->success ('提交成功');
+            $this->json_output (array(
+                    'err'    => 0,
+                    'msg'    => '提交成功',
+                    'pur_id' => $pur_id,
+                ));
+            //$this->success ('提交成功');
         }
         $this->_errCode (6);
     }
+
     /**
      * 删除回复
      * @api {post} /qapi_3/releaseMsg/deleteRepeat 删除回复
@@ -989,6 +1014,7 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 回复供求消息
      * @api {post} /qapi_3/releaseMsg/saveMsg 回复供求消息
@@ -1087,26 +1113,26 @@ class releaseMsgAction extends baseAction
      *
      * @apiSuccessExample {json} Success-Response:
      *     {
-    "err": 0,
-    "data": [
-    {
-    "id": "90126",
-    "p_id": "0",
-    "user_id": "40418",
-    "model": null,
-    "unit_price": "0.00",
-    "store_house": "",
-    "f_name": null,
-    "type": "1",
-    "content": "求购hf5110",
-    "input_time": "04-24 16:59",
-    "b_and_s": "",
-    "deal_price": "",
-    "says": [],
-    "contents": "求购hf5110"
-    }
-    ]
-    }
+     * "err": 0,
+     * "data": [
+     * {
+     * "id": "90126",
+     * "p_id": "0",
+     * "user_id": "40418",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "type": "1",
+     * "content": "求购hf5110",
+     * "input_time": "04-24 16:59",
+     * "b_and_s": "",
+     * "deal_price": "",
+     * "says": [],
+     * "contents": "求购hf5110"
+     * }
+     * ]
+     * }
      * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 2,
@@ -1136,6 +1162,7 @@ class releaseMsgAction extends baseAction
         }
         $this->_errCode (6);
     }
+
     /**
      * 删除我的供给或求购
      * @api {post} /qapi_3/releaseMsg/deleteMyMsg 删除我的供给或求购
@@ -1238,22 +1265,22 @@ class releaseMsgAction extends baseAction
      * @apiSuccess {String}   data   数据
      *
      * @apiSuccessExample {json} Success-Response:
-    {
-    "err": 0,
-    "data": {
-    "id": "90126",
-    "p_id": "0",
-    "user_id": "40418",
-    "model": null,
-    "unit_price": "0.00",
-    "store_house": "",
-    "f_name": null,
-    "type": "1",
-    "content": "求购hf5110",
-    "input_time": "1493024389",
-    "f_type": 2
-    }
-    }
+     * {
+     * "err": 0,
+     * "data": {
+     * "id": "90126",
+     * "p_id": "0",
+     * "user_id": "40418",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "type": "1",
+     * "content": "求购hf5110",
+     * "input_time": "1493024389",
+     * "f_type": 2
+     * }
+     * }
      * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 1,
@@ -1305,29 +1332,29 @@ class releaseMsgAction extends baseAction
      * @apiParam   {String} user_id     用户id
      * @apiParam   {String} page     页数
      * @apiParam   {String} size     煤业数量
-     *@apiParam   {int} type     0全部  1采购 2报价
+     * @apiParam   {int} type     0全部  1采购 2报价
      *
      * @apiSuccess {int}  err   错误码
      * @apiSuccess {String}   msg   描述
      * @apiSuccess {String}   data   数据
      *
      * @apiSuccessExample {json} Success-Response:
-    {
-    "err": 0,
-    "data": {
-    "id": "90126",
-    "p_id": "0",
-    "user_id": "40418",
-    "model": null,
-    "unit_price": "0.00",
-    "store_house": "",
-    "f_name": null,
-    "type": "1",
-    "content": "求购hf5110",
-    "input_time": "1493024389",
-    "f_type": 2
-    }
-    }
+     * {
+     * "err": 0,
+     * "data": {
+     * "id": "90126",
+     * "p_id": "0",
+     * "user_id": "40418",
+     * "model": null,
+     * "unit_price": "0.00",
+     * "store_house": "",
+     * "f_name": null,
+     * "type": "1",
+     * "content": "求购hf5110",
+     * "input_time": "1493024389",
+     * "f_type": 2
+     * }
+     * }
      * @apiErrorExample {json} Error-Response:
      *      {
      *       "err": 2,
@@ -1352,9 +1379,13 @@ class releaseMsgAction extends baseAction
                 $where .= " and pur.type=$type";
             }
             $data = $this->db->select ('pur.id,pur.p_id,pur.user_id,pro.model,pur.unit_price,pur.store_house,fa.f_name,pur.type,pur.content,pur.input_time')
-                             ->from ('purchase pur')->leftjoin ('product pro', 'pur.p_id=pro.id')
-                             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')->page ($page, $size)->where ($where)
-                             ->order ('pur.input_time desc')->getPage ();
+                             ->from ('purchase pur')
+                             ->leftjoin ('product pro', 'pur.p_id=pro.id')
+                             ->leftjoin ('factory fa', 'pro.f_id=fa.fid')
+                             ->page ($page, $size)
+                             ->where ($where)
+                             ->order ('pur.input_time desc')
+                             ->getPage ();
             if (empty($data['data']) && $page == 1) {
                 $this->json_output (array(
                     'err' => 2,
