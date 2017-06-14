@@ -462,7 +462,7 @@ class toutiaoAction extends baseAction
                 } else {
                     //新版本
                     $cate_id = sget ('cate_id', 's');
-                    $prop_id = sget ('cate_id', 's');
+                    $prop_id = sget ('prop_id', 's');
 
                     $cate_id = explode (',', $cate_id);
                     $prop_id = explode (',', $prop_id);
@@ -494,13 +494,13 @@ class toutiaoAction extends baseAction
                     $res1      = M ("qapp:newsSubscribe")->getSubscribeByUserid ($user_id);
                     $user_info = M ("user:userInfo")->getQappUserInfo ($user_id);
 
-                    $res2      = explode (',', $user_info['physical_subscribe']);
+                    $res2 = explode (',', $user_info['physical_subscribe']);
                     if (empty($res1)) {
                         $res1 = $this->newsSubscribeDefault;
                     }
                     $tmp = array(
-                        'subscribe' => $res1,
-                        'property'  => $res2,
+                        'subscribe' => array_values (array_filter ($res1)),
+                        'property'  => array_values (array_filter ($res2)),
                     );
                 }
                 $this->json_output (array(
