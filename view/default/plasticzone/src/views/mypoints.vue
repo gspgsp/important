@@ -464,7 +464,6 @@ export default {
 					}
 				});
 			}
-			console.log(this.daySelected2);
 		},
 		formatDate: function(date) {
 			var _year = date.getFullYear();

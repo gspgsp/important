@@ -48,6 +48,9 @@
 					<span style="color: #999999;">{{b.input_time}}</span><br>
 					<span style="color: #ec8000;">求购</span>:{{b.contents}}
 				</li>
+				<li v-if="buylist.length==0" style="line-height: 30px; text-align: center;">
+					没有更多求购信息
+				</li>
 			</ul>
 		</div>
 		<div class="personInfoList">
@@ -58,6 +61,9 @@
 				<li v-for="s in supplylist">
 					<span style="color: #999999;">{{s.input_time}}</span><br>
 					<span style="color: #63769d;">供给</span>:{{s.contents}}
+				</li>
+				<li v-if="supplylist.length==0" style="line-height: 30px; text-align: center;">
+					没有更多供给信息
 				</li>
 			</ul>
 		</div>
