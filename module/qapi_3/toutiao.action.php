@@ -498,9 +498,16 @@ class toutiaoAction extends baseAction
                     if (empty($res1)) {
                         $res1 = $this->newsSubscribeDefault;
                     }
-                    $tmp = array(
-                        'subscribe' => array_values (array_filter ($res1)),
-                        'property'  => array_values (array_filter ($res2)),
+                    $unconcealed = array(
+                        2,
+                        20,
+                        21,
+                        26,
+                    );
+                    $tmp         = array(
+                        'subscribe'   => array_values (array_filter ($res1)),
+                        'unconcealed_subscribe' => $unconcealed,
+                        'property'    => array_values (array_filter ($res2)),
                     );
                 }
                 $this->json_output (array(
