@@ -506,7 +506,7 @@ class toutiaoAction extends baseAction
                     );
                     function convertInt($v)
                     {
-                        return(integer)$v;
+                        return intval($v);
                     }
 
                     array_map("convertInt",$res1);
