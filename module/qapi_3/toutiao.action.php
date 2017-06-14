@@ -509,6 +509,7 @@ class toutiaoAction extends baseAction
                         'unconcealed_subscribe' => $unconcealed,
                         'property'    => array_values (array_filter ($res2)),
                     );
+                    $tmp = 123456;
                 }
                 $this->json_output (array(
                     'err'  => 0,
