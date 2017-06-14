@@ -502,7 +502,7 @@ class toutiaoAction extends baseAction
                         2,
                         20,
                         21,
-                        26,
+                        22,
                     );
                     function convertInt($v)
                     {
