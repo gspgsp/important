@@ -807,7 +807,12 @@ class releaseMsgAction extends baseAction
                         usleep (10);
                     }
                 }
-                $this->success ('提交成功');
+                //$this->success ('提交成功');
+                $this->json_output (array(
+                    'err'    => 0,
+                    'msg'    => '提交成功',
+                    'pur_id' => $pur_id,
+                ));
             }
             //
             foreach ($data as $key => $value) {
