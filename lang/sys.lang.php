@@ -175,6 +175,7 @@ return array(
 		'share'=>'共享操作',
 		'revocation'=>'撤销黑名单',
 		'delete'=>'删除',
+		'dismiss'=>'强开',
 	),
 
 	//授信状态
