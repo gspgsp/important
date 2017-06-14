@@ -475,7 +475,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: {
         'yes': n.is_pass == 1, 'no': n.is_pass == 0
       }
-    })]), _vm._v(" "), _c('div', {
+    }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
       staticClass: "info flt"
     }, [_c('p', {
       staticClass: "company"
@@ -517,7 +517,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: {
         'yes': n.user_id.is_pass == 1, 'no': n.user_id.is_pass == 0
       }
-    })]), _vm._v(" "), _c('div', {
+    }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
       staticClass: "info flt"
     }, [_c('p', {
       staticClass: "company"
@@ -559,7 +559,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: {
         'yes': n.focused_id.is_pass == 1, 'no': n.focused_id.is_pass == 0
       }
-    })]), _vm._v(" "), _c('div', {
+    }, [_vm._v("V")])]), _vm._v(" "), _c('div', {
       staticClass: "info flt"
     }, [_c('p', {
       staticClass: "company"
@@ -794,7 +794,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     attrs: {
       "src": _vm.leftpi,
-      "onerror": "this.src='http://pic.myplas.com/mypc/img/female.jpg'"
+      "onerror": "this.src='http://pic.myplas.com/mypc/img/card.jpg'"
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "authen no"

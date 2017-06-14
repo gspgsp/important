@@ -608,7 +608,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     attrs: {
       "src": _vm.leftpi,
-      "onerror": "this.src='http://pic.myplas.com/mypc/img/female.jpg'"
+      "onerror": "this.src='http://pic.myplas.com/mypc/img/card.jpg'"
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "authen no"
