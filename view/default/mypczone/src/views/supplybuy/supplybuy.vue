@@ -20,8 +20,10 @@
 				                <!--select end-->
 				                <!--search begin-->
 				                <div class="search flt">
-				                    <input type="text" placeholder="请输入厂家或牌号搜索" class="import flt" v-model="keywords"/>
+								    <form action="javascript:;">
+				                    <input v-on:keyup.enter="search" type="text" placeholder="请输入厂家或牌号搜索" class="import flt" v-model="keywords"/>
 				                    <input type="button" class="submit frt" value="搜索" v-on:click="search()"/>
+									</form>
 				                </div>
 				                <!--search end-->
 				            </form>
@@ -420,6 +422,7 @@ export default {
   		//selectAll end
   		//getRelease begin
   		getRelease : function ( cate ) {
+		        $(".right").scrollTop(0,0);
   				var _this = this;
   				switch(cate) {
 						case 'all':
@@ -651,7 +654,9 @@ export default {
 									content : res.msg,
 									closeBtn : false,
 									btnAlign: 'c',
-									anim : 2
+									anim : 2,
+									time:2000,
+									btn : 0,
 							});
 						}
 					}, function() {

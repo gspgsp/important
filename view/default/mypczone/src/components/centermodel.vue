@@ -31,8 +31,10 @@
                 <!--search-top end-->
                 <!--search-bot begin-->
                 <div class="search-bot">
+				    <form action="javascript:;">
                     <input v-on:keydown.enter="search" type="text" placeholder="请输入公司、姓名、牌号查询"v-model="keywords">
                     <span v-on:click="search" class="icon-search flt">搜索</span>
+					</form>
                 </div>
                 <!--search-bot end-->
             </form>
@@ -150,6 +152,9 @@
 <!--default end-->
   </div>
 </template>
+<style type="text/css">
+.layui-layer-content{ text-align:center;}
+</style>
 <script>
 export default {
   name: 'centermodel',
@@ -360,7 +365,7 @@ export default {
 
                 });
             } else {
-                //window.location.reload();
+                window.location.reload();
             }
         },
         loadingMore: function() {
