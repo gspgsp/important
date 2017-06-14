@@ -1676,6 +1676,7 @@ $(function () {
 		var url = window.location.pathname;
 		var uri = url.substring(url.lastIndexOf('/') + 1, url.length);
 		switch (uri) {
+			case 'init':
 			case 'index':
 			case 'indexinfo':
 			case 'infobuy':
