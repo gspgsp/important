@@ -35,7 +35,7 @@
     </ul>
     <div class="card frt" v-on:click="cardcheck">
 	<!--<img style="height:auto;width:auto;" v-bind:src="cardImg">-->
-	<img style="height:auto;width:auto;" v-bind:src="cardImg" onerror="this.src='http://pic.myplas.com/mypc/img/pic2.png'"/></div>
+	<img style="height:auto;width:auto;" v-bind:src="cardImg" onerror="this.src='http://pic.myplas.com/mypc/img/card.jpg'"/></div>
     <span class="point point1"></span>
 </div>
 <!--company-info end-->

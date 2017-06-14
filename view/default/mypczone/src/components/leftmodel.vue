@@ -4,7 +4,7 @@
     <div class="left flt">
     	<!--pic begin-->
         <div class="pic">
-            <img v-bind:src="leftpi"onerror="this.src='http://pic.myplas.com/mypc/img/female.jpg'">
+            <img v-bind:src="leftpi"onerror="this.src='http://pic.myplas.com/mypc/img/card.jpg'">
             <div class="authen no">V</div>
         </div>
         <!--pic end-->

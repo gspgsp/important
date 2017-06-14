@@ -8,7 +8,7 @@
             <!--back end-->
             <div class="blank"></div>
             <!--my-wrap begin-->
-            <div class="my-wrap w96 sell" v-show="condition" v-for="n in name">
+            <div class="my-wrap w96" v-bind:class="{'sell':type == 2,'buy':type == 1}" v-show="condition" v-for="n in name">
                 <!--my-wrap-top begin-->
                 <div class="my-wrap-top">
                     <div class="w96">

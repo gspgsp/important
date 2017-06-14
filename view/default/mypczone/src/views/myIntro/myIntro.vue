@@ -15,7 +15,7 @@
                             <!--pic begin-->
                             <div class="pic flt">
                                 <img v-bind:src="n.thumb">
-                                <div class="authen" v-bind:class="{'yes':n.is_pass == 1,'no':n.is_pass == 0}"></div>
+                                <div class="authen" v-bind:class="{'yes':n.is_pass == 1,'no':n.is_pass == 0}">V</div>
                             </div>
                             <!--pic end-->
                             <!--info begin-->
@@ -36,7 +36,7 @@
                             <!--pic begin-->
                             <div class="pic flt">
                                 <img v-bind:src="n.user_id.thumb">
-                                <div class="authen" v-bind:class="{'yes':n.user_id.is_pass == 1,'no':n.user_id.is_pass == 0}"></div>
+                                <div class="authen" v-bind:class="{'yes':n.user_id.is_pass == 1,'no':n.user_id.is_pass == 0}">V</div>
                             </div>
                             <!--pic end-->
                             <!--info begin-->
@@ -57,7 +57,7 @@
                             <!--pic begin-->
                             <div class="pic flt">
                                 <img v-bind:src="n.focused_id.thumb">
-                                <div class="authen" v-bind:class="{'yes':n.focused_id.is_pass == 1,'no':n.focused_id.is_pass == 0}"></div>
+                                <div class="authen" v-bind:class="{'yes':n.focused_id.is_pass == 1,'no':n.focused_id.is_pass == 0}">V</div>
                             </div>
                             <!--pic end-->
                             <!--info begin-->
