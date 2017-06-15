@@ -1132,6 +1132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		var _this = this;
 		next(function (vm) {
 			$(window).on('scroll', function () {
 				vm.loadingMore();
@@ -1140,6 +1141,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 	},
 	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+		var _this = this;
 		next(function () {});
 		$(window).off('scroll');
 		window.localStorage.setItem("HscrollTop", $(window).scrollTop());
@@ -1541,9 +1543,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
 			piwikTracker.trackPageView();
 		} catch (err) {}
-
 		this.cateid = 999;
-
 		$.ajax({
 			type: "post",
 			url: version + '/toutiao/getSubscribe',
