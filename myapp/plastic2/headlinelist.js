@@ -1133,14 +1133,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
 		next(function (vm) {
-			vm.loadingShow = true;
+			$(window).on('scroll', function () {
+				vm.loadingMore();
+			});
+			$(window).scrollTop(window.localStorage.getItem("HscrollTop"));
 		});
 	},
 	beforeRouteLeave: function beforeRouteLeave(to, from, next) {
 		next(function () {});
-		this.loadingHide = false;
+		$(window).off('scroll');
+		window.localStorage.setItem("HscrollTop", $(window).scrollTop());
 	},
 	methods: {
+		loadingMore: function loadingMore() {
+			var _this = this;
+			var scrollTop = $(this).scrollTop();
+			var scrollHeight = $(document).height();
+			var windowHeight = $(this).height();
+			if (scrollTop > 600) {
+				_this.isArrow = true;
+			} else {
+				_this.isArrow = false;
+			}
+			if (scrollTop + windowHeight >= scrollHeight) {
+				_this.page++;
+				$.ajax({
+					type: "post",
+					url: version + "/toutiao/getCateList",
+					data: {
+						page: _this.page,
+						size: 10,
+						cate_id: _this.$route.params.id,
+						token: window.localStorage.getItem("token")
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {
+					console.log(res);
+					if (res.err == 0) {
+						_this.condition = true;
+						_this.items = _this.items.concat(res.info);
+					} else if (res.err == 1) {
+						weui.alert(res.msg, {
+							title: '塑料圈通讯录',
+							buttons: [{
+								label: '确定',
+								type: 'parimary',
+								onClick: function onClick() {
+									_this.$router.push({
+										name: 'login'
+									});
+								}
+							}]
+						});
+					} else if (res.err == 2) {
+						_this.condition = false;
+					} else if (res.err == 3) {
+						weui.topTips(res.msg, 3000);
+					}
+				}, function () {});
+			}
+		},
 		chooseCate: function chooseCate(id) {
 			var _this = this;
 			if (this.subscribe.indexOf(id) == -1) {
@@ -1189,7 +1244,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (this.subscribe.length < 6 && this.property.length < 6) {
 
 				weui.toast('订阅栏目与制品分类各选6个', {
-					duration: 93000,
+					duration: 3000,
 					className: 'dingyue',
 					callback: function callback() {}
 				});
@@ -1480,7 +1535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}
 		}
 	},
-	activated: function activated() {
+	mounted: function mounted() {
 		var _this = this;
 		try {
 			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
@@ -1531,62 +1586,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				freeMode: true
 			});
 		});
-
-		$(window).scroll(function () {
-			var scrollTop = $(this).scrollTop();
-			var scrollHeight = $(document).height();
-			var windowHeight = $(this).height();
-			if (scrollTop > 600) {
-				_this.isArrow = true;
-			} else {
-				_this.isArrow = false;
-			}
-			if (scrollTop + windowHeight >= scrollHeight) {
-				_this.page++;
-				$.ajax({
-					type: "post",
-					url: version + "/toutiao/getCateList",
-					data: {
-						page: _this.page,
-						size: 10,
-						cate_id: _this.$route.params.id,
-						token: window.localStorage.getItem("token")
-					},
-					headers: {
-						'X-UA': window.localStorage.getItem("XUA")
-					},
-					dataType: 'JSON'
-				}).then(function (res) {
-					console.log(res);
-					if (res.err == 0) {
-						_this.condition = true;
-						_this.items = _this.items.concat(res.info);
-					} else if (res.err == 1) {
-						weui.alert(res.msg, {
-							title: '塑料圈通讯录',
-							buttons: [{
-								label: '确定',
-								type: 'parimary',
-								onClick: function onClick() {
-									_this.$router.push({
-										name: 'login'
-									});
-								}
-							}]
-						});
-					} else if (res.err == 2) {
-						_this.condition = false;
-					} else if (res.err == 3) {
-						weui.topTips(res.msg, 3000);
-					}
-				}, function () {});
-			}
-		});
-	},
-	deactivated: function deactivated() {
-		$(window).unbind('scroll');
 	}
-
 });
 
 /***/ }),

@@ -181,7 +181,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "loading": _vm.loadingShow
     }
-  }), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -337,245 +337,6 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 49:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			isIndex: false,
-			isRelease: false,
-			isMyzone: false,
-			isHeadline: false
-		};
-	},
-	methods: {
-		toQuickRelease: function toQuickRelease() {
-			var _this = this;
-			if (window.localStorage.getItem("token")) {
-				_this.$router.push({
-					name: 'quickrelease'
-				});
-			} else {
-				weui.alert('您未登录塑料圈,无法查看企业及个人信息', {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			}
-		},
-		toRelease: function toRelease() {
-			var _this = this;
-			if (window.localStorage.getItem("token")) {
-				_this.$router.push({
-					name: 'release'
-				});
-			} else {
-				weui.confirm('您未登录塑料圈,无法查看企业及个人信息', function () {
-					_this.$router.push({
-						name: 'login'
-					});
-				}, function () {}, {
-					title: '塑料圈通讯录'
-				});
-			}
-		},
-		toMyzone: function toMyzone() {
-			var _this = this;
-			if (window.localStorage.getItem("token")) {
-				_this.$router.push({
-					name: 'myzone'
-				});
-			} else {
-				weui.confirm('您未登录塑料圈,无法查看企业及个人信息', function () {
-					_this.$router.push({
-						name: 'login'
-					});
-				}, function () {}, {
-					title: '塑料圈通讯录'
-				});
-			}
-		},
-		toHeadline: function toHeadline() {
-			var _this = this;
-			if (window.localStorage.getItem("token")) {
-				_this.$router.push({
-					name: 'headlinelist'
-				});
-			} else {
-				weui.confirm('您未登录塑料圈,无法查看企业及个人信息', function () {
-					_this.$router.push({
-						name: 'login'
-					});
-				}, function () {}, {
-					title: '塑料圈通讯录'
-				});
-			}
-		}
-
-	},
-	mounted: function mounted() {
-		var _this = this;
-		var uri = this.$route.name;
-		switch (uri) {
-			case 'index':
-				this.isIndex = true;
-				this.isRelease = false;
-				this.isMyzone = false;
-				this.isHeadline = false;
-				break;
-			case 'release':
-				this.isIndex = false;
-				this.isRelease = true;
-				this.isMyzone = false;
-				this.isHeadline = false;
-				break;
-			case 'myzone':
-			case 'mysupply':
-			case 'mybuy':
-			case 'myinvite':
-			case 'myfans':
-			case 'mypay':
-			case 'mymsg':
-			case 'mymsg2':
-			case 'myinfo':
-				this.isIndex = false;
-				this.isRelease = false;
-				this.isMyzone = true;
-				this.isHeadline = false;
-				break;
-			case 'headline':
-			case 'headlinedetail':
-			case 'headlinelist':
-				this.isIndex = false;
-				this.isRelease = false;
-				this.isMyzone = false;
-				this.isHeadline = true;
-				break;
-		}
-	}
-});
-
-/***/ }),
-
-/***/ 50:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(48)(
-  /* script */
-  __webpack_require__(49),
-  /* template */
-  __webpack_require__(51),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "D:\\xampp\\htdocs\\workspace2\\www\\view\\default\\plasticzone\\src\\components\\footer.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] footer.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3efe2928", Component.options)
-  } else {
-    hotAPI.reload("data-v-3efe2928", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 51:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('footer', {
-    attrs: {
-      "id": "footer"
-    }
-  }, [_c('ul', [_c('li', [_c('a', {
-    class: {
-      'footerOn': _vm.isHeadline
-    },
-    attrs: {
-      "href": "javascript:;"
-    },
-    on: {
-      "click": _vm.toHeadline
-    }
-  }, [_c('i', {
-    staticClass: "foot5"
-  }), _c('br'), _vm._v("头条")])]), _vm._v(" "), _c('li', [_c('router-link', {
-    class: {
-      'footerOn': _vm.isIndex
-    },
-    attrs: {
-      "to": {
-        name: 'index'
-      }
-    }
-  }, [_c('i', {
-    staticClass: "foot2"
-  }), _c('br'), _vm._v("通讯录")])], 1), _vm._v(" "), _c('li', [_c('i', {
-    staticClass: "releaseicon",
-    on: {
-      "click": _vm.toQuickRelease
-    }
-  })]), _vm._v(" "), _c('li', [_c('a', {
-    class: {
-      'footerOn': _vm.isRelease
-    },
-    attrs: {
-      "href": "javascript:;"
-    },
-    on: {
-      "click": _vm.toRelease
-    }
-  }, [_c('i', {
-    staticClass: "foot3"
-  }), _c('br'), _vm._v("供求")])]), _vm._v(" "), _c('li', [_c('a', {
-    class: {
-      'footerOn': _vm.isMyzone
-    },
-    attrs: {
-      "href": "javascript:;"
-    },
-    on: {
-      "click": _vm.toMyzone
-    }
-  }, [_c('i', {
-    staticClass: "foot4"
-  }), _c('br'), _vm._v("我的")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3efe2928", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -661,18 +422,14 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_footer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_footer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_loadingPage__);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_loadingPage__);
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	components: {
-		'footerbar': __WEBPACK_IMPORTED_MODULE_0__components_footer___default.a,
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_1__components_loadingPage___default.a
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default.a
 	},
 	data: function data() {
 		return {

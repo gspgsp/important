@@ -41,11 +41,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: {
         config1: 0 == index % 3, config2: 1 == index % 3, config3: 2 == index % 3
       }
-    }, [_vm._v("Q："), _c('span', {
+    }, [_vm._v("Q:"), _c('span', {
       domProps: {
         "innerHTML": _vm._s(c.q)
       }
-    })]), _vm._v("\n\t\t\t\tA："), _c('span', {
+    })]), _vm._v("\n\t\t\t\tA:"), _c('span', {
       domProps: {
         "innerHTML": _vm._s(c.a)
       }
