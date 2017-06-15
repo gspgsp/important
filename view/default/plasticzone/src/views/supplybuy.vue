@@ -11,6 +11,12 @@
 		<h3>{{input_time}}</h3>
 		<p><i class="myicon iconSupply"></i>我的{{name}}:{{contents}}</p>
 	</div>
+	<div class="downloadAppIndex" v-if="download">
+		<div class="indexApp">
+			<a class="downloadLink" style="width: 100%;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
+			<div class="downloadClose" v-on:click="downloadClose"></div>
+		</div>
+	</div>
 	<div class="sharelayer" v-show="share" v-on:click="sharehide"></div>
 	<div class="tip" v-show="share3"></div>
 	<div class="tip2" v-show="share4"></div>
@@ -30,10 +36,14 @@ export default{
 			share: false,
 			share3: false,
 			share4: false,
-			typeName:"供给消息"
+			typeName:"供给消息",
+			download:true
 		}
 	},
 	methods: {
+		downloadClose:function(){
+			this.download=false;
+		},
 		shareshow: function() {
 			this.share = true;
 			this.share3 = true;

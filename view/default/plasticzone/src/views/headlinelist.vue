@@ -87,32 +87,32 @@
 	<div class="subscribelayer" v-show="subscribeshow">
 		<h3 class="subscribetitle" style="position: relative;">订阅栏目：<div class="subscribebtn" v-on:click="subscribeClose"></div></h3>
 		<ul class="mysubscribe" style="border-bottom: 1px solid #D1D1D1;">
-			<li v-on:click="chooseCate(2)" v-bind:class="{on:subscribe.indexOf(2)!==-1,disabled:unsubscribe.indexOf(2)!==-1}"><i class="headlineicon hicon"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(1)" v-bind:class="{on:subscribe.indexOf(1)!==-1,disabled:unsubscribe.indexOf(1)!==-1}"><i class="headlineicon hicon2"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(9)" v-bind:class="{on:subscribe.indexOf(9)!==-1,disabled:unsubscribe.indexOf(9)!==-1}"><i class="headlineicon hicon3"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(4)" v-bind:class="{on:subscribe.indexOf(4)!==-1,disabled:unsubscribe.indexOf(4)!==-1}"><i class="headlineicon hicon4"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(20)" v-bind:class="{on:subscribe.indexOf(20)!==-1,disabled:unsubscribe.indexOf(20)!==-1}"><i class="headlineicon hicon5"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(21)" v-bind:class="{on:subscribe.indexOf(21)!==-1,disabled:unsubscribe.indexOf(21)!==-1}"><i class="headlineicon hicon6"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(11)" v-bind:class="{on:subscribe.indexOf(11)!==-1,disabled:unsubscribe.indexOf(11)!==-1}"><i class="headlineicon hicon7"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(13)" v-bind:class="{on:subscribe.indexOf(13)!==-1,disabled:unsubscribe.indexOf(13)!==-1}"><i class="headlineicon hicon8"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate(22)" v-bind:class="{on:subscribe.indexOf(22)!==-1,disabled:unsubscribe.indexOf(22)!==-1}"><i class="headlineicon hicon9"></i><i class="cateCheckbox"></i></li>
+			<li v-on:click="chooseCate(2)" v-bind:class="{on:subscribe.indexOf(2)!==-1,disabled:unsubscribe.indexOf(2)!==-1}"><i class="headlineicon hicon"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(1)" v-bind:class="{on:subscribe.indexOf(1)!==-1,disabled:unsubscribe.indexOf(1)!==-1}"><i class="headlineicon hicon2"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(9)" v-bind:class="{on:subscribe.indexOf(9)!==-1,disabled:unsubscribe.indexOf(9)!==-1}"><i class="headlineicon hicon3"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(4)" v-bind:class="{on:subscribe.indexOf(4)!==-1,disabled:unsubscribe.indexOf(4)!==-1}"><i class="headlineicon hicon4"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(20)" v-bind:class="{on:subscribe.indexOf(20)!==-1,disabled:unsubscribe.indexOf(20)!==-1}"><i class="headlineicon hicon5"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(21)" v-bind:class="{on:subscribe.indexOf(21)!==-1,disabled:unsubscribe.indexOf(21)!==-1}"><i class="headlineicon hicon6"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(11)" v-bind:class="{on:subscribe.indexOf(11)!==-1,disabled:unsubscribe.indexOf(11)!==-1}"><i class="headlineicon hicon7"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(13)" v-bind:class="{on:subscribe.indexOf(13)!==-1,disabled:unsubscribe.indexOf(13)!==-1}"><i class="headlineicon hicon8"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate(22)" v-bind:class="{on:subscribe.indexOf(22)!==-1,disabled:unsubscribe.indexOf(22)!==-1}"><i class="headlineicon hicon9"><i class="cateCheckbox"></i></i></li>
 			<div style="width: 100%; clear: both;"></div>
 		</ul>
 		<h3 class="subscribetitle">制品分类：(推送至推荐栏目下)</h3>
 		<ul class="mysubscribe">
-			<li v-on:click="chooseCate2(1)" v-bind:class="{on:property.indexOf(1)!==-1}"><i class="propertyicon hicon"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(2)" v-bind:class="{on:property.indexOf(2)!==-1}"><i class="propertyicon hicon2"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(3)" v-bind:class="{on:property.indexOf(3)!==-1}"><i class="propertyicon hicon3"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(4)" v-bind:class="{on:property.indexOf(4)!==-1}"><i class="propertyicon hicon4"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(5)" v-bind:class="{on:property.indexOf(5)!==-1}"><i class="propertyicon hicon5"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(6)" v-bind:class="{on:property.indexOf(6)!==-1}"><i class="propertyicon hicon6"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(7)" v-bind:class="{on:property.indexOf(7)!==-1}"><i class="propertyicon hicon7"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(8)" v-bind:class="{on:property.indexOf(8)!==-1}"><i class="propertyicon hicon8"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(9)" v-bind:class="{on:property.indexOf(9)!==-1}"><i class="propertyicon hicon9"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(10)" v-bind:class="{on:property.indexOf(10)!==-1}"><i class="propertyicon hicon10"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(11)" v-bind:class="{on:property.indexOf(11)!==-1}"><i class="propertyicon hicon11"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(12)" v-bind:class="{on:property.indexOf(12)!==-1}"><i class="propertyicon hicon12"></i><i class="cateCheckbox"></i></li>
-			<li v-on:click="chooseCate2(13)" v-bind:class="{on:property.indexOf(13)!==-1}"><i class="propertyicon hicon13"></i><i class="cateCheckbox"></i></li>
+			<li v-on:click="chooseCate2(1)" v-bind:class="{on:property.indexOf(1)!==-1}"><i class="propertyicon hicon"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(2)" v-bind:class="{on:property.indexOf(2)!==-1}"><i class="propertyicon hicon2"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(3)" v-bind:class="{on:property.indexOf(3)!==-1}"><i class="propertyicon hicon3"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(4)" v-bind:class="{on:property.indexOf(4)!==-1}"><i class="propertyicon hicon4"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(5)" v-bind:class="{on:property.indexOf(5)!==-1}"><i class="propertyicon hicon5"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(6)" v-bind:class="{on:property.indexOf(6)!==-1}"><i class="propertyicon hicon6"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(7)" v-bind:class="{on:property.indexOf(7)!==-1}"><i class="propertyicon hicon7"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(8)" v-bind:class="{on:property.indexOf(8)!==-1}"><i class="propertyicon hicon8"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(9)" v-bind:class="{on:property.indexOf(9)!==-1}"><i class="propertyicon hicon9"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(10)" v-bind:class="{on:property.indexOf(10)!==-1}"><i class="propertyicon hicon10"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(11)" v-bind:class="{on:property.indexOf(11)!==-1}"><i class="propertyicon hicon11"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(12)" v-bind:class="{on:property.indexOf(12)!==-1}"><i class="propertyicon hicon12"><i class="cateCheckbox"></i></i></li>
+			<li v-on:click="chooseCate2(13)" v-bind:class="{on:property.indexOf(13)!==-1}"><i class="propertyicon hicon13"><i class="cateCheckbox"></i></i></li>
 		</ul>
 
 	</div>
@@ -210,25 +210,35 @@ export default {
 		},
 		subscribeClose: function() {
 			var _this = this;
-			this.subscribeshow = false;
-			$.ajax({
-				type: "post",
-				url: version + '/toutiao/getSelectCate',
-				data: {
-					token: window.localStorage.getItem("token"),
-					cate_id: _this.subscribe.join(),
-					prop_id: _this.property.join(),
-					type: 1
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function(res) {
-
-			}, function() {
-
-			});
+			if (this.subscribe.length<6&&this.property.length<6) {
+				
+				weui.toast('订阅栏目与制品分类各选6个', {
+				    duration: 93000,
+				    className: 'dingyue',
+				    callback: function(){}
+				});
+			} else{
+				this.subscribeshow = false;
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getSelectCate',
+					data: {
+						token: window.localStorage.getItem("token"),
+						cate_id: _this.subscribe.join(),
+						prop_id: _this.property.join(),
+						type: 1
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function(res) {
+	
+				}, function() {
+	
+				});					
+			}
+		
 		},
 		getList: function(id) {
 			var _this = this;

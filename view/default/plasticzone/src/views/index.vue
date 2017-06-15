@@ -33,20 +33,8 @@
 				<div class="payfansImg2"></div><span>关注我的人</span>
 			</div>
 		</router-link>
-		<div class="downloadAppIndex" v-if="download">
-			<div class="indexApp">
-				<a class="downloadLink" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
-				<div class="downloadClose" v-on:click="downloadClose"></div>
-			</div>
-		</div>
 	</div>
 	<div v-else class="payfans" style="background: #ff854d;">
-		<div class="downloadAppIndex" v-if="download">
-			<div class="indexApp">
-				<a class="downloadLink" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
-				<div class="downloadClose" v-on:click="downloadClose"></div>
-			</div>
-		</div>
 		<router-link style="width: 100%;" :to="{name:'mypoints'}">
 		<!--<a style="width: 100%;" href="http://q.myplas.com/#/mypoints"></a>-->
 		<img width="100%" v-bind:src="bannerImg" />
@@ -126,6 +114,12 @@
 	</ul>
 	<loadingPage :loading="loadingShow"></loadingPage>
 	<footerbar></footerbar>
+	<div class="downloadAppIndex" v-if="download">
+		<div class="indexApp">
+			<a class="downloadLink" style="width: 100%;" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"></a>
+			<div class="downloadClose" v-on:click="downloadClose"></div>
+		</div>
+	</div>
 	<div class="refresh" v-bind:class="{circle:isCircle}" v-on:click="circle"></div>
 	<div class="arrow" v-show="isArrow" v-on:click="arrow"></div>
 </div>
