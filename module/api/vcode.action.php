@@ -30,6 +30,7 @@ class vcodeAction extends homeBaseAction
         $name            = 'vc_'.sget ('name', 's', 'vcode');
         $vcode->doimage ();
         $_SESSION[$name] = $vcode->get_code ();
+       
     }
 
     /**

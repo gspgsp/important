@@ -1,309 +1,214 @@
-{layout file="public:main_layout"}
+{layout file="public:news_warp"}
 {insert_css files='home/style.css'}
-<div class="yabbg" style="width:1200px;margin: 0px auto;">
-	<div class="yab">
-		<div class="yabl">
-			<div class="rmain resource">
-				<div class="rel">
-					<form name="validateForm1" action="" class="addform" method="post">
-						<!--release begin-->
-						<div class="release">
-							<div class="type">
-								<!--left begin-->
-								<div class="left">
-									<div class="rad cr"> <span class="pay_list_c1 on"></span><input type="radio" name="typ" value="1" checked="checked" class="radioclass"> 我有货，我要卖</div>
-									<div class="rad"><span class="pay_list_c1"></span><input type="radio" name="typ" value="0" class="radioclass"> 我求购，我要买</div>
-								</div>
-								<!--left end-->
-								<!--slogan begin-->
-								<div class="slogan"><img src="__IMG__/home/reSlogan.png" width="359" height="16"></div>
-								<!--slogan end-->
-							</div>
-							<!--cont begin-->
-							<div class="cont">
-								<textarea name="need" class="con" placeholder="请填写真实资源，写清楚：公司名称、你的名字、联系方式、货物以及数量"></textarea>
-							</div>
-							<!--cont end-->
-							<!--release-btn begin-->
-							<div class="release-btn">
-								<input type="submit" name="button" id="button" value="立即发布">
-							</div>
-							<!--release-btn end-->
-						</div>
-						<!--release end-->
-					</form>
+<link rel="stylesheet" type="text/css" href="__CSS__/Home/search-plastic.css"/>
+<script src="js/MSClass.js"></script>
+<script type="text/javascript" src="__JS__/MSClass.js"></script>
+</head>
 
-					<!--search begin-->
-					<div class="search">
-						<!--search-inner begin-->
-						<div class="search-inner">
-							<!--left begin-->
-							<div class="left">
-								<span>
-									<a {if $smarty.get.type === null}class="hover"{/if}  href="/resource">全部<b>{$countall}</b></a>
-								</span>
-								<span>
-									<a {if $smarty.get.type === '0'}class="hover"{/if} href="/resource/index/init?type=0">求购<b>{$count2}</b></a>
-								</span>
-								<span>
-									<a {if $smarty.get.type === '1'}class="hover"{/if} href="/resource/index/init?type=1">供应<b>{$count1}</b></a>
-								</span>
-							</div>
-							<!--left end-->
-							<form action="/resource/index/init" method="get" id="searfm">
-								<input type="hidden" name="type" value="{$smarty.get.type}" />
-								<input type="text" name="keyword" id="txt1" value="" placeholder="在{$countall}条资源中搜索你需要的...">
-								<input type="submit" value="" id="sear">
-								<a href="javascript:;" id="refresh" onclick="myrefresh()">刷新</a>
-
-							</form>
-						</div>
-						<!--search-inner end-->
-					</div>
-					<!--search end-->
-					<div class="list">
-						{foreach from=$list item=v}
-						<div class="lists">
-							<div class="listl">
-								<img width="48" height="48" src="http://q2.qlogo.cn/headimg_dl?bs=qq&amp;dst_uin={$v.user_qq}&amp;src_uin=*&amp;fid=*&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" alt="用户头像">
-								<!-- <p style="color:#ef4923">【求购】</p> -->
-							</div>
-							<div class="listr">
-								<p class="title">
-										<span class="name">{if $v.user_nick==''}{$v.realname}{else}{$v.user_nick}{/if}</span>
-									<span>
-										<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v.user_qq}&amp;site=qq&amp;menu=yes"><img src="http://wpa.qq.com/pa?p=2:{$v.user_qq}:41" border="0" alt="点击咨询" title="点击咨询"></a>
-									</span>
-									<span class="qq"><a href="javascript:void(0)">QQ:{$v.user_qq}</a></span>
-									<span></span><span class="time">{$v.input_time|date:m-d H:i}</span>
-								</p>
-								<pre style="min-height:50px;overflow:hidden;">{$v.content}</pre>
-								<p></p>
-							</div>
-							<div style="clear:both;"></div>
-						</div>
-						{/foreach}
-
-						<!--page begin-->
-						<div class="page">
-							{$pages}
-						</div>
-						<!--page end-->
-					</div>
-				</div>
-				<div class="rer">
-					<div class="first">
-						{if $smarty.session.userid>0}
-						<div class="already-login">
-							<h2>我的积分</h2>
-							<div class="amount">
-								<p style="color: #923b00;">{$userInfo.points}</p>
-							</div>
-							{if $is_sign}
-							<div class="sign-up-already">已签到</div>
-							{else}
-							<div class="sign-up ">
-								<p style="color:#fff;" onclick="qiandao()">签到领积分</p>
-							</div>
-							{/if}
-						</div>
-						{else}
-						<div class="no-login">
-							<h2>您还没登录</h2>
-							<p>登录后才可以发布现货和求购信息</p>
-							<div class="info">
-								<a class="log" href="/user/register">注册</a>
-								<a class="reg" href="javascript:loginbox('resource')"><span></span>登录</a>
-							</div>
-						</div>
-						{/if}
-					</div>
-					<!--task begin-->
-					<h3 class="re-title">每日任务</h3>
-					<div class="task">
-						<ul>
-							<li>
-								<div class="num"><img src="__IMG__/home/re1.png" width="53" height="65"></div>
-								<div class="desc">
-									<h4>发布一条资源</h4>
-									<p>+{$points.pub} 积分</p>
-								</div>
-								{if $is_pup}
-								<div class="status yes">已完成</div>
-								{else}
-								<div class="status no">未完成</div>
-								{/if}
-							</li>
-							<li>
-								<div class="num"><img src="__IMG__/home/re2.png" width="53" height="65"></div>
-								<div class="desc">
-									<h4>每日签到</h4>
-									<p>+{$points.sign} 积分</p>
-								</div>
-								{if $is_sign}
-								<div class="status yes">已完成</div>
-								{else}
-								<div class="status no">未完成</div>
-								{/if}
-							</li>
-							<li class="last">
-								<div class="num"><img src="__IMG__/home/re3.png" width="53" height="65"></div>
-								<div class="desc">
-									<h4>搜索一条资源</h4>
-									<p>+{$points.search} 积分</p>
-								</div>
-								{if $is_search}
-								<div class="status yes">已完成</div>
-								{else}
-								<div class="status no">未完成</div>
-								{/if}
-							</li>
-						</ul>
-					</div>
-					<!--task end-->
-					<!--ad begin-->
-					<div class="ad ad1">
-						<div class="desc">
-							<h4>资源库改版</h4>
-							<p>每日签到、发布资源得积分</p>
-						</div>
-						<img src="__IMG__/home/reAdIcon1.png" width="54" height="54">
-					</div>
-					<!--ad end-->
-					<!--ad begin-->
-					<div class="ad ad2">
-						<div class="desc">
-							<h4>积分有啥用</h4>
-							<p>积分可在积分商城兑换礼品</p>
-						</div>
-						<img src="__IMG__/home/reAdIcon2.png" width="58" height="58">
-					</div>
-					<!--ad end-->
-					<h3 class="re-title">可能感兴趣的</h3>
-					<div class="lis">
-						{foreach from=$info item=value key=key}
-						<!--left begin-->
-						<div class="left">
-							<p>{:witchType|$value.product_type} / {$value.model} /{$value.f_name}</p>
-							<p>{$value.number}吨 {$value.cityname}</p>
-						</div>
-						<!--left end-->
-						<!--right begin-->
-						<div class="right">
-							<p>￥<span>{$value.unit_price}</span></p>
-							<div class="interest-btn"><a href="javascript:doTalk({$value.id});">去看看</a></div>
-							<!--<div class="interest-btn"><a href="/index/addbuybyid/id/74362">去看看</a></div>-->
-						</div>
-						<!--right end-->
-						{/foreach}
-					</div>
-					<!--slider begin-->
-					<!--<div class="slider">-->
-						<!--&lt;!&ndash;wrapper begin&ndash;&gt;-->
-						<!--<div class="wrapper">-->
-							<!--&lt;!&ndash;focus begin&ndash;&gt;-->
-							<!--<div id="focus">-->
-								<!--<ul style="left: -298px; width: 1192px;">-->
-									<!--<li>-->
-										<!--<div class="goods-pic"><img src="/Public/Attachment/Images/2016/03/11/56e262d8439ad.png" width="63" height="129"></div>-->
-										<!--<p class="goods-name">朴美家纺全棉床上用品四件套纯棉床单被罩双人床品4件套</p>-->
-										<!--<p class="goods-jifen"><span>19800</span>分</p>-->
-										<!--<div class="goods-btn"><a href="/pointshop/detail/index/id/3">去积分商城兑换</a></div>-->
-									<!--</li>-->
-								<!--</ul>-->
-								<!--<div class="btnBg" style="opacity: 0.5;"></div>-->
-								<!--<div class="btn">-->
-									<!--<span class=""></span>-->
-									<!--<span class="on"></span>-->
-									<!--<span class=""></span>-->
-								<!--</div>-->
-							<!--</div>-->
-							<!--&lt;!&ndash;focus end&ndash;&gt;-->
-						<!--</div>-->
-						<!--&lt;!&ndash; wrapper end &ndash;&gt;-->
-					<!--</div>-->
-					<!--slider end-->
-				</div>
-
-			</div>
-			<div class="clear"></div>
-		</div>
-		<div class="clear"></div>
-	</div>
+<body>
+<!--search-plastic-top begin-->
+<div class="search-plastic-top w1220">
+	<!--release begin-->
+    <div class="release flt">
+    	<p><a href="javascript:;">管理历史发布记录>></a></p>
+    	<form name="" method="post" action="">
+        	<textarea placeholder="请填写真实资源，写清楚：公司名称、你的名字、联系方式、货物以及数量"></textarea>
+            <input type="button" value="立即发布"/>
+        </form>
+    </div>
+    <!--release end-->
+    <!--hot begin-->
+    <div class="hot frt">
+    	<h3>热门搜索排行：</h3>
+        <!--hot-search begin-->
+        <ul class="hot-search">
+        	<li class="hot-search-1">
+            	<span>1</span><a href="javascript:;">7000F</a><a href="javascript:;">7042</a><a href="javascript:;">2420D</a></li>
+            <li class="hot-search-2">
+            	<span>2</span><a href="javascript:;">7000F</a><a href="javascript:;">7042</a><a href="javascript:;">2420D</a>
+            </li>
+            <li class="hot-search-3">
+            	<span>3</span><a href="javascript:;">7000F</a><a href="javascript:;">7042</a><a href="javascript:;">2420D</a>
+            </li>
+        </ul>
+        <!--hot-search end-->
+        <h3>热门头条：</h3>
+        <ul class="hot-headline" id="news-text">
+        	<li><a href="javascript:;">5月24日聚氯乙烯PVC早提示</a></li>
+			<li><a href="javascript:;">竞拍分析：本周神华PP竞拍详情分析</a></li>
+            <li><a href="javascript:;">飞雪连天射白鹿</a></li>
+			<li><a href="javascript:;">笑书神侠倚碧鸳</a></li>
+            <li><a href="javascript:;">桃花影落飞神剑</a></li>
+            <li><a href="javascript:;">碧海潮生按玉箫</a></li>
+        </ul>
+        <script type="text/javascript">new Marquee("news-text","up",5,230,40,0,3000)</script>
+    </div>
+    <!--hot end-->
 </div>
+<!--search-plastic-top end-->
+<div class="search-plastic-desc w1220"></div>
+<!--search-plastic-list begin-->
+<div class="search-plastic-list w1220">
+	<!--list-filter begin-->
+    <ul class="list-filter">
+    	<li class="title">资源列表</li>
+        <li class="total">共800条数据</li>
+        <li class="time">显示时间：</li>
+        <li class="time-sel">
+        	<select>
+            	<option>全部</option>
+            	<option>最近3天</option>
+                <option>最近7天</option>
+                <option>最近15天</option>
+            </select>
+        </li>
+        <li class="region">所在地区：</li>
+        <li class="region-sel">
+        	<select>
+            	<option>全国</option>
+                <option>华东</option>
+                <option>华北</option>
+                <option>华南</option>
+                <option>其他</option>
+            </select>
+        </li>
+        <li class="xian-qi">现货/期货：</li>
+        <li class="xian-qi-sel">
+        	<select>
+            	<option>现货</option>
+                <option>期货</option>
+            </select>
+        </li>
+        <li class="other">
+        	<span>塑料1709</span>
+            <b>9300</b>
+            <b>50</b>
+        </li>
+        <li class="other">
+        	<span>出厂价/成交价：</span>
+            <b>9800</b>
+        </li>
+    </ul>
+    <!--list-filter end-->
+	<!--list-title begin-->
+    <div class="list-title">
+    	<div class="thumb"></div>
+        <div class="qq-name">qq名称</div>
+        <div class="qq-num">qq号</div>
+        <div class="company">公司名称</div>
+        <div class="mobile">联系方式</div>
+        <div class="goods-location">货物位置</div>
+        <div class="grade">牌号</div>
+        <div class="place">产地</div>
+        <div class="xian-qi">现货/期货</div>
+        <div class="price">价格</div>
+        <div class="time">时间</div>
+        <div class="info">相关资讯</div>
+    </div>
+    <!--list-title end-->
+	<!--list-con begin-->
+    <ul class="list-con">
+        {foreach from=$list item=v}
+    	<li>
+        	<div class="thumb"><img src="{$v.QQImage[0]}" width="36" height="36"/></div>
+            <div class="qq-name">{$v.QQName[0]}</div>
+            <div class="qq-num">{$v.QQNumber[0]}</div>
+            <div class="company">{$v.Company}</div>
+            <div class="mobile">
+            	<span>{$v.Iphone}</span>
+                <!--more begin-->
+                <div class="more">
+                    {foreach from=$v.Iphone_list item=vi }
+                	<p>{$vi}</p>
+                    {/foreach}
+                </div>
+                <!--more end-->
+            </div>
+            <div class="goods-location">{$v.GoodssPosition[0]}</div>
+            <div class="grade">{$v.PlsticNumber}</div>
+            <div class="place">{$v.Production}</div>
+            <div class="xian-qi">{$v.ISForward}</div>
+            <div class="price">{$v.Price}</div>
+            <div class="time">{$v.UpdateTime|date:m-d H:i}</div>
+            <div class="info"><a href="javascript:;">查看</a></div>
+        </li>
+        {/foreach}
 
-<script type="text/javascript">
-	function doTalk(id)
-	{
-		var user=$("#user_name").html();
-		if(!user){
-			loginbox('offers');
-			return;
-		}
-		window.location.href="/offers/talk?id="+id;
-	}
 
-$('.radioclass').click(function(event) {
-	$(this).attr({'checked': 'checked'});
-	$(this).parents('.rad').siblings().find('.radioclass').removeAttr('checked');
-	$(this).siblings('span').addClass('on').parent('div').addClass('cr');
-	$(this).parents('.rad').siblings('div').removeClass('cr').find('span').removeClass('on');
-	var i = $(this).parents('.rad').index();
-	if(i==0){
-		$('.con').attr('placeholder','请填写真实资源，写清楚，公司名称，你的名字，联系方式，和货物以及数量');
-	}else{
-		$('.con').attr('placeholder','填写你的求购内容让别人方便给你报价');
-	}
-});
-//需求出入框
-$('.con').focus(function(){
-	c = $('.con').attr('placeholder');
-	$(this).attr('placeholder','')
-})
-$('.con').blur(function(){
-	$(this).attr('placeholder',c)
-})
-
-$(".addform").submit(function(){
-	var content = $('.con').val().trim();
-	var type=$('input[name="typ"]:checked').val();
-	if(content == ''){
-		layer.msg('请填写发布内容');
-		return false;
-	}
-	$.post('/resource/index/release', {content:content,type:type}, function (data){
-		if(data.err>0){
-			if(data.err==1){
-				loginbox('resource');
-			}else{
-				layer.msg(data.msg);
-			}
-		}else{
-			layer.msg('发布成功');
-			window.location.reload();
-		}
-	},'json')
-	return false;
-})
-	//签到
-function qiandao(){
-    $.post('/pointshop/index/signon', function (data){
-		if(data.err==1){
-			loginbox('pointshop');
-		}
-            if(data.status == 1){
-				layer.msg(data.msg);
-            }else{
-				layer.msg(data.msg);
-            }
-            window.location.reload();
-
-    },'json');
-
-}
-function myrefresh(){
-	window.location.reload();
-}
-
-
-</script>
+       <!-- <li>
+        	<div class="thumb"><img src="img/search-plastic-2.jpg" width="36" height="36"/></div>
+            <div class="qq-name">山东省塑有限公司-张飞扬</div>
+            <div class="qq-num">9876578960</div>
+            <div class="company">上海中晨电子商务股份有限公司</div>
+            <div class="mobile">
+            	<span>13966558877</span>
+                <div class="more">
+                	<p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                </div>
+            </div>
+            <div class="goods-location">上海</div>
+            <div class="grade">7000F</div>
+            <div class="place">伊朗国家石化</div>
+            <div class="xian-qi">现货</div>
+            <div class="price">9850.00</div>
+            <div class="time">05-27 16:23</div>
+            <div class="info"><a href="javascript:;">查看</a></div>
+        </li>
+        <li>
+        	<div class="thumb"><img src="img/search-plastic-2.jpg" width="36" height="36"/></div>
+            <div class="qq-name">山东省塑有限公司-张飞扬</div>
+            <div class="qq-num">9876578960</div>
+            <div class="company">上海中晨电子商务股份有限公司</div>
+            <div class="mobile">
+            	<span>13966558877</span>
+                <div class="more">
+                	<p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                </div>
+            </div>
+            <div class="goods-location">上海</div>
+            <div class="grade">7000F</div>
+            <div class="place">伊朗国家石化</div>
+            <div class="xian-qi">现货</div>
+            <div class="price">9850.00</div>
+            <div class="time">05-27 16:23</div>
+            <div class="info"><a href="javascript:;">查看</a></div>
+        </li>
+        <li>
+        	<div class="thumb"><img src="img/search-plastic-2.jpg" width="36" height="36"/></div>
+            <div class="qq-name">山东省塑有限公司-张飞扬</div>
+            <div class="qq-num">9876578960</div>
+            <div class="company">上海中晨电子商务股份有限公司</div>
+            <div class="mobile">
+            	<span>13966558877</span>
+                <div class="more">
+                	<p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                    <p>刘经理 15678956432</p>
+                </div>
+            </div>
+            <div class="goods-location">上海</div>
+            <div class="grade">7000F</div>
+            <div class="place">伊朗国家石化</div>
+            <div class="xian-qi">现货</div>
+            <div class="price">9850.00</div>
+            <div class="time">05-27 16:23</div>
+            <div class="info"><a href="javascript:;">查看</a></div>
+        </li>
+       -->
+    </ul>
+    <!--list-con end-->
+</div>
+<!--search-plastic-list end-->
+</body>
+</html>
