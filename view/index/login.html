@@ -2,7 +2,7 @@
 <style type="text/css">
 	.loginBg{background: url(__IMG__/admin/bg1.jpg)  no-repeat scroll 50% 0%; margin:0 auto;width: 920px;height: auto;overflow: hidden; opacity:1;}
 </style>
-<div id="loginWindow" class="mini-window" title="管理员登录" style="width:390px;height:235px;" 
+<div id="loginWindow" class="mini-window" title="管理员登录" style="width:390px;height:235px;"
    showModal="true" showCloseButton="false"
 	>
   <div id="loginForm" style="padding:15px;padding-top:10px;">
@@ -23,12 +23,12 @@
 	  </tr>
 	  {/if}
 	  <tr>
-	<!--	<td>验证码：</td>
+		<td>验证码：</td>
 		<td>
-					<input id="vcode" name="cpvcode" vtype="minLength:4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:80px; float:left;" onenter="onLoginClick"/> 
+					<input id="vcode" name="cpvcode" vtype="minLength:4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:80px; float:left;" onenter="onLoginClick"/>
 					<img src="/public/api/vcode?name=cpvcode" name="cpvcode" id="vcodeImg" class="vImgchange" style="width:70px; height:26px; margin:0 5px; float:left;" >
 					<a href="javascript:;" class="vImgchange">看不清？换一张</a>
-		</td>-->
+		</td>
 	  </tr>
 	  <tr>
 		<td></td>
@@ -51,7 +51,7 @@ window.onresize = function () {
 /*$(function(){
 	$(".vImgchange").click(function(){
 		$("#vcodeImg").attr('src','/public/api/vcode?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
-	});	
+	});
 });*/
 
 var passTime=0,passStatus=0;
@@ -72,15 +72,15 @@ $("#sendRegSms").live('click',function(){
 	var pwd = mini.get("pwd").getValue();
 	$.post('/index/pass/sendMobileMsg',{name:usename,pwd:pwd},function(data){
 		if(data.err=='0'){
-			passTime=60; //默认60秒	
+			passTime=60; //默认60秒
 			$this.removeClass().addClass("codeGray").prop("disabled",true);
 			$(this).html(passTime+'秒后重发短信')
 			setInterval(function(){
-				passTimeOut();				
+				passTimeOut();
 			},1000)
 		}else{
 			$("#returnMsg").text(data.msg);
-		}					   
+		}
 	},'json');
 });
 
@@ -90,7 +90,7 @@ function onLoginClick(e) {
 
 	form.validate();
 	if (form.isValid() == false) return;
-	
+
 	var o = form.getData();
 	var json = mini.encode(o);
 	{if $login_mcode}
