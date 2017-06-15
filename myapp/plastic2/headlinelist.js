@@ -265,11 +265,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(2)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(0)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(1) !== -1, disabled: _vm.unsubscribe.indexOf(1) !== -1
     },
@@ -278,11 +274,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(1)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon2"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(1)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(9) !== -1, disabled: _vm.unsubscribe.indexOf(9) !== -1
     },
@@ -291,11 +283,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(9)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon3"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(2)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(4) !== -1, disabled: _vm.unsubscribe.indexOf(4) !== -1
     },
@@ -304,11 +292,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(4)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon4"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(3)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(20) !== -1, disabled: _vm.unsubscribe.indexOf(20) !== -1
     },
@@ -317,11 +301,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(20)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon5"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(4)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(21) !== -1, disabled: _vm.unsubscribe.indexOf(21) !== -1
     },
@@ -330,11 +310,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(21)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon6"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(5)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(11) !== -1, disabled: _vm.unsubscribe.indexOf(11) !== -1
     },
@@ -343,11 +319,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(11)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon7"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(6)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(13) !== -1, disabled: _vm.unsubscribe.indexOf(13) !== -1
     },
@@ -356,11 +328,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(13)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon8"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(7)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.subscribe.indexOf(22) !== -1, disabled: _vm.unsubscribe.indexOf(22) !== -1
     },
@@ -369,11 +337,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate(22)
       }
     }
-  }, [_c('i', {
-    staticClass: "headlineicon hicon9"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('div', {
+  }, [_vm._m(8)]), _vm._v(" "), _c('div', {
     staticStyle: {
       "width": "100%",
       "clear": "both"
@@ -391,11 +355,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(1)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(9)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(2) !== -1
     },
@@ -404,11 +364,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(2)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon2"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(10)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(3) !== -1
     },
@@ -417,11 +373,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(3)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon3"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(11)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(4) !== -1
     },
@@ -430,11 +382,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(4)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon4"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(12)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(5) !== -1
     },
@@ -443,11 +391,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(5)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon5"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(13)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(6) !== -1
     },
@@ -456,11 +400,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(6)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon6"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(14)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(7) !== -1
     },
@@ -469,11 +409,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(7)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon7"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(15)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(8) !== -1
     },
@@ -482,11 +418,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(8)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon8"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(16)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(9) !== -1
     },
@@ -495,11 +427,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(9)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon9"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(17)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(10) !== -1
     },
@@ -508,11 +436,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(10)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon10"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(18)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(11) !== -1
     },
@@ -521,11 +445,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(11)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon11"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(19)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(12) !== -1
     },
@@ -534,11 +454,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(12)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon12"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })]), _vm._v(" "), _c('li', {
+  }, [_vm._m(20)]), _vm._v(" "), _c('li', {
     class: {
       on: _vm.property.indexOf(13) !== -1
     },
@@ -547,11 +463,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.chooseCate2(13)
       }
     }
-  }, [_c('i', {
-    staticClass: "propertyicon hicon13"
-  }), _c('i', {
-    staticClass: "cateCheckbox"
-  })])])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(21)])])]), _vm._v(" "), _c('div', {
     staticClass: "refresh",
     class: {
       circle: _vm.isCircle
@@ -571,7 +483,139 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.arrow
     }
   })], 1)
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon2"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon3"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon4"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon5"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon6"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon7"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon8"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "headlineicon hicon9"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon2"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon3"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon4"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon5"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon6"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon7"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon8"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon9"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon10"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon11"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon12"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('i', {
+    staticClass: "propertyicon hicon13"
+  }, [_c('i', {
+    staticClass: "cateCheckbox"
+  })])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -1141,21 +1185,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		subscribeClose: function subscribeClose() {
 			var _this = this;
-			this.subscribeshow = false;
-			$.ajax({
-				type: "post",
-				url: version + '/toutiao/getSelectCate',
-				data: {
-					token: window.localStorage.getItem("token"),
-					cate_id: _this.subscribe.join(),
-					prop_id: _this.property.join(),
-					type: 1
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {}, function () {});
+			if (this.subscribe.length < 6 && this.property.length < 6) {
+
+				weui.toast('订阅栏目与制品分类各选6个', {
+					duration: 93000,
+					className: 'dingyue',
+					callback: function callback() {}
+				});
+			} else {
+				this.subscribeshow = false;
+				$.ajax({
+					type: "post",
+					url: version + '/toutiao/getSelectCate',
+					data: {
+						token: window.localStorage.getItem("token"),
+						cate_id: _this.subscribe.join(),
+						prop_id: _this.property.join(),
+						type: 1
+					},
+					headers: {
+						'X-UA': window.localStorage.getItem("XUA")
+					},
+					dataType: 'JSON'
+				}).then(function (res) {}, function () {});
+			}
 		},
 		getList: function getList(id) {
 			var _this = this;

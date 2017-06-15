@@ -20,9 +20,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			id: "",
 			type: "",
 			user_id: ""
-		}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "type", ""), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "name", "供给"), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share3", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share4", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "typeName", "供给消息"), _ref;
+		}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "type", ""), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "name", "供给"), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share3", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "share4", false), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "typeName", "供给消息"), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_ref, "download", true), _ref;
 	},
 	methods: {
+		downloadClose: function downloadClose() {
+			this.download = false;
+		},
 		shareshow: function shareshow() {
 			this.share = true;
 			this.share3 = true;
@@ -439,7 +442,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('h3', [_vm._v(_vm._s(_vm.input_time))]), _vm._v(" "), _c('p', [_c('i', {
     staticClass: "myicon iconSupply"
-  }), _vm._v("我的" + _vm._s(_vm.name) + ":" + _vm._s(_vm.contents))])]), _vm._v(" "), _c('div', {
+  }), _vm._v("我的" + _vm._s(_vm.name) + ":" + _vm._s(_vm.contents))])]), _vm._v(" "), (_vm.download) ? _c('div', {
+    staticClass: "downloadAppIndex"
+  }, [_c('div', {
+    staticClass: "indexApp"
+  }, [_c('a', {
+    staticClass: "downloadLink",
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "downloadClose",
+    on: {
+      "click": _vm.downloadClose
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",

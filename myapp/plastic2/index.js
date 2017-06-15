@@ -152,40 +152,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "payfansImg2"
-  }), _c('span', [_vm._v("关注我的人")])])]), _vm._v(" "), (_vm.download) ? _c('div', {
-    staticClass: "downloadAppIndex"
-  }, [_c('div', {
-    staticClass: "indexApp"
-  }, [_c('a', {
-    staticClass: "downloadLink",
-    attrs: {
-      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "downloadClose",
-    on: {
-      "click": _vm.downloadClose
-    }
-  })])]) : _vm._e()], 1) : _c('div', {
+  }), _c('span', [_vm._v("关注我的人")])])])], 1) : _c('div', {
     staticClass: "payfans",
     staticStyle: {
       "background": "#ff854d"
     }
-  }, [(_vm.download) ? _c('div', {
-    staticClass: "downloadAppIndex"
-  }, [_c('div', {
-    staticClass: "indexApp"
-  }, [_c('a', {
-    staticClass: "downloadLink",
-    attrs: {
-      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "downloadClose",
-    on: {
-      "click": _vm.downloadClose
-    }
-  })])]) : _vm._e(), _vm._v(" "), _c('router-link', {
+  }, [_c('router-link', {
     staticStyle: {
       "width": "100%"
     },
@@ -398,7 +370,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "loading": _vm.loadingShow
     }
-  }), _vm._v(" "), _c('footerbar'), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('footerbar'), _vm._v(" "), (_vm.download) ? _c('div', {
+    staticClass: "downloadAppIndex"
+  }, [_c('div', {
+    staticClass: "indexApp"
+  }, [_c('a', {
+    staticClass: "downloadLink",
+    staticStyle: {
+      "width": "100%"
+    },
+    attrs: {
+      "href": "http://a.app.qq.com/o/simple.jsp?pkgname=com.myplas.q"
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "downloadClose",
+    on: {
+      "click": _vm.downloadClose
+    }
+  })])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "refresh",
     class: {
       circle: _vm.isCircle

@@ -476,7 +476,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .headlineUl{ list-style: none; margin: 0; padding: 20px 0 0 0; border-bottom: 1px solid #CCCCCC; background: #FFFFFF; overflow: hidden;}
 .headlineUl li{ float: left; width: 20%; height: 70px; margin: 0 0 20px 0; font-size: 12px; color: #333333; text-align: center;}
 .headlineUl li a{ color: #4b4946;}
-.headlineicon{ width: 85px; height: 85px; display: inline-block;}
+.headlineicon{ width: 85px; height: 85px; display: inline-block; position: relative;}
 .headlineicon.hicon{ background: url(../img/head.jpg) no-repeat; background-size: 100% 100%;}
 .headlineicon.hicon2{ background: url(../img/head2.jpg) no-repeat; background-size: 100% 100%;}
 .headlineicon.hicon3{ background: url(../img/head3.jpg) no-repeat; background-size: 100% 100%;}
@@ -487,7 +487,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .headlineicon.hicon8{ background: url(../img/head8.jpg) no-repeat; background-size: 100% 100%;}
 .headlineicon.hicon9{ background: url(../img/head9.jpg) no-repeat; background-size: 100% 100%;}
 
-.propertyicon{ width: 85px; height: 85px; display: inline-block;}
+.propertyicon{ width: 85px; height: 85px; display: inline-block; position: relative;}
 .propertyicon.hicon{ background: url(../img/property.jpg) no-repeat; background-size: 100% 100%;}
 .propertyicon.hicon2{ background: url(../img/property2.jpg) no-repeat; background-size: 100% 100%;}
 .propertyicon.hicon3{ background: url(../img/property3.jpg) no-repeat; background-size: 100% 100%;}
@@ -681,7 +681,7 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .subscribetitle{ font-size: 15px; font-weight: normal; margin: 10px; color: #e64748;}
 .mysubscribe{ margin: 0; padding: 0; list-style: none;}
 .mysubscribe li{ width: 33.33333%; float: left; margin-bottom: 10px; text-align: center; position: relative;}
-.cateCheckbox{ position: absolute; top: -5px; right: 3px; width: 27px; height: 27px; background: url(../img/cateRight.png) no-repeat; background-size: 100% 100%;}
+.cateCheckbox{ position: absolute; top: -5px; right: -8px; width: 27px; height: 27px; background: url(../img/cateRight.png) no-repeat; background-size: 100% 100%;}
 .mysubscribe li.on .cateCheckbox{ background: url(../img/cateRightOn.png) no-repeat; background-size: 100% 100%;}
 .mysubscribe li.disabled .cateCheckbox{ pointer-events: none; background: url(../img/cateRightOn.png) no-repeat; background-size: 100% 100%;}
 .subscribebtn{ width: 20px; height: 20px; top: 2px; right: 0; position: absolute; background: url(../img/selectCate.jpg) no-repeat; background-size: 100% 100%;}
@@ -939,7 +939,10 @@ input[type=button],input[type=text]{-webkit-appearance:none;}
 .searchComWrap ul li{ width: 100%; height: 43px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-bottom: 1px solid #d6d7dc; text-align: left; padding: 0 10px; line-height: 43px; font-size: 17px;}
 .searchComWrap a{ color: #0091ff;}
 
-.downloadAppIndex{ position: absolute; top: 0; left: 0; text-align: center; width: 100%; height: 50px; background: #7f7f7f;}
+.downloadAppIndex{ position: fixed; bottom: 70px; left: 0; text-align: center; width: 100%; height: 50px; background: #7f7f7f;}
 .indexApp{ width: 100%; height: 40px; margin: 5px 0 0 0; position: relative; display: inline-block; max-width: 375px; background: url(../img/downloadApp.jpg) no-repeat; background-size: 100% 100%;}
 .downloadLink{ width: 100%; height: 40px; display: inline-block; max-width: 375px;}
 .downloadClose{ width: 20px; height: 20px; position: absolute; right: 10px; top: 10px;}
+.dingyue .weui-icon_toast{ display: none;}
+.dingyue .weui-toast{ width: 170px; height: auto; min-height: auto; margin: 0; padding: 5px 10px; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+.dingyue p{ margin: 0;}
