@@ -23,9 +23,12 @@
 	  </tr>
 	  {/if}
 	  <tr>
-		<td>验证码：</td>
-		<td><input id="vcode" name="cpvcode" vtype="minLength:4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:80px; float:left;" onenter="onLoginClick"/> <img src="/public/api/vcode?name=cpvcode" name="cpvcode" id="vcodeImg" class="vImgchange" style="width:70px; height:26px; margin:0 5px; float:left;" ><a href="javascript:;" class="vImgchange">看不清？换一张</a>
-		</td>
+	<!--	<td>验证码：</td>
+		<td>
+					<input id="vcode" name="cpvcode" vtype="minLength:4" class="mini-textbox" requiredErrorText="验证码不能为空" required="true" style="width:80px; float:left;" onenter="onLoginClick"/> 
+					<img src="/public/api/vcode?name=cpvcode" name="cpvcode" id="vcodeImg" class="vImgchange" style="width:70px; height:26px; margin:0 5px; float:left;" >
+					<a href="javascript:;" class="vImgchange">看不清？换一张</a>
+		</td>-->
 	  </tr>
 	  <tr>
 		<td></td>
@@ -45,11 +48,11 @@ loginWindow.show();
 window.onresize = function () {
 	loginWindow.show();
 }
-$(function(){
+/*$(function(){
 	$(".vImgchange").click(function(){
 		$("#vcodeImg").attr('src','/public/api/vcode?name='+$("#vcodeImg").attr('name')+'&t='+Math.random());
 	});	
-});
+});*/
 
 var passTime=0,passStatus=0;
 $("#sendRegSms").live('click',function(){
