@@ -212,6 +212,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.items), function(i) {
     return _c('li', [_c('router-link', {
       attrs: {
+        "target": "_blank",
         "to": {
           name: 'headlinedetail',
           params: {
