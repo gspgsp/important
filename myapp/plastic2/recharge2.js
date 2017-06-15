@@ -1,5 +1,26 @@
 webpackJsonp([25],{
 
+/***/ 112:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {};
+	},
+	activated: function activated() {
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+	}
+});
+
+/***/ }),
+
 /***/ 146:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -77,7 +98,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(99),
+  __webpack_require__(112),
   /* template */
   __webpack_require__(146),
   /* scopeId */
@@ -162,27 +183,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {};
-	},
-	activated: function activated() {
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-	}
-});
 
 /***/ })
 

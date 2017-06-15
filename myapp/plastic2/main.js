@@ -85,7 +85,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"supplybuy","1":"release","2":"index","3":"headlinelist","4":"headlinedetail","5":"headline","6":"mypay","7":"personinfo","8":"myzone","9":"myinfo","10":"supplybuydetail","11":"releasesupply","12":"releasebuy","13":"mysupply","14":"mymsg","15":"myinvite","16":"myfans","17":"mybuy","18":"credit2","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"plasticconfig","36":"pay","37":"mypoints","38":"mymsg2","39":"login","40":"help","41":"error","42":"creditintro","43":"credit"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"headlinelist","1":"supplybuy","2":"release","3":"index","4":"headlinedetail","5":"headline","6":"mypay","7":"myzone","8":"myinfo","9":"personinfo","10":"supplybuydetail","11":"releasesupply","12":"releasebuy","13":"mysupply","14":"mymsg","15":"myinvite","16":"myfans","17":"mybuy","18":"credit2","19":"searchcompany","20":"resetpwd","21":"releasedetail","22":"releasebssupply","23":"releasebsbuy","24":"register","25":"recharge2","26":"recharge","27":"quickrelease","28":"protocol2","29":"protocol","30":"productdetail","31":"pointsrule2","32":"pointsrule","33":"pointsrecord","34":"pointsdetail","35":"plasticconfig","36":"pay","37":"mypoints","38":"mymsg2","39":"login","40":"help","41":"error","42":"creditintro","43":"credit"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -192,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router___default.a);
 var Index = function Index(r) {
-	return __webpack_require__.e/* require.ensure */(2).then((function () {
+	return __webpack_require__.e/* require.ensure */(3).then((function () {
 		return r(__webpack_require__(11));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -217,7 +217,7 @@ var Headline = function Headline(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Release = function Release(r) {
-	return __webpack_require__.e/* require.ensure */(1).then((function () {
+	return __webpack_require__.e/* require.ensure */(2).then((function () {
 		return r(__webpack_require__(37));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -227,12 +227,12 @@ var Releasedetail = function Releasedetail(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myzone = function Myzone(r) {
-	return __webpack_require__.e/* require.ensure */(8).then((function () {
+	return __webpack_require__.e/* require.ensure */(7).then((function () {
 		return r(__webpack_require__(22));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Myinfo = function Myinfo(r) {
-	return __webpack_require__.e/* require.ensure */(9).then((function () {
+	return __webpack_require__.e/* require.ensure */(8).then((function () {
 		return r(__webpack_require__(15));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
@@ -322,17 +322,17 @@ var Mymsg2 = function Mymsg2(r) {
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Headlinelist = function Headlinelist(r) {
-	return __webpack_require__.e/* require.ensure */(3).then((function () {
+	return __webpack_require__.e/* require.ensure */(0).then((function () {
 		return r(__webpack_require__(9));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Personinfo = function Personinfo(r) {
-	return __webpack_require__.e/* require.ensure */(7).then((function () {
+	return __webpack_require__.e/* require.ensure */(9).then((function () {
 		return r(__webpack_require__(24));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var Supplybuy = function Supplybuy(r) {
-	return __webpack_require__.e/* require.ensure */(0).then((function () {
+	return __webpack_require__.e/* require.ensure */(1).then((function () {
 		return r(__webpack_require__(45));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };

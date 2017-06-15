@@ -1,4 +1,251 @@
-webpackJsonp([7],{
+webpackJsonp([9],{
+
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_loadingPage__);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	components: {
+		'loadingPage': __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default.a
+	},
+	data: function data() {
+		return {
+			name: "",
+			buy: "",
+			sale: "",
+			c_name: "",
+			mobile: "",
+			address: "",
+			sex: "",
+			status: "",
+			thumb: "",
+			need_product: "",
+			id: "",
+			avatorCheck: false,
+			cardCheck: false,
+			user_id: "",
+			content: "",
+			is_pass: "",
+			cardImg: "",
+			mobile2: "",
+			type: "",
+			main_product: "",
+			month_consum: "",
+			buylist: [],
+			supplylist: [],
+			loadingShow: ""
+		};
+	},
+	methods: {
+		cancel: function cancel() {
+			this.show = false;
+		},
+		check: function check() {
+			this.avatorCheck == true ? this.avatorCheck = false : this.avatorCheck = true;
+		},
+		cardcheck: function cardcheck() {
+			this.cardCheck == true ? this.cardCheck = false : this.cardCheck = true;
+		},
+		pay: function pay() {
+			var _this = this;
+			$.ajax({
+				url: version + '/friend/focusOrCancel',
+				type: 'post',
+				data: {
+					focused_id: _this.$route.params.id,
+					token: window.localStorage.getItem("token")
+				},
+				headers: {
+					'X-UA': window.localStorage.getItem("XUA")
+				},
+				dataType: 'JSON'
+			}).then(function (res) {
+				window.location.reload();
+			}, function () {});
+		}
+	},
+	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+		next(function (vm) {
+			vm.loadingShow = true;
+		});
+	},
+	activated: function activated() {
+		var _this = this;
+		window.scrollTo(0, 0);
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			url: version + '/friend/getZoneFriend',
+			type: 'post',
+			data: {
+				user_id: _this.$route.params.id,
+				showType: 1,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).done(function (res) {
+			if (res.err == 0) {
+				_this.name = res.data.name;
+				_this.c_name = res.data.c_name;
+				_this.address = res.data.address;
+				_this.mobile = res.data.mobile;
+				_this.mobile2 = "tel:" + res.data.mobile;
+				_this.need_product = res.data.need_product;
+				_this.status = res.data.status;
+				_this.thumb = res.data.thumb;
+				_this.buy = res.data.buy;
+				_this.sale = res.data.sale;
+				_this.sex = res.data.sex;
+				_this.id = res.data.user_id;
+				_this.is_pass = res.data.is_pass;
+				_this.cardImg = res.data.thumbcard;
+				_this.type = res.data.type;
+				_this.main_product = res.data.main_product;
+				_this.month_consum = res.data.month_consum;
+				if (_this.mobile.indexOf("*") == "-1") {
+					_this.isMobile = true;
+				} else {
+					_this.isMobile = false;
+				}
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({
+								name: 'login'
+							});
+						}
+					}]
+				});
+			} else if (res.err == 99) {
+				var flag = false;
+				var dialog = weui.dialog({
+					title: '塑料圈通讯录',
+					content: res.msg,
+					className: 'custom-classname',
+					buttons: [{
+						label: '取消',
+						type: 'default',
+						onClick: function onClick() {
+							dialog.hide(function () {
+								window.history.back();
+							});
+						}
+					}, {
+						label: '确定',
+						type: 'primary',
+						onClick: function onClick() {
+							$.ajax({
+								url: version + '/friend/getZoneFriend',
+								type: 'post',
+								data: {
+									user_id: _this.$route.params.id,
+									showType: 5,
+									token: window.localStorage.getItem("token")
+								},
+								headers: {
+									'X-UA': window.localStorage.getItem("XUA")
+								},
+								dataType: 'JSON'
+							}).done(function (res) {
+								if (res.err == 0) {
+									_this.name = res.data.name;
+									_this.c_name = res.data.c_name;
+									_this.address = res.data.address;
+									_this.mobile = res.data.mobile;
+									_this.mobile2 = "tel:" + res.data.mobile;
+									_this.need_product = res.data.need_product;
+									_this.status = res.data.status;
+									_this.thumb = res.data.thumb;
+									_this.buy = res.data.buy;
+									_this.sale = res.data.sale;
+									_this.sex = res.data.sex;
+									_this.id = res.data.user_id;
+									_this.is_pass = res.data.is_pass;
+									_this.type = res.data.type;
+									_this.main_product = res.data.main_product;
+									_this.month_consum = res.data.month_consum;
+									_this.cardImg = res.data.thumbcard;
+									if (_this.mobile.indexOf("*") == "-1") {
+										_this.isMobile = true;
+									} else {
+										_this.isMobile = false;
+									}
+								} else if (res.err == 100) {
+									_this.$router.push({
+										name: 'pointsrule'
+									});
+								}
+							}).fail(function () {}).always(function () {});
+						}
+					}]
+				});
+			}
+		}).fail(function () {}).always(function () {
+			_this.loadingShow = false;
+		});
+
+		$.ajax({
+			url: version + '/friend/getTaPur',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				page: 1,
+				size: 5,
+				type: 1,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.buylist = res.data;
+			} else if (res.err == 1) {} else if (res.err == 2) {
+				_this.buylist = [];
+			}
+		}, function () {});
+
+		$.ajax({
+			url: version + '/friend/getTaPur',
+			type: 'post',
+			data: {
+				userid: _this.$route.params.id,
+				page: 1,
+				size: 5,
+				type: 2,
+				token: window.localStorage.getItem("token")
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.supplylist = res.data;
+			} else if (res.err == 1) {} else if (res.err == 2) {
+				_this.supplylist = [];
+			}
+		}, function () {});
+	}
+});
+
+/***/ }),
 
 /***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
@@ -249,7 +496,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(88),
+  __webpack_require__(101),
   /* template */
   __webpack_require__(131),
   /* scopeId */
@@ -414,253 +661,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-40e539ae", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_loadingPage__);
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	components: {
-		'loadingPage': __WEBPACK_IMPORTED_MODULE_0__components_loadingPage___default.a
-	},
-	data: function data() {
-		return {
-			name: "",
-			buy: "",
-			sale: "",
-			c_name: "",
-			mobile: "",
-			address: "",
-			sex: "",
-			status: "",
-			thumb: "",
-			need_product: "",
-			id: "",
-			avatorCheck: false,
-			cardCheck: false,
-			user_id: "",
-			content: "",
-			is_pass: "",
-			cardImg: "",
-			mobile2: "",
-			type: "",
-			main_product: "",
-			month_consum: "",
-			buylist: [],
-			supplylist: [],
-			loadingShow: ""
-		};
-	},
-	methods: {
-		cancel: function cancel() {
-			this.show = false;
-		},
-		check: function check() {
-			this.avatorCheck == true ? this.avatorCheck = false : this.avatorCheck = true;
-		},
-		cardcheck: function cardcheck() {
-			this.cardCheck == true ? this.cardCheck = false : this.cardCheck = true;
-		},
-		pay: function pay() {
-			var _this = this;
-			$.ajax({
-				url: version + '/friend/focusOrCancel',
-				type: 'post',
-				data: {
-					focused_id: _this.$route.params.id,
-					token: window.localStorage.getItem("token")
-				},
-				headers: {
-					'X-UA': window.localStorage.getItem("XUA")
-				},
-				dataType: 'JSON'
-			}).then(function (res) {
-				window.location.reload();
-			}, function () {});
-		}
-	},
-	beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-		next(function (vm) {
-			vm.loadingShow = true;
-		});
-	},
-	activated: function activated() {
-		var _this = this;
-		window.scrollTo(0, 0);
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			url: version + '/friend/getZoneFriend',
-			type: 'post',
-			data: {
-				user_id: _this.$route.params.id,
-				showType: 1,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).done(function (res) {
-			if (res.err == 0) {
-				_this.name = res.data.name;
-				_this.c_name = res.data.c_name;
-				_this.address = res.data.address;
-				_this.mobile = res.data.mobile;
-				_this.mobile2 = "tel:" + res.data.mobile;
-				_this.need_product = res.data.need_product;
-				_this.status = res.data.status;
-				_this.thumb = res.data.thumb;
-				_this.buy = res.data.buy;
-				_this.sale = res.data.sale;
-				_this.sex = res.data.sex;
-				_this.id = res.data.user_id;
-				_this.is_pass = res.data.is_pass;
-				_this.cardImg = res.data.thumbcard;
-				_this.type = res.data.type;
-				_this.main_product = res.data.main_product;
-				_this.month_consum = res.data.month_consum;
-				if (_this.mobile.indexOf("*") == "-1") {
-					_this.isMobile = true;
-				} else {
-					_this.isMobile = false;
-				}
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({
-								name: 'login'
-							});
-						}
-					}]
-				});
-			} else if (res.err == 99) {
-				var flag = false;
-				var dialog = weui.dialog({
-					title: '塑料圈通讯录',
-					content: res.msg,
-					className: 'custom-classname',
-					buttons: [{
-						label: '取消',
-						type: 'default',
-						onClick: function onClick() {
-							dialog.hide(function () {
-								window.history.back();
-							});
-						}
-					}, {
-						label: '确定',
-						type: 'primary',
-						onClick: function onClick() {
-							$.ajax({
-								url: version + '/friend/getZoneFriend',
-								type: 'post',
-								data: {
-									user_id: _this.$route.params.id,
-									showType: 5,
-									token: window.localStorage.getItem("token")
-								},
-								headers: {
-									'X-UA': window.localStorage.getItem("XUA")
-								},
-								dataType: 'JSON'
-							}).done(function (res) {
-								if (res.err == 0) {
-									_this.name = res.data.name;
-									_this.c_name = res.data.c_name;
-									_this.address = res.data.address;
-									_this.mobile = res.data.mobile;
-									_this.mobile2 = "tel:" + res.data.mobile;
-									_this.need_product = res.data.need_product;
-									_this.status = res.data.status;
-									_this.thumb = res.data.thumb;
-									_this.buy = res.data.buy;
-									_this.sale = res.data.sale;
-									_this.sex = res.data.sex;
-									_this.id = res.data.user_id;
-									_this.is_pass = res.data.is_pass;
-									_this.type = res.data.type;
-									_this.main_product = res.data.main_product;
-									_this.month_consum = res.data.month_consum;
-									_this.cardImg = res.data.thumbcard;
-									if (_this.mobile.indexOf("*") == "-1") {
-										_this.isMobile = true;
-									} else {
-										_this.isMobile = false;
-									}
-								} else if (res.err == 100) {
-									_this.$router.push({
-										name: 'pointsrule'
-									});
-								}
-							}).fail(function () {}).always(function () {});
-						}
-					}]
-				});
-			}
-		}).fail(function () {}).always(function () {
-			_this.loadingShow = false;
-		});
-
-		$.ajax({
-			url: version + '/friend/getTaPur',
-			type: 'post',
-			data: {
-				userid: _this.$route.params.id,
-				page: 1,
-				size: 5,
-				type: 1,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			if (res.err == 0) {
-				_this.buylist = res.data;
-			} else if (res.err == 1) {} else if (res.err == 2) {
-				_this.buylist = [];
-			}
-		}, function () {});
-
-		$.ajax({
-			url: version + '/friend/getTaPur',
-			type: 'post',
-			data: {
-				userid: _this.$route.params.id,
-				page: 1,
-				size: 5,
-				type: 2,
-				token: window.localStorage.getItem("token")
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			if (res.err == 0) {
-				_this.supplylist = res.data;
-			} else if (res.err == 1) {} else if (res.err == 2) {
-				_this.supplylist = [];
-			}
-		}, function () {});
-	}
-});
 
 /***/ })
 

@@ -1,5 +1,60 @@
 webpackJsonp([35],{
 
+/***/ 102:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			configLi: []
+		};
+	},
+	methods: {
+		tel: function tel() {
+			weui.actionSheet([{
+				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
+				onClick: function onClick() {}
+			}, {
+				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
+				onClick: function onClick() {}
+			}], [{
+				label: '<span style=" color:#0091ff;">取消</span>',
+				onClick: function onClick() {}
+			}], {
+				className: 'custom-classname'
+			});
+		}
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+
+		var _this = this;
+		$.ajax({
+			type: "post",
+			url: version + '/credit/creditLimitPage',
+			data: {},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			if (res.err == 0) {
+				_this.configLi = res.data;
+			}
+		}, function () {});
+	}
+});
+
+/***/ }),
+
 /***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -67,7 +122,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(89),
+  __webpack_require__(102),
   /* template */
   __webpack_require__(148),
   /* scopeId */
@@ -152,61 +207,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			configLi: []
-		};
-	},
-	methods: {
-		tel: function tel() {
-			weui.actionSheet([{
-				label: '<a style=" color:#0091ff; display:block;" href="tel:4006129965">400-6129-965</a>',
-				onClick: function onClick() {}
-			}, {
-				label: '<a style=" color:#0091ff; display:block;" href="tel:02161070985">021-61070985</a>',
-				onClick: function onClick() {}
-			}], [{
-				label: '<span style=" color:#0091ff;">取消</span>',
-				onClick: function onClick() {}
-			}], {
-				className: 'custom-classname'
-			});
-		}
-	},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-
-		var _this = this;
-		$.ajax({
-			type: "post",
-			url: version + '/credit/creditLimitPage',
-			data: {},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			if (res.err == 0) {
-				_this.configLi = res.data;
-			}
-		}, function () {});
-	}
-});
 
 /***/ })
 

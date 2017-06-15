@@ -58,7 +58,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(82),
+  __webpack_require__(95),
   /* template */
   __webpack_require__(163),
   /* scopeId */
@@ -146,7 +146,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 82:
+/***/ 95:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

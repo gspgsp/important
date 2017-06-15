@@ -119,7 +119,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(81),
+  __webpack_require__(94),
   /* template */
   __webpack_require__(165),
   /* scopeId */
@@ -446,7 +446,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 81:
+/***/ 94:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -5,7 +5,7 @@ webpackJsonp([40],{
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(74),
+  __webpack_require__(87),
   /* template */
   __webpack_require__(145),
   /* scopeId */
@@ -148,7 +148,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 74:
+/***/ 87:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

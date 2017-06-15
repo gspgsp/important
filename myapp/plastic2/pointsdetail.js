@@ -1,5 +1,60 @@
 webpackJsonp([34],{
 
+/***/ 103:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			detail: [],
+			points: 0
+		};
+	},
+	activated: function activated() {
+		var _this = this;
+		try {
+			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
+			piwikTracker.trackPageView();
+		} catch (err) {}
+		$.ajax({
+			type: "post",
+			url: version + "/score/scoreRecord",
+			data: {
+				token: window.localStorage.getItem("token"),
+				page: 1,
+				size: 50
+			},
+			headers: {
+				'X-UA': window.localStorage.getItem("XUA")
+			},
+			dataType: 'JSON'
+		}).then(function (res) {
+			console.log(res);
+			if (res.err == 0) {
+				_this.detail = res.data;
+				_this.points = res.pointsAll;
+			} else if (res.err == 1) {
+				weui.alert(res.msg, {
+					title: '塑料圈通讯录',
+					buttons: [{
+						label: '确定',
+						type: 'parimary',
+						onClick: function onClick() {
+							_this.$router.push({ name: 'login' });
+						}
+					}]
+				});
+			}
+		}, function () {});
+	}
+});
+
+/***/ }),
+
 /***/ 130:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -69,7 +124,7 @@ if (false) {
 
 var Component = __webpack_require__(48)(
   /* script */
-  __webpack_require__(90),
+  __webpack_require__(103),
   /* template */
   __webpack_require__(130),
   /* scopeId */
@@ -154,61 +209,6 @@ module.exports = function normalizeComponent (
   }
 }
 
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			detail: [],
-			points: 0
-		};
-	},
-	activated: function activated() {
-		var _this = this;
-		try {
-			var piwikTracker = Piwik.getTracker("http://wa.myplas.com/piwik.php", 2);
-			piwikTracker.trackPageView();
-		} catch (err) {}
-		$.ajax({
-			type: "post",
-			url: version + "/score/scoreRecord",
-			data: {
-				token: window.localStorage.getItem("token"),
-				page: 1,
-				size: 50
-			},
-			headers: {
-				'X-UA': window.localStorage.getItem("XUA")
-			},
-			dataType: 'JSON'
-		}).then(function (res) {
-			console.log(res);
-			if (res.err == 0) {
-				_this.detail = res.data;
-				_this.points = res.pointsAll;
-			} else if (res.err == 1) {
-				weui.alert(res.msg, {
-					title: '塑料圈通讯录',
-					buttons: [{
-						label: '确定',
-						type: 'parimary',
-						onClick: function onClick() {
-							_this.$router.push({ name: 'login' });
-						}
-					}]
-				});
-			}
-		}, function () {});
-	}
-});
 
 /***/ })
 
