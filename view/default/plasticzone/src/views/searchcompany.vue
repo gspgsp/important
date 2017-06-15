@@ -23,8 +23,8 @@
 	<div class="configWrap">
 		<ul class="configUl">
 			<li v-for="(c,index) in configLi">
-				<div class="configIco" v-bind:class="{config1:0==index%3,config2:1==index%3,config3:2==index%3}">Q：<span v-html="c.q"></span></div>
-				A：<span v-html="c.a"></span>
+				<div class="configIco" v-bind:class="{config1:0==index%3,config2:1==index%3,config3:2==index%3}">Q:<span v-html="c.q"></span></div>
+				A:<span v-html="c.a"></span>
 			</li>
 		</ul>
 	</div>

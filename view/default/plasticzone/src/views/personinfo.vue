@@ -69,7 +69,6 @@
 		</div>
 	</div>
 	<loadingPage :loading="loadingShow"></loadingPage>
-	<footerbar></footerbar>
 	<div class="imgLayer" v-show="avatorCheck" v-on:click="check">
 		<div class="avatorCheck" v-bind:style="{backgroundImage: 'url(' + thumb + ')'}"></div>
 	</div>
@@ -79,11 +78,9 @@
 </div>
 </template>
 <script>
-import footer from "../components/footer";
 import loadingPage from "../components/loadingPage"
 export default {
 	components: {
-		'footerbar': footer,
 		'loadingPage': loadingPage
 	},
 	data: function() {
