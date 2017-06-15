@@ -149,6 +149,7 @@ export default {
 		}
 	},
 	beforeRouteEnter: function(to, from, next) {
+		var _this = this;
 		next(function(vm) {
 			$(window).on('scroll', function() {
 				vm.loadingMore();
@@ -158,6 +159,7 @@ export default {
 		});
 	},
 	beforeRouteLeave: function(to, from, next) {
+		var _this = this;
 		next(function() {
 
 		});
@@ -608,10 +610,7 @@ export default {
 		} catch(err) {
 
 		}
-
-
 		this.cateid = 999;
-
 		$.ajax({
 			type: "post",
 			url: version + '/toutiao/getSubscribe',
