@@ -212,7 +212,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.items), function(i) {
     return _c('li', [_c('router-link', {
       attrs: {
-        "target": "_blank",
         "to": {
           name: 'headlinedetail',
           params: {
@@ -1849,11 +1848,13 @@ var _components$data$befo;
 		$(window).on('scroll', function () {
 			vm.loadingMore();
 		});
+		$(window).scrollTop(window.localStorage.getItem("hscrollTop"));
 	});
 }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_components$data$befo, "beforeRouteLeave", function beforeRouteLeave(to, from, next) {
 	var _this = this;
 	next(function () {});
 	$(window).off('scroll');
+	window.localStorage.setItem("hscrollTop", $(window).scrollTop());
 }), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_components$data$befo, "mounted", function mounted() {
 	var _this = this;
 	try {
