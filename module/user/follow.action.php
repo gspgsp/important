@@ -82,7 +82,7 @@ class followAction extends adminBaseAction {
 				}
 			}
 		}
-		p($where);
+		// p($where);
 		$list=$this->db->where($where)
 					->page($page+1,$size)
 					->order("$sortField $sortOrder")
