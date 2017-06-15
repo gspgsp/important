@@ -72,7 +72,7 @@
 	<errorPage :loading="loadingHide"></errorPage>
 	<ul class="headlineUl3">
 		<li v-for="i in items">
-			<router-link :to="{name:'headlinedetail',params:{id:i.id}}">
+			<router-link target="_blank" :to="{name:'headlinedetail',params:{id:i.id}}">
 				<h3>{{i.type}}{{i.title}}</h3>
 				<p>{{i.description}}</p>
 				<p style="text-align: right; margin: 5px 0 0 0;">
